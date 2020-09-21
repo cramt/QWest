@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest", "QWest\QWest.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeographicSubdivision.Provider", "GeographicSubdivision.Provider\GeographicSubdivision.Provider.csproj", "{823CCEC5-5648-4FA1-9107-68721BB6E669}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeographySubdivision.Provider.Tests", "GeographySubdivision.Provider.Tests\GeographySubdivision.Provider.Tests.csproj", "{D6565256-96DC-4D41-BCC5-B32CC09E2CBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeographicSubdivision.Provider.Tests", "GeographicSubdivision.Provider.Tests\GeographicSubdivision.Provider.Tests.csproj", "{D6565256-96DC-4D41-BCC5-B32CC09E2CBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.DataAccess", "QWest.DataAccess\QWest.DataAccess.csproj", "{554656EB-A883-44F0-8BA4-50DDD5690474}"
 EndProject
