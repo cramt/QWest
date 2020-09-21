@@ -7,7 +7,7 @@ namespace Config.Test {
     public class ConfigTest {
         [Test]
         public void NotNull() {
-            Assert.NotNull(Config.Instance.ConfigJson);
+            Assert.NotNull(Config.Instance);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace QWest.DataAcess {
         public static SqlConnection Instance {
             get {
                 if(_instance == null) {
-                    _instance = new SqlConnection(Config.Config.Instance.ConfigJson.DatabaseConnectionString);
+                    _instance = new SqlConnection(Config.Config.Instance.DatabaseConnectionString);
                 }
                 return _instance;
             }

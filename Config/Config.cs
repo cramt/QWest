@@ -9,19 +9,18 @@ using System.Threading.Tasks;
 
 namespace Config {
     public class Config {
-        private static Config _instance;
-        public static Config Instance {
+        private static ConfigJson _instance;
+        public static ConfigJson Instance {
             get {
                 if(_instance == null) {
-                    _instance = new Config();
+                    string jsonString = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\config.json");
+                    _instance = JsonConvert.DeserializeObject<ConfigJson>(jsonString);
                 }
                 return _instance;
             }
         }
         private Config() {
-            string jsonString = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\config.json");
-            ConfigJson = JsonConvert.DeserializeObject<ConfigJson>(jsonString);
+            
         }
-        public ConfigJson ConfigJson { get; }
     }
 }
