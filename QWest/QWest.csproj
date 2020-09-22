@@ -143,14 +143,13 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="scripts\home\.gitignore" />
+    <Content Include="scripts\home\dist\main.js" />
+    <Content Include="scripts\home\src\index.js" />
+    <Content Include="scripts\home\webpack.config.js" />
+    <Content Include="scripts\sign_up\.gitignore" />
+    <Content Include="scripts\sign_up\src\index.js" />
+    <Content Include="scripts\sign_up\webpack.config.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -196,8 +195,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="scripts\home\package-lock.json" />
+    <Content Include="scripts\home\package.json" />
+    <Content Include="scripts\sign_up\package-lock.json" />
+    <Content Include="scripts\sign_up\package.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
