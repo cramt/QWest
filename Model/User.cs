@@ -15,6 +15,11 @@ namespace Model {
             Username = username;
             PasswordHash = HashPassword(password);
         }
+        public User(string username, byte[] passwordHash, int? id = null) {
+            Id = id;
+            Username = username;
+            PasswordHash = passwordHash;
+        }
         private byte[] HashPassword(string password) {
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
@@ -25,7 +30,7 @@ namespace Model {
             Array.Copy(hash, 0, hashBytes, 16, 20);
             return hashBytes;
         }
-        public bool VeryifyPassword(string password) {
+        public bool VerifyPassword(string password) {
             byte[] hashBytes = PasswordHash;
             byte[] salt = new byte[16];
             Array.Copy(hashBytes, 0, salt, 0, 16);

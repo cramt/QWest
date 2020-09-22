@@ -7,7 +7,7 @@ namespace Model.Tests {
         [Test]
         public void PasswordVerification() {
             var user = new User("test user", "12345678");
-            Assert.True(user.VeryifyPassword("12345678"));
+            Assert.True(user.VerifyPassword("12345678"));
         }
     }
 }
