@@ -11,7 +11,7 @@ countries_str = File.read 'iso3166-1.json'
 subdivision_str = File.read 'iso3166-2.json'
 countries = JSON.parse(countries_str)['3166-1'].map {|x| x.transform_keys(&:to_sym)}
 subdivision = JSON.parse(subdivision_str)['3166-2'].map {|x| x.transform_keys(&:to_sym)}
-countries = countries.map.with_index do |country, i|
+countries = Parallel.map(countries.map.with_index {|country, i| [country, i]}, in_threads: 10) do |country, i|
     subs = subdivision.select {|sub| sub[:code].start_with?(country[:alpha_2] + '-')}
     subs.map do |sub|
         sub[:code] = sub[:code][3..-1]
@@ -69,7 +69,8 @@ countries = countries.map.with_index do |country, i|
     puts "finished #{country[:name]}"
     country
 end
-File.write('countries.json', countries.to_json)
-str = countries.to_json.to_json
+str = countries.to_json
+File.write('countries.json', str)
+str = str.to_json
 File.write('countries_string_ready.json', str)
 File.write('ISO3166String.cs', "namespace GeographicSubdivision.Provider { class ISO3166String { internal const string ISO3166 = #{str}; } }")

@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,7 +46,6 @@ namespace GeographicSubdivision.Provider {
                 SetBackwardsReference(subdivision, subsubdivision);
             }
         }
-
         public string CountryCode { get { return _alpha2; } }
         public string Alpha2 { get { return _alpha2; } }
         public string Alpha3 { get { return _alpha3; } }
@@ -72,5 +74,21 @@ namespace GeographicSubdivision.Provider {
             }
         }
         public List<Subdivision> Subdivisions { get { return _subdivision; } }
+
+        public List<string> Names {
+            get {
+                return new string[] { _name, _officialName, _commonName }.ToList().FindAll(x => x != null).ToList();
+            }
+        }
+
+        public string Type {
+            get {
+                return "Country";
+            }
+        }
+
+        public string GetFullId() {
+            return Alpha2;
+        }
     }
 }

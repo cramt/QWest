@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace QWest {
     class Program {
         static void Main(string[] args) {
-            Console.WriteLine(GeographicSubdivision.Provider.GeographyProvider.Instance.EntityNames.Count);
+            Console.WriteLine(GeographicSubdivision.Provider.GeographyProvider.Instance.Entities.Count);
             Thread.Sleep(-1);
         }
     }

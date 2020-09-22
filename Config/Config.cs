@@ -13,8 +13,15 @@ namespace Config {
         public static ConfigJson Instance {
             get {
                 if(_instance == null) {
-                    string jsonString = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\config.json");
-                    _instance = JsonConvert.DeserializeObject<ConfigJson>(jsonString);
+                    string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\config.json";
+                    string text;
+                    if (File.Exists(path)) {
+                        text = File.ReadAllText(path);
+                    }
+                    else {
+                        text = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Config.config.json")).ReadToEnd();
+                    }
+                    _instance = JsonConvert.DeserializeObject<ConfigJson>(text);
                 }
                 return _instance;
             }

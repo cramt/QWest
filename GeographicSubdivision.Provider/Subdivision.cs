@@ -20,6 +20,9 @@ namespace GeographicSubdivision.Provider {
         [JsonProperty("subdivision")]
         private readonly List<Subdivision> _subdivision;
 
+        [JsonProperty("names")]
+        private readonly List<string> _names;
+
         internal Subdivision _parent;
 
         internal Country _parentCountry;
@@ -35,5 +38,18 @@ namespace GeographicSubdivision.Provider {
         public Subdivision Parent { get { return _parent; } }
 
         public Country ParentCountry { get { return _parentCountry; } }
+
+        public List<string> Names { get { return _names; } }
+
+        public string GetFullId() {
+            string parentId;
+            if (_parent == null) {
+                parentId = _parentCountry.GetFullId();
+            }
+            else {
+                parentId = _parent.GetFullId();
+            }
+            return Code + "-" + parentId;
+        }
     }
 }
