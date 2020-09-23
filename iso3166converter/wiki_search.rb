@@ -22,7 +22,9 @@ module Utils
             end
             offset = result[:continue]
             offset = offset[:sroffset] if offset
-            res.concat result[:query][:search]
+            if result[:query]
+                res.concat result[:query][:search]
+            end
         end
         res
     end
@@ -41,4 +43,4 @@ module Utils
 
     module_function :search
     module_function :fetch
-end
+    end

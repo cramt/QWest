@@ -9,15 +9,18 @@ namespace Model {
     public class User {
         public int? Id { get; set; }
         public string Username { get; set; }
+        public string Email { get; set; }
         public byte[] PasswordHash { get; set; }
-        public User(string username, string password, int? id = null) {
+        public User(string username, string password, string email, int? id = null) {
             Id = id;
             Username = username;
+            Email = email;
             PasswordHash = HashPassword(password);
         }
-        public User(string username, byte[] passwordHash, int? id = null) {
+        public User(string username, byte[] passwordHash, string email, int? id = null) {
             Id = id;
             Username = username;
+            Email = email;
             PasswordHash = passwordHash;
         }
         private byte[] HashPassword(string password) {

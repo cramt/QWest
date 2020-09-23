@@ -60,6 +60,7 @@ namespace QWest.DataAcess {
                 throw result.Error;
             }
             var conn = new SqlConnection(connString);
+            conn.Open();
             return conn;
         }
     }
