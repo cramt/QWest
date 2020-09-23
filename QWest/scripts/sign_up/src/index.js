@@ -6,17 +6,17 @@ $(() => {
     let passwordInput = $("#password_input")
     let emailInput = $("#email_input")
     let usernameInput = $("#username_input")
-    let errorMessage = $("#error_message")
+    let message = $("#message")
     let registerButton = $("#register_button")
 
 
     const validateRegister = (username, email, password) => {
         if (!emailRegex.test(email)) {
-            errorMessage.text("not a valid email address")
+            message.text("not a valid email address")
             return false
         }
         if (password.length < 8) {
-            errorMessage.text("passwords cannot be shorter than 8 characters")
+            message.text("passwords cannot be shorter than 8 characters")
             return false
         }
         return true
@@ -43,11 +43,11 @@ $(() => {
                 let status = x.status
                 if (status < 200 || status > 299) {
                     x.text().then(text=>{
-                        errorMessage.text("error " + status + " happened, " + text)
+                        message.text("error " + status + " happened, " + text)
                     })
                 }
                 else{
-                    errorMessage.text("success")
+                    message.text("success")
                 }
             })
         }
