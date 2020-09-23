@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { CookieStorage } from 'cookie-storage';
 
 $(() => {
     //from http://emailregex.com/
@@ -22,8 +23,7 @@ $(() => {
         return true
     }
 
-
-    registerButton.on("click", () => {
+    const processClick = () => {
         let password = passwordInput.val()
         let email = emailInput.val()
         let username = usernameInput.val()
@@ -42,14 +42,34 @@ $(() => {
             }).then(x => {
                 let status = x.status
                 if (status < 200 || status > 299) {
-                    x.text().then(text=>{
+                    x.text().then(text => {
                         message.text("error " + status + " happened, " + text)
                     })
                 }
-                else{
+                else {
                     message.text("success")
+                    x.text().then(JSON.parse).then(x => {
+                        let id = x.Id
+                        let sessionCookie = x.SessionCookie
+
+                        const cookieStorage = new CookieStorage();
+                        cookieStorage.setItem("sessionCookie", sessionCookie)
+
+                        window.location.href = "/profile/UserId/" + id
+                    })
                 }
             })
         }
-    })
+    }
+
+    const processEnter = (e) => {
+        if (e.which == 13) {
+            processClick
+        }
+    }
+
+    registerButton.on("click", processClick)
+    passwordInput.on("keypress", processEnter)
+    emailInput.on("keypress", processEnter)
+    usernameInput.on("keypress", processEnter)
 })

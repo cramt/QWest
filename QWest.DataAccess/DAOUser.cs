@@ -17,12 +17,12 @@ namespace QWest.DataAcess {
                 }
                 var conn = ConnectionWrapper.Instance;
                 SqlCommand stmt = new SqlCommand(null, conn) {
-                    CommandText = "INSERT INTO users (username, password_hash, email) VALUES (@username, @password_hash, @email)"
+                    CommandText = "INSERT INTO users (username, password_hash, email) VALUES (@username, @password_hash, @email); SELECT CAST(scope_identity() AS int)"
                 };
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@email", user.Email);
-                await stmt.ExecuteNonQueryAsync();
+                user.Id = (int)await stmt.ExecuteScalarAsync();
             }
             public static async void Update(RUser user) {
                 if (user.Id == null) {
@@ -41,16 +41,30 @@ namespace QWest.DataAcess {
             public static async Task<IEnumerable<RUser>> GetByUsername(string username) {
                 var conn = ConnectionWrapper.Instance;
                 SqlCommand stmt = new SqlCommand(null, conn) {
-                    CommandText = "SELECT id, password_hash, email FROM users WHERE username = @username",
+                    CommandText = "SELECT id, password_hash, email, session_cookie FROM users WHERE username = @username",
                 };
                 stmt.Parameters.AddWithValue("@username", username);
                 List<RUser> users = new List<RUser>();
                 using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
                     while(reader.Read()) {
-                        users.Add(new RUser(username, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlInt32(0).Value));
+                        users.Add(new RUser(username, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlBinary(3).Value, reader.GetSqlInt32(0).Value));
                     }
                 }
                 return users;
+            }
+            public static async Task<RUser> Get(int id) {
+                var conn = ConnectionWrapper.Instance;
+                SqlCommand stmt = new SqlCommand(null, conn) {
+                    CommandText = "SELECT username, password_hash, email, session_cookie FROM users WHERE id = @id",
+                };
+                stmt.Parameters.AddWithValue("@id", id);
+                RUser user = null;
+                using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
+                    if(reader.Read()) {
+                        user = new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlBinary(3).Value, id);
+                    }
+                }
+                return user;
             }
         }
     }

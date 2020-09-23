@@ -11,19 +11,32 @@ namespace Model {
         public string Username { get; set; }
         public string Email { get; set; }
         public byte[] PasswordHash { get; set; }
-        public User(string username, string password, string email, int? id = null) {
-            Id = id;
-            Username = username;
-            Email = email;
-            PasswordHash = HashPassword(password);
+        public string SessionCookie { get; set; }
+
+        public User(string username, string password, string email)
+            :this(username, password, email, null){
+
         }
-        public User(string username, byte[] passwordHash, string email, int? id = null) {
+        public User(string username, string password, string email, byte[] sessionCookie)
+            : this(username, password, email, sessionCookie, null) {
+
+        }
+        public User(string username, string password, string email, byte[] sessionCookie, int? id)
+            : this(username, HashPassword(password), email, sessionCookie, id) {
+
+        }
+        public User(string username, byte[] password, string email, byte[] sessionCookie, int? id)
+            : this(username, password, email, sessionCookie == null ? null : Convert.ToBase64String(sessionCookie), id) {
+
+        }
+        public User(string username, byte[] passwordHash, string email, string sessionCookie, int? id) {
             Id = id;
             Username = username;
             Email = email;
             PasswordHash = passwordHash;
+            SessionCookie = sessionCookie;
         }
-        private byte[] HashPassword(string password) {
+        private static byte[] HashPassword(string password) {
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 100000);
@@ -45,6 +58,13 @@ namespace Model {
                 }
             }
             return true;
+        }
+        public User NewSessionCookie() {
+            Random rng = new Random();
+            byte[] bytes = new byte[20];
+            rng.NextBytes(bytes);
+            SessionCookie = Convert.ToBase64String(bytes);
+            return this;
         }
     }
 }

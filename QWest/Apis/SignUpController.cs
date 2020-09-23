@@ -19,7 +19,7 @@ namespace QWest.Apis {
             public string username;
 
             public User ToUser() {
-                return new User(username, password, email);
+                return new User(username, password, email).NewSessionCookie();
             }
         }
 
@@ -28,7 +28,7 @@ namespace QWest.Apis {
             Console.WriteLine("eyyyy");
             User user = argument.ToUser();
             await DAO.User.Add(user);
-            return Ok();
+            return Ok(user);
         }
     }
 }
