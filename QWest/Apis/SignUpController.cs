@@ -25,7 +25,6 @@ namespace QWest.Apis {
 
         [HttpPost, Route("register")]
         public async Task<IHttpActionResult> Register([FromBody] RegisterArgument argument) {
-            Console.WriteLine("eyyyy");
             User user = argument.ToUser();
             await DAO.User.Add(user);
             return Ok(user);

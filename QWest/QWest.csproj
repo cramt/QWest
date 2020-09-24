@@ -139,8 +139,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="scripts\bootstrap.js" />
-    <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\home\.gitignore" />
     <Content Include="scripts\home\dist\main.js" />
     <Content Include="scripts\home\src\index.js" />
@@ -153,12 +151,6 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="scripts\jquery-3.4.1.js" />
-    <Content Include="scripts\jquery-3.4.1.min.js" />
-    <Content Include="scripts\jquery-3.4.1.slim.js" />
-    <Content Include="scripts\jquery-3.4.1.slim.min.js" />
-    <Content Include="scripts\modernizr-2.8.3.js" />
     <Content Include="scripts\profile\.gitignore" />
     <Content Include="scripts\profile\dist\main.js" />
     <Content Include="scripts\profile\src\index.js" />
@@ -213,8 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -64,7 +64,7 @@ $(() => {
 
     const processEnter = (e) => {
         if (e.which == 13) {
-            processClick
+            processClick()
         }
     }
 
