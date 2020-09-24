@@ -21,9 +21,7 @@ namespace GeographicSubdivision.Provider {
         }
         private GeographyProvider() {
             Countries = JsonConvert.DeserializeObject<List<Country>>(ISO3166String.ISO3166);
-            foreach (Country country in Countries) {
-                country.SetBackwardsReference();
-            }
+            Task.WaitAll(Countries.Select(country => country.SetBackwardsReference()).ToArray());
             Entities = Countries.Select(Traverse).SelectMany(i => i).Cast<ISubdividable>().Concat(Countries).ToList();
             Dictionary<string, List<ISubdividable>> nameMap = new Dictionary<string, List<ISubdividable>>();
             Entities.ForEach(dividable => {

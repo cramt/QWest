@@ -33,18 +33,14 @@ namespace GeographicSubdivision.Provider {
         [JsonProperty("subdivision")]
         private readonly List<Subdivision> _subdivision;
 
-        internal void SetBackwardsReference() {
-            foreach (Subdivision subdivision in Subdivisions) {
-                SetBackwardsReference(null, subdivision);
-            }
+        internal async Task SetBackwardsReference() {
+            await Task.WhenAll(Subdivisions.Select(subdivision => SetBackwardsReference(null, subdivision)).ToArray());
         }
 
-        private void SetBackwardsReference(Subdivision parent, Subdivision subdivision) {
+        private async Task SetBackwardsReference(Subdivision parent, Subdivision subdivision) {
             subdivision._parent = parent;
             subdivision._parentCountry = this;
-            foreach (Subdivision subsubdivision in subdivision.Subdivisions) {
-                SetBackwardsReference(subdivision, subsubdivision);
-            }
+            await Task.WhenAll(subdivision.Subdivisions.Select(subsubdivision => SetBackwardsReference(subdivision, subsubdivision)).ToArray());
         }
         public string CountryCode { get { return _alpha2; } }
         public string Alpha2 { get { return _alpha2; } }
