@@ -52,10 +52,12 @@
     <EmbeddedResource Include="config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
