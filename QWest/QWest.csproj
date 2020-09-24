@@ -223,6 +223,10 @@
       <Project>{554656eb-a883-44f0-8ba4-50ddd5690474}</Project>
       <Name>QWest.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{02b753f8-bef9-43f8-bc08-03c4735b044b}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

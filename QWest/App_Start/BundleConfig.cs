@@ -14,25 +14,13 @@ namespace QWest {
             var scriptPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scripts"));
             var scriptsPath = Directory.GetDirectories(scriptPath);
 
-            Task.WaitAll(scriptsPath.Select(path => {
-                return Task.Factory.StartNew(() => {
-                    //npx webpack --config webpack.config.js
-                    Process process = new Process {
-                        StartInfo = new ProcessStartInfo {
-                            WorkingDirectory = path,
-                            RedirectStandardInput = true,
-                            RedirectStandardOutput = true,
-                            FileName = @"C:\Windows\System32\cmd.exe",
-                            Verb = "runas",
-                            Arguments = "/c npx webpack --config webpack.config.js",
-                            CreateNoWindow = true,
-                            UseShellExecute = false
-                        }
-                    };
-                    process.Start();
-                    process.WaitForExit();
-                    Debug.WriteLine(process.StandardOutput.ReadToEnd());
-                });
+            Task.WaitAll(scriptsPath.Select(async path => { 
+                string npmiResult = await Utilities.Utilities.Shell("npm i", path);
+                Debug.WriteLine("npm i in " + path);
+                Debug.WriteLine(npmiResult);
+                string webpackResult = await Utilities.Utilities.Shell("npx webpack --config webpack.config.js", path);
+                Debug.WriteLine("npx webpack in " + path);
+                Debug.WriteLine(webpackResult);
             }).ToArray());
 
             var scriptsName = scriptsPath.Select(x => Path.GetFileName(x));
