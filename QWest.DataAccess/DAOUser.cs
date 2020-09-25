@@ -47,7 +47,7 @@ namespace QWest.DataAcess {
                 List<RUser> users = new List<RUser>();
                 using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
                     while(reader.Read()) {
-                        users.Add(new RUser(username, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlBinary(3).Value, reader.GetSqlInt32(0).Value));
+                        users.Add(new RUser(username, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(0).Value));
                     }
                 }
                 return users;
@@ -61,7 +61,7 @@ namespace QWest.DataAcess {
                 RUser user = null;
                 using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
                     if(reader.Read()) {
-                        user = new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlBinary(3).Value, id);
+                        user = new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlBinary(3).NullableValue(), id);
                     }
                 }
                 return user;
