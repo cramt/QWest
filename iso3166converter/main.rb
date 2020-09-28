@@ -2,7 +2,7 @@
 
 require 'active_support/core_ext/string/filters'
 require 'json'
-require 'HTTParty'
+require 'httparty'
 require 'unidecoder'
 require './deep_string_cmp.rb'
 require './wiki_search.rb'
