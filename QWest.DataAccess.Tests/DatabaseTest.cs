@@ -3,6 +3,7 @@ using QWest.DataAcess;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using Utilities;
 
 namespace QWest.DataAccess.Tests {
     [TestFixture]
@@ -18,12 +19,8 @@ namespace QWest.DataAccess.Tests {
         }
         [Test]
         public void Migration() {
-            List<string> names = new List<string>();
-            using (SqlDataReader reader = ConnectionWrapper.CreateCommand("SELECT name FROM sys.tables").ExecuteReader()) {
-                while (reader.Read()) {
-                    names.Append(reader.GetSqlString(0).Value);
-                }
-            }
+            List<string> names = ConnectionWrapper.CreateCommand("SELECT name FROM sys.tables").ExecuteReader()
+                .ToIterator(reader => reader.GetSqlString(0).Value).ToList();
             if (names.Count != 0) {
                 ConnectionWrapper.CreateCommand("DROP TABLE " + string.Join(", ", names.ToArray())).ExecuteNonQuery();
                 ConnectionWrapper.ResetInstance();

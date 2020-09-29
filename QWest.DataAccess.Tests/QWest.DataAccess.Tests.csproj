@@ -115,6 +115,10 @@
       <Project>{554656eb-a883-44f0-8ba4-50ddd5690474}</Project>
       <Name>QWest.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{02B753F8-BEF9-43F8-BC08-03C4735B044B}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
