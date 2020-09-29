@@ -71,6 +71,10 @@
       <Project>{7abf2e55-bc9d-4c59-a6bc-6784b3bace82}</Project>
       <Name>Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{02B753F8-BEF9-43F8-BC08-03C4735B044B}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\1.sql" />
