@@ -32,8 +32,8 @@ module Utils
     def fetch(url)
         result = nil
         while result.nil?
-            body = HTTParty.get(url).body.to_s
             begin
+                body = HTTParty.get(url).body.to_s
                 result = JSON.parse(body, symbolize_names: true)
             rescue StandardError
             end
