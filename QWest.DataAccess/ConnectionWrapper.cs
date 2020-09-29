@@ -11,6 +11,9 @@ using System.IO;
 namespace QWest.DataAcess {
     public class ConnectionWrapper {
         private static SqlConnection _instance;
+        public static void ResetInstance() {
+            _instance = null;
+        }
         public static SqlConnection Instance {
             get {
                 if (_instance == null) {

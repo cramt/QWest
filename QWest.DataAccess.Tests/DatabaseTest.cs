@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 using QWest.DataAcess;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace QWest.DataAccess.Tests {
@@ -13,6 +15,24 @@ namespace QWest.DataAccess.Tests {
         public void CorrectOrder() {
             var scripts = new ConnectionWrapper.ScriptProvider().GetScripts(null).ToList();
             Assert.True(scripts[0].Name.EndsWith("1.sql"));
+        }
+        [Test]
+        public void Migration() {
+            List<string> names = new List<string>();
+            using (SqlDataReader reader = new SqlCommand(null, ConnectionWrapper.Instance) {
+                CommandText = "SELECT name FROM sys.tables"
+            }.ExecuteReader()) {
+                while (reader.Read()) {
+                    names.Append(reader.GetSqlString(0).Value);
+                }
+            }
+            if (names.Count != 0) {
+                new SqlCommand(null, ConnectionWrapper.Instance) {
+                    CommandText = "DROP TABLE " + string.Join(", ", names.ToArray())
+                }.ExecuteNonQuery();
+                ConnectionWrapper.ResetInstance();
+            }
+            Assert.NotNull(ConnectionWrapper.Instance);
         }
     }
 }
