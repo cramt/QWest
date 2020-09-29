@@ -2,6 +2,7 @@
 using QWest.DataAcess;
 using System;
 using System.Linq;
+using System.Net;
 
 namespace QWest.DataAccess.Tests {
     [TestFixture]

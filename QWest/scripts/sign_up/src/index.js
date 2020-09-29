@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { CookieStorage } from 'cookie-storage';
+import "cookie-store"
 
 $(() => {
     //from http://emailregex.com/
@@ -52,10 +52,9 @@ $(() => {
                         let id = x.Id
                         let sessionCookie = x.SessionCookie
 
-                        const cookieStorage = new CookieStorage();
-                        cookieStorage.setItem("sessionCookie", sessionCookie)
-
-                        window.location.href = "/profile/UserId/" + id
+                        cookieStore.set("sessionCookie", sessionCookie).then(()=>{
+                            window.location.href = "/profile/UserId/" + id
+                        })
                     })
                 }
             })
@@ -63,7 +62,7 @@ $(() => {
     }
 
     const processEnter = (e) => {
-        if (e.which == 13) {
+        if (e.which === 13) {
             processClick()
         }
     }

@@ -17,14 +17,16 @@ namespace QWest.DataAcess {
                 }
                 var conn = ConnectionWrapper.Instance;
                 SqlCommand stmt = new SqlCommand(null, conn) {
-                    CommandText = "INSERT INTO users (username, password_hash, email) VALUES (@username, @password_hash, @email); SELECT CAST(scope_identity() AS int)"
+                    CommandText = "INSERT INTO users (username, password_hash, email, session_cookie) VALUES (@username, @password_hash, @email, @session_cookie); SELECT CAST(scope_identity() AS int)"
                 };
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@email", user.Email);
+                stmt.Parameters.AddWithValue("@session_cookie", Convert.FromBase64String(user.SessionCookie));
+
                 user.Id = (int)await stmt.ExecuteScalarAsync();
             }
-            public static async void Update(RUser user) {
+            public static async Task Update(RUser user) {
                 if (user.Id == null) {
                     throw new ArgumentException("tried to update user " + user.Username + ", but they dont have an id");
                 }
@@ -62,6 +64,40 @@ namespace QWest.DataAcess {
                 using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
                     if(reader.Read()) {
                         user = new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlBinary(3).NullableValue(), id);
+                    }
+                }
+                return user;
+            }
+
+            public static async Task<RUser> GetBySessionCookie(byte[] sessionCookie) {
+                var conn = ConnectionWrapper.Instance;
+                SqlCommand stmt = new SqlCommand(null, conn) {
+                    CommandText = "SELECT username, password_hash, email, id FROM users WHERE session_cookie = @session_cookie",
+                };
+                stmt.Parameters.AddWithValue("@session_cookie", sessionCookie);
+                RUser user = null;
+                using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
+                    if (reader.Read()) {
+                        user = new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, sessionCookie, reader.GetSqlInt32(3).Value);
+                    }
+                }
+                return user;
+            }
+
+            public static async Task<RUser> GetBySessionCookie(string sessionCookie) {
+                return await GetBySessionCookie(Convert.FromBase64String(sessionCookie));
+            }
+
+            public static async Task<RUser> GetByEmail(string email) {
+                var conn = ConnectionWrapper.Instance;
+                SqlCommand stmt = new SqlCommand(null, conn) {
+                    CommandText = "SELECT username, password_hash, id, session_cookie FROM users WHERE email = @email",
+                };
+                stmt.Parameters.AddWithValue("@email", email);
+                RUser user = null;
+                using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
+                    if (reader.Read()) {
+                        user = new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, email, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(2).Value);
                     }
                 }
                 return user;
