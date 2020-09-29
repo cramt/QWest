@@ -1,6 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.IO;
 
 namespace Config.Test {
     [TestFixture]

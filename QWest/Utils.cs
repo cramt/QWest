@@ -1,11 +1,7 @@
 ﻿using Model;
 using QWest.DataAcess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace QWest {
@@ -18,7 +14,6 @@ namespace QWest {
             sessionCookie = WebUtility.UrlDecode(sessionCookie);
             User user = await DAO.User.GetBySessionCookie(sessionCookie);
             return user;
-
         }
     }
 }
