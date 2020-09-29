@@ -25,10 +25,11 @@ namespace QWest.DataAcess {
                 if (user.Id == null) {
                     throw new ArgumentException("tried to update user " + user.Username + ", but they dont have an id");
                 }
-                SqlCommand stmt = ConnectionWrapper.CreateCommand("UPDATE users SET username = @username, password_hash = @password_hash, email = @email WHERE id = @id");
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("UPDATE users SET username = @username, password_hash = @password_hash, email = @email, session_cookie = @session_cookie WHERE id = @id");
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@id", user.Id);
+                stmt.Parameters.AddWithValue("@session_cookie", Convert.FromBase64String(user.SessionCookie));
                 stmt.Parameters.AddWithValue("@email", user.Email);
                 await stmt.ExecuteNonQueryAsync();
             }
