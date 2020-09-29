@@ -11,25 +11,18 @@ namespace QWest.DataAcess {
                 if (user.Id != null) {
                     throw new ArgumentException("tried to add user " + user.Username + ", but they already have an id");
                 }
-                var conn = ConnectionWrapper.Instance;
-                SqlCommand stmt = new SqlCommand(null, conn) {
-                    CommandText = "INSERT INTO users (username, password_hash, email, session_cookie) VALUES (@username, @password_hash, @email, @session_cookie); SELECT CAST(scope_identity() AS int)"
-                };
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("INSERT INTO users (username, password_hash, email, session_cookie) VALUES (@username, @password_hash, @email, @session_cookie); SELECT CAST(scope_identity() AS int)");
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@email", user.Email);
                 stmt.Parameters.AddWithValue("@session_cookie", Convert.FromBase64String(user.SessionCookie));
-
                 user.Id = (int)await stmt.ExecuteScalarAsync();
             }
             public static async Task Update(RUser user) {
                 if (user.Id == null) {
                     throw new ArgumentException("tried to update user " + user.Username + ", but they dont have an id");
                 }
-                var conn = ConnectionWrapper.Instance;
-                SqlCommand stmt = new SqlCommand(null, conn) {
-                    CommandText = "UPDATE users SET username = @username, password_hash = @password_hash, email = @email WHERE id = @id"
-                };
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("UPDATE users SET username = @username, password_hash = @password_hash, email = @email WHERE id = @id");
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@id", user.Id);
@@ -37,10 +30,7 @@ namespace QWest.DataAcess {
                 await stmt.ExecuteNonQueryAsync();
             }
             public static async Task<IEnumerable<RUser>> GetByUsername(string username) {
-                var conn = ConnectionWrapper.Instance;
-                SqlCommand stmt = new SqlCommand(null, conn) {
-                    CommandText = "SELECT id, password_hash, email, session_cookie FROM users WHERE username = @username",
-                };
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT id, password_hash, email, session_cookie FROM users WHERE username = @username");
                 stmt.Parameters.AddWithValue("@username", username);
                 List<RUser> users = new List<RUser>();
                 using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
@@ -51,10 +41,7 @@ namespace QWest.DataAcess {
                 return users;
             }
             public static async Task<RUser> Get(int id) {
-                var conn = ConnectionWrapper.Instance;
-                SqlCommand stmt = new SqlCommand(null, conn) {
-                    CommandText = "SELECT username, password_hash, email, session_cookie FROM users WHERE id = @id",
-                };
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT username, password_hash, email, session_cookie FROM users WHERE id = @id");
                 stmt.Parameters.AddWithValue("@id", id);
                 RUser user = null;
                 using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
@@ -66,10 +53,7 @@ namespace QWest.DataAcess {
             }
 
             public static async Task<RUser> GetBySessionCookie(byte[] sessionCookie) {
-                var conn = ConnectionWrapper.Instance;
-                SqlCommand stmt = new SqlCommand(null, conn) {
-                    CommandText = "SELECT username, password_hash, email, id FROM users WHERE session_cookie = @session_cookie",
-                };
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT username, password_hash, email, id FROM users WHERE session_cookie = @session_cookie");
                 stmt.Parameters.AddWithValue("@session_cookie", sessionCookie);
                 RUser user = null;
                 using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {
@@ -85,10 +69,7 @@ namespace QWest.DataAcess {
             }
 
             public static async Task<RUser> GetByEmail(string email) {
-                var conn = ConnectionWrapper.Instance;
-                SqlCommand stmt = new SqlCommand(null, conn) {
-                    CommandText = "SELECT username, password_hash, id, session_cookie FROM users WHERE email = @email",
-                };
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT username, password_hash, id, session_cookie FROM users WHERE email = @email");
                 stmt.Parameters.AddWithValue("@email", email);
                 RUser user = null;
                 using (SqlDataReader reader = await stmt.ExecuteReaderAsync()) {

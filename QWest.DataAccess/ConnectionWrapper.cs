@@ -14,6 +14,11 @@ namespace QWest.DataAcess {
         public static void ResetInstance() {
             _instance = null;
         }
+        public static SqlCommand CreateCommand(string command) {
+            return new SqlCommand(null, Instance) {
+                CommandText = command
+            };
+        }
         public static SqlConnection Instance {
             get {
                 if (_instance == null) {

@@ -19,17 +19,13 @@ namespace QWest.DataAccess.Tests {
         [Test]
         public void Migration() {
             List<string> names = new List<string>();
-            using (SqlDataReader reader = new SqlCommand(null, ConnectionWrapper.Instance) {
-                CommandText = "SELECT name FROM sys.tables"
-            }.ExecuteReader()) {
+            using (SqlDataReader reader = ConnectionWrapper.CreateCommand("SELECT name FROM sys.tables").ExecuteReader()) {
                 while (reader.Read()) {
                     names.Append(reader.GetSqlString(0).Value);
                 }
             }
             if (names.Count != 0) {
-                new SqlCommand(null, ConnectionWrapper.Instance) {
-                    CommandText = "DROP TABLE " + string.Join(", ", names.ToArray())
-                }.ExecuteNonQuery();
+                ConnectionWrapper.CreateCommand("DROP TABLE " + string.Join(", ", names.ToArray())).ExecuteNonQuery();
                 ConnectionWrapper.ResetInstance();
             }
             Assert.NotNull(ConnectionWrapper.Instance);
