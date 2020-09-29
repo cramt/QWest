@@ -18,7 +18,7 @@ countries = countries.map.with_index do |country, i|
         sub[:subdivision] = []
         sub
     end
-    subs = Parallel.map(subs, in_threads: 2 ** 64) do |sub|
+    subs = subs.map do |sub|
         names = [sub[:name], sub[:name].to_ascii].uniq
         wiki_data = names.map do |x|
             Utils.search x
