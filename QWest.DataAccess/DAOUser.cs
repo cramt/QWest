@@ -14,7 +14,9 @@ namespace QWest.DataAcess {
                 if (user.Id != null) {
                     throw new ArgumentException("tried to add user " + user.Username + ", but they already have an id");
                 }
-                SqlCommand stmt = ConnectionWrapper.CreateCommand("INSERT INTO users (username, password_hash, email, session_cookie) VALUES (@username, @password_hash, @email, @session_cookie); SELECT CAST(scope_identity() AS int)");
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("INSERT INTO progress_maps DEFAULT VALUES;" +
+                    "INSERT INTO users (username, password_hash, email, session_cookie, progress_maps_id) VALUES " +
+                    "(@username, @password_hash, @email, @session_cookie, (SELECT CAST(scope_identity() AS int))); SELECT CAST(scope_identity() AS int)");
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@email", user.Email);
