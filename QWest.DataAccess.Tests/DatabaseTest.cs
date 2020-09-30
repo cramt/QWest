@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using QWest.DataAcess;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -21,10 +22,20 @@ namespace QWest.DataAccess.Tests {
         public void Migration() {
             List<string> names = ConnectionWrapper.CreateCommand("SELECT name FROM sys.tables").ExecuteReader()
                 .ToIterator(reader => reader.GetSqlString(0).Value).ToList();
-            if (names.Count != 0) {
-                ConnectionWrapper.CreateCommand("DROP TABLE " + string.Join(", ", names.ToArray())).ExecuteNonQuery();
-                ConnectionWrapper.ResetInstance();
+            
+            while (names.Count != 0) {
+                List<string> newNames = new List<string>();
+                foreach(string name in names) {
+                    try {
+                        ConnectionWrapper.CreateCommand("DROP TABLE " + name).ExecuteNonQuery();
+                    }
+                    catch (SqlException _) {
+                        newNames.Add(name);
+                    }
+                }
+                names = newNames;
             }
+            ConnectionWrapper.ResetInstance();
             Assert.NotNull(ConnectionWrapper.Instance);
         }
     }
