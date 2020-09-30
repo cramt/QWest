@@ -7,10 +7,10 @@ namespace Model {
         public string Username { get; set; }
         public string Email { get; set; }
         public byte[] PasswordHash { get; set; }
-        public string SessionCookie { get; set; }   
+        public string SessionCookie { get; set; }
 
         public User(string username, string password, string email)
-            :this(username, password, email, null){
+            : this(username, password, email, null) {
 
         }
         public User(string username, string password, string email, byte[] sessionCookie)
