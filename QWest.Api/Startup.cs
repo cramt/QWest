@@ -8,16 +8,15 @@ using System.Web.Http;
 
 namespace QWest.Api {
     public class Startup {
-        public void Configuration(IAppBuilder appBuilder) {
-            // Configure Web API for self-host. 
+        public void Configuration(IAppBuilder app) {
             HttpConfiguration config = new HttpConfiguration();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            appBuilder.UseWebApi(config);
+            app.Use<AuthenticationMiddleware>();
+            app.UseWebApi(config);
         }
     }
 }
