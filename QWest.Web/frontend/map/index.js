@@ -1,5 +1,5 @@
 import $ from "jquery";
-import svgMap from "svgmap";
+
 $(()=>{
     let map = new svgMap({
         targetElementID: 'svgMap',
