@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest", "QWest\QWest.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{02B753F8-BEF9-43F8-BC08-03C4735B044B}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "QWest.Web", "QWest.Web\QWest.Web.njsproj", "{68FD0A4F-E34D-4684-A2C9-A960AFA88648}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Api", "QWest.Api\QWest.Api.csproj", "{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{02B753F8-BEF9-43F8-BC08-03C4735B044B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02B753F8-BEF9-43F8-BC08-03C4735B044B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02B753F8-BEF9-43F8-BC08-03C4735B044B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68FD0A4F-E34D-4684-A2C9-A960AFA88648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68FD0A4F-E34D-4684-A2C9-A960AFA88648}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68FD0A4F-E34D-4684-A2C9-A960AFA88648}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68FD0A4F-E34D-4684-A2C9-A960AFA88648}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

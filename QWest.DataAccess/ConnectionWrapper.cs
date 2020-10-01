@@ -33,7 +33,6 @@ namespace QWest.DataAcess {
                 return Assembly.GetExecutingAssembly().GetManifestResourceNames()
                     .Where(name => name.EndsWith(".sql"))
                     .Select(name => {
-                        Console.WriteLine(name);
                         Stack<string> stack = new Stack<string>(name.Split('.'));
                         stack.Pop();
                         int? res = null;
