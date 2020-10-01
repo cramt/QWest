@@ -28,6 +28,17 @@ namespace GeographicSubdivision.Provider {
                 });
             };
             NameMap = nameMap.ToDictionary(x => x.Key, x => x.Value as IReadOnlyCollection<ISubdividable>);
+
+            Dictionary<string, List<ISubdividable>> alpha2Map = new Dictionary<string, List<ISubdividable>>();
+            foreach (ISubdividable dividable in Entities) {
+                string id = dividable.GetFullId();
+                if (!alpha2Map.ContainsKey(id)) {
+                    alpha2Map.Add(id, new List<ISubdividable>());
+                }
+                alpha2Map[id].Add(dividable);
+
+            };
+            Alpha2Map = alpha2Map.ToDictionary(x => x.Key, x => x.Value as IReadOnlyCollection<ISubdividable>);
         }
 
         public IEnumerable<Subdivision> Traverse(ISubdividable subdividable) {
@@ -39,5 +50,7 @@ namespace GeographicSubdivision.Provider {
         public IReadOnlyCollection<ISubdividable> Entities { get; }
 
         public Dictionary<string, IReadOnlyCollection<ISubdividable>> NameMap { get; }
+
+        public Dictionary<string, IReadOnlyCollection<ISubdividable>> Alpha2Map { get; }
     }
 }

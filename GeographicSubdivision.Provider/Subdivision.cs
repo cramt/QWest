@@ -20,8 +20,10 @@ namespace GeographicSubdivision.Provider {
         [JsonProperty("names")]
         private readonly List<string> _names;
 
+        [JsonIgnore]
         internal Subdivision _parent;
 
+        [JsonIgnore]
         internal Country _parentCountry;
 
         public string Code { get { return _code; } }

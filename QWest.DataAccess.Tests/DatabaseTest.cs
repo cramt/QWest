@@ -29,7 +29,7 @@ namespace QWest.DataAccess.Tests {
                     try {
                         ConnectionWrapper.CreateCommand("DROP TABLE " + name).ExecuteNonQuery();
                     }
-                    catch (SqlException _) {
+                    catch (SqlException) {
                         newNames.Add(name);
                     }
                 }

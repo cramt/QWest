@@ -16,11 +16,13 @@ namespace QWest.Api {
         public override async Task Invoke(IOwinContext context) {
             var cookies = context.Request.Cookies.Where(x => x.Key == "sessionCookie").ToList();
             if (cookies.Count == 0) {
+                await Next.Invoke(context);
                 return;
             }
             var cookie = cookies[0].Value;
             var value = WebUtility.UrlDecode(cookie);
             if (value == "") {
+                await Next.Invoke(context);
                 return;
             }
             if (value.First() == '"' && value.Last() == '"') {
@@ -28,9 +30,11 @@ namespace QWest.Api {
             }
             User user = await DAO.User.GetBySessionCookie(value);
             if(user == null) {
+                await Next.Invoke(context);
                 return;
             }
             context.Set("user", user);
+            await Next.Invoke(context);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace QWest.Api {
             string baseAddress = "http://localhost:9000/";
             Utilities.Utilities.DynamicShell("npm start", stdout => {
                 Console.WriteLine(stdout);
-            }, nodeProject);
+            }, nodeProject);    
             WebApp.Start<Startup>(url: baseAddress);
             Thread.Sleep(-1);
         }
