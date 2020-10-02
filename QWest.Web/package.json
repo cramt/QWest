@@ -7,7 +7,7 @@
     "name": ""
   },
   "scripts": {
-    "start": "node index.mjs"
+    "start": "node index.mjs --unhandled-rejections=strict"
   },
   "dependencies": {
     "connect": "^3.7.0",

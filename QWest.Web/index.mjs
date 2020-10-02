@@ -5,8 +5,13 @@ import HtmlWebpackPlugin from "html-webpack-plugin"
 import fs from "fs"
 import CopyWebpackPlugin from "copy-webpack-plugin"
 import HttpProxyMiddleware from "http-proxy-middleware"
+import { killProcessOnPort } from "./utilities.mjs";
 
-const subProjects = fs.readdirSync("frontend").filter(x => !x.includes("."))
+const port = 8080;
+
+const subProjects = fs.readdirSync("frontend")
+    .filter(x => fs.lstatSync("frontend/" + x).isDirectory())
+    .filter(x => fs.existsSync("frontend/" + x + "/index.html") && fs.existsSync("frontend/" + x + "/index.js"))
 
 const webpackConfig = {
     mode: 'development',
@@ -30,20 +35,26 @@ const webpackConfig = {
             ]
         })
     ]),
-}
+};
 
-const compiler = webpack(webpackConfig);
-const watcher = compiler.watch({}, err => {
-    if (err) {
-        console.log("error")
-        console.log(err)
-    }
-    else {
-        console.log("webpack finished compiling")
-    }
-});
+(async () => {
+    const compiler = webpack(webpackConfig);
+    const watcher = compiler.watch({}, err => {
+        if (err) {
+            console.log("error")
+            console.log(err)
+        }
+        else {
+            console.log("webpack finished compiling")
+        }
+    });
+})().catch(console.log);
 
-connect()
-    .use("/api", HttpProxyMiddleware.createProxyMiddleware({ target: "http://localhost:9000/", changeOrigin: true }))
-    .use(serveStatic("./dist/"))
-    .listen(8080)
+(async () => {
+    await killProcessOnPort(port)
+
+    connect()
+        .use("/api", HttpProxyMiddleware.createProxyMiddleware({ target: "http://localhost:9000/", changeOrigin: true }))
+        .use(serveStatic("./dist/"))
+        .listen(port)
+})().catch(console.log);
