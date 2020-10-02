@@ -1,37 +1,35 @@
 ﻿using Model;
 using QWest.DataAcess;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 
 namespace QWest.Apis {
-
-    [RoutePrefix("login")]
     public class LoginController : ApiController {
         public class LoginArgument {
             public string email;
             public string password;
         }
 
-        [HttpPost, Route("login")]
-        public async Task<IHttpActionResult> Login([FromBody] LoginArgument argument) {
+        [HttpPost]
+        public async Task<string> Login([FromBody] LoginArgument argument) {
             User user = await DAO.User.GetByEmail(argument.email);
             if (user == null || !user.VerifyPassword(argument.password)) {
-                return Unauthorized();
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
             user.NewSessionCookie();
             await DAO.User.Update(user);
-            return Ok(user.SessionCookie);
+            return user.SessionCookie;
         }
-        [HttpGet, Route("get_me")]
-        public IHttpActionResult GetMe() {
+        public User GetMe() {
             User user = Request.GetOwinContext().Get<User>("user");
             if(user == null) {
-                return NotFound();
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             else {
-                return Ok(user);
+                return user;
             }
         }
     }

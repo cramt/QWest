@@ -28,7 +28,7 @@ $(() => {
         let email = emailInput.val()
         let username = usernameInput.val()
         if (validateRegister(username, email, password)) {
-            fetch("api/sign_up/register", {
+            fetch("api/SignUp/Register", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -52,8 +52,8 @@ $(() => {
                         let id = x.Id
                         let sessionCookie = x.SessionCookie
 
-                        cookieStore.set("sessionCookie", sessionCookie).then(()=>{
-                            window.location.href = "/profile/UserId/" + id
+                        cookieStore.set("sessionCookie", sessionCookie).then(() => {
+                            window.location.href = "/profile.html?id=" + id
                         })
                     })
                 }

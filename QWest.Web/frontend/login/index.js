@@ -25,7 +25,7 @@ $(() => {
         let password = passwordInput.val()
         let email = emailInput.val()
         if (validateRegister(email, password)) {
-            fetch("api/login/login", {
+            fetch("api/Login/Login", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
