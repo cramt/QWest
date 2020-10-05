@@ -31,6 +31,14 @@
   <ItemGroup>
     <Content Include="frontend\home\index.html" />
     <Content Include="frontend\home\index.js" />
+    <Content Include="frontend\login\index.html" />
+    <Content Include="frontend\login\index.js" />
+    <Content Include="frontend\map\index.html" />
+    <Content Include="frontend\map\index.js" />
+    <Content Include="frontend\profile\index.html" />
+    <Content Include="frontend\profile\index.js" />
+    <Content Include="frontend\sign_up\index.html" />
+    <Content Include="frontend\sign_up\index.js" />
     <Content Include="index.mjs" />
     <Content Include="package.json" />
     <Content Include="public\bootstrap-theme.css" />
@@ -42,12 +50,20 @@
     <Content Include="public\bootstrap.min.css" />
     <Content Include="public\bootstrap.min.css.map" />
     <Content Include="public\home.css" />
-    <Content Include="README.md" />
+    <Content Include="public\map.css" />
+    <Content Include="public\svgMap.css" />
+    <Content Include="public\svgMap.js" />
+    <Content Include="public\svgMap.min.css" />
+    <Content Include="public\svgMap.min.js" />
+    <Content Include="utilities.mjs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="frontend\" />
     <Folder Include="frontend\home\" />
     <Folder Include="frontend\login\" />
+    <Folder Include="frontend\map\" />
+    <Folder Include="frontend\profile\" />
+    <Folder Include="frontend\sign_up\" />
     <Folder Include="public\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />

@@ -6,7 +6,6 @@ using System.Web.Http;
 
 namespace QWest.Apis {
     public class SubdivisionController : ApiController {
-        [HttpGet]
         public AbstractLocation Get(string alpha2) {
             alpha2 = alpha2.ToUpper();
             var map = GeographyProvider.Instance.Alpha2Map;
@@ -20,6 +19,9 @@ namespace QWest.Apis {
             else {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
+        }
+        public IEnumerable<Country> Get() {
+            return GeographyProvider.Instance.Countries;
         }
     }
 }
