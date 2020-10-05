@@ -4,21 +4,12 @@ using System.Collections.Generic;
 
 namespace GeographicSubdivision.Provider {
     [Serializable]
-    public class Subdivision : ISubdividable {
+    public class Subdivision : AbstractLocation {
         [JsonProperty("code")]
         private readonly string _code;
 
-        [JsonProperty("name")]
-        private readonly string _name;
-
         [JsonProperty("type")]
         private readonly string _type;
-
-        [JsonProperty("subdivision")]
-        private readonly List<Subdivision> _subdivision;
-
-        [JsonProperty("names")]
-        private readonly List<string> _names;
 
         [JsonIgnore]
         internal Subdivision _parent;
@@ -26,21 +17,19 @@ namespace GeographicSubdivision.Provider {
         [JsonIgnore]
         internal Country _parentCountry;
 
+        [JsonIgnore]
         public string Code { get { return _code; } }
 
-        public string Name { get { return _name; } }
+        public override string Type { get { return _type; } }
 
-        public string Type { get { return _type; } }
-
-        public List<Subdivision> Subdivisions { get { return _subdivision; } }
-
+        [JsonIgnore]
         public Subdivision Parent { get { return _parent; } }
 
+        [JsonIgnore]
         public Country ParentCountry { get { return _parentCountry; } }
 
-        public List<string> Names { get { return _names; } }
 
-        public string GetFullId() {
+        public override string GetFullId() {
             string parentId;
             if (_parent == null) {
                 parentId = _parentCountry.GetFullId();

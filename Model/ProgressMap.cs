@@ -8,7 +8,7 @@ namespace Model {
     public class ProgressMap {
         public int? Id { get; set; }
         public List<string> Locations { get; set; }
-        public IEnumerable<IReadOnlyCollection<ISubdividable>> LocationsTransformed {
+        public IEnumerable<IReadOnlyCollection<AbstractLocation>> LocationsTransformed {
             get => Locations.Select(x => GeographyProvider.Instance.Alpha2Map[x]);
         }
         public ProgressMap() : this(new List<string>()) {
