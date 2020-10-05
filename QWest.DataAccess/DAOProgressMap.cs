@@ -57,8 +57,23 @@ namespace QWest.DataAcess {
                 if (diffs.Count == 0) {
                     return;
                 }
-                SqlCommand stmt = ConnectionWrapper.CreateCommand("INSERT INTO progress_maps_locations (progress_maps_id, location) VALUES " + string.Join(",", diffs.Additions.Select((_, i) => "(@id, @add_location" + i + ")").ToArray()) +
-                    ";DELETE FROM progress_maps_locations WHERE progress_maps_id = @id AND (" + string.Join(" OR ", diffs.Subtractions.Select((_, i) => "location = @sub_location" + i).ToArray()) + ")");
+                string insertSql;
+                string deleteSql;
+                if (diffs.Additions.Count == 0) {
+                    insertSql = "";
+                }
+                else {
+                    insertSql = "INSERT INTO progress_maps_locations (progress_maps_id, location) VALUES "
+                       + string.Join(",", diffs.Additions.Select((_, i) => "(@id, @add_location" + i + ")").ToArray()) + ";";
+                }
+                if (diffs.Subtractions.Count == 0) {
+                    deleteSql = "";
+                }
+                else {
+                    deleteSql = "DELETE FROM progress_maps_locations WHERE progress_maps_id = @id AND ("
+                    + string.Join(" OR ", diffs.Subtractions.Select((_, i) => "location = @sub_location" + i).ToArray()) + ")";
+                }
+                SqlCommand stmt = ConnectionWrapper.CreateCommand(insertSql + deleteSql);
                 stmt.Parameters.AddWithValue("@id", existingMap.Id);
                 diffs.Additions.Select((x, i) => stmt.Parameters.AddWithValue("@add_location" + i, x));
                 diffs.Subtractions.Select((x, i) => stmt.Parameters.AddWithValue("@sub_location" + i, x));
