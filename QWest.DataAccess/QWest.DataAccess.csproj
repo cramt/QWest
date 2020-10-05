@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionWrapper.cs" />
+    <Compile Include="DAOProgressMap.cs" />
     <Compile Include="DAOUser.cs" />
     <Compile Include="DAO.cs" />
     <Compile Include="Extensions.cs" />

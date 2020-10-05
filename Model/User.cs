@@ -8,6 +8,7 @@ namespace Model {
         public string Email { get; set; }
         public byte[] PasswordHash { get; set; }
         public string SessionCookie { get; set; }
+        public ProgressMap ProgressMap { get; set; }
 
         public User(string username, string password, string email)
             : this(username, password, email, null) {
@@ -31,6 +32,7 @@ namespace Model {
             Email = email;
             PasswordHash = passwordHash;
             SessionCookie = sessionCookie;
+            ProgressMap = null;
         }
         private static byte[] HashPassword(string password) {
             byte[] salt;

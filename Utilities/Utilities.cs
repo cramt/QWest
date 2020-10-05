@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Utilities {
@@ -32,7 +34,7 @@ namespace Utilities {
         }
 
         public static Task<string> Shell(string command, string cwd = null) {
-            if(cwd == null) {
+            if (cwd == null) {
                 cwd = Directory.GetCurrentDirectory();
             }
             return Task.Factory.StartNew(() => {
@@ -52,6 +54,25 @@ namespace Utilities {
                 process.WaitForExit();
                 return process.StandardOutput.ReadToEnd();
             });
+        }
+
+        public class ListDifferenceResult<T> {
+            public List<T> Additions { get; }
+            public List<T> Subtractions { get; }
+            public int Count {
+                get => Additions.Count + Subtractions.Count;
+            }
+            public ListDifferenceResult(List<T> additions, List<T> subtractions) {
+                Additions = additions;
+                Subtractions = subtractions;
+            }
+        }
+
+        public static ListDifferenceResult<T> ListDifference<T>(List<T> list1, List<T> list2) where T : IComparable {
+            return new ListDifferenceResult<T>(
+                list2.Except(list1).ToList(),
+                list1.Except(list2).ToList()
+            );
         }
     }
 }
