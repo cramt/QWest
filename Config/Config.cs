@@ -11,7 +11,6 @@ namespace Config {
                 if(_instance == null) {
                     string path1 = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.Parent.FullName + "\\Config\\config.json";
                     string path2 = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\config.json";
-                    Console.WriteLine(path1);
                     string text;
                     if (File.Exists(path1)) {
                         text = File.ReadAllText(path1);

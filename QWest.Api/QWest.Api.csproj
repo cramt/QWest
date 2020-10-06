@@ -83,6 +83,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Config\Config.csproj">
+      <Project>{592d5e5c-cf2a-4e38-9082-4295dad193bd}</Project>
+      <Name>Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GeographicSubdivision.Provider\GeographicSubdivision.Provider.csproj">
       <Project>{823ccec5-5648-4fa1-9107-68721bb6e669}</Project>
       <Name>GeographicSubdivision.Provider</Name>

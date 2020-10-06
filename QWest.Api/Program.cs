@@ -2,17 +2,18 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using static Utilities.Utilities;
 
 namespace QWest.Api {
     class Program {
         static void Main(string[] args) {
-            KillOnPort(8080).Wait();
-            KillOnPort(9000).Wait();
+            Task.WaitAll(Config.Config.Instance.Ports.Select(x => KillOnPort(x)).ToArray());
             string nodeProject = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\QWest.Web";
-            string baseAddress = "http://localhost:9000/";
-            Process nodeProcess = DynamicShell("npm start", stdout => {
+            string baseAddress = $"http://localhost:{Config.Config.Instance.ApiPort}/";
+            Process nodeProcess = DynamicShell($"npm start {Config.Config.Instance.ServePort} {Config.Config.Instance.ApiPort}", stdout => {
                 Console.WriteLine(stdout);
             }, nodeProject);
             AppDomain.CurrentDomain.ProcessExit += (o, e) => {

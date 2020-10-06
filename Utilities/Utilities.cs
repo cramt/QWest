@@ -55,7 +55,7 @@ namespace Utilities {
             });
         }
 
-        public static async Task KillOnPort(int port) {
+        public static async Task KillOnPort(uint port) {
             Regex regex = new Regex(@"/\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/");
             List<string> shellOutput = (await Shell("netstat -ano | find \"LISTENING\" | find \"" + port + "\"")).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             await Task.WhenAll(

@@ -6,7 +6,10 @@ import fs from "fs"
 import CopyWebpackPlugin from "copy-webpack-plugin"
 import HttpProxyMiddleware from "http-proxy-middleware"
 
-const port = 8080;
+const commandLineArg = process.argv.slice(3)
+
+const port = commandLineArg[0];
+const apiPort = commandLineArg[1];
 
 const subProjects = fs.readdirSync("frontend")
     .filter(x => fs.lstatSync("frontend/" + x).isDirectory())
@@ -48,6 +51,6 @@ const watcher = compiler.watch({}, err => {
 });
 
 connect()
-    //.use("/api", HttpProxyMiddleware.createProxyMiddleware({ target: "http://localhost:9000/", changeOrigin: true }))
+    .use("/api", HttpProxyMiddleware.createProxyMiddleware({ target: `http://localhost:${apiPort}/`, changeOrigin: true }))
     .use(serveStatic("./dist/"))
     .listen(8080)
