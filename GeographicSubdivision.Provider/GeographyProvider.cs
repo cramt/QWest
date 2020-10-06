@@ -17,40 +17,40 @@ namespace GeographicSubdivision.Provider {
         private GeographyProvider() {
             Countries = JsonConvert.DeserializeObject<List<Country>>(ISO3166String.ISO3166);
             Task.WaitAll(Countries.Select(country => country.SetBackwardsReference()).ToArray());
-            Entities = Countries.Select(Traverse).SelectMany(i => i).Cast<ISubdividable>().Concat(Countries).ToList();
-            Dictionary<string, List<ISubdividable>> nameMap = new Dictionary<string, List<ISubdividable>>();
-            foreach (ISubdividable dividable in Entities) {
+            Entities = Countries.Select(Traverse).SelectMany(i => i).Cast<AbstractLocation>().Concat(Countries).ToList();
+            Dictionary<string, List<AbstractLocation>> nameMap = new Dictionary<string, List<AbstractLocation>>();
+            foreach (AbstractLocation dividable in Entities) {
                 dividable.Names.ForEach(name => {
                     if (!nameMap.ContainsKey(name)) {
-                        nameMap.Add(name, new List<ISubdividable>());
+                        nameMap.Add(name, new List<AbstractLocation>());
                     }
                     nameMap[name].Add(dividable);
                 });
             };
-            NameMap = nameMap.ToDictionary(x => x.Key, x => x.Value as IReadOnlyCollection<ISubdividable>);
+            NameMap = nameMap.ToDictionary(x => x.Key, x => x.Value as IReadOnlyCollection<AbstractLocation>);
 
-            Dictionary<string, List<ISubdividable>> alpha2Map = new Dictionary<string, List<ISubdividable>>();
-            foreach (ISubdividable dividable in Entities) {
+            Dictionary<string, List<AbstractLocation>> alpha2Map = new Dictionary<string, List<AbstractLocation>>();
+            foreach (AbstractLocation dividable in Entities) {
                 string id = dividable.GetFullId();
                 if (!alpha2Map.ContainsKey(id)) {
-                    alpha2Map.Add(id, new List<ISubdividable>());
+                    alpha2Map.Add(id, new List<AbstractLocation>());
                 }
                 alpha2Map[id].Add(dividable);
 
             };
-            Alpha2Map = alpha2Map.ToDictionary(x => x.Key, x => x.Value as IReadOnlyCollection<ISubdividable>);
+            Alpha2Map = alpha2Map.ToDictionary(x => x.Key, x => x.Value as IReadOnlyCollection<AbstractLocation>);
         }
 
-        public IEnumerable<Subdivision> Traverse(ISubdividable subdividable) {
+        public IEnumerable<Subdivision> Traverse(AbstractLocation subdividable) {
             return subdividable.Subdivisions.Select(Traverse).SelectMany(i => i);
         }
 
         public IReadOnlyCollection<Country> Countries { get; }
 
-        public IReadOnlyCollection<ISubdividable> Entities { get; }
+        public IReadOnlyCollection<AbstractLocation> Entities { get; }
 
-        public Dictionary<string, IReadOnlyCollection<ISubdividable>> NameMap { get; }
+        public Dictionary<string, IReadOnlyCollection<AbstractLocation>> NameMap { get; }
 
-        public Dictionary<string, IReadOnlyCollection<ISubdividable>> Alpha2Map { get; }
+        public Dictionary<string, IReadOnlyCollection<AbstractLocation>> Alpha2Map { get; }
     }
 }

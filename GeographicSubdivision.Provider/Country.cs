@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeographicSubdivision.Provider {
     [Serializable]
-    public class Country : ISubdividable {
+    public class Country : AbstractLocation {
 
         [JsonProperty("alpha_2")]
         private readonly string _alpha2;
@@ -17,17 +17,11 @@ namespace GeographicSubdivision.Provider {
         [JsonProperty("common_name")]
         private readonly string _commonName;
 
-        [JsonProperty("name")]
-        private readonly string _name;
-
         [JsonProperty("numeric")]
         private readonly string _numeric;
 
         [JsonProperty("official_name")]
         private readonly string _officialName;
-
-        [JsonProperty("subdivision")]
-        private readonly List<Subdivision> _subdivision;
 
         internal async Task SetBackwardsReference() {
             await Task.WhenAll(Subdivisions.Select(subdivision => SetBackwardsReference(null, subdivision)).ToArray());
@@ -38,48 +32,49 @@ namespace GeographicSubdivision.Provider {
             subdivision._parentCountry = this;
             await Task.WhenAll(subdivision.Subdivisions.Select(subsubdivision => SetBackwardsReference(subdivision, subsubdivision)).ToArray());
         }
+
+        [JsonIgnore]
         public string CountryCode { get { return _alpha2; } }
+
+        [JsonIgnore]
         public string Alpha2 { get { return _alpha2; } }
+
+        [JsonIgnore]
         public string Alpha3 { get { return _alpha3; } }
+
+        [JsonIgnore]
         public string CommonName {
             get {
                 if (_commonName == null) {
-                    if (_name == null) {
+                    if (Name == null) {
                         return _officialName;
                     }
-                    return _name;
+                    return Name;
                 }
                 return _commonName;
             }
         }
-        public string Name { get { return _name; } }
+        [JsonIgnore]
         public string Numeric { get { return _numeric; } }
+
+        [JsonIgnore]
         public string OfficialName {
             get {
                 if (_officialName == null) {
-                    if (_name == null) {
+                    if (Name == null) {
                         return _commonName;
                     }
-                    return _name;
+                    return Name;
                 }
                 return _officialName;
             }
         }
-        public List<Subdivision> Subdivisions { get { return _subdivision; } }
-
-        public List<string> Names {
-            get {
-                return new string[] { _name, _officialName, _commonName }.ToList().FindAll(x => x != null).ToList();
-            }
-        }
-
-        public string Type {
+        public override string Type {
             get {
                 return "Country";
             }
         }
-
-        public string GetFullId() {
+        public override string GetFullId() {
             return Alpha2;
         }
     }
