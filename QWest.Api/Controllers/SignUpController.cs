@@ -16,10 +16,10 @@ namespace QWest.Apis {
         }
 
         [HttpPost]
-        public async Task<User> Register([FromBody] RegisterArgument argument) {
+        public async Task<string> Register([FromBody] RegisterArgument argument) {
             User user = argument.ToUser();
             await DAO.User.Add(user);
-            return user;
+            return user.SessionCookie;
         }
     }
 }

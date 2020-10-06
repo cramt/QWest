@@ -48,12 +48,9 @@ $(() => {
                 }
                 else {
                     message.text("success")
-                    x.text().then(JSON.parse).then(x => {
-                        let id = x.Id
-                        let sessionCookie = x.SessionCookie
-
+                    x.text().then(JSON.parse).then(sessionCookie => {
                         cookieStore.set("sessionCookie", sessionCookie).then(() => {
-                            window.location.href = "/profile.html?id=" + id
+                            window.location.href = "/profile.html"
                         })
                     })
                 }

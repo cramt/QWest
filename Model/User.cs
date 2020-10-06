@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Security.Cryptography;
 
 namespace Model {
@@ -6,8 +7,11 @@ namespace Model {
         public int? Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
+        [JsonIgnore]
         public byte[] PasswordHash { get; set; }
+        [JsonIgnore]
         public string SessionCookie { get; set; }
+        [JsonIgnore]
         public ProgressMap ProgressMap { get; set; }
 
         public User(string username, string password, string email)

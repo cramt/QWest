@@ -72,6 +72,7 @@
     <Compile Include="Controllers\SubdivisionController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
+    <Compile Include="Controllers\ProgressMapController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
