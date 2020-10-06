@@ -3,34 +3,33 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Utilities {
     public static class Utilities {
-        public static Task DynamicShell(string command, Action<string> onStdOut, string cwd = null) {
+        public static Process DynamicShell(string command, Action<string> onStdOut, string cwd = null) {
             if (cwd == null) {
                 cwd = Directory.GetCurrentDirectory();
             }
-            return Task.Factory.StartNew(() => {
-                Process process = new Process {
-                    StartInfo = new ProcessStartInfo {
-                        WorkingDirectory = cwd,
-                        RedirectStandardInput = true,
-                        RedirectStandardOutput = true,
-                        FileName = @"C:\Windows\System32\cmd.exe",
-                        Verb = "runas",
-                        Arguments = "/c " + command,
-                        CreateNoWindow = true,
-                        UseShellExecute = false
-                    }
-                };
-                process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => {
-                    onStdOut(e.Data);
-                };
-                process.Start();
-                process.BeginOutputReadLine();
-                process.WaitForExit();
-            });
+            Process process = new Process {
+                StartInfo = new ProcessStartInfo {
+                    WorkingDirectory = cwd,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    FileName = @"C:\Windows\System32\cmd.exe",
+                    Verb = "runas",
+                    Arguments = "/c " + command,
+                    CreateNoWindow = true,
+                    UseShellExecute = false
+                }
+            };
+            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => {
+                onStdOut(e.Data);
+            };
+            process.Start();
+            process.BeginOutputReadLine();
+            return process;
         }
 
         public static Task<string> Shell(string command, string cwd = null) {
@@ -54,6 +53,19 @@ namespace Utilities {
                 process.WaitForExit();
                 return process.StandardOutput.ReadToEnd();
             });
+        }
+
+        public static async Task KillOnPort(int port) {
+            Regex regex = new Regex(@"/\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/");
+            List<string> shellOutput = (await Shell("netstat -ano | find \"LISTENING\" | find \"" + port + "\"")).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            await Task.WhenAll(
+            shellOutput.Select(x => {
+                var matches = regex.Matches(x);
+                if (matches.Count == 0) {
+                    return null;
+                }
+                return matches[0];
+            }).Where(x => x != null).Select(x => x.Value).Distinct().Select(x => Shell("taskkill /F /pid " + x)));
         }
 
         public class ListDifferenceResult<T> {
