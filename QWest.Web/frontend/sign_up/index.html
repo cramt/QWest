@@ -1,21 +1,74 @@
 ﻿<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap-theme.min.css">
     <meta charset="utf-8" />
-    <title>Map</title>
+    <title>Qwest Login</title>
+    <style>
+        body {
+            background-color: #E5FFEE;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: skyblue
+        }
+
+        #login_button,
+        #email_input,
+        #password_input {
+            width: 270px;
+            height: 50px;
+            margin: 0 auto;
+            font-size: large;
+        }
+
+        /* unvisited link */
+        a:link {
+            
+            color: blue;
+        }
+
+        /* visited link */
+        a:visited, a:active {
+            color: purple;
+        }
+
+        /* mouse over link */
+        a:hover {
+            color: black;
+            text-decoration: underline;
+        }
+
+        .no-padding {
+            padding: 0;
+        }
+        
+    </style>
 </head>
-<body>
-    <div>
-        <p>Sign Up</p>
-        <label>Email</label><input id="email_input" type="text" /><br />
-        <label>Username</label><input id="username_input" type="text" /><br />
-        <label>Password</label><input id="password_input" type="password" /><br />
-        <button id="register_button">register</button>
-        <p id="message"></p>
-    </div>
+
+<body class="text-center">
+    <form class="form-signin">
+        <div class="container no-padding" id="inputs">
+            <img src="https://cdn.discordapp.com/attachments/265938702310703104/761187222555983902/Qwestpenis.png">
+            <h1>Please Sign up here</h1>
+            <input id="email_input" type="email" class="form-control" placeholder="Email address" required
+                autofocus /><br />
+            <input id="password_input" type="password" class="form-control" placeholder="Password" required /><br />
+            <input id="password_input" type="password" class="form-control" placeholder="Confirm Password" required /><br />
+        </div>
+        <div class="container">
+            <button id="login_button" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+            <br>
+            <p id="message">Already an explorer? You can <a href="http://localhost:8080/login.html">Login</a> here!</p>
+
+        </div>
+    </form>
 </body>
+
 </html>
