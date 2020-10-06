@@ -29,6 +29,7 @@ const userPromise = (async () => {
             break;
         default:
             alert("unexpected " + response.status)
+            console.log(await response.text())
             return null;
             break;
     }

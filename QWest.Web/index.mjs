@@ -48,6 +48,6 @@ const watcher = compiler.watch({}, err => {
 });
 
 connect()
-    .use("/api", HttpProxyMiddleware.createProxyMiddleware({ target: "http://localhost:9000/", changeOrigin: true }))
+    //.use("/api", HttpProxyMiddleware.createProxyMiddleware({ target: "http://localhost:9000/", changeOrigin: true }))
     .use(serveStatic("./dist/"))
     .listen(8080)
