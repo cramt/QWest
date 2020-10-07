@@ -2,20 +2,23 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap-theme.min.css">
     <meta charset="utf-8" />
     <title>Map</title>
 </head>
 <body>
-    <div>
-        <p>Sign Up</p>
-        <label>Email</label><input id="email_input" type="text" /><br />
-        <label>Username</label><input id="username_input" type="text" /><br />
-        <label>Password</label><input id="password_input" type="password" /><br />
-        <button id="register_button">register</button>
-        <p id="message"></p>
-    </div>
+     <!-- Nav tabs -->
+     <ul class="nav nav-tabs" id="navId">
+        <li class="nav-item dropdown ml-auto">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-o" aria-hidden="false"></i>&nbsp;
+                User</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#tab2Id">User settings</a>
+                <div class="dropdown-divider"></div>
+                <a id="logout-button" class="dropdown-item" href="#tab3Id">Log out</a>
+            </div>
+        </li>
+    </ul>
 </body>
 </html>

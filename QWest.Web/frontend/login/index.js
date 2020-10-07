@@ -49,7 +49,7 @@ $(() => {
                     message.text("success")
                     x.text().then(JSON.parse).then(sessionCookie => {
                         cookieStore.set("sessionCookie", sessionCookie).then(() => {
-                            window.location.href = "/profile"
+                            window.location.href = "/profile.html"
                         })
                     })
                 }
