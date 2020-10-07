@@ -1,7 +1,7 @@
-﻿
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-  <head>
+
+<head>
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap-theme.min.css">
@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="bootstrap.min.css"/>
+    <link rel="stylesheet" href="bootstrap.min.css" />
     <title>Qwest Login</title>
     <style>
         body {
@@ -37,7 +37,8 @@
         }
 
         /* visited link */
-        a:visited, a:active {
+        a:visited,
+        a:active {
             color: purple;
         }
 
@@ -51,21 +52,20 @@
             padding: 0;
         }
     </style>
-  </head>
-  <body class="text-center">
-    <form class="form-signin">
-        <div class="container no-padding" id="inputs">
-            <img src="QWestLogo.png">
-            <h1>Login</h1>
-            <input id="email_input" type="email" class="form-control" placeholder="Email address" required
-                autofocus /><br />
-            <input id="password_input" type="password" class="form-control" placeholder="Password" required /><br />
-        </div>
-        <div class="container">
-            <button id="login_button" class="btn btn-lg btn-primary btn-block" type="submit">login</button>
-            <br>
-            <p id="message">New explorer? You can <a href="http://localhost:8080/sign_up.html">Sign up</a> here!</p>
+</head>
 
-        </div>
-    </form>
+<body class="text-center">
+    <div class="container no-padding" id="inputs">
+        <img src="QWestLogo.png">
+        <h1>Login</h1>
+        <input id="email_input" type="email" class="form-control" placeholder="Email address" required
+            autofocus /><br />
+        <input id="password_input" type="password" class="form-control" placeholder="Password" required /><br />
+    </div>
+    <div class="container">
+        <button id="login_button" class="btn btn-lg btn-primary btn-block">login</button>
+        <br>
+        <p id="message">New explorer? You can <a href="http://localhost:8080/sign_up.html">Sign up</a> here!</p>
+
+    </div>
 </html>

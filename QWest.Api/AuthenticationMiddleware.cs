@@ -1,8 +1,10 @@
 ﻿using Microsoft.Owin;
 using Model;
 using QWest.DataAcess;
+using System;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace QWest.Api {
@@ -16,7 +18,7 @@ namespace QWest.Api {
                 return;
             }
             var cookie = cookies[0].Value;
-            var value = WebUtility.UrlDecode(cookie);
+            var value = cookie;
             if (value == "") {
                 await Next.Invoke(context);
                 return;
@@ -25,7 +27,7 @@ namespace QWest.Api {
                 value = value.Substring(1, value.Length - 2);
             }
             User user = await DAO.User.GetBySessionCookie(value);
-            if(user == null) {
+            if (user == null) {
                 await Next.Invoke(context);
                 return;
             }
