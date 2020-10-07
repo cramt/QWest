@@ -1,25 +1,28 @@
 ﻿<!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <title>Map</title>
     <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" 
-        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="svgMap.css" rel="stylesheet">
     <script src="svgMap.js"></script>
     <script src="svg-pan-zoom.min.js"></script>
     <!--svg map npm package doesnt work but for some reason their prebuilt js does ¯\_(ツ)_/¯-->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="map.css">
 
-  </head>
-  <body>
+</head>
+
+<body>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" id="navId">
         <li class="nav-item dropdown ml-auto">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-o" aria-hidden="false"></i>&nbsp;
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                aria-expanded="false"><i class="fa fa-user-o" aria-hidden="false"></i>&nbsp;
                 User</a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="#tab2Id">User settings</a>
@@ -31,7 +34,7 @@
             <a href="#tab4Id" class="nav-link">Another link</a>
         </li>
     </ul>
-    
+
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane fade show active" id="tab1Id" role="tabpanel"></div>
@@ -40,6 +43,12 @@
         <div class="tab-pane fade" id="tab4Id" role="tabpanel"></div>
         <div class="tab-pane fade" id="tab5Id" role="tabpanel"></div>
     </div>
+
     <div id="svgMap" class="fullscreen"></div>
-  </body>
+
+    <ul class='custom-menu'>
+        
+    </ul>
+</body>
+
 </html>
