@@ -50,6 +50,9 @@
     <Content Include="public\bootstrap.min.css" />
     <Content Include="public\bootstrap.min.css.map" />
     <Content Include="public\home.css" />
+    <Content Include="public\login.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\map.css" />
     <Content Include="public\svgMap.css" />
     <Content Include="public\svgMap.js" />
