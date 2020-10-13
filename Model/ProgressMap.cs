@@ -1,12 +1,13 @@
 ﻿using GeographicSubdivision.Provider;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Model {
+    [Serializable]
     public class ProgressMap {
-
         public int? Id { get; set; }
 
         public Collection<string> Locations { get; }

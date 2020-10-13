@@ -74,6 +74,13 @@ namespace GeographicSubdivision.Provider {
                 return "Country";
             }
         }
+
+        public override string Code {
+            get {
+                return Alpha2;
+            }
+        }
+
         public override string GetFullId() {
             return Alpha2;
         }

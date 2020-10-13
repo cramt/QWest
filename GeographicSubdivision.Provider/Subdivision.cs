@@ -17,8 +17,7 @@ namespace GeographicSubdivision.Provider {
         [JsonIgnore]
         internal Country _parentCountry;
 
-        [JsonIgnore]
-        public string Code { get { return _code; } }
+        public override string Code { get { return _code; } }
 
         public override string Type { get { return _type; } }
 
@@ -37,7 +36,7 @@ namespace GeographicSubdivision.Provider {
             else {
                 parentId = _parent.GetFullId();
             }
-            return Code + "-" + parentId;
+            return parentId + "-" + Code;
         }
     }
 }

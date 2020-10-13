@@ -1,9 +1,11 @@
 import $ from "jquery";
-import { userPromise } from "../whoami";
+import { fetchUser } from "../whoami";
+import { mapOutStaticData } from "../mapOutStaticData"
+import { mapOutVisitation } from "../mapOutVisitation";
 
 async function fetchData() {
     let userDataPromise = (async () => {
-        let user = await userPromise
+        let user = await fetchUser()
         let progressMapRequest = await fetch("/api/ProgressMap/UserId?id=" + user.id, {
             method: "GET",
             headers: {
@@ -64,35 +66,12 @@ const renderMap = (staticData) => {
     return map
 }
 
-const mapOutStaticData = (staticData, prop = "alpha_2") => {
-    if (staticData.length === 0) {
-        return []
-    }
-    return staticData.reduce((acc, x) => {
-        acc[x[prop]] = x
-        x.subdivision = mapOutStaticData(x.subdivision, "code")
-        return acc
-    }, {})
-}
-
 $(async () => {
     let { userData, staticData } = await fetchData();
     userData.progressMap.locations.push("DK-81")
     userData.progressMap.locations = userData.progressMap.locations.map(x => x.split("-"))
     let staticDataMap = mapOutStaticData(staticData)
-    userData.progressMap.locations.forEach(location => {
-        let country = staticDataMap[location[0]]
-        if (location.length == 1) {
-            country.visited = true
-        }
-        else {
-            let curr = country;
-            for (let i = 1; i < location.length; i++) {
-                curr = curr.subdivision[location[i]]
-            }
-            curr.visited = true
-        }
-    })
+    mapOutVisitation(userData.progressMap, staticDataMap)
 
     renderMap(staticDataMap)
 

@@ -39,6 +39,9 @@ namespace GeographicSubdivision.Provider {
         }
 
         [JsonIgnore]
+        public abstract string Code { get; }
+
+        [JsonIgnore]
         public abstract string Type { get; }
         public abstract string GetFullId();
     }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,19 +31,19 @@ namespace GeographicSubdivision.Provider {
             NameMap = nameMap.ToDictionary(x => x.Key, x => x.Value as IReadOnlyCollection<AbstractLocation>);
 
             Dictionary<string, List<AbstractLocation>> alpha2Map = new Dictionary<string, List<AbstractLocation>>();
-            foreach (AbstractLocation dividable in Entities) {
-                string id = dividable.GetFullId();
+            foreach (AbstractLocation location in Entities) {
+                string id = location.GetFullId();
                 if (!alpha2Map.ContainsKey(id)) {
                     alpha2Map.Add(id, new List<AbstractLocation>());
                 }
-                alpha2Map[id].Add(dividable);
+                alpha2Map[id].Add(location);
 
             };
             Alpha2Map = alpha2Map.ToDictionary(x => x.Key, x => x.Value as IReadOnlyCollection<AbstractLocation>);
         }
 
-        public IEnumerable<Subdivision> Traverse(AbstractLocation subdividable) {
-            return subdividable.Subdivisions.Select(Traverse).SelectMany(i => i);
+        public IEnumerable<Subdivision> Traverse(AbstractLocation location) {
+            return location.Subdivisions.Select(Traverse).SelectMany(i => i).Concat(location.Subdivisions);
         }
 
         public IReadOnlyCollection<Country> Countries { get; }
