@@ -68,7 +68,6 @@ const renderMap = (staticData) => {
 
 $(async () => {
     let { userData, staticData } = await fetchData();
-    userData.progressMap.locations.push("DK-81")
     userData.progressMap.locations = userData.progressMap.locations.map(x => x.split("-"))
     let staticDataMap = mapOutStaticData(staticData)
     mapOutVisitation(userData.progressMap.locations, staticDataMap)

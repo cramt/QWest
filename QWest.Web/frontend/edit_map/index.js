@@ -4,8 +4,8 @@ import { mapOutStaticData } from "../mapOutStaticData";
 import { mapOutVisitation } from "../mapOutVisitation";
 
 const url = new URL(window.location.href);
-const alpha2 = url.searchParams.get("alpha2")
-if (alpha2 === undefined) {
+const alpha2 = url.searchParams.get("alpha_2")
+if (alpha2 === null) {
     window.location.href = "/map.html"
 }
 
@@ -95,7 +95,8 @@ $(async () => {
         });
         if (request.status !== 200) {
             console.log("error " + request.status)
+            console.log(await request.text())
         }
-        console.log(await request.text())
+        window.location.href = "/map.html"
     })
 })
