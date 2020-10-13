@@ -26,5 +26,21 @@ namespace QWest.Api.Controllers {
                 return Request.CreateResponse(HttpStatusCode.OK, await DAO.ProgressMap.GetByUserId((int)id));
             }
         }
+        public class UpdateArgument {
+            public int id;
+            public List<string> additions;
+            public List<string> subtractions;
+        }
+        [HttpPost]
+        [ResponseType(typeof(bool))]
+        public async Task<HttpResponseMessage> Change([FromBody] UpdateArgument argument) {
+            User user = Request.GetOwinContext().Get<User>("user");
+            ProgressMap map = await DAO.ProgressMap.Get(user);
+            if(argument.id != map.Id) {
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            await DAO.ProgressMap.Update(argument.id, argument.additions, argument.subtractions);
+            return Request.CreateResponse(HttpStatusCode.OK, true);
+        }
     }
 }

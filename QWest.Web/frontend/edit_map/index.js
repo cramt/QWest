@@ -34,6 +34,9 @@ const staticDataPromise = (async () => {
     return JSON.parse(await request.text())
 })()
 
+const additions = []
+const subtractions = []
+
 $(async () => {
     const [progressMap, staticData] = await Promise.all([progressMapPromise, staticDataPromise])
     progressMap.locations = progressMap.locations.map(x => x.substring(alpha2.length + 1).split("-"))
@@ -41,6 +44,7 @@ $(async () => {
     mapOutVisitation(progressMap.locations, staticDataMap)
     const title = $("#title")
     const subdivisionList = $("#subdivision_list")
+    const saveButton = $("#save")
     title.text("Edit " + staticData.name)
     staticData.subdivision.forEach(subdivision => {
         const entry = $("<li></li>")
@@ -49,9 +53,23 @@ $(async () => {
         entry.append(label)
         if (subdivision.subdivision.length === 0) {
             const check = $("<input type=\"checkbox\"/>")
-            if (subdivision.visited) {
+            const originalPossition = subdivision.visited
+            if (originalPossition) {
                 check.prop("checked", true)
             }
+            const array = originalPossition ? subtractions : additions
+            check.on("click", e => {
+                const checked = e.currentTarget.checked
+                if (checked === originalPossition) {
+                    let index = array.indexOf(subdivision.code)
+                    if (index !== -1) {
+                        array.splice(index, 1)
+                    }
+                }
+                else {
+                    array.push(subdivision.code)
+                }
+            })
             entry.append(check)
         }
         else {
@@ -59,5 +77,25 @@ $(async () => {
             entry.append(next)
         }
         subdivisionList.append(entry)
+    })
+    saveButton.on("click", async () => {
+        let add = additions.map(x => alpha2 + "-" + x)
+        let sub = subtractions.map(x => alpha2 + "-" + x)
+        let request = await fetch("/api/ProgressMap/Change", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: progressMap.id,
+                additions: add,
+                subtractions: sub
+            })
+        });
+        if (request.status !== 200) {
+            console.log("error " + request.status)
+        }
+        console.log(await request.text())
     })
 })
