@@ -8,6 +8,7 @@ namespace Model {
         public int? Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
+        public string Description { get; set; }
         [JsonIgnore]
         public byte[] PasswordHash { get; private set; }
         [JsonIgnore]
@@ -16,28 +17,31 @@ namespace Model {
         public ProgressMap ProgressMap { get; set; }
 
         public User(string username, string password, string email)
-            : this(username, password, email, null) {
+            : this(username, password, email, "") {
 
         }
-        public User(string username, string password, string email, byte[] sessionCookie)
-            : this(username, password, email, sessionCookie, null) {
+        public User(string username, string password, string email, string description) :
+            this(username, password, email, description, null) { }
+        public User(string username, string password, string email, string description, byte[] sessionCookie)
+            : this(username, password, email, description, sessionCookie, null) {
 
         }
-        public User(string username, string password, string email, byte[] sessionCookie, int? id)
-            : this(username, HashPassword(password), email, sessionCookie, id) {
+        public User(string username, string password, string email, string description, byte[] sessionCookie, int? id)
+            : this(username, HashPassword(password), email, description, sessionCookie, id) {
 
         }
-        public User(string username, byte[] password, string email, byte[] sessionCookie, int? id)
-            : this(username, password, email, sessionCookie.MapValue(Convert.ToBase64String), id) {
+        public User(string username, byte[] password, string email, string description, byte[] sessionCookie, int? id)
+            : this(username, password, email, description, sessionCookie.MapValue(Convert.ToBase64String), id) {
 
         }
-        public User(string username, byte[] passwordHash, string email, string sessionCookie, int? id) {
+        public User(string username, byte[] passwordHash, string email, string description, string sessionCookie, int? id) {
             Id = id;
             Username = username;
             Email = email;
             PasswordHash = passwordHash;
             SessionCookie = sessionCookie;
             ProgressMap = null;
+            Description = description;
         }
         private static byte[] HashPassword(string password) {
             byte[] salt;
