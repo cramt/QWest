@@ -5,6 +5,7 @@ using Owin;
 using System.Collections.Generic;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using static Utilities.Utilities;
 
 namespace QWest.Api {
     public class Startup {
@@ -16,7 +17,7 @@ namespace QWest.Api {
                 defaults: new { id = RouteParameter.Optional }
             );
             JsonSerializerSettings defaultSettings = new JsonSerializerSettings {
-                Formatting = Formatting.Indented,
+                Formatting = DebugMode ? Formatting.Indented : Formatting.None,
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             };

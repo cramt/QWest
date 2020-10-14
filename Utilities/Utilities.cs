@@ -10,6 +10,12 @@ using System.Threading.Tasks;
 
 namespace Utilities {
     public static class Utilities {
+
+#if DEBUG
+        public const bool DebugMode = true;
+#else
+        public const bool DebugMode = false;
+#endif
         public static Process DynamicShell(string command, Action<string> onStdOut, string cwd = null) {
             if (cwd == null) {
                 cwd = Directory.GetCurrentDirectory();
