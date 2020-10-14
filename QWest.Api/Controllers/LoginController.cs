@@ -21,8 +21,7 @@ namespace QWest.Apis {
             if (user == null || !user.VerifyPassword(argument.password)) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            user.NewSessionCookie();
-            await DAO.User.Update(user);
+            await DAO.User.SetNewSessionCookie(user);
             return Request.CreateResponse(HttpStatusCode.OK, user.SessionCookie);
         }
         [ResponseType(typeof(User))]

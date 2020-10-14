@@ -74,6 +74,29 @@ namespace QWest.DataAcess {
                     .FirstOrDefault();
                 return user;
             }
+
+            public static async Task<RUser> SetNewSessionCookie(RUser user) {
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("" +
+                    "DECLARE @value BINARY(20); " +
+                    "DECLARE @temp_val BINARY(20); " +
+                    "" +
+                    "SET @value = NULL; " +
+                    "SET @temp_val = NULL; " +
+                    "" +
+                    "WHILE @value IS NULL " +
+                    "BEGIN " +
+                    "SET @temp_val = convert(binary(8), RAND()) + convert(binary(8), RAND()) + convert(binary(4), RAND());" +
+                    "IF (SELECT COUNT(*) FROM users where session_cookie = @temp_val) < 1" +
+                    "BEGIN " +
+                    "SET @value = @temp_val; " +
+                    "END " +
+                    "END " +
+                    "UPDATE users SET session_cookie = @value WHERE id = @id" +
+                    "SELECT @value");
+                stmt.Parameters.AddWithValue("@id", user.Id);
+                user.SessionCookie = Convert.ToBase64String((await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlBinary(0).Value).FirstOrDefault());
+                return user;
+            }
         }
     }
 }

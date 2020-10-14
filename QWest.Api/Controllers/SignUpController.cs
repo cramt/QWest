@@ -11,7 +11,7 @@ namespace QWest.Apis {
             public string username;
 
             public User ToUser() {
-                return new User(username, password, email).NewSessionCookie();
+                return new User(username, password, email);
             }
         }
 
@@ -19,6 +19,8 @@ namespace QWest.Apis {
         public async Task<string> Register([FromBody] RegisterArgument argument) {
             User user = argument.ToUser();
             await DAO.User.Add(user);
+            await DAO.User.SetNewSessionCookie(user);
+            //TODO: optimize
             return user.SessionCookie;
         }
     }

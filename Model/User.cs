@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography;
+using Utilities;
 
 namespace Model {
     public class User {
@@ -10,7 +11,7 @@ namespace Model {
         [JsonIgnore]
         public byte[] PasswordHash { get; private set; }
         [JsonIgnore]
-        public string SessionCookie { get; private set; }
+        public string SessionCookie { get; set; }
         [JsonIgnore]
         public ProgressMap ProgressMap { get; set; }
 
@@ -27,7 +28,7 @@ namespace Model {
 
         }
         public User(string username, byte[] password, string email, byte[] sessionCookie, int? id)
-            : this(username, password, email, sessionCookie == null ? null : Convert.ToBase64String(sessionCookie), id) {
+            : this(username, password, email, sessionCookie.MapValue(Convert.ToBase64String), id) {
 
         }
         public User(string username, byte[] passwordHash, string email, string sessionCookie, int? id) {
@@ -60,13 +61,6 @@ namespace Model {
                 }
             }
             return true;
-        }
-        public User NewSessionCookie() {
-            Random rng = new Random();
-            byte[] bytes = new byte[20];
-            rng.NextBytes(bytes);
-            SessionCookie = Convert.ToBase64String(bytes);
-            return this;
         }
 
         public User NewPassword(string password) {
