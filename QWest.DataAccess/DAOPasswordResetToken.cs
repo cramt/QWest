@@ -39,10 +39,10 @@ namespace QWest.DataAcess {
 
             public static async Task<RUser> GetUser(string stringToken) {
                 byte[] token = Convert.FromBase64String(stringToken);
-                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT id, username, password_hash, email, session_cookie FROM users INNER JOIN password_reset_tokens ON users_id = id WHERE token = @token");
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT id, username, password_hash, email, session_cookie, description FROM users INNER JOIN password_reset_tokens ON users_id = id WHERE token = @token");
                 stmt.Parameters.AddWithValue("@token", token);
                 return (await stmt.ExecuteReaderAsync())
-                    .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(4).Value))
+                    .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(5).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(4).Value))
                     .FirstOrDefault();
             }
 

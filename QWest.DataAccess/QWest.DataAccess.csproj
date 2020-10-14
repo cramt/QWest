@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionWrapper.cs" />
+    <Compile Include="DAOPost.cs" />
     <Compile Include="DAOPasswordResetToken.cs" />
     <Compile Include="DAOProgressMap.cs" />
     <Compile Include="DAOUser.cs" />
@@ -104,6 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\7.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\8.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

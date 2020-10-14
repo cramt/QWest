@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Model {
-    [Serializable]
     public class ProgressMap {
         public int? Id { get; set; }
 

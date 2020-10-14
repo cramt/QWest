@@ -17,11 +17,10 @@ namespace QWest.DataAcess {
                 }
                 SqlCommand stmt = ConnectionWrapper.CreateCommand("INSERT INTO progress_maps DEFAULT VALUES;" +
                     "INSERT INTO users (username, password_hash, email, session_cookie, progress_maps_id) VALUES " +
-                    "(@username, @password_hash, @email, @session_cookie, (SELECT CAST(scope_identity() AS int))); SELECT CAST(scope_identity() AS int)");
+                    "(@username, @password_hash, @email, NULL, (SELECT CAST(scope_identity() AS int))); SELECT CAST(scope_identity() AS int)");
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@email", user.Email);
-                stmt.Parameters.AddWithValue("@session_cookie", Convert.FromBase64String(user.SessionCookie));
                 user.Id = (int)await stmt.ExecuteScalarAsync();
             }
             public static async Task Update(RUser user) {
@@ -92,10 +91,12 @@ namespace QWest.DataAcess {
                     "SET @value = @temp_val; " +
                     "END " +
                     "END " +
-                    "UPDATE users SET session_cookie = @value WHERE id = @id" +
+                    "UPDATE users SET session_cookie = @value WHERE id = @user_id;" +
                     "SELECT @value");
-                stmt.Parameters.AddWithValue("@id", user.Id);
-                user.SessionCookie = Convert.ToBase64String((await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlBinary(0).Value).FirstOrDefault());
+                stmt.Parameters.AddWithValue("@user_id", user.Id);
+                var v = (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlBinary(0).Value).FirstOrDefault();
+
+                user.SessionCookie = Convert.ToBase64String(v);
                 return user;
             }
         }

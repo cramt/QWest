@@ -21,6 +21,9 @@ namespace Config {
         [JsonProperty("gmail_password")]
         private string _gmailPassword;
 
+        [JsonProperty("start_year")]
+        private uint _startYear;
+
         public string DatabaseConnectionString {
             get {
                 return _databaseConnectionString;
@@ -48,6 +51,18 @@ namespace Config {
         public string GmailPassword {
             get {
                 return _gmailPassword;
+            }
+        }
+
+        public uint StartYear {
+            get {
+                return _startYear;
+            }
+        }
+
+        public DateTime StartDate {
+            get {
+                return new DateTime((int)StartYear, 1, 1);
             }
         }
 
