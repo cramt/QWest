@@ -8,9 +8,9 @@ namespace Model {
         public string Username { get; set; }
         public string Email { get; set; }
         [JsonIgnore]
-        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordHash { get; private set; }
         [JsonIgnore]
-        public string SessionCookie { get; set; }
+        public string SessionCookie { get; private set; }
         [JsonIgnore]
         public ProgressMap ProgressMap { get; set; }
 
@@ -66,6 +66,16 @@ namespace Model {
             byte[] bytes = new byte[20];
             rng.NextBytes(bytes);
             SessionCookie = Convert.ToBase64String(bytes);
+            return this;
+        }
+
+        public User NewPassword(string password) {
+            PasswordHash = HashPassword(password);
+            return this;
+        }
+
+        public User ResetSessionCookie() {
+            SessionCookie = null;
             return this;
         }
     }

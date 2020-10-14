@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -68,23 +70,17 @@ namespace Utilities {
             }).Where(x => x != null).Select(x => x.Value).Distinct().Select(x => Shell("taskkill /F /pid " + x)));
         }
 
-        public class ListDifferenceResult<T> {
-            public List<T> Additions { get; }
-            public List<T> Subtractions { get; }
-            public int Count {
-                get => Additions.Count + Subtractions.Count;
-            }
-            public ListDifferenceResult(List<T> additions, List<T> subtractions) {
-                Additions = additions;
-                Subtractions = subtractions;
-            }
-        }
-
-        public static ListDifferenceResult<T> ListDifference<T>(List<T> list1, List<T> list2) where T : IComparable {
-            return new ListDifferenceResult<T>(
-                list2.Except(list1).ToList(),
-                list1.Except(list2).ToList()
-            );
+        public static void SendEmail(string toAddress, string subject, string body) {
+            MailMessage mail = new MailMessage();
+            SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+            mail.From = new MailAddress("no_response@qwest.com");
+            mail.To.Add(toAddress);
+            mail.Subject = subject;
+            mail.Body = body;
+            smtpServer.Port = 587;
+            smtpServer.Credentials = new NetworkCredential(Config.Config.Instance.GmailUsername, Config.Config.Instance.GmailPassword);
+            smtpServer.EnableSsl = true;
+            smtpServer.Send(mail);
         }
     }
 }
