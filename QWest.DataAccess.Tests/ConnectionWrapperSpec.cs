@@ -8,7 +8,7 @@ using Utilities;
 
 namespace QWest.DataAccess.Tests {
     [TestFixture]
-    public class DatabaseTest {
+    public class ConnectionWrapperSpec {
         [Test]
         public void NotNull() {
             Assert.NotNull(ConnectionWrapper.Instance);
@@ -19,7 +19,7 @@ namespace QWest.DataAccess.Tests {
             Assert.True(scripts[0].Name.EndsWith("1.sql"));
         }
         [Test]
-        public void Migration() {
+        public void MigrationsSucceed() {
             List<string> names = ConnectionWrapper.CreateCommand("SELECT name FROM sys.tables").ExecuteReader()
                 .ToIterator(reader => reader.GetSqlString(0).Value).ToList();
             
