@@ -18,32 +18,32 @@ namespace Model {
             : this(contents, user, PostUploadTime, images, null) {
 
         }
-        public PostUpload(string contents, User user, int PostUploadTime, List<byte[]> images, int? id)
-            : this(contents, user, unchecked((uint)PostUploadTime), images, null, id) {
+        public PostUpload(string contents, User user, int postTime, List<byte[]> images, int? id)
+            : this(contents, user, unchecked((uint)postTime), images, null, id) {
 
         }
-        public PostUpload(string contents, User user, uint PostUploadTime, List<byte[]> images)
-            : this(contents, user, PostUploadTime, images, null) {
+        public PostUpload(string contents, User user, uint postTime, List<byte[]> images)
+            : this(contents, user, postTime, images, null) {
         }
-        public PostUpload(string contents, User user, uint PostUploadTime, List<byte[]> images, string locationId)
-            : this(contents, user, PostUploadTime, images, locationId, null) {
+        public PostUpload(string contents, User user, uint postTime, List<byte[]> images, string locationId)
+            : this(contents, user, postTime, images, locationId, null) {
         }
-        public PostUpload(string contents, User user, uint PostUploadTime, List<byte[]> images, string locationId, int? id)
-            : this(contents, user, Config.Config.Instance.StartDate.AddSeconds(PostUploadTime), images, locationId, id) {
+        public PostUpload(string contents, User user, uint postTime, List<byte[]> images, string locationId, int? id)
+            : this(contents, user, Config.Config.Instance.StartDate.AddSeconds(postTime), images, locationId, id) {
         }
-        public PostUpload(string contents, User user, DateTime PostUploadTime, List<byte[]> images)
-            : this(contents, user, PostUploadTime, images, null) {
+        public PostUpload(string contents, User user, DateTime postTime, List<byte[]> images)
+            : this(contents, user, postTime, images, null) {
 
         }
 
-        public PostUpload(string contents, User user, DateTime PostUploadTime, List<byte[]> images, string locationId)
-            : this(contents, user, PostUploadTime, images, locationId, null) {
+        public PostUpload(string contents, User user, DateTime postTime, List<byte[]> images, string locationId)
+            : this(contents, user, postTime, images, locationId, null) {
 
         }
-        public PostUpload(string contents, User user, DateTime PostUploadTime, List<byte[]> images, string locationId, int? id) {
+        public PostUpload(string contents, User user, DateTime postTime, List<byte[]> images, string locationId, int? id) {
             Contents = contents;
             User = user;
-            PostUploadTime = PostUploadTime;
+            PostTime = postTime;
             Images = images;
             Id = id;
             LocationId = locationId;

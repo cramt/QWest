@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionWrapper.cs" />
+    <Compile Include="DAOImage.cs" />
     <Compile Include="DAOPost.cs" />
     <Compile Include="DAOPasswordResetToken.cs" />
     <Compile Include="DAOProgressMap.cs" />

@@ -1,6 +1,10 @@
 ﻿using Model;
+using QWest.Api;
 using QWest.DataAcess;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -20,12 +24,7 @@ namespace QWest.Apis {
             }
             upload.User = user;
             if (Request.Content.IsMimeMultipartContent()) {
-                var provider = new MultipartMemoryStreamProvider();
-                await Request.Content.ReadAsMultipartAsync(provider);
-                upload.Images = (await Task.WhenAll(provider.Contents.Select(file => {
-                    //TODO: check for mine type
-                    return file.ReadAsByteArrayAsync();
-                }))).ToList();
+                upload.Images = await Utils.GetImages(Request);
             }
             else {
                 upload.Images = new List<byte[]>();

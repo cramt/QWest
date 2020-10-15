@@ -1,5 +1,8 @@
 ﻿using Model;
+using QWest.Api;
 using QWest.DataAcess;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -59,6 +62,24 @@ namespace QWest.Apis {
             user.NewPassword(argument.password);
             await Task.WhenAll(new Task[] { DAO.User.Update(user), DAO.PasswordResetToken.DeleteToken(argument.token) });
             return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        [ResponseType(typeof(void))]
+        [HttpPost]
+        public async Task<HttpResponseMessage> UpdateProfilePicture() {
+            User user = Request.GetOwinContext().Get<User>("user");
+            if (user == null) {
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            if (!Request.Content.IsMimeMultipartContent()) {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "no file sent");
+            }
+            byte[] image = (await Utils.GetImages(Request)).FirstOrDefault();
+            if (image == null) {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "no file sent");
+            }
+            //TODO: DAO stuff
+            return null;
         }
     }
 }
