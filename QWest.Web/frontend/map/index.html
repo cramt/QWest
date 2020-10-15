@@ -12,36 +12,30 @@
     <script src="svg-pan-zoom.min.js"></script>
     <!--svg map npm package doesnt work but for some reason their prebuilt js does ¯\_(ツ)_/¯-->
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="map.css">
 
 </head>
 
 <body>
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" id="navId">
-        <li class="nav-item dropdown ml-auto">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="http://localhost:8080/profile.html" role="button" aria-haspopup="true"
-                aria-expanded="false"><i class="fa fa-user-o" aria-hidden="false"></i>&nbsp;
-                User</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#tab2Id">User settings</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#tab3Id">Log out</a>
+    <!-- Epic top bar -->
+    <div class="cover-container d-flex w-max h-max p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+            <img id="qwest-logo" src="QWestLogo.png">
+            <h3 class="masthead-brand">QWest - Map</h3>
+            <nav class="nav nav-masthead justify-content-center">
+                <a id="viewmap" class="nav-link active" href="http://localhost:8080/profile.html">View profile</a>
+                <a id="user-settings" class="nav-link" href="http://localhost:8080/settings.html">Profile settings</a>
+                <a id="logout-button" class="nav-link" href="#">Log out</a>
+            </nav>
             </div>
-        </li>
-        <li class="nav-item">
-            <a href="#tab4Id" class="nav-link">Another link</a>
-        </li>
-    </ul>
-
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div class="tab-pane fade show active" id="tab1Id" role="tabpanel"></div>
-        <div class="tab-pane fade" id="tab2Id" role="tabpanel"></div>
-        <div class="tab-pane fade" id="tab3Id" role="tabpanel"></div>
-        <div class="tab-pane fade" id="tab4Id" role="tabpanel"></div>
-        <div class="tab-pane fade" id="tab5Id" role="tabpanel"></div>
+        </header>
+        <main class="inner cover" role="main">
+            <div id="svgMap" class="fullscreen"></div>
+            <ul class='custom-menu'></ul>
+        </main>
     </div>
 
     <div id="svgMap" class="fullscreen"></div>

@@ -70,6 +70,7 @@ $(async () => {
     let { userData, staticData } = await fetchData();
     userData.progressMap.locations = userData.progressMap.locations.map(x => x.split("-"))
     let staticDataMap = mapOutStaticData(staticData)
+    let logoutButton = $("#logout-button")
     mapOutVisitation(userData.progressMap.locations, staticDataMap)
 
     renderMap(staticDataMap)
@@ -88,5 +89,10 @@ $(async () => {
             top: e.pageY + "px",
             left: e.pageX + "px"
         })
+    })
+    
+    logoutButton.on("click", async() => {
+        await cookieStore.delete("sessionCookie")
+        window.location.href = "/login.html"
     })
 })

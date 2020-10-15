@@ -5,23 +5,45 @@
     <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="profile.css">
     <meta charset="utf-8" />
     <meta name="viewport" 
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Settings</title>
+    <title>Profile</title>
 </head>
-<body>
-    <!-- Nav tabs -->
-    <ul class="nav justify-content-end">
-        <li class="nav-item">
-            <a id="viewmap" class="nav-link" href="http://localhost:8080/map.html">View map</a>
-        </li>
-        <li class="nav-item">
-            <a id="user-settings" class="nav-link active" href="http://localhost:8080/settings.html">User settings</a>
-        </li>
-        <li class="nav-item">
-            <a id="logout-button" class="nav-link" href="#">Log out</a>
-        </li>
-    </ul>
+<body class="text-center">
+    <!-- Epic top bar -->
+    <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <img id="qwest-logo" src="QWestLogo.png">
+                <h3 class="masthead-brand">QWest - Profile</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a id="viewmap" class="nav-link active" href="http://localhost:8080/map.html">View map</a>
+                    <a id="user-settings" class="nav-link" href="http://localhost:8080/settings.html">Profile settings</a>
+                    <a id="logout-button" class="nav-link" href="#">Log out</a>
+                </nav>
+            </div>
+        </header>
+        <main class="inner cover" role="main">
+            <h2 class="percent">Completion percent: 69%</h2>
+            <p class="lead">
+                <a id="friends-button" class="btn btn-lg btn-secondary" href="http://localhost:8080/friends.html">Friends</a>
+            </p>
+            <p class="lead">
+                <a id="update-user-button" class="btn btn-lg btn-secondary" href="http://localhost:8080/update_user.html">Update username or E-mail</a>
+            </p>
+            <p class="lead">
+                <a id="change-password-button" class="btn btn-lg btn-secondary" href="http://localhost:8080/update_password.html">Change password</a>
+            </p>
+        </main>
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>
+                    QWest footer is down here, and you can read it too!
+                </p>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>
