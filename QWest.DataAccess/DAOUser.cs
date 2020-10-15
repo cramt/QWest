@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -31,7 +32,7 @@ namespace QWest.DataAcess {
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@id", user.Id);
-                stmt.Parameters.AddWithValue("@session_cookie", (user.SessionCookie.MapValue(Convert.FromBase64String) as object).UnwrapOr(DBNull.Value));
+                stmt.Parameters.AddWithValue("@session_cookie", (user.SessionCookie.MapValue(Convert.FromBase64String) as object).UnwrapOr(SqlBinary.Null));
                 stmt.Parameters.AddWithValue("@email", user.Email);
                 stmt.Parameters.AddWithValue("@description", user.Description);
                 await stmt.ExecuteNonQueryAsync();
