@@ -31,7 +31,7 @@ namespace QWest.DataAcess {
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@id", user.Id);
-                stmt.Parameters.AddWithValue("@session_cookie", Convert.FromBase64String(user.SessionCookie));
+                stmt.Parameters.AddWithValue("@session_cookie", user.SessionCookie.MapValue(Convert.FromBase64String));
                 stmt.Parameters.AddWithValue("@email", user.Email);
                 stmt.Parameters.AddWithValue("@description", user.Description);
                 await stmt.ExecuteNonQueryAsync();
