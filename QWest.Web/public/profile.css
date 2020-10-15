@@ -1,48 +1,137 @@
-/* Dropdown Button */
-.dropbtn {
-    background-color: #3498DB;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
+/*
+html {
+    height: 100%;
+}
+*/
+
+/* For some reason, the flex box doesn't work. I'll fix that later */
+body {
+    display: flex;
+    display: -ms-flexbox;
+    color: #0056b3;
+    text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+    box-shadow: inset 0 0 1rem .1rem rgba(0, 0, 0, .5);;
+    background-color: #E5FFEE;
+    min-height: 100%;
 }
 
-    /* Dropdown button on hover & focus */
-    .dropbtn:hover, .dropbtn:focus {
-        background-color: #2980B9;
+#qwest-logo {
+    float: left;
+    size: 50%;
+}
+
+#viewmap,
+#user-settings,
+#logout-button {
+    font-size: larger;
+    margin-top: auto;
+}
+
+.cover-container {
+    display: flex;
+    max-width: em;
+    min-width: 50em;
+    flex-direction: column;
+    flex: 1;
+}
+
+#friends-button, #update-user-button, #change-password-button {
+    width: 400px;
+}
+
+.lead {
+    font-size: 1.50rem;
+    font-weight: 300;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.ml-auto, .mx-auto, .mb-auto, .my-auto {
+    margin-top: auto !important;
+}
+
+.masthead {
+    margin-bottom: 2rem;
+}
+
+.masthead-brand {
+    margin-bottom: 0;
+    color: #0056b3;
+}
+
+.nav-masthead {
+    float: right;
+}
+
+.nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.justify-content-center {
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+}
+
+.d-flex {
+    display: flex !important;
+    flex-direction: column;
+}
+
+.h-80 {
+    height: 100% !important
+}
+
+.w-600 {
+    width: 100% !important;
+}
+
+header {
+    display: block;
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+.text-center {
+    text-align: center !important;
+
+}
+
+@media (min-width: 48em) {
+    .masthead-brand {
+      float: left;
     }
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    position: relative;
-    display: inline-block;
+    .nav-masthead {
+      float: right;
+    }
+    .d-flex {
+        flex: 100%;
+    }
 }
 
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
+.mastfoot {
+    box-sizing: border-box;
     display: block;
+    float: none;
+    line-height: 24px;
+    position: static;
+    z-index: auto;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    background-color: #ddd
+.cover {
+    padding: 0 1.5rem;
 }
-
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {
-    display: block;
+.cover .btn-lg {
+    padding: .75rem 1.25rem;
+    font-weight: 700;
 }
