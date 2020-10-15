@@ -5,7 +5,7 @@
 	post_time INT NOT NULL,
 	location_id VARCHAR(MAX),
 	PRIMARY KEY (id),
-	FOREIGN KEY (users_id) REFERENCES users(id)
+	FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE images(
@@ -17,6 +17,6 @@ CREATE TABLE images(
 CREATE TABLE posts_images(
 	posts_id INT NOT NULL,
 	images_id INT NOT NULL,
-	FOREIGN KEY(images_id) REFERENCES images(id),
-	FOREIGN KEY(posts_id) REFERENCES posts(id)
+	FOREIGN KEY(images_id) REFERENCES images(id) ON DELETE CASCADE,
+	FOREIGN KEY(posts_id) REFERENCES posts(id) ON DELETE CASCADE
 )
