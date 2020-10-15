@@ -20,6 +20,7 @@ namespace QWest.Apis {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             result.Content = new StreamContent(new MemoryStream(image));
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+            result.Content.Headers.Add("Cache-Control", "max-age=31536000"); //one year
             return result;
         }
     }
