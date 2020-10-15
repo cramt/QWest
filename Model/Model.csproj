@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PostUpload.cs" />
     <Compile Include="ProgressMap.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="User.cs" />
