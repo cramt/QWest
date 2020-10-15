@@ -10,6 +10,8 @@
     "start": "node index.mjs --unhandled-rejections=strict"
   },
   "dependencies": {
+    "@popperjs/core": "^2.5.3",
+    "bootstrap": "^4.5.3",
     "connect": "^3.7.0",
     "cookie-store": "^3.0.0",
     "copy-webpack-plugin": "^6.1.1",

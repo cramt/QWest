@@ -54,6 +54,12 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="public\map.css" />
+    <Content Include="public\profile.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="public\profile.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\svgMap.css" />
     <Content Include="public\svgMap.js" />
     <Content Include="public\svgMap.min.css" />
