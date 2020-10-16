@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -99,6 +100,25 @@ namespace QWest.DataAcess {
 
                 user.SessionCookie = Convert.ToBase64String(v);
                 return user;
+            }
+
+            public static async Task UpdateProfilePicture(byte[] profilePicture, RUser user) {
+                if (user.Id == null) {
+                    throw new ArgumentException("tried to set profile pic of user " + user.Username + " but that user doesnt have an id");
+                }
+                user.ProfilePicture = await UpdateProfilePicture(profilePicture, (int)user.Id);
+            }
+
+            public static async Task<int> UpdateProfilePicture(byte[] profilePicture, int userId) {
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("" +
+                    "DECLARE @image_id INT" +
+                    "INSERT INTO images (image_blob) VALUES (@image_blob);" +
+                    "SET @post_id = CAST(scope_identity() as int);" +
+                    "UPDATE users SET profile_picture = @image_id WHERE id = @id;" +
+                    "SELECT @post_id");
+                stmt.Parameters.AddWithValue("@image_blob", profilePicture);
+                stmt.Parameters.AddWithValue("@id", userId);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlInt32(0).Value).First();
             }
         }
     }

@@ -16,6 +16,7 @@ namespace QWest.DataAccess.Tests {
         [Test]
         public void CorrectOrder() {
             var scripts = new ConnectionWrapper.ScriptProvider().GetScripts(null).ToList();
+            Console.WriteLine(string.Join("\n", scripts.Select(x=>x.Name).ToArray()));
             Assert.True(scripts[0].Name.EndsWith("1.sql"));
         }
         [Test]
@@ -35,6 +36,12 @@ namespace QWest.DataAccess.Tests {
                 }
                 names = newNames;
             }
+
+            names = ConnectionWrapper.CreateCommand("SELECT name FROM sys.tables").ExecuteReader()
+                .ToIterator(reader => reader.GetSqlString(0).Value).ToList();
+
+            Assert.AreEqual(0, names.Count);
+
             ConnectionWrapper.ResetInstance();
             Assert.NotNull(ConnectionWrapper.Instance);
         }
