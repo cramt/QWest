@@ -113,9 +113,9 @@ namespace QWest.DataAcess {
                 SqlCommand stmt = ConnectionWrapper.CreateCommand("" +
                     "DECLARE @image_id INT" +
                     "INSERT INTO images (image_blob) VALUES (@image_blob);" +
-                    "SET @post_id = CAST(scope_identity() as int);" +
+                    "SET @image_id = CAST(scope_identity() as int);" +
                     "UPDATE users SET profile_picture = @image_id WHERE id = @id;" +
-                    "SELECT @post_id");
+                    "SELECT @image_id");
                 stmt.Parameters.AddWithValue("@image_blob", profilePicture);
                 stmt.Parameters.AddWithValue("@id", userId);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlInt32(0).Value).First();
