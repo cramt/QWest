@@ -53,4 +53,4 @@ const watcher = compiler.watch({}, err => {
 connect()
     .use("/api", HttpProxyMiddleware.createProxyMiddleware({ target: `http://localhost:${apiPort}/`, changeOrigin: true }))
     .use(serveStatic("./dist/"))
-    .listen(8080)
+    .listen(port)
