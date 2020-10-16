@@ -111,7 +111,7 @@ namespace QWest.DataAcess {
 
             public static async Task<int> UpdateProfilePicture(byte[] profilePicture, int userId) {
                 SqlCommand stmt = ConnectionWrapper.CreateCommand("" +
-                    "DECLARE @image_id INT" +
+                    "DECLARE @image_id INT;" +
                     "INSERT INTO images (image_blob) VALUES (@image_blob);" +
                     "SET @image_id = CAST(scope_identity() as int);" +
                     "UPDATE users SET profile_picture = @image_id WHERE id = @id;" +
