@@ -37,7 +37,7 @@ body {
     align-items: stretch;
 }
 
-#friends-button, #update-user-button, #change-password-button {
+#friends-button, #update-user-button, #request-password-reset-button {
     width: 400px;
 }
 

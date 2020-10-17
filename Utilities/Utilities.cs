@@ -75,18 +75,5 @@ namespace Utilities {
                 return matches[0];
             }).Where(x => x != null).Select(x => x.Value).Distinct().Select(x => Shell("taskkill /F /pid " + x)));
         }
-
-        public static void SendEmail(string toAddress, string subject, string body) {
-            MailMessage mail = new MailMessage();
-            SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
-            mail.From = new MailAddress("no_response@qwest.com");
-            mail.To.Add(toAddress);
-            mail.Subject = subject;
-            mail.Body = body;
-            smtpServer.Port = 587;
-            smtpServer.Credentials = new NetworkCredential(Config.Config.Instance.GmailUsername, Config.Config.Instance.GmailPassword);
-            smtpServer.EnableSsl = true;
-            smtpServer.Send(mail);
-        }
     }
 }

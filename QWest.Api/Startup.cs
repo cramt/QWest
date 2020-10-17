@@ -10,10 +10,12 @@ using static Utilities.Utilities;
 namespace QWest.Api {
     public class Startup {
         public void Configuration(IAppBuilder app) {
+            //just initializing before we use it
+            var _ = EmailServer.Server.Instance;
             HttpConfiguration config = new HttpConfiguration();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
             JsonSerializerSettings defaultSettings = new JsonSerializerSettings {

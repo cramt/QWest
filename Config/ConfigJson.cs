@@ -15,12 +15,6 @@ namespace Config {
         [JsonProperty("serve_port")]
         private uint _servePort;
 
-        [JsonProperty("gmail_username")]
-        private string _gmailUsername;
-
-        [JsonProperty("gmail_password")]
-        private string _gmailPassword;
-
         [JsonProperty("start_year")]
         private uint _startYear;
 
@@ -39,18 +33,6 @@ namespace Config {
         public uint ServePort {
             get {
                 return _servePort;
-            }
-        }
-
-        public string GmailUsername {
-            get {
-                return _gmailUsername;
-            }
-        }
-
-        public string GmailPassword {
-            get {
-                return _gmailPassword;
             }
         }
 

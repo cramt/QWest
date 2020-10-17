@@ -3,7 +3,7 @@ const fetchUser = async () => {
     const id = url.searchParams.get("id")
     let response = undefined
     if (id) {
-        response = await fetch("api/User/Id/" + id, {
+        response = await fetch("api/User/Get/" + id, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
