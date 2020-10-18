@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,6 +17,9 @@ namespace Utilities {
 #else
         public const bool DebugMode = false;
 #endif
+
+        public static string NodeProjectLocation { get; } = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\QWest.Web";
+
         public static Process DynamicShell(string command, Action<string> onStdOut, string cwd = null) {
             if (cwd == null) {
                 cwd = Directory.GetCurrentDirectory();
@@ -74,6 +78,45 @@ namespace Utilities {
                 }
                 return matches[0];
             }).Where(x => x != null).Select(x => x.Value).Distinct().Select(x => Shell("taskkill /F /pid " + x)));
+        }
+
+        [Serializable]
+        public class EmailArgument {
+            [JsonProperty("from")]
+            public string From { get; }
+            [JsonProperty("to")]
+            public string To { get; }
+            [JsonProperty("subject")]
+            public string Subject { get; }
+            [JsonProperty("html")]
+            public string Html { get; }
+
+            public EmailArgument(string to, string subject, string html) :
+                this("qwestbsns@gmail.com", to, subject, html) {
+
+            }
+
+            public EmailArgument(string to, IEnumerable<string> subject, string html) :
+                this(to, string.Join(", ", subject.ToArray()), html) {
+
+            }
+
+            public EmailArgument(string from, string to, string subject, string html) {
+                From = from;
+                To = to;
+                Subject = subject;
+                Html = html;
+            }
+
+            public EmailArgument(string from, string to, IEnumerable<string> subject, string html) :
+                this(from, to, string.Join(", ", subject.ToArray()), html) {
+
+            }
+        }
+
+        public static Task SendEmail(EmailArgument email) {
+            string emailString = JsonConvert.SerializeObject(JsonConvert.SerializeObject(email));
+            return Shell($"npm run send_email {emailString}", NodeProjectLocation);
         }
     }
 }

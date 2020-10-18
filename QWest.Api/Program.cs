@@ -11,7 +11,7 @@ namespace QWest.Api {
     class Program {
         static void Main(string[] args) {
             Task.WaitAll(Config.Config.Instance.Ports.Select(x => KillOnPort(x)).ToArray());
-            string nodeProject = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\QWest.Web";
+            string nodeProject = NodeProjectLocation;
             string baseAddress = $"http://localhost:{Config.Config.Instance.ApiPort}/";
             Process nodeProcess = DynamicShell($"npm start {Config.Config.Instance.ServePort} {Config.Config.Instance.ApiPort}", stdout => {
                 Console.WriteLine(stdout);

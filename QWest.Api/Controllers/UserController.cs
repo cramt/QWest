@@ -42,8 +42,8 @@ namespace QWest.Apis {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
             string token = await DAO.PasswordResetToken.NewToken(user);
-            string url = "http://" + Request.RequestUri.Host + ":" + Config.Config.Instance.ServePort + "/password_reset.html?token=" + token;
-            EmailServer.Server.Instance.SendMail(user.Email, "Password Reset", "You have requested a password reset, please go to this link " + url + " to finalize and save your new password");
+            string url = "http://" + Request.RequestUri.Host + ":" + Config.Config.Instance.ServePort + "/password_reset.html?token=" + WebUtility.UrlEncode(token);
+            await SendEmail(new EmailArgument(user.Email, "Password Reset", "You have requested a password reset, please go to this link " + url + " to finalize and save your new password"));
             return Request.CreateResponse(HttpStatusCode.OK, true);
         }
 
@@ -64,8 +64,8 @@ namespace QWest.Apis {
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
         [ResponseType(typeof(User))]
-        [HttpPost]
-        public async Task<HttpResponseMessage> GetByPasswordResetToken([FromBody] string token) {
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetByPasswordResetToken(string token) {
             if (token == null) {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }

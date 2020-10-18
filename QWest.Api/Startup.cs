@@ -10,8 +10,6 @@ using static Utilities.Utilities;
 namespace QWest.Api {
     public class Startup {
         public void Configuration(IAppBuilder app) {
-            //just initializing before we use it
-            var _ = EmailServer.Server.Instance;
             HttpConfiguration config = new HttpConfiguration();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

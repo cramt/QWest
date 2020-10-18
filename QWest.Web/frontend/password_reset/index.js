@@ -7,16 +7,17 @@ $(async () => {
     if (token === null) {
         window.location.href = "/home.html"
     }
-    const response = await fetch("/api/User/GetByPasswordResetToken", {
-        method: "POST",
+    const response = await fetch("/api/User/GetByPasswordResetToken?token=" + encodeURIComponent(token), {
+        method: "GET",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: token
     })
     if (response.status !== 200) {
-        window.location.href = "/home.html"
+        console.log(await response.text())
+        alert(response.status)
+        //window.location.href = "/home.html"
     }
     const user = JSON.parse(await response.text())
     const header = $("#header-with-username");
@@ -30,7 +31,7 @@ $(async () => {
     const processClick = async () => {
         const passwordVal = password.val()
         const confirmPasswordVal = confirmPassword.val();
-        if (password.length < 8) {
+        if (passwordVal.length < 8) {
             message.text("length of the password needs to be larger than 7")
             return
         }
@@ -64,4 +65,7 @@ $(async () => {
         }
     }
 
+    password.on("keypress", processEnter)
+    confirmPassword.on("keypress", processEnter)
+    saveButton.on("click", processClick)
 })
