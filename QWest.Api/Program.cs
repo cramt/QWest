@@ -8,17 +8,9 @@ using System.Threading.Tasks;
 using static Utilities.Utilities;
 
 namespace QWest.Api {
-    class Program {
-        static void Main(string[] args) {
-            Task.WaitAll(Config.Config.Instance.Ports.Select(x => KillOnPort(x)).ToArray());
-            string nodeProject = NodeProjectLocation;
+    public class Program {
+        public static async Task Run() {
             string baseAddress = $"http://localhost:{Config.Config.Instance.ApiPort}/";
-            Process nodeProcess = DynamicShell($"npm start {Config.Config.Instance.ServePort} {Config.Config.Instance.ApiPort}", stdout => {
-                Console.WriteLine(stdout);
-            }, nodeProject);
-            AppDomain.CurrentDomain.ProcessExit += (o, e) => {
-                nodeProcess.Kill();
-            };
             WebApp.Start<Startup>(url: baseAddress);
             Thread.Sleep(-1);
         }

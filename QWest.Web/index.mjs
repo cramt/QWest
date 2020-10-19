@@ -5,11 +5,14 @@ import HtmlWebpackPlugin from "html-webpack-plugin"
 import fs from "fs"
 import CopyWebpackPlugin from "copy-webpack-plugin"
 import HttpProxyMiddleware from "http-proxy-middleware"
+import path from "path"
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../Config/config.json")).toString())
 
-const commandLineArg = process.argv.slice(3)
-
-const port = commandLineArg[0];
-const apiPort = commandLineArg[1];
+const port = config.serve_port;
+const apiPort = config.api_port;
 
 const subProjects = fs.readdirSync("frontend")
     .filter(x => fs.lstatSync("frontend/" + x).isDirectory())

@@ -18,6 +18,9 @@ namespace Config {
         [JsonProperty("start_year")]
         private uint _startYear;
 
+        [JsonProperty("email_port")]
+        private uint _emailPort;
+
         public string DatabaseConnectionString {
             get {
                 return _databaseConnectionString;
@@ -48,10 +51,17 @@ namespace Config {
             }
         }
 
+        public uint EmailPort {
+            get {
+                return _emailPort;
+            }
+        }
+
         public IEnumerable<uint> Ports {
             get {
                 yield return ApiPort;
                 yield return ServePort;
+                yield return EmailPort;
             }
         }
     }

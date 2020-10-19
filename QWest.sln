@@ -25,6 +25,10 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "QWest.Web", "QWest.Web\QWes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Api", "QWest.Api\QWest.Api.csproj", "{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Services.Run", "QWest.Services.Run\QWest.Services.Run.csproj", "{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "QWest.Email", "QWest.Email\QWest.Email.njsproj", "{25323D75-2268-4377-BF6E-4D7806962225}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25323D75-2268-4377-BF6E-4D7806962225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25323D75-2268-4377-BF6E-4D7806962225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25323D75-2268-4377-BF6E-4D7806962225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25323D75-2268-4377-BF6E-4D7806962225}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,7 +18,8 @@ namespace Utilities {
         public const bool DebugMode = false;
 #endif
 
-        public static string NodeProjectLocation { get; } = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\QWest.Web";
+        public static string SolutionLocation { get; } = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        public static string NodeProjectLocation { get; } = SolutionLocation + "\\QWest.Web";
 
         public static Process DynamicShell(string command, Action<string> onStdOut, string cwd = null) {
             if (cwd == null) {
@@ -115,8 +116,9 @@ namespace Utilities {
         }
 
         public static Task SendEmail(EmailArgument email) {
-            string emailString = JsonConvert.SerializeObject(JsonConvert.SerializeObject(email));
-            return Shell($"npm run send_email {emailString}", NodeProjectLocation);
+            string emailString = JsonConvert.SerializeObject(email);
+            //TODO: fix this
+            return Task.CompletedTask;
         }
     }
 }
