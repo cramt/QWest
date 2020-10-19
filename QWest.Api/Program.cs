@@ -13,6 +13,7 @@ namespace QWest.Api {
             return Task.Factory.StartNew(() => {
                 string baseAddress = $"http://localhost:{Config.Config.Instance.ApiPort}/";
                 WebApp.Start<Startup>(url: baseAddress);
+                Console.WriteLine("api service is running on port " + Config.Config.Instance.ApiPort);
                 Thread.Sleep(-1);
             });
         }
