@@ -5,7 +5,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -69,16 +71,27 @@ namespace Utilities {
         }
 
         public static async Task KillOnPort(uint port) {
-            Regex regex = new Regex(@"/\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/");
             List<string> shellOutput = (await Shell("netstat -ano | find \"LISTENING\" | find \"" + port + "\"")).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             await Task.WhenAll(
             shellOutput.Select(x => {
-                var matches = regex.Matches(x);
-                if (matches.Count == 0) {
+                List<char> listChars = x.ToCharArray().ToList();
+                Stack<char> chars = new Stack<char>(collection: listChars);
+                List<char> pid = new List<char>();
+                try {
+                    while (chars.Peek() == ' ') {
+                        chars.Pop();
+                    }
+                    while (chars.Peek() != ' ') {
+                        pid.Add(chars.Pop());
+                    }
+                }
+                catch (InvalidOperationException _) {
                     return null;
                 }
-                return matches[0];
-            }).Where(x => x != null).Select(x => x.Value).Distinct().Select(x => Shell("taskkill /F /pid " + x)));
+                pid.Reverse();
+                return new string(pid.ToArray());
+
+            }).Where(x => x != null).Distinct().Select(x => Shell("taskkill /F /pid " + x)));
         }
 
         [Serializable]
@@ -115,10 +128,13 @@ namespace Utilities {
             }
         }
 
-        public static Task SendEmail(EmailArgument email) {
+        public static async Task SendEmail(EmailArgument email) {
             string emailString = JsonConvert.SerializeObject(email);
-            //TODO: fix this
-            return Task.CompletedTask;
+            string url = $"http://localhost:{Config.Config.Instance.EmailPort}/send";
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.PostAsync(url,
+                new StringContent(emailString, Encoding.UTF8, "application/json")
+            );
         }
     }
 }

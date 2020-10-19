@@ -9,10 +9,14 @@ namespace QWest.Services.Run {
     class Program {
         static void Main(string[] args) {
             var config = Config.Config.Instance;
-            Task.WaitAll(config.Ports.Select(x => KillOnPort(x)).ToArray());
-            Task.WaitAll(Service.GenerateServices((service, x) => {
+            Task.WaitAll(config.Ports.Select(KillOnPort).ToArray());
+            var services = Service.GenerateServices((service, x) => {
                 Console.WriteLine(service.Name + ": " + x);
-            }).Select(x => x.Run()).ToArray());
+            });
+            Task.WaitAll(services.Select(x => {
+                Console.WriteLine("initializing " + x.Name);
+                return x.Run();
+            }).ToArray());
         }
     }
 }

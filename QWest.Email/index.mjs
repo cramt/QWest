@@ -1,5 +1,4 @@
 import express from "express"
-import bodyParser from "body-parser"
 import sendmailInit from "sendmail"
 import fs from "fs"
 import path from "path"
@@ -28,7 +27,8 @@ const sendMail = (arg) => {
 }
 
 const app = express();
-app.use(bodyParser)
+
+app.use(express.json());
 
 app.post("/send", async (req, res) => {
     const response = await sendMail(req.body);

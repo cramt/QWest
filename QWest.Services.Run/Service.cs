@@ -10,6 +10,8 @@ namespace QWest.Services.Run {
     public abstract class Service {
         public static IEnumerable<Service> GenerateServices(Action<Service, string> log) {
             yield return new ApiService(log);
+            yield return new WebSerivce(log);
+            yield return new EmailSerivce(log);
         }
 
         private Action<Service, string> _log;
@@ -32,7 +34,8 @@ namespace QWest.Services.Run {
 
         }
         public override Task Run() {
-            return Task.Factory.StartNew(() => DynamicShell("npm start", Log, SolutionLocation + "\\" + Name).WaitForExit());
+            string location = SolutionLocation + "\\" + Name;
+            return Task.Factory.StartNew(() => DynamicShell("npm start", Log, location).WaitForExit());
         }
     }
 
