@@ -21,7 +21,7 @@ namespace QWest.DataAccess.Tests {
             DateTime now = DateTime.Now;
             Post post = await DAO.Post.Add(new PostUpload("wassup", user, now, new List<byte[]>()));
             Assert.NotNull(post.Id);
-            Assert.AreEqual(now, post.PostTime);
+            Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm-ss"), post.PostTime.ToString("yyyy-MM-dd-HH-mm-ss"));
             Assert.AreEqual("wassup", post.Contents);
         }
         [Test]
