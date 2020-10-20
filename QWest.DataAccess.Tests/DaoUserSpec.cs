@@ -3,7 +3,11 @@ using NUnit.Framework;
 using QWest.DataAcess;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,6 +78,19 @@ namespace QWest.DataAccess.Tests {
             await DAO.User.Update(user);
             user = await DAO.User.Get((int)user.Id);
             Assert.AreEqual(newName, user.Username);
+        }
+
+        [Test]
+        public async Task AddProfilePictureInDb() {
+            User user = new User("Lucca", "123456", "an@email.com");
+            await DAO.User.Add(user);
+            Image image = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("QWest.DataAccess.Tests.res.profile-picture.png"));
+            MemoryStream stream = new MemoryStream();
+            image.Save(stream, ImageFormat.Jpeg);
+            byte[] imageData = stream.ToArray();
+            await DAO.User.UpdateProfilePicture(imageData, user);
+            Assert.NotNull(user.ProfilePicture);
+            Assert.AreEqual(imageData, await DAO.Image.Get((int)user.ProfilePicture));
         }
 
         [SetUp]
