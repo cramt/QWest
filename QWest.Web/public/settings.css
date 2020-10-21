@@ -66,10 +66,6 @@ p {
     padding: 1rem !important;
 }
 
-.ml-auto, .mx-auto, .mr-auto, .mb-auto, .my-auto {
-    margin-top: auto !important;
-}
-
 .masthead {
     margin-bottom: 2rem;
     margin-top: 0%;

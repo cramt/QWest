@@ -39,6 +39,8 @@
     <Content Include="frontend\profile\index.js" />
     <Content Include="frontend\sign_up\index.html" />
     <Content Include="frontend\sign_up\index.js" />
+    <Content Include="frontend\test\index.html" />
+    <Content Include="frontend\test\index.js" />
     <Content Include="index.mjs" />
     <Content Include="package.json" />
     <Content Include="public\bootstrap-theme.css" />
@@ -73,6 +75,7 @@
     <Folder Include="frontend\map\" />
     <Folder Include="frontend\profile\" />
     <Folder Include="frontend\sign_up\" />
+    <Folder Include="frontend\test\" />
     <Folder Include="public\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />

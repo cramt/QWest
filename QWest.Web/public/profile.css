@@ -1,18 +1,20 @@
-/*
-html {
-    height: 100%;
-}
-*/
-
-/* For some reason, the flex box doesn't work. I'll fix that later */
+html,
 body {
-    display: flex;
-    display: -ms-flexbox;
-    color: #0056b3;
-    text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
-    box-shadow: inset 0 0 1rem .1rem rgba(0, 0, 0, .5);;
-    background-color: #E5FFEE;
-    min-height: 100%;
+  height: 100%;
+  background-color: #333;
+}
+
+body {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-pack: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  color: #fff;
+  text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+  box-shadow: inset 0 0 1rem .1rem rgba(0, 0, 0, .5);;
+  background-color: #E5FFEE;
 }
 
 #qwest-logo {
@@ -24,9 +26,11 @@ body {
 #user-settings,
 #logout-button {
     font-size: larger;
-    margin-top: auto;
+    
+    /*margin-top: auto;*/
 }
 
+/*
 .cover-container {
     display: flex;
     max-width: em;
@@ -34,7 +38,7 @@ body {
     flex-direction: column;
     flex: 1;
 }
-
+*/
 #friends-button, #update-user-button, #change-password-button {
     width: 400px;
 }
@@ -44,21 +48,16 @@ body {
     font-weight: 300;
 }
 
-p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
-
-.ml-auto, .mx-auto, .mb-auto, .my-auto {
-    margin-top: auto !important;
-}
-
 .masthead {
     margin-bottom: 2rem;
 }
 
 .masthead-brand {
     margin-bottom: 0;
+    color: #0056b3;
+}
+
+.mastfoot, .inner {
     color: #0056b3;
 }
 
