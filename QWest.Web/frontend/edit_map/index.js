@@ -39,7 +39,7 @@ const subtractions = []
 
 $(async () => {
     const [progressMap, staticData] = await Promise.all([progressMapPromise, staticDataPromise])
-    progressMap.locations = progressMap.locations.map(x => x.substring(alpha2.length + 1).split("-"))
+    progressMap.locations = progressMap.locations.filter(x => x.startsWith(alpha2)).map(x => x.substring(alpha2.length + 1).split("-"))
     const staticDataMap = mapOutStaticData(staticData.subdivision)
     mapOutVisitation(progressMap.locations, staticDataMap)
     const title = $("#title")
