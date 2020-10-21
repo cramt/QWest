@@ -14,6 +14,11 @@ namespace QWest.Api.Controllers {
     public class ProgressMapController : ApiController {
         [HttpGet]
         [ResponseType(typeof(ProgressMap))]
+        public Task<HttpResponseMessage> UserId() {
+            return UserId(null);
+        }
+        [HttpGet]
+        [ResponseType(typeof(ProgressMap))]
         public async Task<HttpResponseMessage> UserId(int? id) {
             if (id == null) {
                 User user = Request.GetOwinContext().Get<User>("user");
