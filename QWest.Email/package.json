@@ -1,0 +1,16 @@
+{
+  "name": "qwest.email",
+  "version": "0.0.0",
+  "description": "QWest.Email",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  },
+  "scripts": {
+    "start": "node index.mjs --unhandled-rejections=strict"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "sendmail": "^1.6.1"
+  }
+}

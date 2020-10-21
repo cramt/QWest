@@ -15,14 +15,11 @@ namespace Config {
         [JsonProperty("serve_port")]
         private uint _servePort;
 
-        [JsonProperty("gmail_username")]
-        private string _gmailUsername;
-
-        [JsonProperty("gmail_password")]
-        private string _gmailPassword;
-
         [JsonProperty("start_year")]
         private uint _startYear;
+
+        [JsonProperty("email_port")]
+        private uint _emailPort;
 
         public string DatabaseConnectionString {
             get {
@@ -42,18 +39,6 @@ namespace Config {
             }
         }
 
-        public string GmailUsername {
-            get {
-                return _gmailUsername;
-            }
-        }
-
-        public string GmailPassword {
-            get {
-                return _gmailPassword;
-            }
-        }
-
         public uint StartYear {
             get {
                 return _startYear;
@@ -66,10 +51,17 @@ namespace Config {
             }
         }
 
+        public uint EmailPort {
+            get {
+                return _emailPort;
+            }
+        }
+
         public IEnumerable<uint> Ports {
             get {
                 yield return ApiPort;
                 yield return ServePort;
+                yield return EmailPort;
             }
         }
     }

@@ -15,6 +15,7 @@ namespace Model {
         public string SessionCookie { get; set; }
         [JsonIgnore]
         public ProgressMap ProgressMap { get; set; }
+        public int? ProfilePicture { get; set; }
 
         public User(string username, string password, string email)
             : this(username, password, email, "") {

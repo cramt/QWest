@@ -13,7 +13,7 @@ using static Utilities.Utilities;
 namespace QWest.Apis {
     public class UserController : ApiController {
         [ResponseType(typeof(User))]
-        public async Task<HttpResponseMessage> Id(int id) {
+        public async Task<HttpResponseMessage> Get(int id) {
             User user = await DAO.User.Get(id);
             if (user == null) {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
@@ -34,7 +34,7 @@ namespace QWest.Apis {
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(bool))]
         [HttpPost]
         public async Task<HttpResponseMessage> RequestPasswordReset() {
             User user = Request.GetOwinContext().Get<User>("user");
@@ -42,9 +42,9 @@ namespace QWest.Apis {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
             string token = await DAO.PasswordResetToken.NewToken(user);
-            string url = "http://" + Request.RequestUri.Host + ":" + Config.Config.Instance.ServePort + "/password_reset.html?token=" + token;
-            SendEmail(user.Email, "Password Reset", "You have requested a password reset, please go to this link " + url + " to finalize and save your new password");
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            string url = "http://" + Request.RequestUri.Host + ":" + Config.Config.Instance.ServePort + "/password_reset.html?token=" + WebUtility.UrlEncode(token);
+            await SendEmail(new EmailArgument(user.Email, "Password Reset", "You have requested a password reset, please go to this link " + url + " to finalize and save your new password"));
+            return Request.CreateResponse(HttpStatusCode.OK, true);
         }
 
         public class ConfirmPasswordResetArgument {
@@ -63,6 +63,18 @@ namespace QWest.Apis {
             await Task.WhenAll(new Task[] { DAO.User.Update(user), DAO.PasswordResetToken.DeleteToken(argument.token) });
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
+        [ResponseType(typeof(User))]
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetByPasswordResetToken(string token) {
+            if (token == null) {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+            User user = await DAO.PasswordResetToken.GetUser(token);
+            if (user == null) {
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, user);
+        }
 
         [ResponseType(typeof(void))]
         [HttpPost]
@@ -78,8 +90,8 @@ namespace QWest.Apis {
             if (image == null) {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "no file sent");
             }
-            //TODO: DAO stuff
-            return null;
+            await DAO.User.UpdateProfilePicture(image, user);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

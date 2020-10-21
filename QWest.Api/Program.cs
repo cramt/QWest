@@ -8,19 +8,14 @@ using System.Threading.Tasks;
 using static Utilities.Utilities;
 
 namespace QWest.Api {
-    class Program {
-        static void Main(string[] args) {
-            Task.WaitAll(Config.Config.Instance.Ports.Select(x => KillOnPort(x)).ToArray());
-            string nodeProject = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\QWest.Web";
-            string baseAddress = $"http://localhost:{Config.Config.Instance.ApiPort}/";
-            Process nodeProcess = DynamicShell($"npm start {Config.Config.Instance.ServePort} {Config.Config.Instance.ApiPort}", stdout => {
-                Console.WriteLine(stdout);
-            }, nodeProject);
-            AppDomain.CurrentDomain.ProcessExit += (o, e) => {
-                nodeProcess.Kill();
-            };
-            WebApp.Start<Startup>(url: baseAddress);
-            Thread.Sleep(-1);
+    public class Program {
+        public static Task Run() {
+            return Task.Factory.StartNew(() => {
+                string baseAddress = $"http://localhost:{Config.Config.Instance.ApiPort}/";
+                WebApp.Start<Startup>(url: baseAddress);
+                Console.WriteLine("api service is running on port " + Config.Config.Instance.ApiPort);
+                Thread.Sleep(-1);
+            });
         }
     }
 }

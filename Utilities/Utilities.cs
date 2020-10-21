@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -16,6 +19,10 @@ namespace Utilities {
 #else
         public const bool DebugMode = false;
 #endif
+
+        public static string SolutionLocation { get; } = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        public static string NodeProjectLocation { get; } = SolutionLocation + "\\QWest.Web";
+
         public static Process DynamicShell(string command, Action<string> onStdOut, string cwd = null) {
             if (cwd == null) {
                 cwd = Directory.GetCurrentDirectory();
@@ -64,29 +71,70 @@ namespace Utilities {
         }
 
         public static async Task KillOnPort(uint port) {
-            Regex regex = new Regex(@"/\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/");
             List<string> shellOutput = (await Shell("netstat -ano | find \"LISTENING\" | find \"" + port + "\"")).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             await Task.WhenAll(
             shellOutput.Select(x => {
-                var matches = regex.Matches(x);
-                if (matches.Count == 0) {
+                List<char> listChars = x.ToCharArray().ToList();
+                Stack<char> chars = new Stack<char>(collection: listChars);
+                List<char> pid = new List<char>();
+                try {
+                    while (chars.Peek() == ' ') {
+                        chars.Pop();
+                    }
+                    while (chars.Peek() != ' ') {
+                        pid.Add(chars.Pop());
+                    }
+                }
+                catch (InvalidOperationException _) {
                     return null;
                 }
-                return matches[0];
-            }).Where(x => x != null).Select(x => x.Value).Distinct().Select(x => Shell("taskkill /F /pid " + x)));
+                pid.Reverse();
+                return new string(pid.ToArray());
+
+            }).Where(x => x != null).Distinct().Select(x => Shell("taskkill /F /pid " + x)));
         }
 
-        public static void SendEmail(string toAddress, string subject, string body) {
-            MailMessage mail = new MailMessage();
-            SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
-            mail.From = new MailAddress("no_response@qwest.com");
-            mail.To.Add(toAddress);
-            mail.Subject = subject;
-            mail.Body = body;
-            smtpServer.Port = 587;
-            smtpServer.Credentials = new NetworkCredential(Config.Config.Instance.GmailUsername, Config.Config.Instance.GmailPassword);
-            smtpServer.EnableSsl = true;
-            smtpServer.Send(mail);
+        [Serializable]
+        public class EmailArgument {
+            [JsonProperty("from")]
+            public string From { get; }
+            [JsonProperty("to")]
+            public string To { get; }
+            [JsonProperty("subject")]
+            public string Subject { get; }
+            [JsonProperty("html")]
+            public string Html { get; }
+
+            public EmailArgument(string to, string subject, string html) :
+                this("qwestbsns@gmail.com", to, subject, html) {
+
+            }
+
+            public EmailArgument(string to, IEnumerable<string> subject, string html) :
+                this(to, string.Join(", ", subject.ToArray()), html) {
+
+            }
+
+            public EmailArgument(string from, string to, string subject, string html) {
+                From = from;
+                To = to;
+                Subject = subject;
+                Html = html;
+            }
+
+            public EmailArgument(string from, string to, IEnumerable<string> subject, string html) :
+                this(from, to, string.Join(", ", subject.ToArray()), html) {
+
+            }
+        }
+
+        public static async Task SendEmail(EmailArgument email) {
+            string emailString = JsonConvert.SerializeObject(email);
+            string url = $"http://localhost:{Config.Config.Instance.EmailPort}/send";
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.PostAsync(url,
+                new StringContent(emailString, Encoding.UTF8, "application/json")
+            );
         }
     }
 }

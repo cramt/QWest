@@ -10,7 +10,7 @@
 
 CREATE TABLE images(
 	id INT identity (1,1),
-	image_blob VARCHAR(MAX) NOT NULL,
+	image_blob VARBINARY(MAX) NOT NULL,
 	PRIMARY KEY (id)
 )
 

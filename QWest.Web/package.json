@@ -2,7 +2,7 @@
   "name": "qwest.web",
   "version": "0.0.0",
   "description": "QWest.Web",
-  "main": "server.js",
+  "main": "index.mjs",
   "author": {
     "name": ""
   },
