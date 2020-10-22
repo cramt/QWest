@@ -13,6 +13,7 @@ using RUser = Model.User;
 namespace QWest.DataAcess {
     public static partial class DAO {
         public static class User {
+            //TODO: add admin property
             public static async Task Add(RUser user) {
                 if (user.Id != null) {
                     throw new ArgumentException("tried to add user " + user.Username + ", but they already have an id");

@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Geographic\Country.cs" />
+    <Compile Include="Geographic\GeopoliticalLocation.cs" />
+    <Compile Include="Geographic\Subdivision.cs" />
     <Compile Include="PostUpload.cs" />
     <Compile Include="ProgressMap.cs" />
     <Compile Include="Post.cs" />

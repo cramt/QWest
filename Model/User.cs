@@ -16,6 +16,7 @@ namespace Model {
         [JsonIgnore]
         public ProgressMap ProgressMap { get; set; }
         public int? ProfilePicture { get; set; }
+        public bool Admin { get; set; }
 
         public User(string username, string password, string email)
             : this(username, password, email, "") {
@@ -43,6 +44,8 @@ namespace Model {
             SessionCookie = sessionCookie;
             ProgressMap = null;
             Description = description;
+            Admin = false;
+            //TODO: add admin to constructor
         }
         private static byte[] HashPassword(string password) {
             byte[] salt;

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace Utilities {
         public const bool DebugMode = false;
 #endif
 
-        public static string SolutionLocation { get; } = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        public static string SolutionLocation { get; } = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.Parent.FullName;
         public static string NodeProjectLocation { get; } = SolutionLocation + "\\QWest.Web";
 
         public static Process DynamicShell(string command, Action<string> onStdOut, string cwd = null) {
@@ -85,7 +86,7 @@ namespace Utilities {
                         pid.Add(chars.Pop());
                     }
                 }
-                catch (InvalidOperationException _) {
+                catch (InvalidOperationException) {
                     return null;
                 }
                 pid.Reverse();

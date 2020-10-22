@@ -15,15 +15,15 @@ namespace QWest.DataAccess.Tests {
         }
         [Test]
         public void CorrectOrder() {
-            var scripts = new ConnectionWrapper.ScriptProvider().GetScripts(null).ToList();
-            Console.WriteLine(string.Join("\n", scripts.Select(x=>x.Name).ToArray()));
-            Assert.True(scripts[0].Name.EndsWith("1.sql"));
+            var scripts = ConnectionWrapper.GetScripts().ToList();
+            Assert.AreEqual(scripts[0].numeric, 1);
         }
         [Test]
         public void MigrationsSucceed() {
+            ConnectionWrapper.Migrate = false;
             List<string> names = ConnectionWrapper.CreateCommand("SELECT name FROM sys.tables").ExecuteReader()
                 .ToIterator(reader => reader.GetSqlString(0).Value).ToList();
-            
+
             while (names.Count != 0) {
                 List<string> newNames = new List<string>();
                 foreach(string name in names) {
@@ -42,6 +42,7 @@ namespace QWest.DataAccess.Tests {
 
             Assert.AreEqual(0, names.Count);
 
+            ConnectionWrapper.Migrate = true;
             ConnectionWrapper.ResetInstance();
             Assert.NotNull(ConnectionWrapper.Instance);
         }
