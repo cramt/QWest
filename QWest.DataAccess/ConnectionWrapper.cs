@@ -84,7 +84,7 @@ namespace QWest.DataAcess {
             }
             catch (Exception) { }
             if (applyGeopoliticalLocationBackup) {
-                List<Country> countries = JsonConvert.DeserializeObject<List<Country>>(File.ReadAllText(Utilities.Utilities.SolutionLocation + "\\QWest.DataAccess\\res\\geopolitical_location_backup.json"));
+                List<Country> countries = GeopoliticalLocation.Parse(File.ReadAllText(Utilities.Utilities.SolutionLocation + "\\QWest.DataAccess\\res\\geopolitical_location_backup.json"));
                 await DAO.Geography.InsertBackup(countries, conn);
             }
         }

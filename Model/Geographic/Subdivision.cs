@@ -10,5 +10,8 @@ namespace Model.Geographic {
     public class Subdivision : GeopoliticalLocation {
         [JsonProperty("type")]
         public override string Type { get; set; }
+
+        [JsonIgnore]
+        public GeopoliticalLocation Parent { get; set; }
     }
 }

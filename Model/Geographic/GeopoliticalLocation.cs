@@ -19,5 +19,16 @@ namespace Model.Geographic {
 
         [JsonProperty("type")]
         public abstract string Type { get; set; }
+
+        public static List<Country> Parse(string json) {
+            List<Country> countries = JsonConvert.DeserializeObject<List<Country>>(json);
+            Action<GeopoliticalLocation, Subdivision> traverse = null;
+            traverse = (parent, curr) => {
+                curr.Parent = parent;
+                curr.Subdivisions.ForEach(x => traverse(curr, x));
+            };
+            countries.ForEach(x => x.Subdivisions.ForEach(y => traverse(x, y)));
+            return countries;
+        }
     }
 }
