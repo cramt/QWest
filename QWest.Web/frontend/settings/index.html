@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="settings.css">
     <meta charset="utf-8" />
-    <meta name="viewport" 
-        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Settings</title>
 </head>
+
 <body class="text-center">
     <!-- Epic top bar -->
     <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
@@ -25,16 +26,47 @@
                 </nav>
             </div>
         </header>
+        <img style="border:5px double black;" class="d-block mx-auto mb-4" src="jerma.png" alt=""
+                            height, width="150" float="left">
         <main class="inner cover" role="main">
-            <p class="lead">
-                <a id="friends-button" class="btn btn-lg btn-secondary" href="http://localhost:8080/friends.html">Edit Friends</a>
-            </p>
-            <p class="lead">
-                <a id="update-user-button" class="btn btn-lg btn-secondary" href="http://localhost:8080/update_user.html">Update username or E-mail</a>
-            </p>
-            <p class="lead">
-                <a id="request-password-reset-button" class="btn btn-lg btn-secondary">Request password reset</a>
-            </p>
+            
+            <body class="bg-light">
+                <div class="container">
+                    <div class="py-5 text-center">
+                        
+                        <h2>Update user information</h2>
+                        <p class="lead">Simply change the fields you see below, and press "update" when you're done.</p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="username">Username</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="username-input" placeholder="Username" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Your username is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email-input" placeholder="you@example.com">
+                        <div class="invalid-feedback">
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">Password</label>
+                        <br>
+                        <a href="#" id="request-password-reset-button" class="btn btn-lg btn-secondary">Reset password</a>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">Biography</label>
+                        <input type="text" class="form-control" id="bio-input" name="name" style="height:200px; max-width:480px;">
+                    </div>
+                </div>
+                <a href="#" id="updateall" class="btn btn-lg btn-secondary">Update information</a>
         </main>
         <footer class="mastfoot mt-auto">
             <div class="inner">
@@ -45,4 +77,5 @@
         </footer>
     </div>
 </body>
+
 </html>
