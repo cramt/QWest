@@ -31,6 +31,48 @@ body {
     margin-top: auto;
 }
 
+#username-field {
+    width: 400px;
+    height: 80px;
+    font-size: xx-large;
+}
+
+#username-form {
+    text-align: center;
+}
+
+.btn-secondary {
+    color: #333333;
+    background-color: #ffffff;
+    max-width: 400px;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:link,
+.btn-secondary:visited,
+.btn-secondary:focus {
+    color: #333333;
+    background-color: azure;
+}
+
+#image,
+#username-field,
+#label-username,
+#save-button,
+#request-password-reset-button {
+    width: 400px;
+    text-align: center;
+}
+
+#description-field {
+    width: 400px;
+    text-align: left;
+}
+
+.form-group, .form-inline {
+    text-align: center;
+}
 .cover-container {
     max-width: em;
     min-width: 50em;
