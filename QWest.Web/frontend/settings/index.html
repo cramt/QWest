@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="settings.css">
     <meta charset="utf-8" />
-    <meta name="viewport" 
-        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Settings</title>
 </head>
+
 <body class="text-center">
     <!-- Epic top bar -->
     <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
@@ -26,11 +27,18 @@
             </div>
         </header>
         <main class="inner cover" role="main">
+            <div id="profile-picture-container" class="lead"></div>
             <p class="lead">
-                <a id="friends-button" class="btn btn-lg btn-secondary" href="http://localhost:8080/friends.html">Edit Friends</a>
+                <input id="username-field" class="btn btn-lg btn-secondary" />
             </p>
             <p class="lead">
-                <a id="update-user-button" class="btn btn-lg btn-secondary" href="http://localhost:8080/update_user.html">Update username or E-mail</a>
+                <textarea id="description-field" class="btn btn-lg btn-secondary">...</textarea>
+            </p>
+            <p class="lead">
+                <input type="file" id="profile-picture-field" class="btn btn-lg btn-secondary" />
+            </p>
+            <p class="lead">
+                <button id="save-button" class="btn btn-lg btn-secondary" >save</button>
             </p>
             <p class="lead">
                 <a id="request-password-reset-button" class="btn btn-lg btn-secondary">Request password reset</a>
@@ -45,4 +53,5 @@
         </footer>
     </div>
 </body>
+
 </html>

@@ -16,7 +16,7 @@ namespace QWest.Apis {
         [ResponseType(typeof(string))]
         public async Task<HttpResponseMessage> Get(int? id) {
             Stream stream = null;
-            if(id == null || id == 0) {
+            if (id == null || id == 0) {
                 stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames().ToList().Find(x => x.EndsWith("silhouette-profile-picture.jpg")));
             }
             else {
@@ -29,7 +29,9 @@ namespace QWest.Apis {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             result.Content = new StreamContent(stream);
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-            result.Content.Headers.Add("Cache-Control", "max-age=31536000"); //one year
+            result.Headers.CacheControl = new CacheControlHeaderValue {
+                MaxAge = new TimeSpan(8765, 0, 0)
+            };
             return result;
         }
     }

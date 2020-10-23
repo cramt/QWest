@@ -1,11 +1,18 @@
 import $ from "jquery";
 import "cookie-store"
+import { fetchLogedInUser } from "../whoami"
 
+const userPromise = fetchLogedInUser();
 
 $(async () => {
-    let logoutButton = $("#logout-button")
-    let userSettings = $("#user-settings")
-    let requestPasswordResetButton = $("#request-password-reset-button")
+    const user = await userPromise;
+    const logoutButton = $("#logout-button")
+    const usernameField = $("#username-field")
+    const requestPasswordResetButton = $("#request-password-reset-button")
+    const descriptionField = $("#description-field");
+    const profilePictureContainer = $("#profile-picture-container")
+    const profilePictureField = $("#profile-picture-field")
+    const saveButton = $("#save-button")
 
     logoutButton.on("click", async () => {
         await cookieStore.delete("sessionCookie")
@@ -30,5 +37,68 @@ $(async () => {
         }
     })
 
+    usernameField.val(user.username)
 
+    descriptionField.text(user.description)
+
+    profilePictureContainer.append("<img src='/api/Image/Get?id=" + user.profilePicture + "' />")
+
+    const profilePictureUpdate = async () => {
+        const files = profilePictureField[0].files;
+        if (files.length === 0) {
+            return;
+        }
+        const file = files[0];
+        const formData = new FormData();
+        formData.append("file", file)
+        const request = await fetch("/api/User/UpdateProfilePicture", {
+            method: "POST",
+            body: formData
+        })
+        if (request.status === 200) {
+            return;
+        }
+        window.r1 = request
+        alert("error: " + request.status)
+        console.log(await request.text())
+    }
+
+    const contentUpdate = async () => {
+        let username = usernameField.val()
+        let description = descriptionField.val()
+        if (username === user.username) {
+            username = null
+        }
+        if (description === user.description) {
+            description = null
+        }
+        console.log(username, description)
+        if (description === null && username === null) {
+            return;
+        }
+        console.log("uo")
+        const request = await fetch("/api/User/Update", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username,
+                description
+            })
+        })
+        if (request.status === 200) {
+            console.log("ya")
+            return;
+        }
+        window.r2 = request
+        alert("error: " + request.status)
+        console.log(await request.text())
+    }
+
+    saveButton.on("click", async () => {
+        await Promise.all([contentUpdate(), profilePictureUpdate()])
+
+    })
 })

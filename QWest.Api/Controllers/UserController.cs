@@ -1,6 +1,9 @@
-﻿using Model;
+﻿using Microsoft.SqlServer.Server;
+using Model;
+using Newtonsoft.Json;
 using QWest.Api;
 using QWest.DataAcess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -23,14 +26,33 @@ namespace QWest.Apis {
             }
         }
 
+        [Serializable]
+        public class NewUser {
+            [JsonProperty("username")]
+            public string Username;
+            [JsonProperty("description")]
+            public string Description;
+
+            public User UpdateUser(User user) {
+                if (Username != null)
+                    user.Username = Username;
+                if (Description != null)
+                    user.Description = Description;
+                return user;
+            }
+        }
+
         [ResponseType(typeof(void))]
         [HttpPost]
-        public async Task<HttpResponseMessage> Update([FromBody] User newUser) {
+        public async Task<HttpResponseMessage> Update([FromBody] NewUser newUser) {
+            if (newUser == null) {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
             User user = Request.GetOwinContext().Get<User>("user");
-            if (user == null || user.Id != newUser.Id) {
+            if (user == null) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            await DAO.User.Update(newUser);
+            await DAO.User.Update(newUser.UpdateUser(user));
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 

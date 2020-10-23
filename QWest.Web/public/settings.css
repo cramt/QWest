@@ -41,10 +41,6 @@ body {
     align-items: stretch;
 }
 
-#friends-button, #update-user-button, #request-password-reset-button {
-    width: 400px;
-}
-
 .lead {
     font-size: 1.50rem;
     font-weight: 300;

@@ -45,7 +45,6 @@ namespace Model {
             ProgressMap = null;
             Description = description;
             Admin = false;
-            //TODO: add admin to constructor
         }
         private static byte[] HashPassword(string password) {
             byte[] salt;

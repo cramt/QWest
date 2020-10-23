@@ -40,27 +40,33 @@ namespace QWest.DataAcess {
                 await stmt.ExecuteNonQueryAsync();
             }
             public static async Task<IEnumerable<RUser>> GetByUsername(string username) {
-                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT id, password_hash, email, session_cookie, description FROM users WHERE username = @username");
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT id, password_hash, email, session_cookie, description, profile_picture FROM users WHERE username = @username");
                 stmt.Parameters.AddWithValue("@username", username);
                 List<RUser> users = (await stmt.ExecuteReaderAsync())
-                    .ToIterator(reader => new RUser(username, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(0).Value))
+                    .ToIterator(reader => new RUser(username, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(0).Value) {
+                        ProfilePicture = reader.GetSqlInt32(5).NullableValue()
+                    })
                     .ToList();
                 return users;
             }
             public static async Task<RUser> Get(int id) {
-                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT username, password_hash, email, session_cookie, description FROM users WHERE id = @id");
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT username, password_hash, email, session_cookie, description, profile_picture FROM users WHERE id = @id");
                 stmt.Parameters.AddWithValue("@id", id);
                 RUser user = (await stmt.ExecuteReaderAsync())
-                    .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), id))
+                    .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), id) {
+                        ProfilePicture = reader.GetSqlInt32(5).NullableValue()
+                    })
                     .FirstOrDefault();
                 return user;
             }
 
             public static async Task<RUser> GetBySessionCookie(byte[] sessionCookie) {
-                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT username, password_hash, email, id, description FROM users WHERE session_cookie = @session_cookie");
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT username, password_hash, email, id, description, profile_picture FROM users WHERE session_cookie = @session_cookie");
                 stmt.Parameters.AddWithValue("@session_cookie", sessionCookie);
                 RUser user = (await stmt.ExecuteReaderAsync())
-                    .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, sessionCookie, reader.GetSqlInt32(3).Value))
+                    .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, sessionCookie, reader.GetSqlInt32(3).Value) {
+                        ProfilePicture = reader.GetSqlInt32(5).NullableValue()
+                    })
                     .FirstOrDefault();
                 return user;
             }
@@ -70,10 +76,12 @@ namespace QWest.DataAcess {
             }
 
             public static async Task<RUser> GetByEmail(string email) {
-                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT username, password_hash, id, session_cookie, description FROM users WHERE email = @email");
+                SqlCommand stmt = ConnectionWrapper.CreateCommand("SELECT username, password_hash, id, session_cookie, description, profile_picture FROM users WHERE email = @email");
                 stmt.Parameters.AddWithValue("@email", email);
                 RUser user = (await stmt.ExecuteReaderAsync())
-                    .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, email, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(2).Value))
+                    .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, email, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(2).Value) {
+                        ProfilePicture = reader.GetSqlInt32(5).NullableValue()
+                    })
                     .FirstOrDefault();
                 return user;
             }
