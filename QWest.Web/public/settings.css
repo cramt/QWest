@@ -112,6 +112,14 @@ header {
     box-sizing: border-box;
 }
 
+main {
+    color: #0056b3;
+}
+
+.container {
+    max-width: 500px;
+}
+
 .text-center {
     text-align: center !important;
     display: flex !important;
@@ -147,6 +155,7 @@ header {
     line-height: 24px;
     position: static;
     z-index: auto;
+    color: #0056b3;
 }
 
 .cover {
