@@ -145,6 +145,15 @@ namespace QWest.DataAcess {
                     return stmt.ExecuteNonQueryAsync();
                 }).ToArray());
             }
+            public static async Task<IEnumerable<Country>> CreateBackup() {
+                IEnumerable<GeopoliticalLocationDbRep> locals = (await ConnectionWrapper.CreateCommand("SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, super_id FROM geopolitical_location")
+                    .ExecuteReaderAsync())
+                    .ToIterator(x => new GeopoliticalLocationDbRep(x));
+                return GeopoliticalLocationDbRep.ToTreeStructure(locals);
+
+
+            }
+
             public static async Task<Country> GetCountryByAlpha2(string alpha2) {
                 SqlCommand stmt = ConnectionWrapper.CreateCommand(@"
 DECLARE @curr TABLE(g_id INT NOT NULL);
