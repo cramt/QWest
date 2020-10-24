@@ -1,17 +1,10 @@
-﻿using Model;
-using Model.Geographic;
+﻿using Model.Geographic;
 using NUnit.Framework;
 using QWest.DataAcess;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using Utilities;
 
 namespace QWest.DataAccess.Tests {
     [TestFixture]

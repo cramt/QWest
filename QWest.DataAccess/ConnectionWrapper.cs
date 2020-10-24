@@ -5,9 +5,7 @@ using System.Data.SqlClient;
 using System.Reflection;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Utilities;
-using Newtonsoft.Json;
 using Model.Geographic;
 
 namespace QWest.DataAcess {
