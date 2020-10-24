@@ -17,7 +17,7 @@ namespace QWest.DataAccess.Tests {
             int amount = (await DAO.Geography.CreateBackup()).Count();
             Assert.AreEqual(countries.Count, amount);
         }
-            [Test]
+        [Test]
         public async Task FetchesAlbaniaCorrectly() {
             Country albania = await DAO.Geography.GetCountryByAlpha2("AL");
             Assert.AreEqual("Albania", albania.Name);
@@ -35,6 +35,11 @@ namespace QWest.DataAccess.Tests {
             Assert.AreEqual(3, albania.Subdivisions[9].Subdivisions.Count);
             Assert.AreEqual(2, albania.Subdivisions[10].Subdivisions.Count);
             Assert.AreEqual(3, albania.Subdivisions[11].Subdivisions.Count);
+        }
+        [Test]
+        public async Task FetchesNordjyllandFromAlpha2s() {
+            GeopoliticalLocation nordjylland = await DAO.Geography.GetAnyByAlpha2s("DK-81");
+            Assert.AreEqual("Nordjylland", nordjylland.Name);
         }
     }
 }

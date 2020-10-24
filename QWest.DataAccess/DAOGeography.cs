@@ -174,6 +174,33 @@ SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, su
                 stmt.Parameters.AddWithValue("@alpha_2", alpha2);
                 return GeopoliticalLocationDbRep.ToTreeStructure((await stmt.ExecuteReaderAsync()).ToIterator(x => new GeopoliticalLocationDbRep(x))).FirstOrDefault();
             }
+
+            public static Task<GeopoliticalLocation> GetAnyByAlpha2s(string alphas2) {
+                return GetAnyByAlpha2s(alphas2.Split('-'));
+            }
+
+            public static async Task<GeopoliticalLocation> GetAnyByAlpha2s(IEnumerable<string> alpha2s) {
+                string query = "SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, super_id " + alpha2s.Aggregate((q: "", i: 0), (acc, x) => {
+                    string q = acc.q;
+                    int i = acc.i;
+                    if (i == 0) {
+                        q = $"FROM geopolitical_location a{i} WHERE a{i}.alpha_2 = @alpha_2_{i} AND super_id IS NULL";
+                    }
+                    else {
+                        q = $"FROM geopolitical_location a{i} WHERE a{i}.alpha_2 = @alpha_2_{i} AND super_id = (SELECT id {q})";
+                    }
+                    return (q, i + 1);
+                }).q;
+                Console.WriteLine(query);
+                SqlCommand stmt = ConnectionWrapper.CreateCommand(query);
+                int j = 0;
+                foreach (string alpha2 in alpha2s) {
+                    stmt.Parameters.AddWithValue("@alpha_2_" + j, alpha2);
+                    j++;
+                }
+                return (await stmt.ExecuteReaderAsync())
+                    .ToIterator(x => new GeopoliticalLocationDbRep(x)).FirstOrDefault().ToModel();
+            }
         }
     }
 }
