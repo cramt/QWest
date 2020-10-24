@@ -1,10 +1,10 @@
 const mapOutStaticData = (staticData) => {
-    if (staticData.length === 0) {
+    if (!staticData || staticData.length === 0) {
         return []
     }
     return staticData.reduce((acc, x) => {
-        acc[x.alpha_2 || x.code] = x
-        x.subdivision = mapOutStaticData(x.subdivision)
+        acc[x.alpha_2] = x
+        x.subdivisions = mapOutStaticData(x.subdivisions)
         return acc
     }, {})
 }

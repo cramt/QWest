@@ -40,18 +40,19 @@ const subtractions = []
 $(async () => {
     const [progressMap, staticData] = await Promise.all([progressMapPromise, staticDataPromise])
     progressMap.locations = progressMap.locations.filter(x => x.startsWith(alpha2)).map(x => x.substring(alpha2.length + 1).split("-"))
-    const staticDataMap = mapOutStaticData(staticData.subdivision)
+    const staticDataMap = mapOutStaticData(staticData.subdivisions)
     mapOutVisitation(progressMap.locations, staticDataMap)
     const title = $("#title")
     const subdivisionList = $("#subdivision_list")
     const saveButton = $("#save")
     title.text("Edit " + staticData.name)
-    staticData.subdivision.forEach(subdivision => {
+    console.log(staticData)
+    staticData.subdivisions.forEach(subdivision => {
         const entry = $("<li></li>")
         const label = $("<label></label>")
         label.text(subdivision.name)
         entry.append(label)
-        if (subdivision.subdivision.length === 0) {
+        if (subdivision.subdivisions.length === 0) {
             const check = $("<input type=\"checkbox\"/>")
             const originalPossition = subdivision.visited
             if (originalPossition) {
@@ -61,19 +62,19 @@ $(async () => {
             check.on("click", e => {
                 const checked = e.currentTarget.checked
                 if (checked === originalPossition) {
-                    let index = array.indexOf(subdivision.code)
+                    let index = array.indexOf(subdivision.alpha_2)
                     if (index !== -1) {
                         array.splice(index, 1)
                     }
                 }
                 else {
-                    array.push(subdivision.code)
+                    array.push(subdivision.alpha_2)
                 }
             })
             entry.append(check)
         }
         else {
-            const next = $("<a href='" + window.location.href + "-" + subdivision.code + "'>-&gt;</a>")
+            const next = $("<a href='" + window.location.href + "-" + subdivision.alpha_2 + "'>-&gt;</a>")
             entry.append(next)
         }
         subdivisionList.append(entry)

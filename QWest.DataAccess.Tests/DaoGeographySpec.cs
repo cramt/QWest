@@ -41,5 +41,12 @@ namespace QWest.DataAccess.Tests {
             GeopoliticalLocation nordjylland = await DAO.Geography.GetAnyByAlpha2s("DK-81");
             Assert.AreEqual("Nordjylland", nordjylland.Name);
         }
+        [Test]
+        public async Task FetchesBeratFromAlpha2s() {
+            GeopoliticalLocation berat = await DAO.Geography.GetAnyByAlpha2s("AL-01");
+            Assert.AreEqual("Berat", berat.Name);
+            Assert.AreEqual(3, berat.Subdivisions.Count);
+        }
+
     }
 }

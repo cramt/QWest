@@ -33,7 +33,7 @@ async function fetchData() {
 }
 
 const getVisitationPercentage = (subdividable) => {
-    let subdivisions = Object.values(subdividable.subdivision);
+    let subdivisions = Object.values(subdividable.subdivisions);
     if (subdivisions.length == 0) {
         return subdividable.visited ? 1 : 0
     }

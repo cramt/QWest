@@ -72,11 +72,9 @@ $(async () => {
         if (description === user.description) {
             description = null
         }
-        console.log(username, description)
         if (description === null && username === null) {
             return;
         }
-        console.log("uo")
         const request = await fetch("/api/User/Update", {
             method: "POST",
             headers: {
@@ -89,7 +87,6 @@ $(async () => {
             })
         })
         if (request.status === 200) {
-            console.log("ya")
             return;
         }
         window.r2 = request

@@ -65,15 +65,22 @@ namespace QWest.DataAcess {
                     }
                 }
 
-                public static IEnumerable<Country> ToTreeStructure(IEnumerable<GeopoliticalLocationDbRep> locations) {
+                public static IEnumerable<GeopoliticalLocation> ToTreeStructure(IEnumerable<GeopoliticalLocationDbRep> locations) {
                     IEnumerable<GeopoliticalLocation> entities = locations.Select(x => x.ToModel()).ToList();
                     Dictionary<int, GeopoliticalLocation> map = entities.ToDictionary(x => x.Id, y => y);
-                    foreach (Subdivision sub in map.Values.Where(x => x is Subdivision).Select(x => (Subdivision)x)) {
-                        GeopoliticalLocation parent = map[sub.SuperId];
-                        sub.Parent = parent;
-                        parent.Subdivisions.Add(sub);
+                    foreach (GeopoliticalLocation local in map.Values) {
+                        if (local is Subdivision sub && map.ContainsKey(sub.SuperId)) {
+                            GeopoliticalLocation parent = map[sub.SuperId];
+                            sub.Parent = parent;
+                            parent.Subdivisions.Add(sub);
+                        }
                     }
-                    return map.Values.Where(x => x is Country).Select(x => (Country)x);
+                    return map.Values.Where(x => {
+                        if (x is Subdivision sub) {
+                            return !map.ContainsKey(sub.SuperId);
+                        }
+                        return true;
+                    });
                 }
             }
             public static Task InsertBackup(IEnumerable<Country> countries) {
@@ -146,7 +153,7 @@ namespace QWest.DataAcess {
                 IEnumerable<GeopoliticalLocationDbRep> locals = (await ConnectionWrapper.CreateCommand("SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, super_id FROM geopolitical_location")
                     .ExecuteReaderAsync())
                     .ToIterator(x => new GeopoliticalLocationDbRep(x));
-                return GeopoliticalLocationDbRep.ToTreeStructure(locals);
+                return GeopoliticalLocationDbRep.ToTreeStructure(locals).Cast<Country>();
 
 
             }
@@ -172,7 +179,7 @@ END
 SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, super_id FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
 ");
                 stmt.Parameters.AddWithValue("@alpha_2", alpha2);
-                return GeopoliticalLocationDbRep.ToTreeStructure((await stmt.ExecuteReaderAsync()).ToIterator(x => new GeopoliticalLocationDbRep(x))).FirstOrDefault();
+                return (Country)GeopoliticalLocationDbRep.ToTreeStructure((await stmt.ExecuteReaderAsync()).ToIterator(x => new GeopoliticalLocationDbRep(x))).FirstOrDefault();
             }
 
             public static Task<GeopoliticalLocation> GetAnyByAlpha2s(string alphas2) {
@@ -180,26 +187,44 @@ SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, su
             }
 
             public static async Task<GeopoliticalLocation> GetAnyByAlpha2s(IEnumerable<string> alpha2s) {
-                string query = "SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, super_id " + alpha2s.Aggregate((q: "", i: 0), (acc, x) => {
+                string query = alpha2s.Aggregate((q: "", i: 0), (acc, x) => {
                     string q = acc.q;
                     int i = acc.i;
                     if (i == 0) {
-                        q = $"FROM geopolitical_location a{i} WHERE a{i}.alpha_2 = @alpha_2_{i} AND super_id IS NULL";
+                        q = $"SELECT id FROM geopolitical_location a{i} WHERE a{i}.alpha_2 = @alpha_2_{i} AND super_id IS NULL";
                     }
                     else {
-                        q = $"FROM geopolitical_location a{i} WHERE a{i}.alpha_2 = @alpha_2_{i} AND super_id = (SELECT id {q})";
+                        q = $"SELECT id FROM geopolitical_location a{i} WHERE a{i}.alpha_2 = @alpha_2_{i} AND super_id = ({q})";
                     }
                     return (q, i + 1);
                 }).q;
-                Console.WriteLine(query);
+                query = $@"
+DECLARE @curr TABLE(g_id INT NOT NULL);
+DECLARE @temp TABLE(g_id INT NOT NULL);
+DECLARE @result TABLE(g_id INT NOT NULL);
+
+INSERT INTO @curr {query};
+
+
+WHILE (SELECT COUNT(*) FROM @curr) != 0
+BEGIN
+	DELETE FROM @temp;
+	INSERT INTO @temp SELECT sub.id FROM geopolitical_location sub INNER JOIN geopolitical_location super ON sub.super_id = super.id INNER JOIN @curr c ON super.id = c.g_id
+	INSERT INTO @result SELECT g_id FROM @curr;
+	DELETE FROM @curr;
+	INSERT INTO @curr SELECT g_id FROM @temp;
+END
+
+SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, super_id FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
+";
                 SqlCommand stmt = ConnectionWrapper.CreateCommand(query);
                 int j = 0;
                 foreach (string alpha2 in alpha2s) {
                     stmt.Parameters.AddWithValue("@alpha_2_" + j, alpha2);
                     j++;
                 }
-                return (await stmt.ExecuteReaderAsync())
-                    .ToIterator(x => new GeopoliticalLocationDbRep(x)).FirstOrDefault().ToModel();
+                return GeopoliticalLocationDbRep.ToTreeStructure((await stmt.ExecuteReaderAsync())
+                    .ToIterator(x => new GeopoliticalLocationDbRep(x))).FirstOrDefault();
             }
         }
     }
