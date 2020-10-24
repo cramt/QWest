@@ -11,11 +11,20 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities;
 
 namespace QWest.DataAccess.Tests {
     [TestFixture]
     class DaoGeographySpec {
         [Test]
+        public async Task BackUpsCorrectly() {
+            await ConnectionWrapper.CreateCommand("DELETE FROM geopolitical_location").ExecuteNonQueryAsync();
+            List<Country> countries = GeopoliticalLocation.Parse(File.ReadAllText(Utilities.Utilities.SolutionLocation + "\\QWest.DataAccess\\res\\geopolitical_location_backup.json"));
+            await DAO.Geography.InsertBackup(countries);
+            int amount = (await ConnectionWrapper.CreateCommand("SELECT COUNT(*) FROM geopolitical_location WHERE super_id IS NULL").ExecuteReaderAsync()).ToIterator(x => x.GetSqlInt32(0).Value).First();
+            Assert.AreEqual(countries.Count, amount);
+        }
+            [Test]
         public async Task FetchesAlbaniaCorrectly() {
             Country albania = await DAO.Geography.GetCountryByAlpha2("AL");
             Assert.AreEqual("Albania", albania.Name);

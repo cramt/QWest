@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="res\geopolitical_location_backup.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\2.sql" />
@@ -114,8 +115,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\10.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="res\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
