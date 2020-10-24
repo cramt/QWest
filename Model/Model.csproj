@@ -58,10 +58,6 @@
       <Project>{592d5e5c-cf2a-4e38-9082-4295dad193bd}</Project>
       <Name>Config</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GeographicSubdivision.Provider\GeographicSubdivision.Provider.csproj">
-      <Project>{823ccec5-5648-4fa1-9107-68721bb6e669}</Project>
-      <Name>GeographicSubdivision.Provider</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{02B753F8-BEF9-43F8-BC08-03C4735B044B}</Project>
       <Name>Utilities</Name>
