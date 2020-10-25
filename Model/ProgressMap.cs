@@ -1,20 +1,12 @@
-﻿using GeographicSubdivision.Provider;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Model {
     public class ProgressMap {
         public int? Id { get; set; }
 
         public Collection<string> Locations { get; }
-
-        [JsonIgnore]
-        public IEnumerable<IReadOnlyCollection<AbstractLocation>> LocationsTransformed {
-            get => Locations.Select(x => GeographyProvider.Instance.Alpha2Map[x]);
-        }
 
         [JsonIgnore]
         public List<string> Additions { get; } = new List<string>();
