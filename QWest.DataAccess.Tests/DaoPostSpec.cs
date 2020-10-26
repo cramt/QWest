@@ -35,7 +35,7 @@ namespace QWest.DataAccess.Tests {
             Assert.AreEqual(expected.Contents, fetched.Contents);
             Assert.AreEqual(expected.PostTime, fetched.PostTime);
             Assert.AreEqual(expected.Images, fetched.Images);
-            Assert.AreEqual(expected.LocationId, fetched.LocationId);
+            Assert.AreEqual(expected.Location, fetched.Location);
             Assert.AreEqual(expected.User.Id, fetched.User.Id);
         }
 

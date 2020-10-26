@@ -1,4 +1,5 @@
 ﻿using Model.Geographic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -11,15 +12,25 @@ using Utilities;
 namespace QWest.DataAcess {
     public static partial class DAO {
         public static class Geography {
-            private class GeopoliticalLocationDbRep {
+            [Serializable]
+            internal class GeopoliticalLocationDbRep {
+                [JsonProperty("id")]
                 public int Id { get; }
+                [JsonProperty("alpha_2")]
                 public string Alpha2 { get; }
+                [JsonProperty("alpha_3")]
                 public string Alpha3 { get; }
+                [JsonProperty("name")]
                 public string Name { get; }
+                [JsonProperty("official_name")]
                 public string OfficialName { get; }
+                [JsonProperty("common_name")]
                 public string CommonName { get; }
+                [JsonProperty("type")]
                 public string Type { get; }
+                [JsonProperty("numeric")]
                 public int? Numeric { get; }
+                [JsonProperty("super_id")]
                 public int? SuperId { get; }
 
                 public GeopoliticalLocationDbRep(SqlDataReader reader) {
@@ -32,6 +43,14 @@ namespace QWest.DataAcess {
                     Type = reader.GetSqlString(6).Value;
                     Numeric = reader.GetSqlInt32(7).NullableValue();
                     SuperId = reader.GetSqlInt32(8).NullableValue();
+                }
+
+                public static IEnumerable<GeopoliticalLocationDbRep> FromJson(string json) {
+                    return JsonConvert.DeserializeObject<IEnumerable<GeopoliticalLocationDbRep>>(json);
+                }
+
+                public static GeopoliticalLocationDbRep FromJsonSingle(string json) {
+                    return JsonConvert.DeserializeObject<GeopoliticalLocationDbRep>(json);
                 }
 
                 public bool IsCountry {

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Model.Geographic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -11,11 +12,7 @@ namespace Model {
         public User User { get; set; }
         public DateTime PostTime { get; set; }
         public List<int> Images { get; set; }
-        public string LocationId { get; set; }
-        public Post(string contents, User user, int postTime, List<int> images)
-            : this(contents, user, postTime, images, null) {
-
-        }
+        public GeopoliticalLocation Location { get; set; }
         public Post(string contents, User user, int postTime, List<int> images, int? id)
             : this(contents, user, unchecked((uint)postTime), images, null, id) {
 
@@ -23,10 +20,16 @@ namespace Model {
         public Post(string contents, User user, uint postTime, List<int> images)
             : this(contents, user, postTime, images, null) {
         }
-        public Post(string contents, User user, uint postTime, List<int> images, string locationId)
+        public Post(string contents, User user, int postTime, List<int> images, GeopoliticalLocation locationId)
+            : this(contents, user, unchecked((uint)postTime), images, locationId, null) {
+        }
+        public Post(string contents, User user, uint postTime, List<int> images, GeopoliticalLocation locationId)
             : this(contents, user, postTime, images, locationId, null) {
         }
-        public Post(string contents, User user, uint postTime, List<int> images, string locationId, int? id)
+        public Post(string contents, User user, int postTime, List<int> images, GeopoliticalLocation locationId, int? id)
+            : this(contents, user, unchecked((uint)postTime), images, locationId, id) {
+        }
+        public Post(string contents, User user, uint postTime, List<int> images, GeopoliticalLocation locationId, int? id)
             : this(contents, user, Config.Config.Instance.StartDate.AddSeconds(postTime), images, locationId, id) {
         }
         public Post(string contents, User user, DateTime postTime, List<int> images)
@@ -34,17 +37,17 @@ namespace Model {
 
         }
 
-        public Post(string contents, User user, DateTime postTime, List<int> images, string locationId)
+        public Post(string contents, User user, DateTime postTime, List<int> images, GeopoliticalLocation locationId)
             : this(contents, user, postTime, images, locationId, null) {
 
         }
-        public Post(string contents, User user, DateTime postTime, List<int> images, string locationId, int? id) {
+        public Post(string contents, User user, DateTime postTime, List<int> images, GeopoliticalLocation locationId, int? id) {
             Contents = contents;
             User = user;
             PostTime = postTime;
             Images = images;
             Id = id;
-            LocationId = locationId;
+            Location = locationId;
         }
     }
 }

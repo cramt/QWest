@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -20,20 +21,21 @@ namespace QWest.DataAcess {
                 return await GetByUserId(user.Id ?? 0);
             }
             public static async Task<List<RPost>> GetByUserId(int userId) {
-                SqlCommand stmt = ConnectionWrapper.CreateCommand("select " +
-"posts.id, content, users_id, post_time, location_id, " +
-"username, password_hash, email, description, session_cookie, " +
-"(select STRING_AGG(images_id, ',') as images from posts_images where posts_images.posts_id = posts.id) as images " +
-"from " +
-"users inner join posts on users.id = posts.users_id " +
-"where users.id = @id");
+                SqlCommand stmt = ConnectionWrapper.CreateCommand(@"
+select
+posts.id, content, users_id, post_time, (select * from dbo.FetchGeopoliticalLocation(location) for json path) as location,
+username, password_hash, email, description, session_cookie, 
+(select STRING_AGG(images_id, ',') as images from posts_images where posts_images.posts_id = posts.id) as images
+from
+users inner join posts on users.id = posts.users_id
+where users.id = @id");
                 stmt.Parameters.AddWithValue("@id", userId);
                 RUser user = null;
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => {
                     if (user == null) {
                         user = new RUser(reader.GetSqlString(5).Value, reader.GetSqlBinary(6).Value, reader.GetSqlString(7).Value, reader.GetSqlString(8).NullableValue(), reader.GetSqlBinary(9).NullableValue(), reader.GetSqlInt32(2).Value);
                     }
-                    return new RPost(reader.GetSqlString(1).Value, user, reader.GetSqlInt32(3).Value, reader.GetSqlString(10).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlInt32(0).Value);
+                    return new RPost(reader.GetSqlString(1).Value, user, reader.GetSqlInt32(3).Value, reader.GetSqlString(10).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(4).NullableValue().MapValue(x=> Geography.GeopoliticalLocationDbRep.ToTreeStructure(Geography.GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(0).Value);
                 }).ToList();
             }
             public static async Task<RPost> Add(PostUpload post) {
@@ -43,9 +45,9 @@ namespace QWest.DataAcess {
                 string statement = "" +
                     "declare @post_id int;" +
                     "insert into posts " +
-                    "(content, users_id, post_time, location_id)" +
+                    "(content, users_id, post_time, location)" +
                     "values" +
-                    "(@content, @user_id, @post_time, @location_id);" +
+                    "(@content, @user_id, @post_time, @location);" +
                     "" +
                     "set @post_id = CAST(scope_identity() as int);" +
                 string.Join("", post.Images.Select((_, i) => "" +
@@ -62,6 +64,7 @@ namespace QWest.DataAcess {
 
                 "select " +
                 "(select STRING_AGG(images_id, ',') as images from posts_images where posts_images.posts_id = @post_id) as images, " +
+                "(select * from dbo.FetchGeopoliticalLocation(location) for json path) as location, " +
                 "id " +
                 "from posts " +
                 "where posts.id = @post_id";
@@ -71,13 +74,13 @@ namespace QWest.DataAcess {
                 uint upostTime = (uint)post.PostTime.Subtract(Config.Config.Instance.StartDate).TotalSeconds;
                 int postTime = unchecked((int)upostTime);
                 stmt.Parameters.AddWithValue("@post_time", postTime);
-                stmt.Parameters.AddWithValue("@location_id", post.LocationId.UnwrapOr(""));
+                stmt.Parameters.AddWithValue("@location", post.Location ?? SqlInt32.Null);
                 for (int i = 0; i < post.Images.Count; i++) {
                     stmt.Parameters.AddWithValue("@image_blob" + i, post.Images[i]);
                 }
 
                 return (await stmt.ExecuteReaderAsync())
-                    .ToIterator(reader => new RPost(post.Contents, post.User, upostTime, reader.GetSqlString(0).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), post.LocationId, reader.GetSqlInt32(1).Value)).FirstOrDefault();
+                    .ToIterator(reader => new RPost(post.Contents, post.User, upostTime, reader.GetSqlString(0).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(1).NullableValue().MapValue(x => Geography.GeopoliticalLocationDbRep.ToTreeStructure(Geography.GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(2).Value)).FirstOrDefault();
             }
         }
     }

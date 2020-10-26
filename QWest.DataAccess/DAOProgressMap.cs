@@ -28,22 +28,22 @@ namespace QWest.DataAcess {
             public static async Task<RProgressMap> Get(int id) {
                 SqlCommand stmt = ConnectionWrapper.CreateCommand("select location from progress_maps inner join progress_maps_locations on progress_maps.id = progress_maps_locations.progress_maps_id where progress_maps.id = @id");
                 stmt.Parameters.AddWithValue("@id", id);
-                return new RProgressMap((await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlString(0).Value).ToList(), id);
+                return new RProgressMap((await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).ToList(), id);
             }
             public static async Task<RProgressMap> GetByUserId(int userId) {
                 SqlCommand stmt = ConnectionWrapper.CreateCommand("select progress_maps.id, location from users inner join progress_maps on users.progress_maps_id = progress_maps.id inner join progress_maps_locations on progress_maps.id = progress_maps_locations.progress_maps_id where users.id = @id");
                 stmt.Parameters.AddWithValue("@id", userId);
-                List<(int, string)> result = (await stmt.ExecuteReaderAsync()).ToIterator(reader => (reader.GetSqlInt32(0).Value, reader.GetSqlString(1).Value)).ToList();
+                List<(int, int)> result = (await stmt.ExecuteReaderAsync()).ToIterator(reader => (reader.GetSqlInt32(0).Value, reader.GetSqlInt32(1).Value)).ToList();
                 if (result.Count == 0) {
                     stmt = ConnectionWrapper.CreateCommand("select progress_maps.id from users inner join progress_maps on users.progress_maps_id = progress_maps.id where users.id = @id");
                     stmt.Parameters.AddWithValue("@id", userId);
-                    return new RProgressMap(new List<string>(), (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).First());
+                    return new RProgressMap(new List<int>(), (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).First());
                 }
                 else {
                     return new RProgressMap(result.Select(x => x.Item2).ToList(), result[0].Item1);
                 }
             }
-            public static async Task Update(int id, List<string> additions, List<string> subtractions) {
+            public static async Task Update(int id, List<int> additions, List<int> subtractions) {
                 if ((additions.Count + subtractions.Count) == 0) {
                     return;
                 }

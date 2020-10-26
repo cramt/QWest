@@ -133,5 +133,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\16.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\17.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
