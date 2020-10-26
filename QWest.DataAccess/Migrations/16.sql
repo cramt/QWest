@@ -1,0 +1,1 @@
+﻿DROP FUNCTION dbo.Temp;
