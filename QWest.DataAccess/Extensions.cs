@@ -1,7 +1,13 @@
-﻿using System.Data.SqlTypes;
+﻿using System.Data.SqlClient;
+using System.Data.SqlTypes;
 
 namespace QWest.DataAcess {
     public static class Extensions {
+        public static SqlCommand CreateCommand(this SqlConnection conn, string query) {
+            return new SqlCommand(null, conn) {
+                CommandText = query
+            };
+        }
         public static byte[] NullableValue(this SqlBinary bytes) {
             return bytes.IsNull ? null : bytes.Value;
         }

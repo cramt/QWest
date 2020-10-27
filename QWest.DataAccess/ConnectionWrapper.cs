@@ -15,9 +15,7 @@ namespace QWest.DataAcess {
             _instance = null;
         }
         public static SqlCommand CreateCommand(string command) {
-            return new SqlCommand(null, Instance) {
-                CommandText = command
-            };
+            return Instance.CreateCommand(command);
         }
         public static SqlConnection Instance {
             get {
@@ -83,7 +81,7 @@ namespace QWest.DataAcess {
             catch (Exception) { }
             if (applyGeopoliticalLocationBackup) {
                 List<Country> countries = GeopoliticalLocation.Parse(File.ReadAllText(Utilities.Utilities.SolutionLocation + "\\QWest.DataAccess\\res\\geopolitical_location_backup.json"));
-                await DAO.Geography.InsertBackup(countries, conn);
+                await new Mssql.GeographyImpl(conn).InsertBackup(countries);
             }
         }
 
