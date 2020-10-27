@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Utilities;
@@ -157,6 +158,108 @@ SELECT id, alpha_2, alpha_3, name, names, official_name, common_name, type, nume
             }
             return GeopoliticalLocationDbRep.ToTreeStructure((await stmt.ExecuteReaderAsync())
                 .ToIterator(x => new GeopoliticalLocationDbRep(x))).FirstOrDefault();
+        }
+
+        public async Task Update(GeopoliticalLocation location) {
+            SqlCommand stmt = _conn.CreateCommand(@"
+UPDATE geopolitical_location
+SET
+alpha_2 = @alpha_2,
+alpha_3 = @alpha_3,
+name = @name,
+names = @names,
+offical_name = @offical_name,
+common_name = @common_name,
+type = @type,
+numeric = @numeric,
+super_id = @super_id
+WHERE
+id = @id
+");
+            if (location is Country country) {
+                stmt.Parameters.AddWithValue("@alpha_2", country.Alpha2);
+                stmt.Parameters.AddWithValue("@alpha_3", country.Alpha3);
+                stmt.Parameters.AddWithValue("@name", country.Name);
+                stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(country.Names ?? new List<string>()));
+                stmt.Parameters.AddWithValue("@offical_name", country.OfficialName ?? SqlString.Null);
+                stmt.Parameters.AddWithValue("@common_name", country.CommonName ?? SqlString.Null);
+                stmt.Parameters.AddWithValue("@type", country.Type);
+                stmt.Parameters.AddWithValue("@numeric", country.Numeric);
+
+                stmt.Parameters.AddWithValue("@super_id", SqlInt32.Null);
+            }
+            else if (location is Subdivision subdivision) {
+                stmt.Parameters.AddWithValue("@alpha_2", subdivision.Alpha2);
+                stmt.Parameters.AddWithValue("@name", subdivision.Name);
+                stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(subdivision.Names ?? new List<string>()));
+                stmt.Parameters.AddWithValue("@type", subdivision.Type);
+                stmt.Parameters.AddWithValue("@super_id", subdivision.SuperId);
+
+                stmt.Parameters.AddWithValue("@alpha_3", SqlString.Null);
+                stmt.Parameters.AddWithValue("@offical_name", SqlString.Null);
+                stmt.Parameters.AddWithValue("@common_name", SqlString.Null);
+                stmt.Parameters.AddWithValue("@numeric", SqlInt32.Null);
+            }
+            else {
+                throw new ArgumentException("supplied a geopolitical location that was neither country or subdivision");
+            }
+
+            await stmt.ExecuteNonQueryAsync();
+        }
+
+        public Task Delete(GeopoliticalLocation location) {
+            return Delete(location.Id ?? 0);
+        }
+
+        public async Task Delete(int id) {
+            SqlCommand stmt = _conn.CreateCommand(@"
+DELETE FROM 
+geopolitical_location
+WHERE
+id = @id
+");
+            stmt.Parameters.AddWithValue("@id", id);
+            await stmt.ExecuteNonQueryAsync();
+        }
+
+        public async Task<int> Add(GeopoliticalLocation location) {
+            SqlCommand stmt = _conn.CreateCommand(@"
+INSERT INTO geopolitical_location
+(alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id)
+VALUES
+(@alpha_2, @alpha_3, @name, @names, @official_name, @common_name, @type, @numeric, @super_id);
+SELECT CAST(scope_identity() AS int)
+");
+            if (location is Country country) {
+                stmt.Parameters.AddWithValue("@alpha_2", country.Alpha2);
+                stmt.Parameters.AddWithValue("@alpha_3", country.Alpha3);
+                stmt.Parameters.AddWithValue("@name", country.Name);
+                stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(country.Names ?? new List<string>()));
+                stmt.Parameters.AddWithValue("@offical_name", country.OfficialName ?? SqlString.Null);
+                stmt.Parameters.AddWithValue("@common_name", country.CommonName ?? SqlString.Null);
+                stmt.Parameters.AddWithValue("@type", country.Type);
+                stmt.Parameters.AddWithValue("@numeric", country.Numeric);
+
+                stmt.Parameters.AddWithValue("@super_id", SqlInt32.Null);
+            }
+            else if (location is Subdivision subdivision) {
+                stmt.Parameters.AddWithValue("@alpha_2", subdivision.Alpha2);
+                stmt.Parameters.AddWithValue("@name", subdivision.Name);
+                stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(subdivision.Names ?? new List<string>()));
+                stmt.Parameters.AddWithValue("@type", subdivision.Type);
+                stmt.Parameters.AddWithValue("@super_id", subdivision.SuperId);
+
+                stmt.Parameters.AddWithValue("@alpha_3", SqlString.Null);
+                stmt.Parameters.AddWithValue("@offical_name", SqlString.Null);
+                stmt.Parameters.AddWithValue("@common_name", SqlString.Null);
+                stmt.Parameters.AddWithValue("@numeric", SqlInt32.Null);
+            }
+            else {
+                throw new ArgumentException("supplied a geopolitical location that was neither country or subdivision");
+            }
+            int id = (int)await stmt.ExecuteScalarAsync();
+            location.Id = id;
+            return id;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Model.Geographic {
     [Serializable]
     public abstract class GeopoliticalLocation {
         [JsonIgnore]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [JsonProperty("alpha_2")]
         public string Alpha2 { get; set; }

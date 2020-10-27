@@ -88,7 +88,7 @@ namespace QWest.DataAcess {
 
             public static IEnumerable<GeopoliticalLocation> ToTreeStructure(IEnumerable<GeopoliticalLocationDbRep> locations) {
                 IEnumerable<GeopoliticalLocation> entities = locations.Select(x => x.ToModel()).ToList();
-                Dictionary<int, GeopoliticalLocation> map = entities.ToDictionary(x => x.Id, y => y);
+                Dictionary<int, GeopoliticalLocation> map = entities.ToDictionary(x => (int)x.Id, y => y);
                 foreach (GeopoliticalLocation local in map.Values) {
                     if (local is Subdivision sub && map.ContainsKey(sub.SuperId)) {
                         GeopoliticalLocation parent = map[sub.SuperId];
@@ -110,6 +110,10 @@ namespace QWest.DataAcess {
             Task<Country> GetCountryByAlpha2(string alpha2);
             Task<GeopoliticalLocation> GetAnyByAlpha2s(string alphas2);
             Task<GeopoliticalLocation> GetAnyByAlpha2s(IEnumerable<string> alpha2s);
+            Task Update(GeopoliticalLocation location);
+            Task Delete(GeopoliticalLocation location);
+            Task Delete(int id);
+            Task<int> Add(GeopoliticalLocation location);
         }
 
         public static IGeography Geography { get; set; } = new Mssql.GeographyImpl(ConnectionWrapper.Instance);
