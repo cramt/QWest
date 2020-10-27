@@ -261,5 +261,33 @@ SELECT CAST(scope_identity() AS int)
             location.Id = id;
             return id;
         }
+        public async Task<IEnumerable<Country>> GetCountries() {
+            SqlCommand stmt = _conn.CreateCommand(@"
+SELECT
+id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id
+FROM
+geopolitical_location
+WHERE
+super_id IS NULL
+");
+            return (await stmt.ExecuteReaderAsync()).ToIterator(x => (Country)new GeopoliticalLocationDbRep(x).ToModel());
+        }
+        public async Task<IEnumerable<Subdivision>> GetSubdivisions(GeopoliticalLocation location) {
+            var results = (await GetSubdivisions((int)location.Id)).ToList();
+            location.Subdivisions = results;
+            return results;
+        }
+        public async Task<IEnumerable<Subdivision>> GetSubdivisions(int superId) {
+            SqlCommand stmt = _conn.CreateCommand(@"
+SELECT
+id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id
+FROM
+geopolitical_location
+WHERE
+super_id = @super_id
+");
+            stmt.Parameters.AddWithValue("@super_id", superId);
+            return (await stmt.ExecuteReaderAsync()).ToIterator(x => (Subdivision)new GeopoliticalLocationDbRep(x).ToModel()).ToList();
+        }
     }
 }

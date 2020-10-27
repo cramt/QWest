@@ -24,7 +24,7 @@ const progressMapPromise = (async () => {
     return progressMap
 })()
 const staticDataPromise = (async () => {
-    let request = await fetch("/api/Subdivision/Get?alpha2=" + alpha2, {
+    let request = await fetch("/api/Geography/Get?alpha2=" + alpha2, {
         method: "GET",
         headers: {
             'Accept': 'application/json',

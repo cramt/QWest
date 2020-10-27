@@ -17,7 +17,7 @@ async function fetchData() {
         return { user, progressMap }
     })()
     let staticDataPromise = (async () => {
-        let request = await fetch("/api/Subdivision/Get", {
+        let request = await fetch("/api/Geography/Get", {
             method: "GET",
             headers: {
                 'Accept': 'application/json',

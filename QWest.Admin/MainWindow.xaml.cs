@@ -21,5 +21,10 @@ namespace QWest.Admin {
         public MainWindow() {
             InitializeComponent();
         }
+
+        private async void Button_Click(object sender, RoutedEventArgs e) {
+            var countries = await Fetch.GetCountries();
+            new DisplayCountry(countries).Show();
+        }
     }
 }

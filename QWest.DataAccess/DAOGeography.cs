@@ -114,6 +114,9 @@ namespace QWest.DataAcess {
             Task Delete(GeopoliticalLocation location);
             Task Delete(int id);
             Task<int> Add(GeopoliticalLocation location);
+            Task<IEnumerable<Country>> GetCountries();
+            Task<IEnumerable<Subdivision>> GetSubdivisions(int superId);
+            Task<IEnumerable<Subdivision>> GetSubdivisions(GeopoliticalLocation location);
         }
 
         public static IGeography Geography { get; set; } = new Mssql.GeographyImpl(ConnectionWrapper.Instance);

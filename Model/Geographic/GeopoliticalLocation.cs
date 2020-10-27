@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Model.Geographic {
     [Serializable]
     public abstract class GeopoliticalLocation {
-        [JsonIgnore]
+        [JsonProperty("id")]
         public int? Id { get; set; }
 
         [JsonProperty("alpha_2")]

@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Button Margin="0,0,627,355" Click="Button_Click">Geography Admin Panel</Button>
     </Grid>
 </Window>
