@@ -21,6 +21,8 @@ namespace QWest.DataAcess {
             public string Alpha3 { get; }
             [JsonProperty("name")]
             public string Name { get; }
+            [JsonProperty("names")]
+            public List<string> Names { get; }
             [JsonProperty("official_name")]
             public string OfficialName { get; }
             [JsonProperty("common_name")]
@@ -37,11 +39,12 @@ namespace QWest.DataAcess {
                 Alpha2 = reader.GetSqlString(1).Value;
                 Alpha3 = reader.GetSqlString(2).NullableValue();
                 Name = reader.GetSqlString(3).Value;
-                OfficialName = reader.GetSqlString(4).NullableValue();
-                CommonName = reader.GetSqlString(5).NullableValue();
-                Type = reader.GetSqlString(6).Value;
-                Numeric = reader.GetSqlInt32(7).NullableValue();
-                SuperId = reader.GetSqlInt32(8).NullableValue();
+                Names = JsonConvert.DeserializeObject<List<string>>(reader.GetSqlString(4).Value);
+                OfficialName = reader.GetSqlString(5).NullableValue();
+                CommonName = reader.GetSqlString(6).NullableValue();
+                Type = reader.GetSqlString(7).Value;
+                Numeric = reader.GetSqlInt32(8).NullableValue();
+                SuperId = reader.GetSqlInt32(9).NullableValue();
             }
 
             public static IEnumerable<GeopoliticalLocationDbRep> FromJson(string json) {

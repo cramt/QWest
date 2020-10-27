@@ -3,6 +3,7 @@
 	alpha_2 CHAR(2) NOT NULL,
 	alpha_3 CHAR(3) DEFAULT(NULL),
 	name VARCHAR(MAX) NOT NULL,
+	names VARCHAR(MAX) NOT NULL,
 	official_name VARCHAR(MAX) DEFAULT(NULL),
 	common_name VARCHAR(MAX) DEFAULT(NULL),
 	type VARCHAR(MAX) NOT NULL,

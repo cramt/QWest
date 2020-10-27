@@ -1,4 +1,5 @@
 ﻿using Model.Geographic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -22,12 +23,13 @@ namespace QWest.DataAcess.Mssql {
                 i++;
                 preparedQueryParams.Add(("@alpha_2" + i, subdivision.Alpha2));
                 preparedQueryParams.Add(("@name" + i, subdivision.Name));
+                preparedQueryParams.Add(("@names" + i, JsonConvert.SerializeObject(subdivision.Names ?? new List<string>())));
                 preparedQueryParams.Add(("@type" + i, subdivision.Type));
                 string q = "" +
                 "INSERT INTO geopolitical_location " +
-                "(alpha_2, name, type, super_id) " +
+                "(alpha_2, name, names, type, super_id) " +
                 "VALUES " +
-                $"(CAST(@alpha_2{i} as CHAR(2)), @name{i}, @type{i}, {id}); ";
+                $"(CAST(@alpha_2{i} as CHAR(2)), @name{i}, @names{i}, @type{i}, {id}); ";
                 if (subdivision.Subdivisions.Count() != 0) {
                     declarations.Append($"@last_id{i} INT, ");
                     string thisid = "@last_id" + i;
@@ -45,6 +47,7 @@ namespace QWest.DataAcess.Mssql {
                 preparedQueryParams.Add(("@alpha_2" + i, country.Alpha2.ToCharArray()));
                 preparedQueryParams.Add(("@alpha_3" + i, country.Alpha3.ToCharArray()));
                 preparedQueryParams.Add(("@name" + i, country.Name));
+                preparedQueryParams.Add(("@names" + i, JsonConvert.SerializeObject(country.Names ?? new List<string>())));
                 preparedQueryParams.Add(("@official_name" + i, country.OfficialName ?? SqlString.Null));
                 preparedQueryParams.Add(("@common_name" + i, country.CommonName ?? SqlString.Null));
                 preparedQueryParams.Add(("@type" + i, country.Type));
@@ -52,9 +55,9 @@ namespace QWest.DataAcess.Mssql {
                 string thisid = "@last_id" + i;
                 string query = "" +
                 "INSERT INTO geopolitical_location " +
-                "(alpha_2, alpha_3, name, official_name, common_name, type, numeric) " +
+                "(alpha_2, alpha_3, name, names, official_name, common_name, type, numeric) " +
                 "VALUES " +
-                $"(CAST(@alpha_2{i} as CHAR(2)), @alpha_3{i}, @name{i}, @official_name{i}, @common_name{i}, @type{i}, @numeric{i}); " +
+                $"(CAST(@alpha_2{i} as CHAR(2)), @alpha_3{i}, @name{i}, @names{i}, @official_name{i}, @common_name{i}, @type{i}, @numeric{i}); " +
                 $"SET @last_id{i} = CAST(scope_identity() as int); " +
                 string.Join("", country.Subdivisions.Select(x => recSubdivisionInsert(thisid, x, preparedQueryParams, declarations)).ToArray());
                 return (preparedQueryParams, declarations.ToString(), query);
@@ -79,7 +82,7 @@ namespace QWest.DataAcess.Mssql {
             }).ToArray());
         }
         public async Task<IEnumerable<Country>> CreateBackup() {
-            IEnumerable<GeopoliticalLocationDbRep> locals = (await _conn.CreateCommand("SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, super_id FROM geopolitical_location")
+            IEnumerable<GeopoliticalLocationDbRep> locals = (await _conn.CreateCommand("SELECT id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id FROM geopolitical_location")
                 .ExecuteReaderAsync())
                 .ToIterator(x => new GeopoliticalLocationDbRep(x));
             return GeopoliticalLocationDbRep.ToTreeStructure(locals).Cast<Country>();
@@ -105,7 +108,7 @@ BEGIN
 	INSERT INTO @curr SELECT g_id FROM @temp;
 END
 
-SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, super_id FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
+SELECT id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
 ");
             stmt.Parameters.AddWithValue("@alpha_2", alpha2);
             return (Country)GeopoliticalLocationDbRep.ToTreeStructure((await stmt.ExecuteReaderAsync()).ToIterator(x => new GeopoliticalLocationDbRep(x))).FirstOrDefault();
@@ -144,7 +147,7 @@ BEGIN
 	INSERT INTO @curr SELECT g_id FROM @temp;
 END
 
-SELECT id, alpha_2, alpha_3, name, official_name, common_name, type, numeric, super_id FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
+SELECT id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
 ";
             SqlCommand stmt = _conn.CreateCommand(query);
             int j = 0;

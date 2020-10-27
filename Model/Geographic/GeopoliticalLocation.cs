@@ -14,6 +14,9 @@ namespace Model.Geographic {
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("names")]
+        public List<string> Names { get; set; }
+
         [JsonProperty("subdivisions")]
         public List<Subdivision> Subdivisions { get; set; }
 

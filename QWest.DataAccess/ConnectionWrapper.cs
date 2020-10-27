@@ -64,6 +64,7 @@ namespace QWest.DataAcess {
             foreach ((int numeric, string text) in GetScripts().Where(x => x.numeric > schemaVersion)) {
                 stmt = conn.CreateCommand();
                 stmt.CommandText = text;
+                Console.WriteLine("migrating: " + numeric);
                 await stmt.ExecuteNonQueryAsync();
                 schemaVersion = numeric;
             }
