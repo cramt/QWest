@@ -33,8 +33,8 @@ namespace QWest.Api.Controllers {
         }
         public class UpdateArgument {
             public int id;
-            public List<string> additions;
-            public List<string> subtractions;
+            public List<int> additions;
+            public List<int> subtractions;
         }
         [HttpPost]
         [ResponseType(typeof(bool))]
