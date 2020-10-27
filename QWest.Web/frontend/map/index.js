@@ -33,7 +33,7 @@ async function fetchData() {
 }
 
 const getVisitationPercentage = (subdividable) => {
-    let subdivisions = Object.values(subdividable.subdivisions);
+    let subdivisions = Object.entries(subdividable.subdivisions).filter(x => typeof x[0] === "string").map(x => x[1]);
     if (subdivisions.length == 0) {
         return subdividable.visited ? 1 : 0
     }
@@ -68,11 +68,10 @@ const renderMap = (staticData) => {
 
 $(async () => {
     let { userData, staticData } = await fetchData();
-    userData.progressMap.locations = userData.progressMap.locations.map(x => x.split("-"))
     let staticDataMap = mapOutStaticData(staticData)
     let logoutButton = $("#logout-button")
-    mapOutVisitation(userData.progressMap.locations, staticDataMap)
 
+    mapOutVisitation(userData.progressMap.locations, staticDataMap)
     renderMap(staticDataMap)
 
     let customMenu = $(".custom-menu")
@@ -90,8 +89,8 @@ $(async () => {
             left: e.pageX + "px"
         })
     })
-    
-    logoutButton.on("click", async() => {
+
+    logoutButton.on("click", async () => {
         await cookieStore.delete("sessionCookie")
         window.location.href = "/login.html"
     })

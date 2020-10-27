@@ -62,13 +62,13 @@ $(async () => {
             check.on("click", e => {
                 const checked = e.currentTarget.checked
                 if (checked === originalPossition) {
-                    let index = array.indexOf(subdivision.alpha_2)
+                    let index = array.indexOf(subdivision.id)
                     if (index !== -1) {
                         array.splice(index, 1)
                     }
                 }
                 else {
-                    array.push(subdivision.alpha_2)
+                    array.push(subdivision.id)
                 }
             })
             entry.append(check)
@@ -80,8 +80,6 @@ $(async () => {
         subdivisionList.append(entry)
     })
     saveButton.on("click", async () => {
-        let add = additions.map(x => alpha2 + "-" + x)
-        let sub = subtractions.map(x => alpha2 + "-" + x)
         let request = await fetch("/api/ProgressMap/Change", {
             method: "POST",
             headers: {
@@ -90,8 +88,8 @@ $(async () => {
             },
             body: JSON.stringify({
                 id: progressMap.id,
-                additions: add,
-                subtractions: sub
+                additions,
+                subtractions
             })
         });
         if (request.status !== 200) {
