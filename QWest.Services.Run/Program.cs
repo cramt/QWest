@@ -19,9 +19,12 @@ namespace QWest.Services.Run {
             var names = services.Select(x => x.Name).ToList();
             var originalConsole = Console.Out;
             Console.SetOut(new ConsoleCatcher(names, originalConsole));
-            Task.WaitAll(services.Select(x => {
+            Task.WaitAll(services.Select(async x => {
                 Console.WriteLine("initializing " + x.Name);
-                return x.Run();
+                await x.Run();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(x.Name + " has stopped running");
+                Console.ResetColor();
             }).ToArray());
         }
 

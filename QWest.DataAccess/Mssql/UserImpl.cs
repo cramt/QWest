@@ -1,14 +1,12 @@
-﻿using Model.Geographic;
+﻿using Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Utilities;
 using static QWest.DataAcess.DAO;
-using RUser = Model.User;
 
 namespace QWest.DataAcess.Mssql {
     class UserImpl : IUser {
@@ -17,7 +15,7 @@ namespace QWest.DataAcess.Mssql {
             _conn = conn;
         }
         //TODO: add admin property
-        public async Task Add(RUser user) {
+        public async Task Add(User user) {
             if (user.Id != null) {
                 throw new ArgumentException("tried to add user " + user.Username + ", but they already have an id");
             }
@@ -29,7 +27,7 @@ namespace QWest.DataAcess.Mssql {
             stmt.Parameters.AddWithValue("@email", user.Email);
             user.Id = (int)await stmt.ExecuteScalarAsync();
         }
-        public async Task Update(RUser user) {
+        public async Task Update(User user) {
             if (user.Id == null) {
                 throw new ArgumentException("tried to update user " + user.Username + ", but they dont have an id");
             }
@@ -42,54 +40,54 @@ namespace QWest.DataAcess.Mssql {
             stmt.Parameters.AddWithValue("@description", user.Description);
             await stmt.ExecuteNonQueryAsync();
         }
-        public async Task<IEnumerable<RUser>> GetByUsername(string username) {
+        public async Task<IEnumerable<User>> GetByUsername(string username) {
             SqlCommand stmt = _conn.CreateCommand("SELECT id, password_hash, email, session_cookie, description, profile_picture FROM users WHERE username = @username");
             stmt.Parameters.AddWithValue("@username", username);
-            List<RUser> users = (await stmt.ExecuteReaderAsync())
-                .ToIterator(reader => new RUser(username, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(0).Value) {
+            List<User> users = (await stmt.ExecuteReaderAsync())
+                .ToIterator(reader => new User(username, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(0).Value) {
                     ProfilePicture = reader.GetSqlInt32(5).NullableValue()
                 })
                 .ToList();
             return users;
         }
-        public async Task<RUser> Get(int id) {
+        public async Task<User> Get(int id) {
             SqlCommand stmt = _conn.CreateCommand("SELECT username, password_hash, email, session_cookie, description, profile_picture FROM users WHERE id = @id");
             stmt.Parameters.AddWithValue("@id", id);
-            RUser user = (await stmt.ExecuteReaderAsync())
-                .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), id) {
+            User user = (await stmt.ExecuteReaderAsync())
+                .ToIterator(reader => new User(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), id) {
                     ProfilePicture = reader.GetSqlInt32(5).NullableValue()
                 })
                 .FirstOrDefault();
             return user;
         }
 
-        public async Task<RUser> GetBySessionCookie(byte[] sessionCookie) {
+        public async Task<User> GetBySessionCookie(byte[] sessionCookie) {
             SqlCommand stmt = _conn.CreateCommand("SELECT username, password_hash, email, id, description, profile_picture FROM users WHERE session_cookie = @session_cookie");
             stmt.Parameters.AddWithValue("@session_cookie", sessionCookie);
-            RUser user = (await stmt.ExecuteReaderAsync())
-                .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, sessionCookie, reader.GetSqlInt32(3).Value) {
+            User user = (await stmt.ExecuteReaderAsync())
+                .ToIterator(reader => new User(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, reader.GetSqlString(2).Value, reader.GetSqlString(4).Value, sessionCookie, reader.GetSqlInt32(3).Value) {
                     ProfilePicture = reader.GetSqlInt32(5).NullableValue()
                 })
                 .FirstOrDefault();
             return user;
         }
 
-        public async Task<RUser> GetBySessionCookie(string sessionCookie) {
+        public async Task<User> GetBySessionCookie(string sessionCookie) {
             return await GetBySessionCookie(Convert.FromBase64String(sessionCookie));
         }
 
-        public async Task<RUser> GetByEmail(string email) {
+        public async Task<User> GetByEmail(string email) {
             SqlCommand stmt = _conn.CreateCommand("SELECT username, password_hash, id, session_cookie, description, profile_picture FROM users WHERE email = @email");
             stmt.Parameters.AddWithValue("@email", email);
-            RUser user = (await stmt.ExecuteReaderAsync())
-                .ToIterator(reader => new RUser(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, email, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(2).Value) {
+            User user = (await stmt.ExecuteReaderAsync())
+                .ToIterator(reader => new User(reader.GetSqlString(0).Value, reader.GetSqlBinary(1).Value, email, reader.GetSqlString(4).Value, reader.GetSqlBinary(3).NullableValue(), reader.GetSqlInt32(2).Value) {
                     ProfilePicture = reader.GetSqlInt32(5).NullableValue()
                 })
                 .FirstOrDefault();
             return user;
         }
 
-        public async Task<RUser> SetNewSessionCookie(RUser user) {
+        public async Task<User> SetNewSessionCookie(User user) {
             SqlCommand stmt = _conn.CreateCommand("" +
                 "DECLARE @value BINARY(20); " +
                 "DECLARE @temp_val BINARY(20); " +
@@ -114,7 +112,7 @@ namespace QWest.DataAcess.Mssql {
             return user;
         }
 
-        public async Task UpdateProfilePicture(byte[] profilePicture, RUser user) {
+        public async Task UpdateProfilePicture(byte[] profilePicture, User user) {
             if (user.Id == null) {
                 throw new ArgumentException("tried to set profile pic of user " + user.Username + " but that user doesnt have an id");
             }

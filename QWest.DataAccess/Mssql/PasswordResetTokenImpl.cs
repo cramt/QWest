@@ -1,14 +1,10 @@
-﻿using Model.Geographic;
+﻿using Model;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Utilities;
 using static QWest.DataAcess.DAO;
-using RUser = Model.User;
 
 namespace QWest.DataAcess.Mssql {
     class PasswordResetTokenImpl : IPasswordResetToken {
@@ -16,7 +12,7 @@ namespace QWest.DataAcess.Mssql {
         public PasswordResetTokenImpl(SqlConnection conn) {
             _conn = conn;
         }
-        public async Task<string> NewToken(RUser user) {
+        public async Task<string> NewToken(User user) {
             if (user.Id == null) {
                 throw new ArgumentException("tried to create a password reset token for user " + user.Username + ", but they dont have an id");
             }
@@ -44,12 +40,12 @@ namespace QWest.DataAcess.Mssql {
             return Convert.ToBase64String(token);
         }
 
-        public  async Task<RUser> GetUser(string stringToken) {
+        public  async Task<User> GetUser(string stringToken) {
             byte[] token = Convert.FromBase64String(stringToken);
             SqlCommand stmt = _conn.CreateCommand("SELECT id, username, password_hash, email, session_cookie, description FROM users INNER JOIN password_reset_tokens ON users_id = id WHERE token = @token");
             stmt.Parameters.AddWithValue("@token", token);
             return (await stmt.ExecuteReaderAsync())
-                .ToIterator(reader => new RUser(reader.GetSqlString(1).Value, reader.GetSqlBinary(2).Value, reader.GetSqlString(3).Value, reader.GetSqlString(5).Value, reader.GetSqlBinary(4).NullableValue(), reader.GetSqlInt32(0).Value))
+                .ToIterator(reader => new User(reader.GetSqlString(1).Value, reader.GetSqlBinary(2).Value, reader.GetSqlString(3).Value, reader.GetSqlString(5).Value, reader.GetSqlBinary(4).NullableValue(), reader.GetSqlInt32(0).Value))
                 .FirstOrDefault();
         }
 

@@ -1,16 +1,12 @@
 ﻿using Model;
-using Model.Geographic;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Utilities;
 using static QWest.DataAcess.DAO;
-using RPost = Model.Post;
-using RUser = Model.User;
 
 namespace QWest.DataAcess.Mssql {
     class PostImpl : IPost {
@@ -18,13 +14,13 @@ namespace QWest.DataAcess.Mssql {
         public PostImpl(SqlConnection conn) {
             _conn = conn;
         }
-        public async Task<List<RPost>> Get(RUser user) {
+        public async Task<List<Post>> Get(User user) {
             if (user.Id == null) {
                 throw new ArgumentException("tried to fetch posts of user " + user.Username + " but this user does not have an id");
             }
             return await GetByUserId(user.Id ?? 0);
         }
-        public async Task<List<RPost>> GetByUserId(int userId) {
+        public async Task<List<Post>> GetByUserId(int userId) {
             SqlCommand stmt = _conn.CreateCommand(@"
 select
 posts.id, content, users_id, post_time, (select * from dbo.FetchGeopoliticalLocation(location) for json path) as location,
@@ -34,15 +30,15 @@ from
 users inner join posts on users.id = posts.users_id
 where users.id = @id");
             stmt.Parameters.AddWithValue("@id", userId);
-            RUser user = null;
+            User user = null;
             return (await stmt.ExecuteReaderAsync()).ToIterator(reader => {
                 if (user == null) {
-                    user = new RUser(reader.GetSqlString(5).Value, reader.GetSqlBinary(6).Value, reader.GetSqlString(7).Value, reader.GetSqlString(8).NullableValue(), reader.GetSqlBinary(9).NullableValue(), reader.GetSqlInt32(2).Value);
+                    user = new User(reader.GetSqlString(5).Value, reader.GetSqlBinary(6).Value, reader.GetSqlString(7).Value, reader.GetSqlString(8).NullableValue(), reader.GetSqlBinary(9).NullableValue(), reader.GetSqlInt32(2).Value);
                 }
-                return new RPost(reader.GetSqlString(1).Value, user, reader.GetSqlInt32(3).Value, reader.GetSqlString(10).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(4).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(0).Value);
+                return new Post(reader.GetSqlString(1).Value, user, reader.GetSqlInt32(3).Value, reader.GetSqlString(10).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(4).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(0).Value);
             }).ToList();
         }
-        public async Task<RPost> Add(PostUpload post) {
+        public async Task<Post> Add(PostUpload post) {
             if (post.User.Id == null) {
                 throw new ArgumentException("tried to make a post on user: " + post.User.Username + ", but that user doesnt have an id");
             }
@@ -84,7 +80,7 @@ where users.id = @id");
             }
 
             return (await stmt.ExecuteReaderAsync())
-                .ToIterator(reader => new RPost(post.Contents, post.User, upostTime, reader.GetSqlString(0).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(1).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(2).Value)).FirstOrDefault();
+                .ToIterator(reader => new Post(post.Contents, post.User, upostTime, reader.GetSqlString(0).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(1).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(2).Value)).FirstOrDefault();
         }
     }
 }

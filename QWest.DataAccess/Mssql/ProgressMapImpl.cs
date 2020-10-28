@@ -1,15 +1,11 @@
-﻿using Model.Geographic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Utilities;
 using static QWest.DataAcess.DAO;
-using RProgressMap = Model.ProgressMap;
-using RUser = Model.User;
+using Model;
 
 namespace QWest.DataAcess.Mssql {
     class ProgressMapImpl : IProgressMap {
@@ -17,36 +13,36 @@ namespace QWest.DataAcess.Mssql {
         public ProgressMapImpl(SqlConnection conn) {
             _conn = conn;
         }
-        public async Task<RProgressMap> Get(RUser user) {
+        public async Task<ProgressMap> Get(User user) {
             if (user.Id == null) {
                 throw new ArgumentException("tried to fetch progress map of user " + user.Username + ", but they dont have an id");
             }
-            RProgressMap progessMap = await GetByUserId(user.Id ?? 0);
+            ProgressMap progessMap = await GetByUserId(user.Id ?? 0);
             user.ProgressMap = progessMap;
             return progessMap;
         }
-        public async Task<RProgressMap> Get(RProgressMap map) {
+        public async Task<ProgressMap> Get(ProgressMap map) {
             if (map.Id == null) {
                 throw new ArgumentException("tried to fetch progress map but wasnt given an id");
             }
             return await Get(map.Id ?? 0);
         }
-        public async Task<RProgressMap> Get(int id) {
+        public async Task<ProgressMap> Get(int id) {
             SqlCommand stmt = _conn.CreateCommand("select location from progress_maps inner join progress_maps_locations on progress_maps.id = progress_maps_locations.progress_maps_id where progress_maps.id = @id");
             stmt.Parameters.AddWithValue("@id", id);
-            return new RProgressMap((await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).ToList(), id);
+            return new ProgressMap((await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).ToList(), id);
         }
-        public async Task<RProgressMap> GetByUserId(int userId) {
+        public async Task<ProgressMap> GetByUserId(int userId) {
             SqlCommand stmt = _conn.CreateCommand("select progress_maps.id, location from users inner join progress_maps on users.progress_maps_id = progress_maps.id inner join progress_maps_locations on progress_maps.id = progress_maps_locations.progress_maps_id where users.id = @id");
             stmt.Parameters.AddWithValue("@id", userId);
             List<(int, int)> result = (await stmt.ExecuteReaderAsync()).ToIterator(reader => (reader.GetSqlInt32(0).Value, reader.GetSqlInt32(1).Value)).ToList();
             if (result.Count == 0) {
                 stmt = _conn.CreateCommand("select progress_maps.id from users inner join progress_maps on users.progress_maps_id = progress_maps.id where users.id = @id");
                 stmt.Parameters.AddWithValue("@id", userId);
-                return new RProgressMap(new List<int>(), (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).First());
+                return new ProgressMap(new List<int>(), (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).First());
             }
             else {
-                return new RProgressMap(result.Select(x => x.Item2).ToList(), result[0].Item1);
+                return new ProgressMap(result.Select(x => x.Item2).ToList(), result[0].Item1);
             }
         }
         public async Task Update(int id, List<int> additions, List<int> subtractions) {
@@ -80,7 +76,7 @@ namespace QWest.DataAcess.Mssql {
             }
             await stmt.ExecuteNonQueryAsync();
         }
-        public async Task Update(RProgressMap map) {
+        public async Task Update(ProgressMap map) {
             if (map.Id == null) {
                 throw new ArgumentException("tried to update progress map but wasnt given an id");
             }
