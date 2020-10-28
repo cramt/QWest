@@ -25,16 +25,16 @@ namespace QWest.DataAcess.Mssql {
                 preparedQueryParams.Add(("@name" + i, subdivision.Name));
                 preparedQueryParams.Add(("@names" + i, JsonConvert.SerializeObject(subdivision.Names ?? new List<string>())));
                 preparedQueryParams.Add(("@type" + i, subdivision.Type));
-                string q = "" +
-                "INSERT INTO geopolitical_location " +
-                "(alpha_2, name, names, type, super_id) " +
-                "VALUES " +
-                $"(CAST(@alpha_2{i} as CHAR(2)), @name{i}, @names{i}, @type{i}, {id}); ";
+                string q = $@"
+INSERT INTO geopolitical_location
+(alpha_2, name, names, type, super_id)
+VALUES
+(CAST(@alpha_2{i} as CHAR(2)), @name{i}, @names{i}, @type{i}, {id}); 
+";
                 if (subdivision.Subdivisions.Count() != 0) {
                     declarations.Append($"@last_id{i} INT, ");
                     string thisid = "@last_id" + i;
-                    q += "" +
-                    $"SET @last_id{i} = CAST(scope_identity() as int); " +
+                    q += $"SET @last_id{i} = CAST(scope_identity() as int); " +
                     string.Join("", subdivision.Subdivisions.Select(x => recSubdivisionInsert(thisid, x, preparedQueryParams, declarations)).ToArray());
                 }
                 return q;
@@ -53,12 +53,13 @@ namespace QWest.DataAcess.Mssql {
                 preparedQueryParams.Add(("@type" + i, country.Type));
                 preparedQueryParams.Add(("@numeric" + i, country.Numeric));
                 string thisid = "@last_id" + i;
-                string query = "" +
-                "INSERT INTO geopolitical_location " +
-                "(alpha_2, alpha_3, name, names, official_name, common_name, type, numeric) " +
-                "VALUES " +
-                $"(CAST(@alpha_2{i} as CHAR(2)), @alpha_3{i}, @name{i}, @names{i}, @official_name{i}, @common_name{i}, @type{i}, @numeric{i}); " +
-                $"SET @last_id{i} = CAST(scope_identity() as int); " +
+                string query = $@"
+INSERT INTO geopolitical_location
+(alpha_2, alpha_3, name, names, official_name, common_name, type, numeric)
+VALUES
+(CAST(@alpha_2{i} as CHAR(2)), @alpha_3{i}, @name{i}, @names{i}, @official_name{i}, @common_name{i}, @type{i}, @numeric{i}); 
+SET @last_id{i} = CAST(scope_identity() as int); 
+" +
                 string.Join("", country.Subdivisions.Select(x => recSubdivisionInsert(thisid, x, preparedQueryParams, declarations)).ToArray());
                 return (preparedQueryParams, declarations.ToString(), query);
             });

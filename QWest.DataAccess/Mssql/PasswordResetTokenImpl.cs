@@ -16,23 +16,22 @@ namespace QWest.DataAcess.Mssql {
             if (user.Id == null) {
                 throw new ArgumentException("tried to create a password reset token for user " + user.Username + ", but they dont have an id");
             }
-            SqlCommand stmt = _conn.CreateCommand("" +
-                "DECLARE @value BINARY(50); " +
-                "DECLARE @temp_val BINARY(50); " +
-                "" +
-                "SET @value = NULL; " +
-                "SET @temp_val = NULL; " +
-                "" +
-                "WHILE @value IS NULL " +
-                "BEGIN " +
-                "SET @temp_val = convert(binary(8), RAND()) + convert(binary(8), RAND()) + convert(binary(8), RAND()) + convert(binary(8), RAND()) + convert(binary(8), RAND()) +convert(binary(8), RAND()) + convert(binary(2), RAND()); " +
-                "IF (SELECT COUNT(*) FROM password_reset_tokens where token = @temp_val) < 1" +
-                "BEGIN " +
-                "SET @value = @temp_val; " +
-                "END " +
-                "END " +
-                "INSERT INTO password_reset_tokens (users_id, token) VALUES (@user_id, @value); " +
-                "SELECT @value");
+            SqlCommand stmt = _conn.CreateCommand(@"
+DECLARE @value BINARY(50);
+DECLARE @temp_val BINARY(50);
+SET @value = NULL;
+SET @temp_val = NULL;
+WHILE @value IS NULL
+BEGIN
+SET @temp_val = convert(binary(8), RAND()) + convert(binary(8), RAND()) + convert(binary(8), RAND()) + convert(binary(8), RAND()) + convert(binary(8), RAND()) +convert(binary(8), RAND()) + convert(binary(2), RAND());
+IF (SELECT COUNT(*) FROM password_reset_tokens where token = @temp_val) < 1
+BEGIN
+SET @value = @temp_val;
+END
+END
+INSERT INTO password_reset_tokens (users_id, token) VALUES (@user_id, @value);
+SELECT @value
+");
             stmt.Parameters.AddWithValue("@user_id", user.Id);
             byte[] token = (await stmt.ExecuteReaderAsync())
                 .ToIterator(x => x.GetSqlBinary(0).Value)

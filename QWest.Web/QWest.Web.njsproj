@@ -1777,6 +1777,7 @@
     <Content Include="public\fontawesome\webfonts\fa-solid-900.woff" />
     <Content Include="public\fontawesome\webfonts\fa-solid-900.woff2" />
     <Content Include="public\home.css" />
+    <Content Include="public\jerma.png" />
     <Content Include="public\login.css" />
     <Content Include="public\map.css" />
     <Content Include="public\profile.css" />
@@ -1789,6 +1790,7 @@
     <Content Include="public\svgMap.js" />
     <Content Include="public\svgMap.min.css" />
     <Content Include="public\svgMap.min.js" />
+    <Content Include="public\test.css" />
     <Content Include="utilities.mjs" />
   </ItemGroup>
   <ItemGroup>

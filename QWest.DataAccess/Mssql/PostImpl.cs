@@ -22,13 +22,13 @@ namespace QWest.DataAcess.Mssql {
         }
         public async Task<List<Post>> GetByUserId(int userId) {
             SqlCommand stmt = _conn.CreateCommand(@"
-select
-posts.id, content, users_id, post_time, (select * from dbo.FetchGeopoliticalLocation(location) for json path) as location,
+SELECT
+posts.id, content, users_id, post_time, (SELECT * FROM dbo.FetchGeopoliticalLocation(location) FOR JSON PATH) AS location,
 username, password_hash, email, description, session_cookie, 
-(select STRING_AGG(images_id, ',') as images from posts_images where posts_images.posts_id = posts.id) as images
-from
-users inner join posts on users.id = posts.users_id
-where users.id = @id");
+(SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = posts.id) AS images
+FROM
+users INNER JSON posts ON users.id = posts.users_id
+WHERE users.id = @id");
             stmt.Parameters.AddWithValue("@id", userId);
             User user = null;
             return (await stmt.ExecuteReaderAsync()).ToIterator(reader => {
@@ -42,32 +42,33 @@ where users.id = @id");
             if (post.User.Id == null) {
                 throw new ArgumentException("tried to make a post on user: " + post.User.Username + ", but that user doesnt have an id");
             }
-            string statement = "" +
-                "declare @post_id int;" +
-                "insert into posts " +
-                "(content, users_id, post_time, location)" +
-                "values" +
-                "(@content, @user_id, @post_time, @location);" +
-                "" +
-                "set @post_id = CAST(scope_identity() as int);" +
-            string.Join("", post.Images.Select((_, i) => "" +
-            "insert into images " +
-            "(image_blob) " +
-            "values " +
-            "(@image_blob" + i + ");" +
-            "" +
-            "insert into posts_images" +
-            "(posts_id, images_id)" +
-            "values" +
-            "(@post_id, (SELECT CAST(scope_identity() as int)));")) +
+            string statement = $@"
+DECLARE @post_id INT;
+INSERT INTO posts
+(content, users_id, post_time, location)
+VALUES
+(@content, @user_id, @post_time, @location);
+SET @post_id = CAST(scope_identity() AS INT);
+" +
+            string.Join("", post.Images.Select((_, i) => $@"
+INSERT INTO images
+(image_blob)
+VALUES
+(@image_blob{i});
 
-
-            "select " +
-            "(select STRING_AGG(images_id, ',') as images from posts_images where posts_images.posts_id = @post_id) as images, " +
-            "(select * from dbo.FetchGeopoliticalLocation(location) for json path) as location, " +
-            "id " +
-            "from posts " +
-            "where posts.id = @post_id";
+INSERT INTO posts_images
+(posts_id, images_id)
+VALUES
+(@post_id, (SELECT CAST(scope_identity() as int)));
+")) +
+            $@"
+SELECT
+(SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = @post_id) AS IMAGES, 
+(select * from dbo.FetchGeopoliticalLocation(location) for json path) as location, 
+id
+FROM posts
+WHERE posts.id = @post_id
+"; ;
             SqlCommand stmt = _conn.CreateCommand(statement);
             stmt.Parameters.AddWithValue("@content", post.Contents);
             stmt.Parameters.AddWithValue("@user_id", post.User.Id);
