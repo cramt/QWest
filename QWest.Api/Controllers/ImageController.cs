@@ -31,7 +31,7 @@ namespace QWest.Apis {
         public async Task<HttpResponseMessage> Get(int? id) {
             Stream stream = null;
             if (id == null) {
-                stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames().ToList().Find(x => x.EndsWith("silhouette-profile-picture.jpg")));
+                stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("QWest.Api.res.silhouette-profile-picture.jpg");
             }
             else {
                 byte[] image = await ImageRepo.Get((int)id);

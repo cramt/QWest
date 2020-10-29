@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeographyControllerSpec.cs" />
     <Compile Include="ImageControllerSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,6 +66,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{7abf2e55-bc9d-4c59-a6bc-6784b3bace82}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QWest.Api\QWest.Api.csproj">
       <Project>{8e843440-8c70-4fbd-afa4-c4db59accac2}</Project>
       <Name>QWest.Api</Name>
