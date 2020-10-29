@@ -27,6 +27,8 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "QWest.Email", "QWest.Email\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Admin", "QWest.Admin\QWest.Admin.csproj", "{0ED66150-AE18-40B3-9E01-C52605825C0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Api.Tests", "QWest.Api.Tests\QWest.Api.Tests.csproj", "{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{0ED66150-AE18-40B3-9E01-C52605825C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ED66150-AE18-40B3-9E01-C52605825C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ED66150-AE18-40B3-9E01-C52605825C0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

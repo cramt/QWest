@@ -6,7 +6,18 @@ using System.Web.Http;
 namespace QWest.Apis {
     public class SignUpController : ApiController {
 
-        public DAO.IUser UserRepo { get; set; } = DAO.User;
+        private DAO.IUser _userRepo = null;
+        public DAO.IUser UserRepo {
+            get {
+                if (_userRepo == null) {
+                    _userRepo = DAO.User;
+                }
+                return _userRepo;
+            }
+            set {
+                _userRepo = value;
+            }
+        }
 
         public class RegisterArgument {
             public string email;

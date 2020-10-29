@@ -16,7 +16,18 @@ using static Utilities.Utilities;
 namespace QWest.Apis {
     public class UserController : ApiController {
 
-        public DAO.IUser UserRepo { get; set; } = DAO.User;
+        private DAO.IUser _userRepo = null;
+        public DAO.IUser UserRepo {
+            get {
+                if (_userRepo == null) {
+                    _userRepo = DAO.User;
+                }
+                return _userRepo;
+            }
+            set {
+                _userRepo = value;
+            }
+        }
 
         [ResponseType(typeof(User))]
         public async Task<HttpResponseMessage> Get(int id) {

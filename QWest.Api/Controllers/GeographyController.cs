@@ -12,7 +12,18 @@ using System.Web.Http.Description;
 namespace QWest.Apis {
     public class GeographyController : ApiController {
 
-        public DAO.IGeography GeographyRepo { get; set; } = DAO.Geography;
+        private DAO.IGeography _geographyRepo = null;
+        public DAO.IGeography GeographyRepo {
+            get {
+                if (_geographyRepo == null) {
+                    _geographyRepo = DAO.Geography;
+                }
+                return _geographyRepo;
+            }
+            set {
+                _geographyRepo = value;
+            }
+        }
 
         [ResponseType(typeof(GeopoliticalLocation))]
         public async Task<HttpResponseMessage> Get(string alpha2) {

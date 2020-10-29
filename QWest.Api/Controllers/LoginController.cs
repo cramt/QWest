@@ -10,7 +10,18 @@ using System.Web.Http.Description;
 namespace QWest.Apis {
     public class LoginController : ApiController {
 
-        public DAO.IUser UserRepo { get; set; } = DAO.User;
+        private DAO.IUser _userRepo = null;
+        public DAO.IUser UserRepo {
+            get {
+                if (_userRepo == null) {
+                    _userRepo = DAO.User;
+                }
+                return _userRepo;
+            }
+            set {
+                _userRepo = value;
+            }
+        }
 
         public class LoginArgument {
             public string email;

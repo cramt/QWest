@@ -14,12 +14,23 @@ using System.Web.Http.Description;
 namespace QWest.Apis {
     public class ImageController : ApiController {
 
-        public DAO.IImage ImageRepo { get; set; } = DAO.Image;
+        private DAO.IImage _imageRepo = null;
+        public DAO.IImage ImageRepo {
+            get {
+                if (_imageRepo == null) {
+                    _imageRepo = DAO.Image;
+                }
+                return _imageRepo;
+            }
+            set {
+                _imageRepo = value;
+            }
+        }
 
         [ResponseType(typeof(string))]
         public async Task<HttpResponseMessage> Get(int? id) {
             Stream stream = null;
-            if (id == null || id == 0) {
+            if (id == null) {
                 stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames().ToList().Find(x => x.EndsWith("silhouette-profile-picture.jpg")));
             }
             else {

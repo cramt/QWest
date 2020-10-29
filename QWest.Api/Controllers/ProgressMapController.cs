@@ -13,7 +13,18 @@ using System.Web.Http.Description;
 namespace QWest.Api.Controllers {
     public class ProgressMapController : ApiController {
 
-        public DAO.IProgressMap ProgressMapRepo { get; set; } = DAO.ProgressMap;
+        private DAO.IProgressMap _progressMapRepo = null;
+        public DAO.IProgressMap ProgressMapRepo {
+            get {
+                if (_progressMapRepo == null) {
+                    _progressMapRepo = DAO.ProgressMap;
+                }
+                return _progressMapRepo;
+            }
+            set {
+                _progressMapRepo = value;
+            }
+        }
 
         [HttpGet]
         [ResponseType(typeof(ProgressMap))]

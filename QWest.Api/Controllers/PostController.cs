@@ -16,7 +16,18 @@ using static Utilities.Utilities;
 namespace QWest.Apis {
     public class PostController : ApiController {
 
-        public DAO.IPost PostRepo { get; set; } = DAO.Post;
+        private DAO.IPost _postRepo = null;
+        public DAO.IPost PostRepo {
+            get {
+                if (_postRepo == null) {
+                    _postRepo = DAO.Post;
+                }
+                return _postRepo;
+            }
+            set {
+                _postRepo = value;
+            }
+        }
 
         [HttpPost]
         [ResponseType(typeof(Post))]
