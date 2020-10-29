@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="ConnectionWrapper.cs" />
     <Compile Include="DAOGeography.cs" />
+    <Compile Include="DAOFriendship.cs" />
     <Compile Include="DAOImage.cs" />
     <Compile Include="DAOPost.cs" />
     <Compile Include="DAOPasswordResetToken.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="DAO.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IDbRep.cs" />
+    <Compile Include="Mssql\FriendshipImpl.cs" />
     <Compile Include="Mssql\UserImpl.cs" />
     <Compile Include="Mssql\ProgressMapImpl.cs" />
     <Compile Include="Mssql\PostImpl.cs" />
@@ -142,6 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\17.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\18.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

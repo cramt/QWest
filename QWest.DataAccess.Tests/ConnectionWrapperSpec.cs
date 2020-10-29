@@ -23,7 +23,9 @@ namespace QWest.DataAccess.Tests {
         public void MigrationsSucceed() {
             ConnectionWrapper.Migrate = false;
 
+            ConnectionWrapper.Instance.Connection.Open();
             Task.WaitAll(new Task[] { DeleteAllFunctions(), DeleteAllTables() });
+            ConnectionWrapper.Instance.Connection.Close();
 
             ConnectionWrapper.Migrate = true;
             ConnectionWrapper.ResetInstance();

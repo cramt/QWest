@@ -41,8 +41,7 @@ namespace QWest.DataAccess.Tests {
 
         [SetUp]
         public void Setup() {
-            ConnectionWrapper.CreateCommand("DELETE FROM users").ExecuteNonQueryAsync().Wait();
-            ConnectionWrapper.CreateCommand("DELETE FROM posts").ExecuteNonQueryAsync().Wait();
+            ConnectionWrapper.Instance.Use("DELETE FROM users; DELETE FROM posts", stmt => stmt.ExecuteNonQueryAsync()).Wait();
         }
 
     }

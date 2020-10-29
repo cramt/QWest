@@ -11,7 +11,7 @@ namespace QWest.DataAccess.Tests {
     class DaoGeographySpec {
         [Test]
         public async Task BackUpsCorrectly() {
-            await ConnectionWrapper.CreateCommand("DELETE FROM geopolitical_location").ExecuteNonQueryAsync();
+            await ConnectionWrapper.Instance.Use("DELETE FROM geopolitical_location", stmt => stmt.ExecuteNonQueryAsync());
             List<Country> countries = GeopoliticalLocation.Parse(File.ReadAllText(Utilities.Utilities.SolutionLocation + "\\QWest.DataAccess\\res\\geopolitical_location_backup.json"));
             await DAO.Geography.InsertBackup(countries);
             int amount = (await DAO.Geography.CreateBackup()).Count();

@@ -12,7 +12,7 @@ namespace QWest.DataAcess {
         public interface IUser {
             Task Add(RUser user);
             Task Update(RUser user);
-            Task<IEnumerable<RUser>> GetByUsername(string username);
+            Task<List<RUser>> GetByUsername(string username);
             Task<RUser> Get(int id);
             Task<RUser> GetBySessionCookie(byte[] sessionCookie);
             Task<RUser> GetBySessionCookie(string sessionCookie);

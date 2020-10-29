@@ -10,17 +10,28 @@ using Model.Geographic;
 
 namespace QWest.DataAcess {
     public class ConnectionWrapper {
-        private static SqlConnection _instance;
+        private static ConnectionWrapper _instance;
+        public SqlConnection Connection { get; }
+        private ConnectionWrapper() {
+            string connString = Config.Config.Instance.DatabaseConnectionString;
+            var conn = new SqlConnection(connString);
+            conn.Open();
+            if (Migrate) {
+                ApplyMigration(conn).Wait();
+            }
+            conn.Close();
+            Connection = conn;
+        }
         public static void ResetInstance() {
             _instance = null;
         }
         public static SqlCommand CreateCommand(string command) {
-            return Instance.CreateCommand(command);
+            return Instance.Connection.CreateCommand(command);
         }
-        public static SqlConnection Instance {
+        public static ConnectionWrapper Instance {
             get {
                 if (_instance == null) {
-                    _instance = CreateConnection();
+                    _instance = new ConnectionWrapper();
                 }
                 return _instance;
             }
@@ -49,7 +60,7 @@ namespace QWest.DataAcess {
                 });
         }
 
-        private static async Task ApplyMigration(SqlConnection conn) {
+        private async Task ApplyMigration(SqlConnection conn) {
             SqlCommand stmt = conn.CreateCommand();
             stmt.CommandText = "select schema_version from info";
             int schemaVersion = 0;
@@ -82,18 +93,34 @@ namespace QWest.DataAcess {
             catch (Exception) { }
             if (applyGeopoliticalLocationBackup) {
                 List<Country> countries = GeopoliticalLocation.Parse(File.ReadAllText(Utilities.Utilities.SolutionLocation + "\\QWest.DataAccess\\res\\geopolitical_location_backup.json"));
-                await new Mssql.GeographyImpl(conn).InsertBackup(countries);
+                await new Mssql.GeographyImpl(null).InsertBackup(countries, conn);
             }
         }
 
-        private static SqlConnection CreateConnection() {
-            string connString = Config.Config.Instance.DatabaseConnectionString;
-            var conn = new SqlConnection(connString);
-            conn.Open();
-            if (Migrate) {
-                ApplyMigration(conn).Wait();
-            }
-            return conn;
+        public async Task<T> Use<T>(string query, Func<SqlCommand, Task<T>> func) {
+            Connection.Open();
+            T result = await func(Connection.CreateCommand(query));
+            Connection.Close();
+            return result;
+        }
+
+        public async Task<T> Use<T>(Func<SqlCommand, Task<T>> func) {
+            Connection.Open();
+            T result = await func(Connection.CreateCommand());
+            Connection.Close();
+            return result;
+        }
+
+        public async Task Use<T>(string query, Func<SqlCommand, Task> func) {
+            Connection.Open();
+            await func(Connection.CreateCommand(query));
+            Connection.Close();
+        }
+
+        public async Task Use<T>(Func<SqlCommand, Task> func) {
+            Connection.Open();
+            await func(Connection.CreateCommand());
+            Connection.Close();
         }
     }
 }

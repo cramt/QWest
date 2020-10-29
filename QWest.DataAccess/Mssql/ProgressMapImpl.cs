@@ -9,8 +9,8 @@ using Model;
 
 namespace QWest.DataAcess.Mssql {
     class ProgressMapImpl : IProgressMap {
-        private SqlConnection _conn;
-        public ProgressMapImpl(SqlConnection conn) {
+        private ConnectionWrapper _conn;
+        public ProgressMapImpl(ConnectionWrapper conn) {
             _conn = conn;
         }
         public async Task<ProgressMap> Get(User user) {
@@ -27,23 +27,24 @@ namespace QWest.DataAcess.Mssql {
             }
             return await Get(map.Id ?? 0);
         }
-        public async Task<ProgressMap> Get(int id) {
-            SqlCommand stmt = _conn.CreateCommand("select location from progress_maps inner join progress_maps_locations on progress_maps.id = progress_maps_locations.progress_maps_id where progress_maps.id = @id");
-            stmt.Parameters.AddWithValue("@id", id);
-            return new ProgressMap((await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).ToList(), id);
+        public Task<ProgressMap> Get(int id) {
+            return _conn.Use("select location from progress_maps inner join progress_maps_locations on progress_maps.id = progress_maps_locations.progress_maps_id where progress_maps.id = @id", async stmt => {
+                stmt.Parameters.AddWithValue("@id", id);
+                return new ProgressMap((await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).ToList(), id);
+            });
         }
-        public async Task<ProgressMap> GetByUserId(int userId) {
-            SqlCommand stmt = _conn.CreateCommand("select progress_maps.id, location from users inner join progress_maps on users.progress_maps_id = progress_maps.id inner join progress_maps_locations on progress_maps.id = progress_maps_locations.progress_maps_id where users.id = @id");
-            stmt.Parameters.AddWithValue("@id", userId);
-            List<(int, int)> result = (await stmt.ExecuteReaderAsync()).ToIterator(reader => (reader.GetSqlInt32(0).Value, reader.GetSqlInt32(1).Value)).ToList();
-            if (result.Count == 0) {
-                stmt = _conn.CreateCommand("select progress_maps.id from users inner join progress_maps on users.progress_maps_id = progress_maps.id where users.id = @id");
-                stmt.Parameters.AddWithValue("@id", userId);
-                return new ProgressMap(new List<int>(), (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).First());
-            }
-            else {
-                return new ProgressMap(result.Select(x => x.Item2).ToList(), result[0].Item1);
-            }
+        public Task<ProgressMap> GetByUserId(int userId) {
+            return _conn.Use("select progress_maps.id, location from users inner join progress_maps on users.progress_maps_id = progress_maps.id inner join progress_maps_locations on progress_maps.id = progress_maps_locations.progress_maps_id where users.id = @id", async stmt => {
+                List<(int, int)> result = (await stmt.ExecuteReaderAsync()).ToIterator(reader => (reader.GetSqlInt32(0).Value, reader.GetSqlInt32(1).Value)).ToList();
+                if (result.Count == 0) {
+                    stmt = _conn.Connection.CreateCommand("select progress_maps.id from users inner join progress_maps on users.progress_maps_id = progress_maps.id where users.id = @id");
+                    stmt.Parameters.AddWithValue("@id", userId);
+                    return new ProgressMap(new List<int>(), (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).First());
+                }
+                else {
+                    return new ProgressMap(result.Select(x => x.Item2).ToList(), result[0].Item1);
+                }
+            });
         }
         public async Task Update(int id, List<int> additions, List<int> subtractions) {
             if ((additions.Count + subtractions.Count) == 0) {
@@ -66,15 +67,17 @@ namespace QWest.DataAcess.Mssql {
                 + string.Join(" OR ", subtractions.Select((_, i) => "location = @sub_location" + i).ToArray()) + ")";
             }
             string seperator = (insertSql.Length != 0 && deleteSql.Length != 0) ? ";" : "";
-            SqlCommand stmt = _conn.CreateCommand(insertSql + seperator + deleteSql);
-            stmt.Parameters.AddWithValue("@id", id);
-            for (int i = 0; i < additions.Count; i++) {
-                stmt.Parameters.AddWithValue("@add_location" + i, additions[i]);
-            }
-            for (int i = 0; i < subtractions.Count; i++) {
-                stmt.Parameters.AddWithValue("@sub_location" + i, subtractions[i]);
-            }
-            await stmt.ExecuteNonQueryAsync();
+            string query = insertSql + seperator + deleteSql;
+            await _conn.Use(query, stmt => {
+                stmt.Parameters.AddWithValue("@id", id);
+                for (int i = 0; i < additions.Count; i++) {
+                    stmt.Parameters.AddWithValue("@add_location" + i, additions[i]);
+                }
+                for (int i = 0; i < subtractions.Count; i++) {
+                    stmt.Parameters.AddWithValue("@sub_location" + i, subtractions[i]);
+                }
+                return stmt.ExecuteNonQueryAsync();
+            });
         }
         public async Task Update(ProgressMap map) {
             if (map.Id == null) {

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using Utilities;
 
@@ -15,8 +16,8 @@ namespace Model {
         public string SessionCookie { get; set; }
         [JsonIgnore]
         public ProgressMap ProgressMap { get; set; }
+        public List<User> Friends { get; set; }
         public int? ProfilePicture { get; set; }
-        public bool Admin { get; set; }
 
         public User(string username, string password, string email)
             : this(username, password, email, "") {
@@ -44,7 +45,6 @@ namespace Model {
             SessionCookie = sessionCookie;
             ProgressMap = null;
             Description = description;
-            Admin = false;
         }
         private static byte[] HashPassword(string password) {
             byte[] salt;

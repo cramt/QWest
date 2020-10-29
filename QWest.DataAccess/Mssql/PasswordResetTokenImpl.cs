@@ -8,15 +8,15 @@ using static QWest.DataAcess.DAO;
 
 namespace QWest.DataAcess.Mssql {
     class PasswordResetTokenImpl : IPasswordResetToken {
-        private SqlConnection _conn;
-        public PasswordResetTokenImpl(SqlConnection conn) {
+        private ConnectionWrapper _conn;
+        public PasswordResetTokenImpl(ConnectionWrapper conn) {
             _conn = conn;
         }
-        public async Task<string> NewToken(User user) {
+        public Task<string> NewToken(User user) {
             if (user.Id == null) {
                 throw new ArgumentException("tried to create a password reset token for user " + user.Username + ", but they dont have an id");
             }
-            SqlCommand stmt = _conn.CreateCommand(@"
+            string query = @"
 DECLARE @value BINARY(50);
 DECLARE @temp_val BINARY(50);
 SET @value = NULL;
@@ -31,28 +31,34 @@ END
 END
 INSERT INTO password_reset_tokens (users_id, token) VALUES (@user_id, @value);
 SELECT @value
-");
-            stmt.Parameters.AddWithValue("@user_id", user.Id);
-            byte[] token = (await stmt.ExecuteReaderAsync())
-                .ToIterator(x => x.GetSqlBinary(0).Value)
-                .FirstOrDefault();
-            return Convert.ToBase64String(token);
+";
+            return _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@user_id", user.Id);
+                byte[] token = (await stmt.ExecuteReaderAsync())
+                    .ToIterator(x => x.GetSqlBinary(0).Value)
+                    .FirstOrDefault();
+                return Convert.ToBase64String(token);
+            });
         }
 
-        public  async Task<User> GetUser(string stringToken) {
+        public Task<User> GetUser(string stringToken) {
             byte[] token = Convert.FromBase64String(stringToken);
-            SqlCommand stmt = _conn.CreateCommand("SELECT id, username, password_hash, email, session_cookie, description FROM users INNER JOIN password_reset_tokens ON users_id = id WHERE token = @token");
-            stmt.Parameters.AddWithValue("@token", token);
-            return (await stmt.ExecuteReaderAsync())
-                .ToIterator(reader => new User(reader.GetSqlString(1).Value, reader.GetSqlBinary(2).Value, reader.GetSqlString(3).Value, reader.GetSqlString(5).Value, reader.GetSqlBinary(4).NullableValue(), reader.GetSqlInt32(0).Value))
-                .FirstOrDefault();
+            string query = "SELECT id, username, password_hash, email, session_cookie, description FROM users INNER JOIN password_reset_tokens ON users_id = id WHERE token = @token";
+            return _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@token", token);
+                return (await stmt.ExecuteReaderAsync())
+                    .ToIterator(reader => new User(reader.GetSqlString(1).Value, reader.GetSqlBinary(2).Value, reader.GetSqlString(3).Value, reader.GetSqlString(5).Value, reader.GetSqlBinary(4).NullableValue(), reader.GetSqlInt32(0).Value))
+                    .FirstOrDefault();
+            });
         }
 
-        public  async Task DeleteToken(string stringToken) {
+        public async Task DeleteToken(string stringToken) {
             byte[] token = Convert.FromBase64String(stringToken);
-            SqlCommand stmt = _conn.CreateCommand("DELETE FROM password_reset_tokens WHERE token = @token");
-            stmt.Parameters.AddWithValue("@token", token);
-            await stmt.ExecuteNonQueryAsync();
+            string query = "DELETE FROM password_reset_tokens WHERE token = @token";
+            await _conn.Use(query, stmt => {
+                stmt.Parameters.AddWithValue("@token", token);
+                return stmt.ExecuteNonQueryAsync();
+            });
         }
     }
 }
