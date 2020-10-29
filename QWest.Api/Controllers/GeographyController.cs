@@ -1,5 +1,6 @@
 ﻿using Model.Geographic;
 using QWest.DataAcess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,10 +11,13 @@ using System.Web.Http.Description;
 
 namespace QWest.Apis {
     public class GeographyController : ApiController {
+
+        public DAO.IGeography GeographyRepo { get; set; } = DAO.Geography;
+
         [ResponseType(typeof(GeopoliticalLocation))]
         public async Task<HttpResponseMessage> Get(string alpha2) {
             alpha2 = alpha2.ToUpper();
-            GeopoliticalLocation local = await DAO.Geography.GetAnyByAlpha2s(alpha2);
+            GeopoliticalLocation local = await GeographyRepo.GetAnyByAlpha2s(alpha2);
             if(local == null) {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
@@ -23,15 +27,15 @@ namespace QWest.Apis {
         }
         [ResponseType(typeof(IEnumerable<Country>))]
         public async Task<HttpResponseMessage> Get() {
-            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Geography.CreateBackup());
+            return Request.CreateResponse(HttpStatusCode.OK, await GeographyRepo.CreateBackup());
         }
         [ResponseType(typeof(IEnumerable<Country>))]
         public async Task<HttpResponseMessage> GetCountries() {
-            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Geography.GetCountries());
+            return Request.CreateResponse(HttpStatusCode.OK, await GeographyRepo.GetCountries());
         }
         [ResponseType(typeof(IEnumerable<Subdivision>))]
         public async Task<HttpResponseMessage> GetSubdivisions(int superId) {
-            var results = await DAO.Geography.GetSubdivisions(superId);
+            var results = await GeographyRepo.GetSubdivisions(superId);
             if(results.Count() == 0) {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }

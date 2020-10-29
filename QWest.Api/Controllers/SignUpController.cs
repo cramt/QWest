@@ -5,6 +5,9 @@ using System.Web.Http;
 
 namespace QWest.Apis {
     public class SignUpController : ApiController {
+
+        public DAO.IUser UserRepo { get; set; } = DAO.User;
+
         public class RegisterArgument {
             public string email;
             public string password;
@@ -18,8 +21,8 @@ namespace QWest.Apis {
         [HttpPost]
         public async Task<string> Register([FromBody] RegisterArgument argument) {
             User user = argument.ToUser();
-            await DAO.User.Add(user);
-            await DAO.User.SetNewSessionCookie(user);
+            await UserRepo.Add(user);
+            await UserRepo.SetNewSessionCookie(user);
             //TODO: optimize
             return user.SessionCookie;
         }

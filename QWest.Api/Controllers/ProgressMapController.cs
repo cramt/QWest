@@ -12,6 +12,9 @@ using System.Web.Http.Description;
 
 namespace QWest.Api.Controllers {
     public class ProgressMapController : ApiController {
+
+        public DAO.IProgressMap ProgressMapRepo { get; set; } = DAO.ProgressMap;
+
         [HttpGet]
         [ResponseType(typeof(ProgressMap))]
         public Task<HttpResponseMessage> UserId() {
@@ -25,10 +28,10 @@ namespace QWest.Api.Controllers {
                 if (user == null) {
                     return new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, await DAO.ProgressMap.Get(user));
+                return Request.CreateResponse(HttpStatusCode.OK, await ProgressMapRepo.Get(user));
             }
             else {
-                return Request.CreateResponse(HttpStatusCode.OK, await DAO.ProgressMap.GetByUserId((int)id));
+                return Request.CreateResponse(HttpStatusCode.OK, await ProgressMapRepo.GetByUserId((int)id));
             }
         }
         public class UpdateArgument {
@@ -40,11 +43,11 @@ namespace QWest.Api.Controllers {
         [ResponseType(typeof(bool))]
         public async Task<HttpResponseMessage> Change([FromBody] UpdateArgument argument) {
             User user = Request.GetOwinContext().Get<User>("user");
-            ProgressMap map = await DAO.ProgressMap.Get(user);
+            ProgressMap map = await ProgressMapRepo.Get(user);
             if(argument.id != map.Id) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            await DAO.ProgressMap.Update(argument.id, argument.additions, argument.subtractions);
+            await ProgressMapRepo.Update(argument.id, argument.additions, argument.subtractions);
             return Request.CreateResponse(HttpStatusCode.OK, true);
         }
     }

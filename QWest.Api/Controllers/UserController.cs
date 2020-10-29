@@ -15,9 +15,12 @@ using static Utilities.Utilities;
 
 namespace QWest.Apis {
     public class UserController : ApiController {
+
+        public DAO.IUser UserRepo { get; set; } = DAO.User;
+
         [ResponseType(typeof(User))]
         public async Task<HttpResponseMessage> Get(int id) {
-            User user = await DAO.User.Get(id);
+            User user = await UserRepo.Get(id);
             if (user == null) {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
@@ -52,7 +55,7 @@ namespace QWest.Apis {
             if (user == null) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            await DAO.User.Update(newUser.UpdateUser(user));
+            await UserRepo.Update(newUser.UpdateUser(user));
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
@@ -82,7 +85,7 @@ namespace QWest.Apis {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
             user.NewPassword(argument.password);
-            await Task.WhenAll(new Task[] { DAO.User.Update(user), DAO.PasswordResetToken.DeleteToken(argument.token) });
+            await Task.WhenAll(new Task[] { UserRepo.Update(user), DAO.PasswordResetToken.DeleteToken(argument.token) });
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
         [ResponseType(typeof(User))]
@@ -112,7 +115,7 @@ namespace QWest.Apis {
             if (image == null) {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "no file sent");
             }
-            await DAO.User.UpdateProfilePicture(image, user);
+            await UserRepo.UpdateProfilePicture(image, user);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

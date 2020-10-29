@@ -15,6 +15,9 @@ using static Utilities.Utilities;
 
 namespace QWest.Apis {
     public class PostController : ApiController {
+
+        public DAO.IPost PostRepo { get; set; } = DAO.Post;
+
         [HttpPost]
         [ResponseType(typeof(Post))]
         public async Task<HttpResponseMessage> Upload([FromBody] PostUpload upload) {
@@ -29,7 +32,7 @@ namespace QWest.Apis {
             else {
                 upload.Images = new List<byte[]>();
             }
-            Post post = await DAO.Post.Add(upload);
+            Post post = await PostRepo.Add(upload);
             return Request.CreateResponse(HttpStatusCode.OK, post);
         }
         [ResponseType(typeof(List<Post>))]
@@ -41,7 +44,7 @@ namespace QWest.Apis {
                 }
                 id = user.Id;
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Post.GetByUserId(id ?? 0));
+            return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetByUserId(id ?? 0));
         }
     }
 }

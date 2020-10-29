@@ -13,6 +13,9 @@ using System.Web.Http.Description;
 
 namespace QWest.Apis {
     public class ImageController : ApiController {
+
+        public DAO.IImage ImageRepo { get; set; } = DAO.Image;
+
         [ResponseType(typeof(string))]
         public async Task<HttpResponseMessage> Get(int? id) {
             Stream stream = null;
@@ -20,7 +23,7 @@ namespace QWest.Apis {
                 stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames().ToList().Find(x => x.EndsWith("silhouette-profile-picture.jpg")));
             }
             else {
-                byte[] image = await DAO.Image.Get((int)id);
+                byte[] image = await ImageRepo.Get((int)id);
                 if (image == null) {
                     return new HttpResponseMessage(HttpStatusCode.NotFound);
                 }
