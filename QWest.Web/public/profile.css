@@ -30,15 +30,11 @@ body {
     /*margin-top: auto;*/
 }
 
-/*
+
 .cover-container {
-    display: flex;
-    max-width: em;
-    min-width: 50em;
-    flex-direction: column;
-    flex: 1;
+    overflow-y: scroll;
 }
-*/
+
 #friends-button, #update-user-button, #change-password-button {
     width: 400px;
 }

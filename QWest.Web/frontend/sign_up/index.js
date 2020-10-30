@@ -72,6 +72,7 @@ $(() => {
 
     registerButton.on("click", processClick)
     passwordInput.on("keypress", processEnter)
+    passwordInputConfirm.on("keypress", processEnter)
     emailInput.on("keypress", processEnter)
     usernameInput.on("keypress", processEnter)
 })

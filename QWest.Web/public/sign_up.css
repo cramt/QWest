@@ -19,6 +19,10 @@ h1 {
     font-size: large;
 }
 
+.cover-container {
+    overflow-y: scroll;
+}
+
 .sr-only {
     position: absolute;
     width: 1px;

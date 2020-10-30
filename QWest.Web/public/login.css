@@ -8,6 +8,10 @@ h1 {
     
 }
 
+.cover-container {
+    overflow-y: scroll;
+}
+
 #login_button,
 #email_input,
 #password_input {

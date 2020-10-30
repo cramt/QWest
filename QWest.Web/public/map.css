@@ -21,6 +21,7 @@ html, body {
 .cover-container {
     max-width: em;
     min-width: 50em;
+    overflow-y: scroll;
 }
 /*
 .ml-auto, .mx-auto, .mb-auto, .my-auto {
