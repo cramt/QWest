@@ -1,76 +1,41 @@
 # frozen_string_literal: true
 
-require 'active_support/core_ext/string/filters'
 require 'json'
 require 'httparty'
-require 'unidecoder'
-require './deep_string_cmp.rb'
-require './wiki_search.rb'
-require 'parallel'
-countries_str = File.read 'iso3166-1.json'
-subdivision_str = File.read 'iso3166-2.json'
-countries = JSON.parse(countries_str)['3166-1'].map {|x| x.transform_keys(&:to_sym)}
-subdivision = JSON.parse(subdivision_str)['3166-2'].map {|x| x.transform_keys(&:to_sym)}
-countries = countries.map.with_index do |country, i|
-    subs = subdivision.select {|sub| sub[:code].start_with?(country[:alpha_2] + '-')}
-    subs.map do |sub|
-        sub[:code] = sub[:code][3..-1]
-        sub[:subdivision] = []
-        sub
-    end
-    subs = subs.map do |sub|
-        names = [sub[:name], sub[:name].to_ascii].uniq
-        wiki_data = names.map do |x|
-            Utils.search x
-        end
-        wiki_article_name = names.dup.concat(names.map {|x| x + ' ' + sub[:type]}).concat(names.map {|x| sub[:type] + ' ' + x})
-        wiki_article = wiki_data.flatten.map do |wiki|
-            [wiki_article_name.map {|n| Utils.deep_string_cmp(n, wiki[:title])}.max, wiki]
-        end.max_by {|x| x[0]}
-        if wiki_article
-            wiki_article = wiki_article[1]
-            regex = /(\(:?(:?(?:.*?:)(:?.*?)(?::?))+\))/
-            match = wiki_article[:snippet].match regex
-            alternative_names = if match
-                match.to_s[1..-2].split(';').map do |x|
-                    if x.include? ':'
-                        split = x.split(':')
-                        split.shift
-                        split = split.map {|y| y.split(',')}.flatten
-                        split.dup.concat(split.map(&:to_ascii))
-                    else
-                        []
-                    end
-                end.flatten.concat(names).uniq
-            else
-                names
-            end
-            sub[:names] = alternative_names
-        else
-            sub[:names] = names
-        end
-        puts "finished #{sub[:name]}"
-        sub
-    end
-    subs = subs.map {|sub| [sub[:code], sub]}.to_h
-    subs.each do |key, val|
-        next unless val[:parent]
+require './fetch'
 
-        val[:parent] = val[:parent][3..-1] if val[:parent].start_with?(country[:alpha_2] + '-')
-        parent = val[:parent]
-        raise 'fuck' unless subs[parent]
+countries_str = File.read 'iso3166.json'
+countries_str_extra_names = File.read 'iso3166-1.json'
+countries = JSON.parse(countries_str, symbolize_names: true)
+countries_extra_names = JSON.parse(countries_str_extra_names, symbolize_names: true)[:"3166-1"].inject({}) {|acc, x|
+    acc[x[:alpha_2].to_sym] = x
+    acc
+}
+countries = countries.map do |country|
+    country[:alpha_2] = country[:"alpha-2"]
+    country.delete(:"alpha-2")
+    country[:alpha_3] = country[:"alpha-3"]
+    country.delete(:"alpha-3")
+    country[:country_code] = country[:"country-code"]
+    country.delete(:"country-code")
+    country[:iso_3166_2] = country[:"iso_3166-2"]
+    country.delete(:"iso_3166-2")
+    country[:sub_region] = country[:"sub-region"]
+    country.delete(:"sub-region")
+    country[:intermediate_region] = country[:"intermediate-region"]
+    country.delete(:"intermediate-region")
+    country[:region_code] = country[:"region-code"]
+    country.delete(:"region-code")
+    country[:sub_region_code] = country[:"sub-region-code"]
+    country.delete(:"sub-region-code")
+    country[:intermediate_region_code] = country[:"intermediate-region-code"]
+    country.delete(:"intermediate-region-code")
+    other_country = countries_extra_names[country[:alpha_2].to_sym]
+    country[:names] = [country[:name], other_country[:name], other_country[:official_name], other_country[:common_name]].uniq.compact
+    country[:name] = country[:names].min_by(&:length)
 
-        subs.delete key
-        val.delete :parent
-        subs[parent][:subdivision].push val
-    end
-    country[:subdivision] = subs.values.to_a
-    puts "#{i}/#{countries.length}, #{(i / countries.length.to_f) * 100}% done"
-    puts "finished #{country[:name]}"
+    country[:subdivisions] = Fetch.fetch(country[:alpha_2])
+    puts("finished " + country[:name])
     country
 end
-str = countries.to_json
-File.write('countries.json', str)
-str = str.to_json
-File.write('countries_string_ready.json', str)
-File.write('ISO3166String.cs', "namespace GeographicSubdivision.Provider { class ISO3166String { internal const string ISO3166 = #{str}; } }")
+File.write 'countries.json', countries.to_json
