@@ -37,7 +37,7 @@ $(async () => {
         }
     })
 
-    usernameField.val(user.username)
+    usernameField.text(user.username)
 
     descriptionField.text(user.description)
 

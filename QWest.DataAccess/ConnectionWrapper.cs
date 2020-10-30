@@ -11,16 +11,14 @@ using Model.Geographic;
 namespace QWest.DataAcess {
     public class ConnectionWrapper {
         private static ConnectionWrapper _instance;
-        public SqlConnection Connection { get; }
+        public SqlConnection Connection { get { return new SqlConnection(Config.Config.Instance.DatabaseConnectionString); } }
         private ConnectionWrapper() {
-            string connString = Config.Config.Instance.DatabaseConnectionString;
-            var conn = new SqlConnection(connString);
+            var conn = Connection;
             conn.Open();
             if (Migrate) {
                 ApplyMigration(conn).Wait();
             }
             conn.Close();
-            Connection = conn;
         }
         public static void ResetInstance() {
             _instance = null;
@@ -98,29 +96,33 @@ namespace QWest.DataAcess {
         }
 
         public async Task<T> Use<T>(string query, Func<SqlCommand, Task<T>> func) {
-            Connection.Open();
-            T result = await func(Connection.CreateCommand(query));
-            Connection.Close();
+            var conn = Connection;
+            conn.Open();
+            T result = await func(conn.CreateCommand(query));
+            conn.Close();
             return result;
         }
 
         public async Task<T> Use<T>(Func<SqlCommand, Task<T>> func) {
-            Connection.Open();
-            T result = await func(Connection.CreateCommand());
-            Connection.Close();
+            var conn = Connection;
+            conn.Open();
+            T result = await func(conn.CreateCommand());
+            conn.Close();
             return result;
         }
 
         public async Task Use<T>(string query, Func<SqlCommand, Task> func) {
-            Connection.Open();
-            await func(Connection.CreateCommand(query));
-            Connection.Close();
+            var conn = Connection;
+            conn.Open();
+            await func(conn.CreateCommand(query));
+            conn.Close();
         }
 
         public async Task Use<T>(Func<SqlCommand, Task> func) {
-            Connection.Open();
-            await func(Connection.CreateCommand());
-            Connection.Close();
+            var conn = Connection;
+            conn.Open();
+            await func(conn.CreateCommand());
+            conn.Close();
         }
     }
 }

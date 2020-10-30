@@ -23,25 +23,26 @@ namespace QWest.DataAccess.Tests {
         public void MigrationsSucceed() {
             ConnectionWrapper.Migrate = false;
 
-            ConnectionWrapper.Instance.Connection.Open();
-            Task.WaitAll(new Task[] { DeleteAllFunctions(), DeleteAllTables() });
-            ConnectionWrapper.Instance.Connection.Close();
+            var conn = ConnectionWrapper.Instance.Connection;
+            conn.Open();
+            Task.WaitAll(new Task[] { DeleteAllFunctions(conn), DeleteAllTables(conn) });
+            conn.Close();
 
             ConnectionWrapper.Migrate = true;
             ConnectionWrapper.ResetInstance();
             Assert.NotNull(ConnectionWrapper.Instance);
         }
 
-        private async Task DeleteAllTables() {
+        private async Task DeleteAllTables(SqlConnection conn) {
             const string fetchSql = "SELECT name FROM sys.tables";
-            List<string> names = ConnectionWrapper.CreateCommand(fetchSql).ExecuteReader()
+            List<string> names = conn.CreateCommand(fetchSql).ExecuteReader()
                 .ToIterator(reader => reader.GetSqlString(0).Value).ToList();
 
             while (names.Count != 0) {
                 List<string> newNames = new List<string>();
                 foreach (string name in names) {
                     try {
-                        await ConnectionWrapper.CreateCommand("DROP TABLE " + name).ExecuteNonQueryAsync();
+                        await conn.CreateCommand("DROP TABLE " + name).ExecuteNonQueryAsync();
                     }
                     catch (SqlException) {
                         newNames.Add(name);
@@ -50,22 +51,22 @@ namespace QWest.DataAccess.Tests {
                 names = newNames;
             }
 
-            names = (await ConnectionWrapper.CreateCommand(fetchSql).ExecuteReaderAsync())
+            names = (await conn.CreateCommand(fetchSql).ExecuteReaderAsync())
                 .ToIterator(reader => reader.GetSqlString(0).Value).ToList();
 
             Assert.AreEqual(0, names.Count);
         }
 
-        private async Task DeleteAllFunctions() {
+        private async Task DeleteAllFunctions(SqlConnection conn) {
             const string fetchSql = "SELECT name FROM sys.sql_modules m INNER JOIN sys.objects o ON m.object_id=o.object_id WHERE type_desc like '%function%'";
-            List<string> names = ConnectionWrapper.CreateCommand(fetchSql).ExecuteReader()
+            List<string> names = conn.CreateCommand(fetchSql).ExecuteReader()
                 .ToIterator(reader => reader.GetSqlString(0).Value).ToList();
 
             while (names.Count != 0) {
                 List<string> newNames = new List<string>();
                 foreach (string name in names) {
                     try {
-                        await ConnectionWrapper.CreateCommand("DROP FUNCTION " + name).ExecuteNonQueryAsync();
+                        await conn.CreateCommand("DROP FUNCTION " + name).ExecuteNonQueryAsync();
                     }
                     catch (SqlException) {
                         newNames.Add(name);
@@ -74,7 +75,7 @@ namespace QWest.DataAccess.Tests {
                 names = newNames;
             }
 
-            names = (await ConnectionWrapper.CreateCommand(fetchSql).ExecuteReaderAsync())
+            names = (await conn.CreateCommand(fetchSql).ExecuteReaderAsync())
                 .ToIterator(reader => reader.GetSqlString(0).Value).ToList();
 
             Assert.AreEqual(0, names.Count);

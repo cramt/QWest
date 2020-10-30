@@ -1,25 +1,27 @@
 import $ from "jquery";
 import "cookie-store"
-import { fetchLogedInUser } from "../whoami"
+import { fetchMeAndUser } from "../whoami"
 
-const userPromise = fetchLogedInUser();
+const userPromise = fetchMeAndUser();
 
 $(async () => {
-    const user = await userPromise;
+    const users = await userPromise;
+    const isMe = !users.them
+    const user = isMe ? users.them : users.me;
     const usernameField = $("#username-field")
     const descriptionField = $("#description-field");
     const profilePictureContainer = $("#profile-picture-container")
     const logoutButton = $("#logout-button")
 
-    logoutButton.on("click", async() => {
+    logoutButton.on("click", async () => {
         await cookieStore.delete("sessionCookie")
         window.location.href = "/login.html"
     })
-    
-    usernameField.val(user.username)
+
+    usernameField.text(user.username)
 
     descriptionField.text(user.description)
 
     profilePictureContainer.append('<img id="image" width="500px" src="/api/Image/Get?id=' + user.profilePicture + '" />')
-    
+
 })
