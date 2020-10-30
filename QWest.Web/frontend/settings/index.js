@@ -41,7 +41,7 @@ $(async () => {
 
     descriptionField.text(user.description)
 
-    profilePictureContainer.append("<img id=" + "image" + " width=" + "500px" + " src='/api/Image/Get?id=" + user.profilePicture + "' />")
+    profilePictureContainer.append('<img id="image" width="500px" src="/api/Image/Get?id=' + user.profilePicture + '" />')
 
     
     const profilePictureUpdate = async () => {

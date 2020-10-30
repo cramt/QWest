@@ -6,11 +6,10 @@ const userPromise = fetchLogedInUser();
 
 $(async () => {
     const user = await userPromise;
-    const logoutButton = $("#logout-button")
     const usernameField = $("#username-field")
     const descriptionField = $("#description-field");
     const profilePictureContainer = $("#profile-picture-container")
-    let logoutButton = $("#logout-button")
+    const logoutButton = $("#logout-button")
 
     logoutButton.on("click", async() => {
         await cookieStore.delete("sessionCookie")
@@ -21,6 +20,6 @@ $(async () => {
 
     descriptionField.text(user.description)
 
-    profilePictureContainer.append("<img id=" + "image" + " width=" + "500px" + " src='/api/Image/Get?id=" + user.profilePicture + "' />")
+    profilePictureContainer.append('<img id="image" width="500px" src="/api/Image/Get?id=' + user.profilePicture + '" />')
     
 })
