@@ -38,7 +38,10 @@ namespace QWest.Services.Run {
         }
         public override Task Run() {
             string location = SolutionLocation + "\\" + Name;
-            return Task.Factory.StartNew(() => DynamicShell("npm start", Log, location).WaitForExit());
+            return Task.Factory.StartNew(() => {
+                DynamicShell("npm i", Log, location).WaitForExit();
+                DynamicShell("npm start", Log, location).WaitForExit();
+            });
         }
     }
 
