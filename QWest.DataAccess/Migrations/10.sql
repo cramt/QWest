@@ -4,13 +4,13 @@
 	alpha_3 CHAR(3) DEFAULT(NULL),
 	name VARCHAR(MAX) NOT NULL,
 	names VARCHAR(MAX) NOT NULL,
-	official_name VARCHAR(MAX) DEFAULT(NULL),
-	common_name VARCHAR(MAX) DEFAULT(NULL),
-	type VARCHAR(MAX) NOT NULL,
-	numeric INT DEFAULT(NULL),
 	super_id INT DEFAULT(NULL),
+	region VARCHAR(MAX) DEFAULT(NULL),
+	sub_region VARCHAR(MAX) DEFAULT(NULL),
+	intermediate_region VARCHAR(MAX) DEFAULT(NULL),
+	region_code INT DEFAULT(NULL),
+	sub_region_code INT DEFAULT(NULL),
+	intermediate_region_code INT DEFAULT(NULL),
 	FOREIGN KEY (super_id) REFERENCES geopolitical_location(id),
 	PRIMARY KEY(id)	
 );
-
-ALTER TABLE users ADD admin BIT NOT NULL DEFAULT(0);

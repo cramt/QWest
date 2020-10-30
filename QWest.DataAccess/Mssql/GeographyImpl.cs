@@ -29,12 +29,11 @@ namespace QWest.DataAcess.Mssql {
                 preparedQueryParams.Add(("@alpha_2" + i, subdivision.Alpha2));
                 preparedQueryParams.Add(("@name" + i, subdivision.Name));
                 preparedQueryParams.Add(("@names" + i, JsonConvert.SerializeObject(subdivision.Names ?? new List<string>())));
-                preparedQueryParams.Add(("@type" + i, subdivision.Type));
                 string q = $@"
 INSERT INTO geopolitical_location
-(alpha_2, name, names, type, super_id)
+(alpha_2, name, names, super_id)
 VALUES
-(CAST(@alpha_2{i} as CHAR(2)), @name{i}, @names{i}, @type{i}, {id}); 
+(CAST(@alpha_2{i} as CHAR(2)), @name{i}, @names{i}, {id}); 
 ";
                 if (subdivision.Subdivisions.Count() != 0) {
                     declarations.Append($"@last_id{i} INT, ");
@@ -53,16 +52,18 @@ VALUES
                 preparedQueryParams.Add(("@alpha_3" + i, country.Alpha3.ToCharArray()));
                 preparedQueryParams.Add(("@name" + i, country.Name));
                 preparedQueryParams.Add(("@names" + i, JsonConvert.SerializeObject(country.Names ?? new List<string>())));
-                preparedQueryParams.Add(("@official_name" + i, country.OfficialName ?? SqlString.Null));
-                preparedQueryParams.Add(("@common_name" + i, country.CommonName ?? SqlString.Null));
-                preparedQueryParams.Add(("@type" + i, country.Type));
-                preparedQueryParams.Add(("@numeric" + i, country.Numeric));
+                preparedQueryParams.Add(("@region" + i, country.Region ?? SqlString.Null));
+                preparedQueryParams.Add(("@sub_region" + i, country.SubRegion ?? SqlString.Null));
+                preparedQueryParams.Add(("@intermediate_region" + i, country.IntermediateRegion ?? SqlString.Null));
+                preparedQueryParams.Add(("@region_code" + i, country.RegionCode ?? SqlInt32.Null));
+                preparedQueryParams.Add(("@sub_region_code" + i, country.SubRegionCode ?? SqlInt32.Null));
+                preparedQueryParams.Add(("@intermediate_region_code" + i, country.IntermediateRegionCode ?? SqlInt32.Null));
                 string thisid = "@last_id" + i;
                 string query = $@"
 INSERT INTO geopolitical_location
-(alpha_2, alpha_3, name, names, official_name, common_name, type, numeric)
+(alpha_2, alpha_3, name, names, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code)
 VALUES
-(CAST(@alpha_2{i} as CHAR(2)), @alpha_3{i}, @name{i}, @names{i}, @official_name{i}, @common_name{i}, @type{i}, @numeric{i}); 
+(CAST(@alpha_2{i} as CHAR(2)), @alpha_3{i}, @name{i}, @names{i}, @region{i}, @sub_region{i}, @intermediate_region{i}, @region_code{i}, @sub_region_code{i}, @intermediate_region_code{i}); 
 SET @last_id{i} = CAST(scope_identity() as int); 
 " +
                 string.Join("", country.Subdivisions.Select(x => recSubdivisionInsert(thisid, x, preparedQueryParams, declarations)).ToArray());
@@ -79,7 +80,7 @@ SET @last_id{i} = CAST(scope_identity() as int);
                 return acc;
             });
 
-            if(conn.State == ConnectionState.Closed) {
+            if (conn.State == ConnectionState.Closed) {
                 conn.Open();
             }
             foreach ((List<(string name, object parameter)> preparedQueryParams, string declarations, string query) query in queries) {
@@ -94,7 +95,7 @@ SET @last_id{i} = CAST(scope_identity() as int);
         }
         public async Task<IEnumerable<Country>> CreateBackup() {
             ;
-            IEnumerable<GeopoliticalLocationDbRep> locals = await _conn.Use("SELECT id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id FROM geopolitical_location",
+            IEnumerable<GeopoliticalLocationDbRep> locals = await _conn.Use("SELECT id, alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code FROM geopolitical_location",
                 async stmt => (await stmt.ExecuteReaderAsync())
                 .ToIterator(x => new GeopoliticalLocationDbRep(x)).ToList());
             return GeopoliticalLocationDbRep.ToTreeStructure(locals).Cast<Country>();
@@ -108,7 +109,7 @@ DECLARE @curr TABLE(g_id INT NOT NULL);
 DECLARE @temp TABLE(g_id INT NOT NULL);
 DECLARE @result TABLE(g_id INT NOT NULL);
 
-INSERT INTO @curr SELECT id FROM geopolitical_location WHERE alpha_2 = @alpha_2 AND type = 'Country';
+INSERT INTO @curr SELECT id FROM geopolitical_location WHERE alpha_2 = @alpha_2 AND super_id IS NULL;
 
 
 WHILE (SELECT COUNT(*) FROM @curr) != 0
@@ -120,7 +121,7 @@ BEGIN
 	INSERT INTO @curr SELECT g_id FROM @temp;
 END
 
-SELECT id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
+SELECT id, alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
 ", async stmt => {
                 stmt.Parameters.AddWithValue("@alpha_2", alpha2);
                 return (Country)GeopoliticalLocationDbRep.ToTreeStructure((await stmt.ExecuteReaderAsync()).ToIterator(x => new GeopoliticalLocationDbRep(x))).FirstOrDefault();
@@ -160,7 +161,7 @@ BEGIN
 	INSERT INTO @curr SELECT g_id FROM @temp;
 END
 
-SELECT id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
+SELECT id, alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code FROM geopolitical_location INNER JOIN @result r ON geopolitical_location.id = r.g_id;
 ";
 
             return GeopoliticalLocationDbRep.ToTreeStructure(await _conn.Use(query, async stmt => {
@@ -178,15 +179,17 @@ SELECT id, alpha_2, alpha_3, name, names, official_name, common_name, type, nume
             string query = @"
 UPDATE geopolitical_location
 SET
-alpha_2 = @alpha_2,
+alpha_2 = @alpha_2, 
 alpha_3 = @alpha_3,
-name = @name,
-names = @names,
-offical_name = @offical_name,
-common_name = @common_name,
-type = @type,
-numeric = @numeric,
-super_id = @super_id
+name = @name, 
+names = @names, 
+super_id = @super_id, 
+region = @region, 
+sub_region = @sub_region, 
+intermediate_region = @intermediate_region, 
+region_code = @region_code, 
+sub_region_code = @sub_region_code, 
+intermediate_region_code = @intermediate_region_code
 WHERE
 id = @id
 ";
@@ -196,10 +199,12 @@ id = @id
                     stmt.Parameters.AddWithValue("@alpha_3", country.Alpha3);
                     stmt.Parameters.AddWithValue("@name", country.Name);
                     stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(country.Names ?? new List<string>()));
-                    stmt.Parameters.AddWithValue("@offical_name", country.OfficialName ?? SqlString.Null);
-                    stmt.Parameters.AddWithValue("@common_name", country.CommonName ?? SqlString.Null);
-                    stmt.Parameters.AddWithValue("@type", country.Type);
-                    stmt.Parameters.AddWithValue("@numeric", country.Numeric);
+                    stmt.Parameters.AddWithValue("@region", country.Region ?? SqlString.Null);
+                    stmt.Parameters.AddWithValue("@sub_region", country.SubRegion ?? SqlString.Null);
+                    stmt.Parameters.AddWithValue("@intermediate_region", country.IntermediateRegion ?? SqlString.Null);
+                    stmt.Parameters.AddWithValue("@region_code", country.RegionCode ?? SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@sub_region_code", country.SubRegionCode ?? SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@intermediate_region_code", country.IntermediateRegionCode ?? SqlInt32.Null);
 
                     stmt.Parameters.AddWithValue("@super_id", SqlInt32.Null);
                 }
@@ -207,13 +212,15 @@ id = @id
                     stmt.Parameters.AddWithValue("@alpha_2", subdivision.Alpha2);
                     stmt.Parameters.AddWithValue("@name", subdivision.Name);
                     stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(subdivision.Names ?? new List<string>()));
-                    stmt.Parameters.AddWithValue("@type", subdivision.Type);
                     stmt.Parameters.AddWithValue("@super_id", subdivision.SuperId);
 
                     stmt.Parameters.AddWithValue("@alpha_3", SqlString.Null);
-                    stmt.Parameters.AddWithValue("@offical_name", SqlString.Null);
-                    stmt.Parameters.AddWithValue("@common_name", SqlString.Null);
-                    stmt.Parameters.AddWithValue("@numeric", SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@region", SqlString.Null);
+                    stmt.Parameters.AddWithValue("@sub_region", SqlString.Null);
+                    stmt.Parameters.AddWithValue("@intermediate_region", SqlString.Null);
+                    stmt.Parameters.AddWithValue("@region_code", SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@sub_region_code", SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@intermediate_region_code", SqlInt32.Null);
                 }
                 else {
                     throw new ArgumentException("supplied a geopolitical location that was neither country or subdivision");
@@ -243,9 +250,9 @@ id = @id
         public async Task<int> Add(GeopoliticalLocation location) {
             string query = @"
 INSERT INTO geopolitical_location
-(alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id)
+(alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code)
 VALUES
-(@alpha_2, @alpha_3, @name, @names, @official_name, @common_name, @type, @numeric, @super_id);
+(@alpha_2, @alpha_3, @name, @names, @super_id, @region, @sub_region, @intermediate_region, @region_code, @sub_region_code, @intermediate_region_code);
 SELECT CAST(scope_identity() AS int)
 ";
             int id = await _conn.Use(query, async stmt => {
@@ -254,10 +261,12 @@ SELECT CAST(scope_identity() AS int)
                     stmt.Parameters.AddWithValue("@alpha_3", country.Alpha3);
                     stmt.Parameters.AddWithValue("@name", country.Name);
                     stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(country.Names ?? new List<string>()));
-                    stmt.Parameters.AddWithValue("@offical_name", country.OfficialName ?? SqlString.Null);
-                    stmt.Parameters.AddWithValue("@common_name", country.CommonName ?? SqlString.Null);
-                    stmt.Parameters.AddWithValue("@type", country.Type);
-                    stmt.Parameters.AddWithValue("@numeric", country.Numeric);
+                    stmt.Parameters.AddWithValue("@region", country.Region ?? SqlString.Null);
+                    stmt.Parameters.AddWithValue("@sub_region", country.SubRegion ?? SqlString.Null);
+                    stmt.Parameters.AddWithValue("@intermediate_region", country.IntermediateRegion ?? SqlString.Null);
+                    stmt.Parameters.AddWithValue("@region_code", country.RegionCode ?? SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@sub_region_code", country.SubRegionCode ?? SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@intermediate_region_code", country.IntermediateRegionCode ?? SqlInt32.Null);
 
                     stmt.Parameters.AddWithValue("@super_id", SqlInt32.Null);
                 }
@@ -265,13 +274,15 @@ SELECT CAST(scope_identity() AS int)
                     stmt.Parameters.AddWithValue("@alpha_2", subdivision.Alpha2);
                     stmt.Parameters.AddWithValue("@name", subdivision.Name);
                     stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(subdivision.Names ?? new List<string>()));
-                    stmt.Parameters.AddWithValue("@type", subdivision.Type);
                     stmt.Parameters.AddWithValue("@super_id", subdivision.SuperId);
 
                     stmt.Parameters.AddWithValue("@alpha_3", SqlString.Null);
-                    stmt.Parameters.AddWithValue("@offical_name", SqlString.Null);
-                    stmt.Parameters.AddWithValue("@common_name", SqlString.Null);
-                    stmt.Parameters.AddWithValue("@numeric", SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@region", SqlString.Null);
+                    stmt.Parameters.AddWithValue("@sub_region", SqlString.Null);
+                    stmt.Parameters.AddWithValue("@intermediate_region", SqlString.Null);
+                    stmt.Parameters.AddWithValue("@region_code", SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@sub_region_code", SqlInt32.Null);
+                    stmt.Parameters.AddWithValue("@intermediate_region_code", SqlInt32.Null);
                 }
                 else {
                     throw new ArgumentException("supplied a geopolitical location that was neither country or subdivision");
@@ -284,7 +295,7 @@ SELECT CAST(scope_identity() AS int)
         public Task<IEnumerable<Country>> GetCountries() {
             string query = @"
 SELECT
-id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id
+id, alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code
 FROM
 geopolitical_location
 WHERE
@@ -300,7 +311,7 @@ super_id IS NULL
         public async Task<IEnumerable<Subdivision>> GetSubdivisions(int superId) {
             string query = @"
 SELECT
-id, alpha_2, alpha_3, name, names, official_name, common_name, type, numeric, super_id
+id, alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code
 FROM
 geopolitical_location
 WHERE

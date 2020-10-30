@@ -21,15 +21,14 @@ namespace QWest.DataAccess.Tests {
         public async Task FetchesAlbaniaCorrectly() {
             Country albania = await DAO.Geography.GetCountryByAlpha2("AL");
             Assert.AreEqual("Albania", albania.Name);
-            Assert.AreEqual("Republic of Albania", albania.OfficialName);
             Assert.AreEqual(12, albania.Subdivisions.Count);
             Assert.AreEqual(3, albania.Subdivisions[0].Subdivisions.Count);
-            Assert.AreEqual(2, albania.Subdivisions[1].Subdivisions.Count);
-            Assert.AreEqual(4, albania.Subdivisions[2].Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[3].Subdivisions.Count);
+            Assert.AreEqual(3, albania.Subdivisions[1].Subdivisions.Count);
+            Assert.AreEqual(2, albania.Subdivisions[2].Subdivisions.Count);
+            Assert.AreEqual(4, albania.Subdivisions[3].Subdivisions.Count);
             Assert.AreEqual(3, albania.Subdivisions[4].Subdivisions.Count);
-            Assert.AreEqual(4, albania.Subdivisions[5].Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[6].Subdivisions.Count);
+            Assert.AreEqual(3, albania.Subdivisions[5].Subdivisions.Count);
+            Assert.AreEqual(4, albania.Subdivisions[6].Subdivisions.Count);
             Assert.AreEqual(3, albania.Subdivisions[7].Subdivisions.Count);
             Assert.AreEqual(3, albania.Subdivisions[8].Subdivisions.Count);
             Assert.AreEqual(3, albania.Subdivisions[9].Subdivisions.Count);

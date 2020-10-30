@@ -7,10 +7,10 @@
     "country_code": "004",
     "iso_3166_2": "ISO 3166-2:AF",
     "sub_region": "Southern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "034",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 34,
+    "intermediate_region_code": null,
     "names": [
       "Afghanistan",
       "Islamic Republic of Afghanistan"
@@ -362,10 +362,10 @@
     "country_code": "248",
     "iso_3166_2": "ISO 3166-2:AX",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Åland Islands"
     ],
@@ -379,10 +379,10 @@
     "country_code": "008",
     "iso_3166_2": "ISO 3166-2:AL",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Albania",
       "Republic of Albania"
@@ -794,10 +794,10 @@
     "country_code": "012",
     "iso_3166_2": "ISO 3166-2:DZ",
     "sub_region": "Northern Africa",
-    "intermediate_region": "",
-    "region_code": "002",
-    "sub_region_code": "015",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 2,
+    "sub_region_code": 15,
+    "intermediate_region_code": null,
     "names": [
       "Algeria",
       "People's Democratic Republic of Algeria"
@@ -1245,10 +1245,10 @@
     "country_code": "016",
     "iso_3166_2": "ISO 3166-2:AS",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "American Samoa"
     ],
@@ -1262,10 +1262,10 @@
     "country_code": "020",
     "iso_3166_2": "ISO 3166-2:AD",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Andorra",
       "Principality of Andorra"
@@ -1338,9 +1338,9 @@
     "iso_3166_2": "ISO 3166-2:AO",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Middle Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "017",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 17,
     "names": [
       "Angola",
       "Republic of Angola"
@@ -1501,9 +1501,9 @@
     "iso_3166_2": "ISO 3166-2:AI",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Anguilla"
     ],
@@ -1511,16 +1511,16 @@
   },
   {
     "name": "Antarctica",
-    "region": "",
+    "region": null,
     "alpha_2": "AQ",
     "alpha_3": "ATA",
     "country_code": "010",
     "iso_3166_2": "ISO 3166-2:AQ",
-    "sub_region": "",
-    "intermediate_region": "",
-    "region_code": "",
-    "sub_region_code": "",
-    "intermediate_region_code": "",
+    "sub_region": null,
+    "intermediate_region": null,
+    "region_code": null,
+    "sub_region_code": null,
+    "intermediate_region_code": null,
     "names": [
       "Antarctica"
     ],
@@ -1535,9 +1535,9 @@
     "iso_3166_2": "ISO 3166-2:AG",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Antigua and Barbuda"
     ],
@@ -1625,9 +1625,9 @@
     "iso_3166_2": "ISO 3166-2:AR",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Argentina",
       "Argentine Republic"
@@ -1859,10 +1859,10 @@
     "country_code": "051",
     "iso_3166_2": "ISO 3166-2:AM",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Armenia",
       "Republic of Armenia"
@@ -1998,9 +1998,9 @@
     "iso_3166_2": "ISO 3166-2:AW",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Aruba"
     ],
@@ -2014,10 +2014,10 @@
     "country_code": "036",
     "iso_3166_2": "ISO 3166-2:AU",
     "sub_region": "Australia and New Zealand",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "053",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 53,
+    "intermediate_region_code": null,
     "names": [
       "Australia"
     ],
@@ -2104,10 +2104,10 @@
     "country_code": "040",
     "iso_3166_2": "ISO 3166-2:AT",
     "sub_region": "Western Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "155",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 155,
+    "intermediate_region_code": null,
     "names": [
       "Austria",
       "Republic of Austria"
@@ -2204,10 +2204,10 @@
     "country_code": "031",
     "iso_3166_2": "ISO 3166-2:AZ",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Azerbaijan",
       "Republic of Azerbaijan"
@@ -3061,9 +3061,9 @@
     "iso_3166_2": "ISO 3166-2:BS",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Bahamas",
       "Commonwealth of the Bahamas"
@@ -3445,10 +3445,10 @@
     "country_code": "048",
     "iso_3166_2": "ISO 3166-2:BH",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Bahrain",
       "Kingdom of Bahrain"
@@ -3604,10 +3604,10 @@
     "country_code": "050",
     "iso_3166_2": "ISO 3166-2:BD",
     "sub_region": "Southern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "034",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 34,
+    "intermediate_region_code": null,
     "names": [
       "Bangladesh",
       "People's Republic of Bangladesh"
@@ -4426,9 +4426,9 @@
     "iso_3166_2": "ISO 3166-2:BB",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Barbados"
     ],
@@ -4531,10 +4531,10 @@
     "country_code": "112",
     "iso_3166_2": "ISO 3166-2:BY",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Belarus",
       "Republic of Belarus"
@@ -4639,10 +4639,10 @@
     "country_code": "056",
     "iso_3166_2": "ISO 3166-2:BE",
     "sub_region": "Western Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "155",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 155,
+    "intermediate_region_code": null,
     "names": [
       "Belgium",
       "Kingdom of Belgium"
@@ -4771,9 +4771,9 @@
     "iso_3166_2": "ISO 3166-2:BZ",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Central America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "013",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 13,
     "names": [
       "Belize"
     ],
@@ -4837,9 +4837,9 @@
     "iso_3166_2": "ISO 3166-2:BJ",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Benin",
       "Republic of Benin"
@@ -4951,10 +4951,10 @@
     "country_code": "060",
     "iso_3166_2": "ISO 3166-2:BM",
     "sub_region": "Northern America",
-    "intermediate_region": "",
-    "region_code": "019",
-    "sub_region_code": "021",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 19,
+    "sub_region_code": 21,
+    "intermediate_region_code": null,
     "names": [
       "Bermuda"
     ],
@@ -4968,10 +4968,10 @@
     "country_code": "064",
     "iso_3166_2": "ISO 3166-2:BT",
     "sub_region": "Southern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "034",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 34,
+    "intermediate_region_code": null,
     "names": [
       "Bhutan",
       "Kingdom of Bhutan"
@@ -5168,9 +5168,9 @@
     "iso_3166_2": "ISO 3166-2:BO",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Bolivia (Plurinational State of)",
       "Bolivia, Plurinational State of",
@@ -5270,9 +5270,9 @@
     "iso_3166_2": "ISO 3166-2:BQ",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Bonaire, Sint Eustatius and Saba"
     ],
@@ -5315,10 +5315,10 @@
     "country_code": "070",
     "iso_3166_2": "ISO 3166-2:BA",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Bosnia and Herzegovina",
       "Republic of Bosnia and Herzegovina"
@@ -5466,9 +5466,9 @@
     "iso_3166_2": "ISO 3166-2:BW",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Southern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "018",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 18,
     "names": [
       "Botswana",
       "Republic of Botswana"
@@ -5629,9 +5629,9 @@
     "iso_3166_2": "ISO 3166-2:BV",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Bouvet Island"
     ],
@@ -5646,9 +5646,9 @@
     "iso_3166_2": "ISO 3166-2:BR",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Brazil",
       "Federative Republic of Brazil"
@@ -5908,9 +5908,9 @@
     "iso_3166_2": "ISO 3166-2:IO",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "British Indian Ocean Territory"
     ],
@@ -5924,10 +5924,10 @@
     "country_code": "096",
     "iso_3166_2": "ISO 3166-2:BN",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Brunei Darussalam"
     ],
@@ -5975,10 +5975,10 @@
     "country_code": "100",
     "iso_3166_2": "ISO 3166-2:BG",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Bulgaria",
       "Republic of Bulgaria"
@@ -6238,9 +6238,9 @@
     "iso_3166_2": "ISO 3166-2:BF",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Burkina Faso"
     ],
@@ -6733,9 +6733,9 @@
     "iso_3166_2": "ISO 3166-2:BI",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Burundi",
       "Republic of Burundi"
@@ -6896,9 +6896,9 @@
     "iso_3166_2": "ISO 3166-2:CV",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Cabo Verde",
       "Republic of Cabo Verde"
@@ -7108,10 +7108,10 @@
     "country_code": "116",
     "iso_3166_2": "ISO 3166-2:KH",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Cambodia",
       "Kingdom of Cambodia"
@@ -7403,9 +7403,9 @@
     "iso_3166_2": "ISO 3166-2:CM",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Middle Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "017",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 17,
     "names": [
       "Cameroon",
       "Republic of Cameroon"
@@ -7508,10 +7508,10 @@
     "country_code": "124",
     "iso_3166_2": "ISO 3166-2:CA",
     "sub_region": "Northern America",
-    "intermediate_region": "",
-    "region_code": "019",
-    "sub_region_code": "021",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 19,
+    "sub_region_code": 21,
+    "intermediate_region_code": null,
     "names": [
       "Canada"
     ],
@@ -7657,9 +7657,9 @@
     "iso_3166_2": "ISO 3166-2:KY",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Cayman Islands"
     ],
@@ -7674,9 +7674,9 @@
     "iso_3166_2": "ISO 3166-2:CF",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Middle Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "017",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 17,
     "names": [
       "Central African Republic"
     ],
@@ -7861,9 +7861,9 @@
     "iso_3166_2": "ISO 3166-2:TD",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Middle Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "017",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 17,
     "names": [
       "Chad",
       "Republic of Chad"
@@ -8100,9 +8100,9 @@
     "iso_3166_2": "ISO 3166-2:CL",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Chile",
       "Republic of Chile"
@@ -8278,10 +8278,10 @@
     "country_code": "156",
     "iso_3166_2": "ISO 3166-2:CN",
     "sub_region": "Eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "030",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 30,
+    "intermediate_region_code": null,
     "names": [
       "China",
       "People's Republic of China"
@@ -8640,10 +8640,10 @@
     "country_code": "162",
     "iso_3166_2": "ISO 3166-2:CX",
     "sub_region": "Australia and New Zealand",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "053",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 53,
+    "intermediate_region_code": null,
     "names": [
       "Christmas Island"
     ],
@@ -8657,10 +8657,10 @@
     "country_code": "166",
     "iso_3166_2": "ISO 3166-2:CC",
     "sub_region": "Australia and New Zealand",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "053",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 53,
+    "intermediate_region_code": null,
     "names": [
       "Cocos (Keeling) Islands"
     ],
@@ -8675,9 +8675,9 @@
     "iso_3166_2": "ISO 3166-2:CO",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Colombia",
       "Republic of Colombia"
@@ -9024,9 +9024,9 @@
     "iso_3166_2": "ISO 3166-2:KM",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Comoros",
       "Union of the Comoros"
@@ -9042,9 +9042,9 @@
     "iso_3166_2": "ISO 3166-2:CG",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Middle Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "017",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 17,
     "names": [
       "Congo",
       "Republic of the Congo"
@@ -9169,9 +9169,9 @@
     "iso_3166_2": "ISO 3166-2:CD",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Middle Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "017",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 17,
     "names": [
       "Congo, Democratic Republic of the",
       "Congo, The Democratic Republic of the"
@@ -9431,10 +9431,10 @@
     "country_code": "184",
     "iso_3166_2": "ISO 3166-2:CK",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "Cook Islands"
     ],
@@ -9449,9 +9449,9 @@
     "iso_3166_2": "ISO 3166-2:CR",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Central America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "013",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 13,
     "names": [
       "Costa Rica",
       "Republic of Costa Rica"
@@ -9524,9 +9524,9 @@
     "iso_3166_2": "ISO 3166-2:CI",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Côte d'Ivoire",
       "Republic of Côte d'Ivoire"
@@ -9820,10 +9820,10 @@
     "country_code": "191",
     "iso_3166_2": "ISO 3166-2:HR",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Croatia",
       "Republic of Croatia"
@@ -10050,9 +10050,9 @@
     "iso_3166_2": "ISO 3166-2:CU",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Cuba",
       "Republic of Cuba"
@@ -10213,9 +10213,9 @@
     "iso_3166_2": "ISO 3166-2:CW",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Curaçao"
     ],
@@ -10229,10 +10229,10 @@
     "country_code": "196",
     "iso_3166_2": "ISO 3166-2:CY",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Cyprus",
       "Republic of Cyprus"
@@ -10247,10 +10247,10 @@
     "country_code": "203",
     "iso_3166_2": "ISO 3166-2:CZ",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Czechia",
       "Czech Republic"
@@ -11099,10 +11099,10 @@
     "country_code": "208",
     "iso_3166_2": "ISO 3166-2:DK",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Denmark",
       "Kingdom of Denmark"
@@ -11308,9 +11308,9 @@
     "iso_3166_2": "ISO 3166-2:DJ",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Djibouti",
       "Republic of Djibouti"
@@ -11387,9 +11387,9 @@
     "iso_3166_2": "ISO 3166-2:DM",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Dominica",
       "Commonwealth of Dominica"
@@ -11486,9 +11486,9 @@
     "iso_3166_2": "ISO 3166-2:DO",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Dominican Republic"
     ],
@@ -12165,9 +12165,9 @@
     "iso_3166_2": "ISO 3166-2:EC",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Ecuador",
       "Republic of Ecuador"
@@ -12375,10 +12375,10 @@
     "country_code": "818",
     "iso_3166_2": "ISO 3166-2:EG",
     "sub_region": "Northern Africa",
-    "intermediate_region": "",
-    "region_code": "002",
-    "sub_region_code": "015",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 2,
+    "sub_region_code": 15,
+    "intermediate_region_code": null,
     "names": [
       "Egypt",
       "Arab Republic of Egypt"
@@ -12680,9 +12680,9 @@
     "iso_3166_2": "ISO 3166-2:SV",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Central America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "013",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 13,
     "names": [
       "El Salvador",
       "Republic of El Salvador"
@@ -12811,9 +12811,9 @@
     "iso_3166_2": "ISO 3166-2:GQ",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Middle Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "017",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 17,
     "names": [
       "Equatorial Guinea",
       "Republic of Equatorial Guinea"
@@ -12922,9 +12922,9 @@
     "iso_3166_2": "ISO 3166-2:ER",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Eritrea",
       "the State of Eritrea"
@@ -13078,10 +13078,10 @@
     "country_code": "233",
     "iso_3166_2": "ISO 3166-2:EE",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Estonia",
       "Republic of Estonia"
@@ -13233,9 +13233,9 @@
     "iso_3166_2": "ISO 3166-2:SZ",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Southern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "018",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 18,
     "names": [
       "Eswatini",
       "Kingdom of Eswatini"
@@ -13284,9 +13284,9 @@
     "iso_3166_2": "ISO 3166-2:ET",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Ethiopia",
       "Federal Democratic Republic of Ethiopia"
@@ -13413,9 +13413,9 @@
     "iso_3166_2": "ISO 3166-2:FK",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Falkland Islands (Malvinas)"
     ],
@@ -13429,10 +13429,10 @@
     "country_code": "234",
     "iso_3166_2": "ISO 3166-2:FO",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Faroe Islands"
     ],
@@ -13446,10 +13446,10 @@
     "country_code": "242",
     "iso_3166_2": "ISO 3166-2:FJ",
     "sub_region": "Melanesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "054",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 54,
+    "intermediate_region_code": null,
     "names": [
       "Fiji",
       "Republic of Fiji"
@@ -13636,10 +13636,10 @@
     "country_code": "246",
     "iso_3166_2": "ISO 3166-2:FI",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Finland",
       "Republic of Finland"
@@ -13894,10 +13894,10 @@
     "country_code": "250",
     "iso_3166_2": "ISO 3166-2:FR",
     "sub_region": "Western Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "155",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 155,
+    "intermediate_region_code": null,
     "names": [
       "France",
       "French Republic"
@@ -15398,9 +15398,9 @@
     "iso_3166_2": "ISO 3166-2:GF",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "French Guiana"
     ],
@@ -15414,10 +15414,10 @@
     "country_code": "258",
     "iso_3166_2": "ISO 3166-2:PF",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "French Polynesia"
     ],
@@ -15432,9 +15432,9 @@
     "iso_3166_2": "ISO 3166-2:TF",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "French Southern Territories"
     ],
@@ -15449,9 +15449,9 @@
     "iso_3166_2": "ISO 3166-2:GA",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Middle Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "017",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 17,
     "names": [
       "Gabon",
       "Gabonese Republic"
@@ -15540,9 +15540,9 @@
     "iso_3166_2": "ISO 3166-2:GM",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Gambia",
       "Republic of the Gambia"
@@ -15612,10 +15612,10 @@
     "country_code": "268",
     "iso_3166_2": "ISO 3166-2:GE",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Georgia"
     ],
@@ -16506,10 +16506,10 @@
     "country_code": "276",
     "iso_3166_2": "ISO 3166-2:DE",
     "sub_region": "Western Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "155",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 155,
+    "intermediate_region_code": null,
     "names": [
       "Germany",
       "Federal Republic of Germany"
@@ -16670,9 +16670,9 @@
     "iso_3166_2": "ISO 3166-2:GH",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Ghana",
       "Republic of Ghana"
@@ -16824,10 +16824,10 @@
     "country_code": "292",
     "iso_3166_2": "ISO 3166-2:GI",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Gibraltar"
     ],
@@ -16841,10 +16841,10 @@
     "country_code": "300",
     "iso_3166_2": "ISO 3166-2:GR",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Greece",
       "Hellenic Republic"
@@ -17577,10 +17577,10 @@
     "country_code": "304",
     "iso_3166_2": "ISO 3166-2:GL",
     "sub_region": "Northern America",
-    "intermediate_region": "",
-    "region_code": "019",
-    "sub_region_code": "021",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 19,
+    "sub_region_code": 21,
+    "intermediate_region_code": null,
     "names": [
       "Greenland"
     ],
@@ -17636,9 +17636,9 @@
     "iso_3166_2": "ISO 3166-2:GD",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Grenada"
     ],
@@ -17724,9 +17724,9 @@
     "iso_3166_2": "ISO 3166-2:GP",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Guadeloupe"
     ],
@@ -17740,10 +17740,10 @@
     "country_code": "316",
     "iso_3166_2": "ISO 3166-2:GU",
     "sub_region": "Micronesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "057",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 57,
+    "intermediate_region_code": null,
     "names": [
       "Guam"
     ],
@@ -17758,9 +17758,9 @@
     "iso_3166_2": "ISO 3166-2:GT",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Central America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "013",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 13,
     "names": [
       "Guatemala",
       "Republic of Guatemala"
@@ -17953,9 +17953,9 @@
     "iso_3166_2": "ISO 3166-2:GG",
     "sub_region": "Northern Europe",
     "intermediate_region": "Channel Islands",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "830",
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": 830,
     "names": [
       "Guernsey"
     ],
@@ -17970,9 +17970,9 @@
     "iso_3166_2": "ISO 3166-2:GN",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Guinea",
       "Republic of Guinea"
@@ -18332,9 +18332,9 @@
     "iso_3166_2": "ISO 3166-2:GW",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Guinea-Bissau",
       "Republic of Guinea-Bissau"
@@ -18460,9 +18460,9 @@
     "iso_3166_2": "ISO 3166-2:GY",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Guyana",
       "Republic of Guyana"
@@ -18559,9 +18559,9 @@
     "iso_3166_2": "ISO 3166-2:HT",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Haiti",
       "Republic of Haiti"
@@ -18667,10 +18667,10 @@
     "country_code": "334",
     "iso_3166_2": "ISO 3166-2:HM",
     "sub_region": "Australia and New Zealand",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "053",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 53,
+    "intermediate_region_code": null,
     "names": [
       "Heard Island and McDonald Islands"
     ],
@@ -18684,10 +18684,10 @@
     "country_code": "336",
     "iso_3166_2": "ISO 3166-2:VA",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Holy See",
       "Holy See (Vatican City State)"
@@ -18703,9 +18703,9 @@
     "iso_3166_2": "ISO 3166-2:HN",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Central America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "013",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 13,
     "names": [
       "Honduras",
       "Republic of Honduras"
@@ -18865,10 +18865,10 @@
     "country_code": "344",
     "iso_3166_2": "ISO 3166-2:HK",
     "sub_region": "Eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "030",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 30,
+    "intermediate_region_code": null,
     "names": [
       "Hong Kong",
       "Hong Kong Special Administrative Region of China"
@@ -18883,10 +18883,10 @@
     "country_code": "348",
     "iso_3166_2": "ISO 3166-2:HU",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Hungary"
     ],
@@ -19288,10 +19288,10 @@
     "country_code": "352",
     "iso_3166_2": "ISO 3166-2:IS",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Iceland",
       "Republic of Iceland"
@@ -19371,10 +19371,10 @@
     "country_code": "356",
     "iso_3166_2": "ISO 3166-2:IN",
     "sub_region": "Southern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "034",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 34,
+    "intermediate_region_code": null,
     "names": [
       "India",
       "Republic of India"
@@ -19760,10 +19760,10 @@
     "country_code": "360",
     "iso_3166_2": "ISO 3166-2:ID",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Indonesia",
       "Republic of Indonesia"
@@ -20216,10 +20216,10 @@
     "country_code": "364",
     "iso_3166_2": "ISO 3166-2:IR",
     "sub_region": "Southern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "034",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 34,
+    "intermediate_region_code": null,
     "names": [
       "Iran (Islamic Republic of)",
       "Iran, Islamic Republic of",
@@ -20484,10 +20484,10 @@
     "country_code": "368",
     "iso_3166_2": "ISO 3166-2:IQ",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Iraq",
       "Republic of Iraq"
@@ -20674,10 +20674,10 @@
     "country_code": "372",
     "iso_3166_2": "ISO 3166-2:IE",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Ireland"
     ],
@@ -20966,10 +20966,10 @@
     "country_code": "833",
     "iso_3166_2": "ISO 3166-2:IM",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Isle of Man"
     ],
@@ -20983,10 +20983,10 @@
     "country_code": "376",
     "iso_3166_2": "ISO 3166-2:IL",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Israel",
       "State of Israel"
@@ -21001,10 +21001,10 @@
     "country_code": "380",
     "iso_3166_2": "ISO 3166-2:IT",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Italy",
       "Italian Republic"
@@ -22124,9 +22124,9 @@
     "iso_3166_2": "ISO 3166-2:JM",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Jamaica"
     ],
@@ -22253,10 +22253,10 @@
     "country_code": "392",
     "iso_3166_2": "ISO 3166-2:JP",
     "sub_region": "Eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "030",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 30,
+    "intermediate_region_code": null,
     "names": [
       "Japan"
     ],
@@ -22695,9 +22695,9 @@
     "iso_3166_2": "ISO 3166-2:JE",
     "sub_region": "Northern Europe",
     "intermediate_region": "Channel Islands",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "830",
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": 830,
     "names": [
       "Jersey"
     ],
@@ -22711,10 +22711,10 @@
     "country_code": "400",
     "iso_3166_2": "ISO 3166-2:JO",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Jordan",
       "Hashemite Kingdom of Jordan"
@@ -22838,10 +22838,10 @@
     "country_code": "398",
     "iso_3166_2": "ISO 3166-2:KZ",
     "sub_region": "Central Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "143",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 143,
+    "intermediate_region_code": null,
     "names": [
       "Kazakhstan",
       "Republic of Kazakhstan"
@@ -22857,9 +22857,9 @@
     "iso_3166_2": "ISO 3166-2:KE",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Kenya",
       "Republic of Kenya"
@@ -23321,10 +23321,10 @@
     "country_code": "296",
     "iso_3166_2": "ISO 3166-2:KI",
     "sub_region": "Micronesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "057",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 57,
+    "intermediate_region_code": null,
     "names": [
       "Kiribati",
       "Republic of Kiribati"
@@ -23364,10 +23364,10 @@
     "country_code": "408",
     "iso_3166_2": "ISO 3166-2:KP",
     "sub_region": "Eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "030",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 30,
+    "intermediate_region_code": null,
     "names": [
       "Korea (Democratic People's Republic of)",
       "Korea, Democratic People's Republic of",
@@ -23483,10 +23483,10 @@
     "country_code": "410",
     "iso_3166_2": "ISO 3166-2:KR",
     "sub_region": "Eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "030",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 30,
+    "intermediate_region_code": null,
     "names": [
       "Korea, Republic of"
     ],
@@ -23677,10 +23677,10 @@
     "country_code": "414",
     "iso_3166_2": "ISO 3166-2:KW",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Kuwait",
       "State of Kuwait"
@@ -23750,10 +23750,10 @@
     "country_code": "417",
     "iso_3166_2": "ISO 3166-2:KG",
     "sub_region": "Central Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "143",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 143,
+    "intermediate_region_code": null,
     "names": [
       "Kyrgyzstan",
       "Kyrgyz Republic"
@@ -23868,10 +23868,10 @@
     "country_code": "418",
     "iso_3166_2": "ISO 3166-2:LA",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Lao People's Democratic Republic"
     ],
@@ -24066,10 +24066,10 @@
     "country_code": "428",
     "iso_3166_2": "ISO 3166-2:LV",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Latvia",
       "Republic of Latvia"
@@ -25509,10 +25509,10 @@
     "country_code": "422",
     "iso_3166_2": "ISO 3166-2:LB",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Lebanon",
       "Lebanese Republic"
@@ -25528,9 +25528,9 @@
     "iso_3166_2": "ISO 3166-2:LS",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Southern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "018",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 18,
     "names": [
       "Lesotho",
       "Kingdom of Lesotho"
@@ -25627,9 +25627,9 @@
     "iso_3166_2": "ISO 3166-2:LR",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Liberia",
       "Republic of Liberia"
@@ -25765,10 +25765,10 @@
     "country_code": "434",
     "iso_3166_2": "ISO 3166-2:LY",
     "sub_region": "Northern Africa",
-    "intermediate_region": "",
-    "region_code": "002",
-    "sub_region_code": "015",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 2,
+    "sub_region_code": 15,
+    "intermediate_region_code": null,
     "names": [
       "Libya"
     ],
@@ -26103,10 +26103,10 @@
     "country_code": "438",
     "iso_3166_2": "ISO 3166-2:LI",
     "sub_region": "Western Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "155",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 155,
+    "intermediate_region_code": null,
     "names": [
       "Liechtenstein",
       "Principality of Liechtenstein"
@@ -26210,10 +26210,10 @@
     "country_code": "440",
     "iso_3166_2": "ISO 3166-2:LT",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Lithuania",
       "Republic of Lithuania"
@@ -26859,10 +26859,10 @@
     "country_code": "442",
     "iso_3166_2": "ISO 3166-2:LU",
     "sub_region": "Western Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "155",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 155,
+    "intermediate_region_code": null,
     "names": [
       "Luxembourg",
       "Grand Duchy of Luxembourg"
@@ -27014,10 +27014,10 @@
     "country_code": "446",
     "iso_3166_2": "ISO 3166-2:MO",
     "sub_region": "Eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "030",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 30,
+    "intermediate_region_code": null,
     "names": [
       "Macao",
       "Macao Special Administrative Region of China"
@@ -27033,9 +27033,9 @@
     "iso_3166_2": "ISO 3166-2:MG",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Madagascar",
       "Republic of Madagascar"
@@ -27100,9 +27100,9 @@
     "iso_3166_2": "ISO 3166-2:MW",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Malawi",
       "Republic of Malawi"
@@ -27372,10 +27372,10 @@
     "country_code": "458",
     "iso_3166_2": "ISO 3166-2:MY",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Malaysia"
     ],
@@ -27669,10 +27669,10 @@
     "country_code": "462",
     "iso_3166_2": "ISO 3166-2:MV",
     "sub_region": "Southern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "034",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 34,
+    "intermediate_region_code": null,
     "names": [
       "Maldives",
       "Republic of Maldives"
@@ -27969,9 +27969,9 @@
     "iso_3166_2": "ISO 3166-2:ML",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Mali",
       "Republic of Mali"
@@ -28086,10 +28086,10 @@
     "country_code": "470",
     "iso_3166_2": "ISO 3166-2:MT",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Malta",
       "Republic of Malta"
@@ -28712,10 +28712,10 @@
     "country_code": "584",
     "iso_3166_2": "ISO 3166-2:MH",
     "sub_region": "Micronesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "057",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 57,
+    "intermediate_region_code": null,
     "names": [
       "Marshall Islands",
       "Republic of the Marshall Islands"
@@ -28966,9 +28966,9 @@
     "iso_3166_2": "ISO 3166-2:MQ",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Martinique"
     ],
@@ -28983,9 +28983,9 @@
     "iso_3166_2": "ISO 3166-2:MR",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Mauritania",
       "Islamic Republic of Mauritania"
@@ -29001,9 +29001,9 @@
     "iso_3166_2": "ISO 3166-2:MU",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Mauritius",
       "Republic of Mauritius"
@@ -29173,9 +29173,9 @@
     "iso_3166_2": "ISO 3166-2:YT",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Mayotte"
     ],
@@ -29190,9 +29190,9 @@
     "iso_3166_2": "ISO 3166-2:MX",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Central America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "013",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 13,
     "names": [
       "Mexico",
       "United Mexican States"
@@ -29528,10 +29528,10 @@
     "country_code": "583",
     "iso_3166_2": "ISO 3166-2:FM",
     "sub_region": "Micronesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "057",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 57,
+    "intermediate_region_code": null,
     "names": [
       "Micronesia (Federated States of)",
       "Micronesia, Federated States of",
@@ -29580,10 +29580,10 @@
     "country_code": "498",
     "iso_3166_2": "ISO 3166-2:MD",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Moldova, Republic of",
       "Republic of Moldova",
@@ -30410,10 +30410,10 @@
     "country_code": "492",
     "iso_3166_2": "ISO 3166-2:MC",
     "sub_region": "Western Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "155",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 155,
+    "intermediate_region_code": null,
     "names": [
       "Monaco",
       "Principality of Monaco"
@@ -30565,10 +30565,10 @@
     "country_code": "496",
     "iso_3166_2": "ISO 3166-2:MN",
     "sub_region": "Eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "030",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 30,
+    "intermediate_region_code": null,
     "names": [
       "Mongolia"
     ],
@@ -30781,10 +30781,10 @@
     "country_code": "499",
     "iso_3166_2": "ISO 3166-2:ME",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Montenegro"
     ],
@@ -30992,9 +30992,9 @@
     "iso_3166_2": "ISO 3166-2:MS",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Montserrat"
     ],
@@ -31008,10 +31008,10 @@
     "country_code": "504",
     "iso_3166_2": "ISO 3166-2:MA",
     "sub_region": "Northern Africa",
-    "intermediate_region": "",
-    "region_code": "002",
-    "sub_region_code": "015",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 2,
+    "sub_region_code": 15,
+    "intermediate_region_code": null,
     "names": [
       "Morocco",
       "Kingdom of Morocco"
@@ -31874,9 +31874,9 @@
     "iso_3166_2": "ISO 3166-2:MZ",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Mozambique",
       "Republic of Mozambique"
@@ -31991,10 +31991,10 @@
     "country_code": "104",
     "iso_3166_2": "ISO 3166-2:MM",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Myanmar",
       "Republic of Myanmar"
@@ -32146,9 +32146,9 @@
     "iso_3166_2": "ISO 3166-2:NA",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Southern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "018",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 18,
     "names": [
       "Namibia",
       "Republic of Namibia"
@@ -32276,10 +32276,10 @@
     "country_code": "520",
     "iso_3166_2": "ISO 3166-2:NR",
     "sub_region": "Micronesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "057",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 57,
+    "intermediate_region_code": null,
     "names": [
       "Nauru",
       "Republic of Nauru"
@@ -32407,10 +32407,10 @@
     "country_code": "524",
     "iso_3166_2": "ISO 3166-2:NP",
     "sub_region": "Southern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "034",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 34,
+    "intermediate_region_code": null,
     "names": [
       "Nepal",
       "Federal Democratic Republic of Nepal"
@@ -32588,10 +32588,10 @@
     "country_code": "528",
     "iso_3166_2": "ISO 3166-2:NL",
     "sub_region": "Western Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "155",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 155,
+    "intermediate_region_code": null,
     "names": [
       "Netherlands",
       "Kingdom of the Netherlands"
@@ -32781,10 +32781,10 @@
     "country_code": "540",
     "iso_3166_2": "ISO 3166-2:NC",
     "sub_region": "Melanesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "054",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 54,
+    "intermediate_region_code": null,
     "names": [
       "New Caledonia"
     ],
@@ -32798,10 +32798,10 @@
     "country_code": "554",
     "iso_3166_2": "ISO 3166-2:NZ",
     "sub_region": "Australia and New Zealand",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "053",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 53,
+    "intermediate_region_code": null,
     "names": [
       "New Zealand"
     ],
@@ -32986,9 +32986,9 @@
     "iso_3166_2": "ISO 3166-2:NI",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Central America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "013",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 13,
     "names": [
       "Nicaragua",
       "Republic of Nicaragua"
@@ -33158,9 +33158,9 @@
     "iso_3166_2": "ISO 3166-2:NE",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Niger",
       "Republic of the Niger"
@@ -33249,9 +33249,9 @@
     "iso_3166_2": "ISO 3166-2:NG",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Nigeria",
       "Federal Republic of Nigeria"
@@ -33600,10 +33600,10 @@
     "country_code": "570",
     "iso_3166_2": "ISO 3166-2:NU",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "Niue"
     ],
@@ -33617,10 +33617,10 @@
     "country_code": "574",
     "iso_3166_2": "ISO 3166-2:NF",
     "sub_region": "Australia and New Zealand",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "053",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 53,
+    "intermediate_region_code": null,
     "names": [
       "Norfolk Island"
     ],
@@ -33634,10 +33634,10 @@
     "country_code": "807",
     "iso_3166_2": "ISO 3166-2:MK",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "North Macedonia",
       "Republic of North Macedonia"
@@ -35175,10 +35175,10 @@
     "country_code": "580",
     "iso_3166_2": "ISO 3166-2:MP",
     "sub_region": "Micronesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "057",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 57,
+    "intermediate_region_code": null,
     "names": [
       "Northern Mariana Islands",
       "Commonwealth of the Northern Mariana Islands"
@@ -35193,10 +35193,10 @@
     "country_code": "578",
     "iso_3166_2": "ISO 3166-2:NO",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Norway",
       "Kingdom of Norway"
@@ -35446,10 +35446,10 @@
     "country_code": "512",
     "iso_3166_2": "ISO 3166-2:OM",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Oman",
       "Sultanate of Oman"
@@ -35575,10 +35575,10 @@
     "country_code": "586",
     "iso_3166_2": "ISO 3166-2:PK",
     "sub_region": "Southern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "034",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 34,
+    "intermediate_region_code": null,
     "names": [
       "Pakistan",
       "Islamic Republic of Pakistan"
@@ -35672,10 +35672,10 @@
     "country_code": "585",
     "iso_3166_2": "ISO 3166-2:PW",
     "sub_region": "Micronesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "057",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 57,
+    "intermediate_region_code": null,
     "names": [
       "Palau",
       "Republic of Palau"
@@ -35819,10 +35819,10 @@
     "country_code": "275",
     "iso_3166_2": "ISO 3166-2:PS",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Palestine, State of",
       "the State of Palestine"
@@ -35983,9 +35983,9 @@
     "iso_3166_2": "ISO 3166-2:PA",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Central America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "013",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 13,
     "names": [
       "Panama",
       "Republic of Panama"
@@ -36118,10 +36118,10 @@
     "country_code": "598",
     "iso_3166_2": "ISO 3166-2:PG",
     "sub_region": "Melanesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "054",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 54,
+    "intermediate_region_code": null,
     "names": [
       "Papua New Guinea",
       "Independent State of Papua New Guinea"
@@ -36336,9 +36336,9 @@
     "iso_3166_2": "ISO 3166-2:PY",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Paraguay",
       "Republic of Paraguay"
@@ -36517,9 +36517,9 @@
     "iso_3166_2": "ISO 3166-2:PE",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Peru",
       "Republic of Peru"
@@ -36806,10 +36806,10 @@
     "country_code": "608",
     "iso_3166_2": "ISO 3166-2:PH",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Philippines",
       "Republic of the Philippines"
@@ -37742,10 +37742,10 @@
     "country_code": "612",
     "iso_3166_2": "ISO 3166-2:PN",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "Pitcairn"
     ],
@@ -37759,10 +37759,10 @@
     "country_code": "616",
     "iso_3166_2": "ISO 3166-2:PL",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Poland",
       "Republic of Poland"
@@ -38401,10 +38401,10 @@
     "country_code": "620",
     "iso_3166_2": "ISO 3166-2:PT",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Portugal",
       "Portuguese Republic"
@@ -38601,9 +38601,9 @@
     "iso_3166_2": "ISO 3166-2:PR",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Puerto Rico"
     ],
@@ -38617,10 +38617,10 @@
     "country_code": "634",
     "iso_3166_2": "ISO 3166-2:QA",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Qatar",
       "State of Qatar"
@@ -38701,9 +38701,9 @@
     "iso_3166_2": "ISO 3166-2:RE",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Réunion"
     ],
@@ -38717,10 +38717,10 @@
     "country_code": "642",
     "iso_3166_2": "ISO 3166-2:RO",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Romania"
     ],
@@ -39113,10 +39113,10 @@
     "country_code": "643",
     "iso_3166_2": "ISO 3166-2:RU",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Russian Federation"
     ],
@@ -39131,9 +39131,9 @@
     "iso_3166_2": "ISO 3166-2:RW",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Rwanda",
       "Rwandese Republic"
@@ -39301,9 +39301,9 @@
     "iso_3166_2": "ISO 3166-2:BL",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Saint Barthélemy"
     ],
@@ -39318,9 +39318,9 @@
     "iso_3166_2": "ISO 3166-2:SH",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Saint Helena, Ascension and Tristan da Cunha"
     ],
@@ -39363,9 +39363,9 @@
     "iso_3166_2": "ISO 3166-2:KN",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Saint Kitts and Nevis"
     ],
@@ -39525,9 +39525,9 @@
     "iso_3166_2": "ISO 3166-2:LC",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Saint Lucia"
     ],
@@ -39623,9 +39623,9 @@
     "iso_3166_2": "ISO 3166-2:MF",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Saint Martin (French part)"
     ],
@@ -39639,10 +39639,10 @@
     "country_code": "666",
     "iso_3166_2": "ISO 3166-2:PM",
     "sub_region": "Northern America",
-    "intermediate_region": "",
-    "region_code": "019",
-    "sub_region_code": "021",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 19,
+    "sub_region_code": 21,
+    "intermediate_region_code": null,
     "names": [
       "Saint Pierre and Miquelon"
     ],
@@ -39657,9 +39657,9 @@
     "iso_3166_2": "ISO 3166-2:VC",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Saint Vincent and the Grenadines"
     ],
@@ -39722,10 +39722,10 @@
     "country_code": "882",
     "iso_3166_2": "ISO 3166-2:WS",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "Samoa",
       "Independent State of Samoa"
@@ -39829,10 +39829,10 @@
     "country_code": "674",
     "iso_3166_2": "ISO 3166-2:SM",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "San Marino",
       "Republic of San Marino"
@@ -39921,9 +39921,9 @@
     "iso_3166_2": "ISO 3166-2:ST",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Middle Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "017",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 17,
     "names": [
       "Sao Tome and Principe",
       "Democratic Republic of Sao Tome and Principe"
@@ -39955,10 +39955,10 @@
     "country_code": "682",
     "iso_3166_2": "ISO 3166-2:SA",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Saudi Arabia",
       "Kingdom of Saudi Arabia"
@@ -40079,9 +40079,9 @@
     "iso_3166_2": "ISO 3166-2:SN",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Senegal",
       "Republic of Senegal"
@@ -40209,10 +40209,10 @@
     "country_code": "688",
     "iso_3166_2": "ISO 3166-2:RS",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Serbia",
       "Republic of Serbia"
@@ -40545,9 +40545,9 @@
     "iso_3166_2": "ISO 3166-2:SC",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Seychelles",
       "Republic of Seychelles"
@@ -40796,9 +40796,9 @@
     "iso_3166_2": "ISO 3166-2:SL",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Sierra Leone",
       "Republic of Sierra Leone"
@@ -40859,10 +40859,10 @@
     "country_code": "702",
     "iso_3166_2": "ISO 3166-2:SG",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Singapore",
       "Republic of Singapore"
@@ -40919,9 +40919,9 @@
     "iso_3166_2": "ISO 3166-2:SX",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Sint Maarten (Dutch part)"
     ],
@@ -40935,10 +40935,10 @@
     "country_code": "703",
     "iso_3166_2": "ISO 3166-2:SK",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Slovakia",
       "Slovak Republic"
@@ -41018,10 +41018,10 @@
     "country_code": "705",
     "iso_3166_2": "ISO 3166-2:SI",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Slovenia",
       "Republic of Slovenia"
@@ -43041,10 +43041,10 @@
     "country_code": "090",
     "iso_3166_2": "ISO 3166-2:SB",
     "sub_region": "Melanesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "054",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 54,
+    "intermediate_region_code": null,
     "names": [
       "Solomon Islands"
     ],
@@ -43150,9 +43150,9 @@
     "iso_3166_2": "ISO 3166-2:SO",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Somalia",
       "Federal Republic of Somalia"
@@ -43313,9 +43313,9 @@
     "iso_3166_2": "ISO 3166-2:ZA",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Southern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "018",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 18,
     "names": [
       "South Africa",
       "Republic of South Africa"
@@ -43430,9 +43430,9 @@
     "iso_3166_2": "ISO 3166-2:GS",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "South Georgia and the South Sandwich Islands"
     ],
@@ -43447,9 +43447,9 @@
     "iso_3166_2": "ISO 3166-2:SS",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "South Sudan",
       "Republic of South Sudan"
@@ -43545,10 +43545,10 @@
     "country_code": "724",
     "iso_3166_2": "ISO 3166-2:ES",
     "sub_region": "Southern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "039",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 39,
+    "intermediate_region_code": null,
     "names": [
       "Spain",
       "Kingdom of Spain"
@@ -44171,10 +44171,10 @@
     "country_code": "144",
     "iso_3166_2": "ISO 3166-2:LK",
     "sub_region": "Southern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "034",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 34,
+    "intermediate_region_code": null,
     "names": [
       "Sri Lanka",
       "Democratic Socialist Republic of Sri Lanka"
@@ -44552,10 +44552,10 @@
     "country_code": "729",
     "iso_3166_2": "ISO 3166-2:SD",
     "sub_region": "Northern Africa",
-    "intermediate_region": "",
-    "region_code": "002",
-    "sub_region_code": "015",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 2,
+    "sub_region_code": 15,
+    "intermediate_region_code": null,
     "names": [
       "Sudan",
       "Republic of the Sudan"
@@ -44934,9 +44934,9 @@
     "iso_3166_2": "ISO 3166-2:SR",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Suriname",
       "Republic of Suriname"
@@ -45032,10 +45032,10 @@
     "country_code": "744",
     "iso_3166_2": "ISO 3166-2:SJ",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Svalbard and Jan Mayen"
     ],
@@ -45049,10 +45049,10 @@
     "country_code": "752",
     "iso_3166_2": "ISO 3166-2:SE",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "Sweden",
       "Kingdom of Sweden"
@@ -45257,10 +45257,10 @@
     "country_code": "756",
     "iso_3166_2": "ISO 3166-2:CH",
     "sub_region": "Western Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "155",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 155,
+    "intermediate_region_code": null,
     "names": [
       "Switzerland",
       "Swiss Confederation"
@@ -45484,10 +45484,10 @@
     "country_code": "760",
     "iso_3166_2": "ISO 3166-2:SY",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Syrian Arab Republic"
     ],
@@ -45614,10 +45614,10 @@
     "country_code": "158",
     "iso_3166_2": "ISO 3166-2:TW",
     "sub_region": "Eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "030",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 30,
+    "intermediate_region_code": null,
     "names": [
       "Taiwan, Province of China",
       "Taiwan"
@@ -45831,10 +45831,10 @@
     "country_code": "762",
     "iso_3166_2": "ISO 3166-2:TJ",
     "sub_region": "Central Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "143",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 143,
+    "intermediate_region_code": null,
     "names": [
       "Tajikistan",
       "Republic of Tajikistan"
@@ -45896,9 +45896,9 @@
     "iso_3166_2": "ISO 3166-2:TZ",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Tanzania, United Republic of",
       "United Republic of Tanzania",
@@ -46193,10 +46193,10 @@
     "country_code": "764",
     "iso_3166_2": "ISO 3166-2:TH",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Thailand",
       "Kingdom of Thailand"
@@ -46914,10 +46914,10 @@
     "country_code": "626",
     "iso_3166_2": "ISO 3166-2:TL",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Timor-Leste",
       "Democratic Republic of Timor-Leste"
@@ -47060,9 +47060,9 @@
     "iso_3166_2": "ISO 3166-2:TG",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Western Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "011",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 11,
     "names": [
       "Togo",
       "Togolese Republic"
@@ -47118,10 +47118,10 @@
     "country_code": "772",
     "iso_3166_2": "ISO 3166-2:TK",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "Tokelau"
     ],
@@ -47135,10 +47135,10 @@
     "country_code": "776",
     "iso_3166_2": "ISO 3166-2:TO",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "Tonga",
       "Kingdom of Tonga"
@@ -47195,9 +47195,9 @@
     "iso_3166_2": "ISO 3166-2:TT",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Trinidad and Tobago",
       "Republic of Trinidad and Tobago"
@@ -47348,10 +47348,10 @@
     "country_code": "788",
     "iso_3166_2": "ISO 3166-2:TN",
     "sub_region": "Northern Africa",
-    "intermediate_region": "",
-    "region_code": "002",
-    "sub_region_code": "015",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 2,
+    "sub_region_code": 15,
+    "intermediate_region_code": null,
     "names": [
       "Tunisia",
       "Republic of Tunisia"
@@ -47559,10 +47559,10 @@
     "country_code": "792",
     "iso_3166_2": "ISO 3166-2:TR",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Turkey",
       "Republic of Turkey"
@@ -48226,10 +48226,10 @@
     "country_code": "795",
     "iso_3166_2": "ISO 3166-2:TM",
     "sub_region": "Central Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "143",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 143,
+    "intermediate_region_code": null,
     "names": [
       "Turkmenistan"
     ],
@@ -48299,9 +48299,9 @@
     "iso_3166_2": "ISO 3166-2:TC",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Turks and Caicos Islands"
     ],
@@ -48315,10 +48315,10 @@
     "country_code": "798",
     "iso_3166_2": "ISO 3166-2:TV",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "Tuvalu"
     ],
@@ -48406,9 +48406,9 @@
     "iso_3166_2": "ISO 3166-2:UG",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Uganda",
       "Republic of Uganda"
@@ -50017,10 +50017,10 @@
     "country_code": "804",
     "iso_3166_2": "ISO 3166-2:UA",
     "sub_region": "Eastern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "151",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 151,
+    "intermediate_region_code": null,
     "names": [
       "Ukraine"
     ],
@@ -50278,10 +50278,10 @@
     "country_code": "784",
     "iso_3166_2": "ISO 3166-2:AE",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "United Arab Emirates"
     ],
@@ -50366,10 +50366,10 @@
     "country_code": "826",
     "iso_3166_2": "ISO 3166-2:GB",
     "sub_region": "Northern Europe",
-    "intermediate_region": "",
-    "region_code": "150",
-    "sub_region_code": "154",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 150,
+    "sub_region_code": 154,
+    "intermediate_region_code": null,
     "names": [
       "United Kingdom of Great Britain and Northern Ireland",
       "United Kingdom"
@@ -52402,10 +52402,10 @@
     "country_code": "840",
     "iso_3166_2": "ISO 3166-2:US",
     "sub_region": "Northern America",
-    "intermediate_region": "",
-    "region_code": "019",
-    "sub_region_code": "021",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 19,
+    "sub_region_code": 21,
+    "intermediate_region_code": null,
     "names": [
       "United States of America",
       "United States"
@@ -52940,10 +52940,10 @@
     "country_code": "581",
     "iso_3166_2": "ISO 3166-2:UM",
     "sub_region": "Micronesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "057",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 57,
+    "intermediate_region_code": null,
     "names": [
       "United States Minor Outlying Islands"
     ],
@@ -53031,9 +53031,9 @@
     "iso_3166_2": "ISO 3166-2:UY",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Uruguay",
       "Eastern Republic of Uruguay"
@@ -53201,10 +53201,10 @@
     "country_code": "860",
     "iso_3166_2": "ISO 3166-2:UZ",
     "sub_region": "Central Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "143",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 143,
+    "intermediate_region_code": null,
     "names": [
       "Uzbekistan",
       "Republic of Uzbekistan"
@@ -53346,10 +53346,10 @@
     "country_code": "548",
     "iso_3166_2": "ISO 3166-2:VU",
     "sub_region": "Melanesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "054",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 54,
+    "intermediate_region_code": null,
     "names": [
       "Vanuatu",
       "Republic of Vanuatu"
@@ -53414,9 +53414,9 @@
     "iso_3166_2": "ISO 3166-2:VE",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "South America",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "005",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 5,
     "names": [
       "Venezuela (Bolivarian Republic of)",
       "Venezuela, Bolivarian Republic of",
@@ -53659,10 +53659,10 @@
     "country_code": "704",
     "iso_3166_2": "ISO 3166-2:VN",
     "sub_region": "South-eastern Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "035",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 35,
+    "intermediate_region_code": null,
     "names": [
       "Viet Nam",
       "Socialist Republic of Viet Nam",
@@ -54247,9 +54247,9 @@
     "iso_3166_2": "ISO 3166-2:VG",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Virgin Islands (British)",
       "Virgin Islands, British",
@@ -54266,9 +54266,9 @@
     "iso_3166_2": "ISO 3166-2:VI",
     "sub_region": "Latin America and the Caribbean",
     "intermediate_region": "Caribbean",
-    "region_code": "019",
-    "sub_region_code": "419",
-    "intermediate_region_code": "029",
+    "region_code": 19,
+    "sub_region_code": 419,
+    "intermediate_region_code": 29,
     "names": [
       "Virgin Islands (U.S.)",
       "Virgin Islands, U.S.",
@@ -54284,10 +54284,10 @@
     "country_code": "876",
     "iso_3166_2": "ISO 3166-2:WF",
     "sub_region": "Polynesia",
-    "intermediate_region": "",
-    "region_code": "009",
-    "sub_region_code": "061",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 9,
+    "sub_region_code": 61,
+    "intermediate_region_code": null,
     "names": [
       "Wallis and Futuna"
     ],
@@ -54326,10 +54326,10 @@
     "country_code": "732",
     "iso_3166_2": "ISO 3166-2:EH",
     "sub_region": "Northern Africa",
-    "intermediate_region": "",
-    "region_code": "002",
-    "sub_region_code": "015",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 2,
+    "sub_region_code": 15,
+    "intermediate_region_code": null,
     "names": [
       "Western Sahara"
     ],
@@ -54343,10 +54343,10 @@
     "country_code": "887",
     "iso_3166_2": "ISO 3166-2:YE",
     "sub_region": "Western Asia",
-    "intermediate_region": "",
-    "region_code": "142",
-    "sub_region_code": "145",
-    "intermediate_region_code": "",
+    "intermediate_region": null,
+    "region_code": 142,
+    "sub_region_code": 145,
+    "intermediate_region_code": null,
     "names": [
       "Yemen",
       "Republic of Yemen"
@@ -54561,9 +54561,9 @@
     "iso_3166_2": "ISO 3166-2:ZM",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Zambia",
       "Republic of Zambia"
@@ -54660,9 +54660,9 @@
     "iso_3166_2": "ISO 3166-2:ZW",
     "sub_region": "Sub-Saharan Africa",
     "intermediate_region": "Eastern Africa",
-    "region_code": "002",
-    "sub_region_code": "202",
-    "intermediate_region_code": "014",
+    "region_code": 2,
+    "sub_region_code": 202,
+    "intermediate_region_code": 14,
     "names": [
       "Zimbabwe",
       "Republic of Zimbabwe"

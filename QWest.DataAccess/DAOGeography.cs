@@ -23,15 +23,19 @@ namespace QWest.DataAcess {
             public string Name { get; }
             [JsonProperty("names")]
             public List<string> Names { get; }
-            [JsonProperty("official_name")]
-            public string OfficialName { get; }
-            [JsonProperty("common_name")]
-            public string CommonName { get; }
-            [JsonProperty("type")]
-            public string Type { get; }
-            [JsonProperty("numeric")]
-            public int? Numeric { get; }
-            [JsonProperty("super_id")]
+            [JsonProperty("region")]
+            public string Region { get; }
+            [JsonProperty("sub_region")]
+            public string SubRegion { get; }
+            [JsonProperty("intermediate_region")]
+            public string IntermediateRegion { get; }
+            [JsonProperty("region_code")]
+            public int? RegionCode { get; }
+            [JsonProperty("sub_region_code")]
+            public int? SubRegionCode { get; }
+            [JsonProperty("intermediate_region_code")]
+            public int? IntermediateRegionCode { get; }
+
             public int? SuperId { get; }
 
             public GeopoliticalLocationDbRep(SqlDataReader reader) {
@@ -40,11 +44,13 @@ namespace QWest.DataAcess {
                 Alpha3 = reader.GetSqlString(2).NullableValue();
                 Name = reader.GetSqlString(3).Value;
                 Names = JsonConvert.DeserializeObject<List<string>>(reader.GetSqlString(4).Value);
-                OfficialName = reader.GetSqlString(5).NullableValue();
-                CommonName = reader.GetSqlString(6).NullableValue();
-                Type = reader.GetSqlString(7).Value;
-                Numeric = reader.GetSqlInt32(8).NullableValue();
-                SuperId = reader.GetSqlInt32(9).NullableValue();
+                SuperId = reader.GetSqlInt32(5).NullableValue();
+                Region = reader.GetSqlString(6).NullableValue();
+                SubRegion = reader.GetSqlString(7).NullableValue();
+                IntermediateRegion = reader.GetSqlString(8).NullableValue();
+                RegionCode = reader.GetSqlInt32(9).NullableValue();
+                SubRegionCode = reader.GetSqlInt32(10).NullableValue();
+                IntermediateRegionCode = reader.GetSqlInt32(11).NullableValue();
             }
 
             public static IEnumerable<GeopoliticalLocationDbRep> FromJson(string json) {
@@ -64,21 +70,24 @@ namespace QWest.DataAcess {
             public GeopoliticalLocation ToModel() {
                 if (IsCountry) {
                     return new Country {
+                        Id = Id,
                         Alpha2 = Alpha2,
                         Name = Name,
                         Alpha3 = Alpha3,
-                        OfficialName = OfficialName,
-                        CommonName = CommonName,
-                        Numeric = (int)Numeric,
-                        Subdivisions = new List<Subdivision>(),
-                        Id = Id,
+                        Names = Names,
+                        Region = Region,
+                        SubRegion = SubRegion,
+                        IntermediateRegion = IntermediateRegion,
+                        RegionCode = RegionCode,
+                        SubRegionCode = SubRegionCode,
+                        IntermediateRegionCode = IntermediateRegionCode,
+                        Subdivisions = new List<Subdivision>()
                     };
                 }
                 else {
                     return new Subdivision {
                         Alpha2 = Alpha2,
                         Name = Name,
-                        Type = Type,
                         Subdivisions = new List<Subdivision>(),
                         Id = Id,
                         SuperId = (int)SuperId

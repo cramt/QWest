@@ -20,9 +20,6 @@ namespace Model.Geographic {
         [JsonProperty("subdivisions")]
         public List<Subdivision> Subdivisions { get; set; }
 
-        [JsonProperty("type")]
-        public abstract string Type { get; set; }
-
         public static List<Country> Parse(string json) {
             List<Country> countries = JsonConvert.DeserializeObject<List<Country>>(json);
             Action<GeopoliticalLocation, Subdivision> traverse = null;

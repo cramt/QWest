@@ -20,15 +20,21 @@ countries = countries.map do |country|
     country.delete(:"country-code")
     country[:iso_3166_2] = country[:"iso_3166-2"]
     country.delete(:"iso_3166-2")
+    country[:region] = nil if country[:region] == ""
     country[:sub_region] = country[:"sub-region"]
+    country[:sub_region] = nil if country[:sub_region] == ""
     country.delete(:"sub-region")
     country[:intermediate_region] = country[:"intermediate-region"]
+    country[:intermediate_region] = nil if country[:intermediate_region] == ""
     country.delete(:"intermediate-region")
-    country[:region_code] = country[:"region-code"]
+    country[:region_code] = country[:"region-code"].to_i
+    country[:region_code] = nil if country[:region_code] == 0
     country.delete(:"region-code")
-    country[:sub_region_code] = country[:"sub-region-code"]
+    country[:sub_region_code] = country[:"sub-region-code"].to_i
+    country[:sub_region_code] = nil if country[:sub_region_code] == 0
     country.delete(:"sub-region-code")
-    country[:intermediate_region_code] = country[:"intermediate-region-code"]
+    country[:intermediate_region_code] = country[:"intermediate-region-code"].to_i
+    country[:intermediate_region_code] = nil if country[:intermediate_region_code] == 0
     country.delete(:"intermediate-region-code")
     other_country = countries_extra_names[country[:alpha_2].to_sym]
     country[:names] = [country[:name], other_country[:name], other_country[:official_name], other_country[:common_name]].uniq.compact
