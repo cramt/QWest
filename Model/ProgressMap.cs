@@ -1,18 +1,20 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using Utilities;
 
 namespace Model {
     public class ProgressMap {
         public int? Id { get; set; }
 
-        public Collection<int> Locations { get; }
+        [JsonIgnore]
+        private ObservedList<int> _locations;
+        public ICollection<int> Locations { get { return _locations; } }
 
         [JsonIgnore]
-        public List<int> Additions { get; } = new List<int>();
+        public List<int> Additions { get { return _locations.Additions; } }
 
         [JsonIgnore]
-        public List<int> Subtractions { get; } = new List<int>();
+        public List<int> Subtractions { get { return _locations.Subtractions; } }
 
         public ProgressMap() : this(new List<int>()) {
 
@@ -20,30 +22,12 @@ namespace Model {
         public ProgressMap(List<int> locations) : this(locations, null) {
 
         }
-        public ProgressMap(List<int> locations, int? id) : this(new ObservableCollection<int>(locations), id) {
+        public ProgressMap(List<int> locations, int? id) : this(new ObservedList<int>(locations), id) {
 
         }
 
-        public ProgressMap(ObservableCollection<int> locations, int? id) {
-            locations.CollectionChanged += (o, e) => {
-                foreach(int item in e.NewItems) {
-                    if (Subtractions.Contains(item)) {
-                        Subtractions.Remove(item);
-                    }
-                    else {
-                        Additions.Add(item);
-                    }
-                }
-                foreach (int item in e.OldItems) {
-                    if (Additions.Contains(item)) {
-                        Additions.Remove(item);
-                    }
-                    else {
-                        Subtractions.Add(item);
-                    }
-                }
-            };
-            Locations = locations;
+        public ProgressMap(ObservedList<int> locations, int? id) {
+            _locations = locations;
             Id = id;
         }
     }

@@ -35,9 +35,10 @@ namespace QWest.DataAcess.Mssql {
         }
         public Task<ProgressMap> GetByUserId(int userId) {
             return _conn.Use("select progress_maps.id, location from users inner join progress_maps on users.progress_maps_id = progress_maps.id inner join progress_maps_locations on progress_maps.id = progress_maps_locations.progress_maps_id where users.id = @id", async stmt => {
+                stmt.Parameters.AddWithValue("@id", userId);
                 List<(int, int)> result = (await stmt.ExecuteReaderAsync()).ToIterator(reader => (reader.GetSqlInt32(0).Value, reader.GetSqlInt32(1).Value)).ToList();
                 if (result.Count == 0) {
-                    stmt = _conn.Connection.CreateCommand("select progress_maps.id from users inner join progress_maps on users.progress_maps_id = progress_maps.id where users.id = @id");
+                    stmt = stmt.Connection.CreateCommand("select progress_maps.id from users inner join progress_maps on users.progress_maps_id = progress_maps.id where users.id = @id");
                     stmt.Parameters.AddWithValue("@id", userId);
                     return new ProgressMap(new List<int>(), (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value).First());
                 }
