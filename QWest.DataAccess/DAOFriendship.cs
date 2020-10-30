@@ -11,8 +11,8 @@ namespace QWest.DataAcess {
     public static partial class DAO {
         // friendship is magic
         public interface IFriendship {
-            Task<List<User>> GetByUser(User user);
-            Task<List<User>> GetByUser(int userId);
+            Task<List<User>> GetUsersFriends(User user);
+            Task<List<User>> GetUsersFriends(int userId);
             Task AddFriendRequest(User from, User to);
             Task AddFriendRequest(User from, int to);
             Task AddFriendRequest(int from, User to);

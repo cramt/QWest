@@ -14,13 +14,13 @@ namespace QWest.DataAcess.Mssql {
             _conn = conn;
         }
 
-        public async Task<List<User>> GetByUser(User user) {
-            List<User> result = await GetByUser((int)user.Id);
+        public async Task<List<User>> GetUsersFriends(User user) {
+            List<User> result = await GetUsersFriends((int)user.Id);
             user.Friends = result;
             return result;
         }
 
-        public Task<List<User>> GetByUser(int userId) {
+        public Task<List<User>> GetUsersFriends(int userId) {
             string query = @"
 SELECT
 id, username, password_hash, email, session_cookie, description, profile_picture 
