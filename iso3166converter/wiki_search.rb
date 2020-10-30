@@ -8,7 +8,7 @@ module Utils
         name = URI.encode(name)
         offset = 0
         res = []
-        until offset.nil?
+        until offset.nil? || offset > 100
             url = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=#{name}&sroffset=#{offset}"
             result = nil
             store.transaction(true) do
