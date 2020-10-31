@@ -13,21 +13,23 @@ module Fetch
                 entry.children.select {|x| x.name == 'td'}.map {|x| x.text}
             end
         end
-            .select {|y| y.all? {|x| x[0].is_a?(String) && x[0].start_with?(alpha2 + '-')}}
-            .map {|x| x.map {|y| y[0] = y[0][3..-1]; y}}
-            .inject([]) {|acc, x| acc.concat x}
-            .inject({}) {|acc, x|
-                alpha_2 = x.slice!(0)
-                last = x.pop
-                acc[alpha_2.to_sym] = {
-                    :alpha_2 => alpha_2,
-                    :name => x.first,
-                    :names => x,
-                    :subdivisions => [],
-                    :last_entry => last
-                }
-                acc
+        map = map.map {|x| x.select {|y| y.length != 0}}
+        map = map.select {|y| y.all? {|x| x[0].is_a?(String) && x[0].start_with?(alpha2 + '-')}}
+        map = map.map {|x| x.map {|y| y[0] = y[0][3..-1]; y}}
+        map = map.inject([]) {|acc, x| acc.concat x}
+        map = map.inject({}) {|acc, x|
+            alpha_2 = x.slice!(0)
+            x = x.map{|y|y.gsub(" ", "")}
+            last = x.pop
+            acc[alpha_2.to_sym] = {
+                :alpha_2 => alpha_2,
+                :name => x.first,
+                :names => x,
+                :subdivisions => [],
+                :last_entry => last
             }
+            acc
+        }
         results = []
         map.values.each {|x|
             if map.key?(x[:last_entry].to_sym)
@@ -43,6 +45,11 @@ module Fetch
                 results.push x
             end
         }
+        if map.values.map{|x|x[:names].last}.group_by{ |e| e }.values.map{|x|x.length}.any?{|x|x > 1}
+            map.values.each {|x|
+                x[:names].pop
+            }
+        end
         results
     end
 
