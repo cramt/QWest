@@ -74,8 +74,8 @@ WHERE posts.id = @post_id
             return _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@content", post.Contents);
                 stmt.Parameters.AddWithValue("@user_id", post.User.Id);
-                uint upostTime = (uint)post.PostTime.Subtract(Config.Config.Instance.StartDate).TotalSeconds;
-                int postTime = unchecked((int)upostTime);
+                uint upostTime = post.PostTime.ToUint();
+                int postTime = upostTime.ToSigned();
                 stmt.Parameters.AddWithValue("@post_time", postTime);
                 stmt.Parameters.AddWithValue("@location", post.Location ?? SqlInt32.Null);
                 for (int i = 0; i < post.Images.Count; i++) {

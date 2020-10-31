@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Utilities;
 
 namespace Model {
     public class Group {
@@ -11,11 +12,11 @@ namespace Model {
         public ProgressMap ProgressMap { get; set; }
         public List<User> Members { get; set; }
         public Group(string name, int creationTime, string description, ProgressMap progressMap, IEnumerable<User> members)
-            : this(name, unchecked((uint)creationTime), description, progressMap, members) {
+            : this(name, creationTime.ToUnsigned(), description, progressMap, members) {
 
         }
         public Group(string name, uint creationTime, string description, ProgressMap progressMap, IEnumerable<User> members)
-            : this(name, Config.Config.Instance.StartDate.AddSeconds(creationTime), description, progressMap, members) {
+            : this(name, creationTime.ToDate(), description, progressMap, members) {
 
         }
         public Group(string name, DateTime creationTime, string description, ProgressMap progressMap, IEnumerable<User> members)
@@ -24,11 +25,11 @@ namespace Model {
         }
 
         public Group(string name, int creationTime, string description, ProgressMap progressMap, IEnumerable<User> members, int? id)
-            : this(name, unchecked((uint)creationTime), description, progressMap, members, id) {
+            : this(name, creationTime.ToUnsigned(), description, progressMap, members, id) {
 
         }
         public Group(string name, uint creationTime, string description, ProgressMap progressMap, IEnumerable<User> members, int? id)
-            : this(name, Config.Config.Instance.StartDate.AddSeconds(creationTime), description, progressMap, members, id) {
+            : this(name, creationTime.ToDate(), description, progressMap, members, id) {
 
         }
         public Group(string name, DateTime creationTime, string description, ProgressMap progressMap, IEnumerable<User> members, int? id) {

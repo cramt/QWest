@@ -22,7 +22,6 @@ namespace Utilities {
 #endif
 
         public static string SolutionLocation { get; } = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.Parent.FullName;
-        public static string NodeProjectLocation { get; } = SolutionLocation + "\\QWest.Web";
 
         public static Process DynamicShell(string command, Action<string> onStdOut, string cwd = null) {
             if (cwd == null) {
@@ -136,6 +135,22 @@ namespace Utilities {
             HttpResponseMessage response = await client.PostAsync(url,
                 new StringContent(emailString, Encoding.UTF8, "application/json")
             );
+        }
+
+        public static DateTime ToDate(this uint u) {
+            return Config.Config.Instance.StartDate.AddSeconds(u);
+        }
+
+        public static uint ToUint(this DateTime date) {
+            return (uint)date.Subtract(Config.Config.Instance.StartDate).TotalSeconds;
+        }
+
+        public static uint ToUnsigned(this int i) {
+            return unchecked((uint)i);
+        }
+
+        public static int ToSigned(this uint u) {
+            return unchecked((int)u);
         }
     }
 }

@@ -14,23 +14,23 @@ namespace Model {
         public List<int> Images { get; set; }
         public GeopoliticalLocation Location { get; set; }
         public Post(string contents, User user, int postTime, List<int> images, int? id)
-            : this(contents, user, unchecked((uint)postTime), images, null, id) {
+            : this(contents, user, postTime.ToUnsigned(), images, null, id) {
 
         }
         public Post(string contents, User user, uint postTime, List<int> images)
             : this(contents, user, postTime, images, null) {
         }
         public Post(string contents, User user, int postTime, List<int> images, GeopoliticalLocation locationId)
-            : this(contents, user, unchecked((uint)postTime), images, locationId, null) {
+            : this(contents, user, postTime.ToUnsigned(), images, locationId, null) {
         }
         public Post(string contents, User user, uint postTime, List<int> images, GeopoliticalLocation locationId)
             : this(contents, user, postTime, images, locationId, null) {
         }
         public Post(string contents, User user, int postTime, List<int> images, GeopoliticalLocation locationId, int? id)
-            : this(contents, user, unchecked((uint)postTime), images, locationId, id) {
+            : this(contents, user, postTime.ToUnsigned(), images, locationId, id) {
         }
         public Post(string contents, User user, uint postTime, List<int> images, GeopoliticalLocation locationId, int? id)
-            : this(contents, user, Config.Config.Instance.StartDate.AddSeconds(postTime), images, locationId, id) {
+            : this(contents, user, postTime.ToDate(), images, locationId, id) {
         }
         public Post(string contents, User user, DateTime postTime, List<int> images)
             : this(contents, user, postTime, images, null) {
