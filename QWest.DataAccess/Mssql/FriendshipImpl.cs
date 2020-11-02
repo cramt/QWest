@@ -109,7 +109,7 @@ BEGIN
     (left_user_id, right_user_id)
     VALUES
     (@to_user_id, @from_user_id),
-    (@from_user_id, @to_user_id),
+    (@from_user_id, @to_user_id);
 END
 ";
             await _conn.Use(query, stmt => {

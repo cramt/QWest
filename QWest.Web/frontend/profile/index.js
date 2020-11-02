@@ -12,6 +12,7 @@ $(async () => {
     const descriptionField = $("#description-field");
     const profilePictureContainer = $("#profile-picture-container")
     const logoutButton = $("#logout-button")
+    const userSettings = $("#user-settings");
 
     logoutButton.on("click", async () => {
         await cookieStore.delete("sessionCookie")
@@ -23,5 +24,23 @@ $(async () => {
     descriptionField.text(user.description)
 
     profilePictureContainer.append('<img id="image" width="500px" src="/api/Image/Get?id=' + user.profilePicture + '" />')
+
+    if (!isMe) {
+        userSettings.text("add friends")
+        userSettings.removeAttr("href")
+        userSettings.on("click", async () => {
+            const request = await fetch("/api/Friendship/AddFriend?id=" + user.id, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+            if (request.status !== 200) {
+                alert("error: " + request.status);
+                console.log(await request.text())
+            }
+        })
+    }
 
 })
