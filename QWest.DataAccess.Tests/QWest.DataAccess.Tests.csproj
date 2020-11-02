@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionWrapperSpec.cs" />
+    <Compile Include="DaoFriendshipSpec.cs" />
     <Compile Include="DaoPostSpec.cs" />
     <Compile Include="DaoGeographySpec.cs" />
     <Compile Include="DaoProgressMapSpec.cs" />
