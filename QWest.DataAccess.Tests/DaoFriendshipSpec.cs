@@ -76,5 +76,10 @@ namespace QWest.DataAccess.Tests {
             ConnectionWrapper.Instance.Use("DELETE FROM users_friendships", stmt => stmt.ExecuteNonQueryAsync()).Wait();
             ConnectionWrapper.Instance.Use("DELETE FROM users", stmt => stmt.ExecuteNonQueryAsync()).Wait();
         }
+
+        [OneTimeTearDown]
+        public void TearDownEnd() {
+            Setup();
+        }
     }
 }
