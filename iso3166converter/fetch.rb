@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 require 'nokogiri'
+require 'httparty'
 
 module Fetch
     def fetch(alpha2)
         html = Nokogiri.parse(HTTParty.get('https://en.wikipedia.org/api/rest_v1/page/html/ISO_3166-2:' + alpha2).body.to_s)
         tables = html.search('.wikitable')
-        map = tables.map do |table|
+        map = tables
+        map = map.select{|table| !table.parent.children[0].text.start_with?("Codes before")}
+        map = map.map do |table|
             entries = table.children[1].children.select {|x| x.name == 'tr'}
             entries.slice!(0)
             entries.map do |entry|
