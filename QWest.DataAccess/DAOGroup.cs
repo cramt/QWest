@@ -14,6 +14,8 @@ namespace QWest.DataAcess {
             Task Update(Group group);
             Task AddMember(Group group, User member);
             Task RemoveMember(Group group, User member);
+            Task<IEnumerable<Group>> FetchUsers(User user);
+            Task<IEnumerable<Group>> FetchUsers(int userId);
         }
         public static IGroup Group { get; set; } = new Mssql.GroupImpl(ConnectionWrapper.Instance);
     }

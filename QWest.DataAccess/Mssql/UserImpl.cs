@@ -1,4 +1,5 @@
 ﻿using Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,6 +11,45 @@ using static QWest.DataAcess.DAO;
 
 namespace QWest.DataAcess.Mssql {
     class UserImpl : IUser {
+        [Serializable]
+        internal class UserDbRep : IDbRep<User> {
+            [JsonProperty("id")]
+            public int Id { get; }
+            [JsonProperty("username")]
+            public string Username { get; }
+            [JsonProperty("password_hash")]
+            public string PasswordHashBase64String { get; }
+            public byte[] PasswordHash { get; private set; }
+            [JsonProperty("email")]
+            public string Email { get; }
+            [JsonProperty("session_cookie")]
+            public string SessionCookie { get; }
+            [JsonProperty("progress_maps_id")]
+            public int ProgressMapId { get; }
+            [JsonProperty("description")]
+            public string Description { get; }
+            [JsonProperty("profile_picture")]
+            public int? ProfilePicture { get; }
+
+            public User ToModel() {
+                return new User {
+                    Id = Id,
+                    Username = Username,
+                    PasswordHash = PasswordHash,
+                    Email = Email,
+                    SessionCookie = SessionCookie,
+                    Description = Description,
+                    ProfilePicture = ProfilePicture,
+                };
+            }
+
+            public static IEnumerable<UserDbRep> FromJson(string json) {
+                return JsonConvert.DeserializeObject<IEnumerable<UserDbRep>>(json).Select(x => {
+                    x.PasswordHash = Convert.FromBase64String(x.PasswordHashBase64String);
+                    return x;
+                }).ToList();
+            }
+        }
         private ConnectionWrapper _conn;
         public UserImpl(ConnectionWrapper conn) {
             _conn = conn;
@@ -42,7 +82,7 @@ email = @email,
 session_cookie = @session_cookie, 
 description = @description 
 WHERE id = @id";
-            await _conn.Use(query,  stmt => {
+            await _conn.Use(query, stmt => {
                 stmt.Parameters.AddWithValue("@username", user.Username);
                 stmt.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 stmt.Parameters.AddWithValue("@id", user.Id);

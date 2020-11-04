@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Utilities;
 using static QWest.DataAcess.DAO;
+using static QWest.DataAcess.Mssql.GeographyImpl;
 
 namespace QWest.DataAcess.Mssql {
     class PostImpl : IPost {

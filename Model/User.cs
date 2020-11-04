@@ -12,7 +12,7 @@ namespace Model {
         public string Email { get; set; }
         public string Description { get; set; }
         [JsonIgnore]
-        public byte[] PasswordHash { get; private set; }
+        public byte[] PasswordHash { get; set; }
         [JsonIgnore]
         public string SessionCookie { get; set; }
         [JsonIgnore]
