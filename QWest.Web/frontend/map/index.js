@@ -1,4 +1,4 @@
-import $ from "jquery";
+import $, { nodeName } from "jquery";
 import { fetchUser } from "../whoami";
 import { mapOutStaticData } from "../mapOutStaticData"
 import { mapOutVisitation } from "../mapOutVisitation";
@@ -84,11 +84,22 @@ $(async () => {
         edit.on("click", () => {
             window.location.href = "/edit_map.html?alpha_2=" + alpha2
         })
+        /*
         customMenu.finish().toggle(100).css({
             top: e.pageY + "px",
             left: e.pageX + "px"
+        }) 
+        */
+        customMenu.finish().fadeIn(500).css({
+            top: e.pageY + "px",
+            left: e.pageX + "px"
         })
+        
     })
+    
+    document.addEventListener('contextmenu', function() {
+        console.log('bruh');
+    });
 
     logoutButton.on("click", async () => {
         await cookieStore.delete("sessionCookie")
