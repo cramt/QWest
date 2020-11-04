@@ -24,9 +24,9 @@ body {
 
 #viewmap,
 #user-settings,
-#logout-button {
+#logout-button,
+#username-field {
     font-size: larger;
-    
     /*margin-top: auto;*/
 }
 
@@ -35,8 +35,24 @@ body {
     overflow-y: scroll;
 }
 
-#friends-button, #update-user-button, #change-password-button {
+#image,
+#friends-button, 
+#update-user-button, 
+#change-password-button,
+#description-field {
     width: 400px;
+}
+
+.btn-secondary {
+    color: #333333;
+    background-color: #ffffff;
+    max-width: 400px;
+}
+.btn-secondary:active,
+.btn-secondary:focus,
+.btn-secondary:hover {
+    color: black;
+    background-color: azure;
 }
 
 .lead {
