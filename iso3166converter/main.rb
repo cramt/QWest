@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'httparty'
 require './fetch'
 
 countries_str = File.read 'iso3166.json'

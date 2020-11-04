@@ -1,7 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Owin;
+using Microsoft.Owin.Cors;
+using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Owin;
+using System;
 using System.Collections.Generic;
 using System.Net.Http.Formatting;
 using System.Web.Http;
@@ -12,7 +16,7 @@ namespace QWest.Api {
         private static HttpConfiguration _globalConfig = null;
         public static HttpConfiguration GlobalConfig {
             get {
-                if(_globalConfig == null) {
+                if (_globalConfig == null) {
                     HttpConfiguration config = new HttpConfiguration();
                     config.Routes.MapHttpRoute(
                         name: "DefaultApi",
@@ -33,7 +37,7 @@ namespace QWest.Api {
             }
         }
         public void Configuration(IAppBuilder app) {
-            
+            app.UseCors(CorsOptions.AllowAll);
 
             app.Use<AuthenticationMiddleware>();
             app.UseWebApi(GlobalConfig);
