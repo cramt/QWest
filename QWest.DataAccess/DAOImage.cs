@@ -1,9 +1,4 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Utilities;
+﻿using System.Threading.Tasks;
 
 namespace QWest.DataAcess {
     public static partial class DAO {

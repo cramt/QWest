@@ -1,24 +1,19 @@
-﻿using System;
+﻿using Model;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
-using System.Linq;
 using System.Threading.Tasks;
-using Utilities;
-using RUser = Model.User;
 
 namespace QWest.DataAcess {
     public static partial class DAO {
         public interface IUser {
-            Task Add(RUser user);
-            Task Update(RUser user);
-            Task<List<RUser>> GetByUsername(string username);
-            Task<RUser> Get(int id);
-            Task<RUser> GetBySessionCookie(byte[] sessionCookie);
-            Task<RUser> GetBySessionCookie(string sessionCookie);
-            Task<RUser> GetByEmail(string email);
-            Task<RUser> SetNewSessionCookie(RUser user);
-            Task UpdateProfilePicture(byte[] profilePicture, RUser user);
+            Task Add(User user);
+            Task Update(User user);
+            Task<List<User>> GetByUsername(string username);
+            Task<User> Get(int id);
+            Task<User> GetBySessionCookie(byte[] sessionCookie);
+            Task<User> GetBySessionCookie(string sessionCookie);
+            Task<User> GetByEmail(string email);
+            Task<User> SetNewSessionCookie(User user);
+            Task UpdateProfilePicture(byte[] profilePicture, User user);
             Task<int> UpdateProfilePicture(byte[] profilePicture, int userId);
         }
         public static IUser User { get; set; } = new Mssql.UserImpl(ConnectionWrapper.Instance);

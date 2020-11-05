@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -140,7 +141,7 @@ WHERE users_groups.users_id = @user_id
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@user_id", userId);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => new GroupDbRep(x));
-            })).Select(x=>x.ToModel()).ToList();
+            })).Select(x => x.ToModel()).ToList();
         }
 
         public async Task RemoveMember(Group group, User member) {
@@ -163,7 +164,7 @@ groups_id = @group_id
             }
         }
 
-        public async Task Update(Group group) {
+        public async Task Update(int id, string name, string description) {
             string query = @"
 UPDATE groups
 SET
@@ -174,12 +175,43 @@ id = @id
 ";
 
             await _conn.Use(query, async stmt => {
-                stmt.Parameters.AddWithValue("@name", group.Name);
-                stmt.Parameters.AddWithValue("@description", group.Description);
-                stmt.Parameters.AddWithValue("@id", group.Id);
+                stmt.Parameters.AddWithValue("@name", name);
+                stmt.Parameters.AddWithValue("@description", description);
+                stmt.Parameters.AddWithValue("@id", id);
                 await stmt.ExecuteNonQueryAsync();
                 return true;
             });
+        }
+
+        public Task Update(Group group) {
+            return Update((int)group.Id, group.Name, group.Description);
+        }
+
+        public Task<bool> IsMember(int groupId, int userId) {
+            string query = @"
+SELECT * FROM users_groups
+WHERE
+users_id = @user_id
+AND
+groups_id = @group_id
+";
+            return _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@user_id", userId);
+                stmt.Parameters.AddWithValue("@group_id", groupId);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(_ => true).FirstOrDefault();
+            });
+        }
+
+        public Task<bool> IsMember(int groupId, User user) {
+            return IsMember(groupId, (int)user.Id);
+        }
+
+        public Task<bool> IsMember(Group group, int userId) {
+            return IsMember((int)group.Id, userId);
+        }
+
+        public Task<bool> IsMember(Group group, User user) {
+            return IsMember((int)group.Id, user);
         }
     }
 }

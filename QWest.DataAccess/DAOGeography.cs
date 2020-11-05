@@ -1,13 +1,6 @@
 ﻿using Model.Geographic;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Utilities;
 
 namespace QWest.DataAcess {
     public static partial class DAO {
