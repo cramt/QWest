@@ -39,6 +39,16 @@ namespace QWest.DataAccess.Tests {
             Assert.AreEqual("wassup", post.Contents);
         }
         [Test]
+        public async Task AddsToDbWithLocation() {
+            User user = new User("Lucca", "123456", "an@email.com");
+            await DAO.User.Add(user);
+            DateTime now = DateTime.Now;
+            Post post = await DAO.Post.Add(new PostUpload("wassup", user, now, new List<byte[]> { }, (await DAO.Geography.GetCountryByAlpha2("DK")).Id));
+            Assert.NotNull(post.Id);
+            Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm-ss"), post.PostTime.ToString("yyyy-MM-dd-HH-mm-ss"));
+            Assert.AreEqual("wassup", post.Contents);
+        }
+        [Test]
         public async Task GetByUser() {
             User user = new User("Lucca", "123456", "an@email.com");
             await DAO.User.Add(user);

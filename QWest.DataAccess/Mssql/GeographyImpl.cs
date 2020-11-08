@@ -17,31 +17,36 @@ namespace QWest.DataAcess.Mssql {
         [Serializable]
         internal class GeopoliticalLocationDbRep : IDbRep<GeopoliticalLocation> {
             [JsonProperty("id")]
-            public int Id { get; }
+            public int Id { get; set; }
             [JsonProperty("alpha_2")]
-            public string Alpha2 { get; }
+            public string Alpha2 { get; set; }
             [JsonProperty("alpha_3")]
-            public string Alpha3 { get; }
+            public string Alpha3 { get; set; }
             [JsonProperty("name")]
-            public string Name { get; }
+            public string Name { get; set; }
             [JsonProperty("names")]
-            public List<string> Names { get; }
+            public string NamesJsonString { get; set; }
+            [JsonIgnore]
+            public List<string> Names { get; set; }
             [JsonProperty("region")]
-            public string Region { get; }
+            public string Region { get; set; }
             [JsonProperty("sub_region")]
-            public string SubRegion { get; }
+            public string SubRegion { get; set; }
             [JsonProperty("intermediate_region")]
-            public string IntermediateRegion { get; }
+            public string IntermediateRegion { get; set; }
             [JsonProperty("region_code")]
-            public int? RegionCode { get; }
+            public int? RegionCode { get; set; }
             [JsonProperty("sub_region_code")]
-            public int? SubRegionCode { get; }
+            public int? SubRegionCode { get; set; }
             [JsonProperty("intermediate_region_code")]
-            public int? IntermediateRegionCode { get; }
+            public int? IntermediateRegionCode { get; set; }
 
-            public int? SuperId { get; }
+            public int? SuperId { get; set; }
 
             public GeopoliticalLocationDbRep(SqlDataReader reader) {
+                if (reader == null) {
+                    return;
+                }
                 Id = reader.GetSqlInt32(0).Value;
                 Alpha2 = reader.GetSqlString(1).Value;
                 Alpha3 = reader.GetSqlString(2).NullableValue();
@@ -57,11 +62,16 @@ namespace QWest.DataAcess.Mssql {
             }
 
             public static IEnumerable<GeopoliticalLocationDbRep> FromJson(string json) {
-                return JsonConvert.DeserializeObject<IEnumerable<GeopoliticalLocationDbRep>>(json);
+                return JsonConvert.DeserializeObject<IEnumerable<GeopoliticalLocationDbRep>>(json).Select(x => {
+                    x.Names = JsonConvert.DeserializeObject<List<string>>(x.NamesJsonString);
+                    return x;
+                }).ToList();
             }
 
             public static GeopoliticalLocationDbRep FromJsonSingle(string json) {
-                return JsonConvert.DeserializeObject<GeopoliticalLocationDbRep>(json);
+                GeopoliticalLocationDbRep local = JsonConvert.DeserializeObject<GeopoliticalLocationDbRep>(json);
+                local.Names = JsonConvert.DeserializeObject<List<string>>(local.NamesJsonString);
+                return local;
             }
 
             public bool IsCountry {
