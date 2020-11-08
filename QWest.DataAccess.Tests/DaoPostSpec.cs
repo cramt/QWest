@@ -25,6 +25,20 @@ namespace QWest.DataAccess.Tests {
             Assert.AreEqual("wassup", post.Contents);
         }
         [Test]
+        public async Task AddsToDbWithImage() {
+            User user = new User("Lucca", "123456", "an@email.com");
+            await DAO.User.Add(user);
+            DateTime now = DateTime.Now;
+            Image image = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("QWest.DataAccess.Tests.res.profile-picture.png"));
+            MemoryStream stream = new MemoryStream();
+            image.Save(stream, ImageFormat.Jpeg);
+            byte[] imageData = stream.ToArray();
+            Post post = await DAO.Post.Add(new PostUpload("wassup", user, now, new List<byte[]> { imageData }));
+            Assert.NotNull(post.Id);
+            Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm-ss"), post.PostTime.ToString("yyyy-MM-dd-HH-mm-ss"));
+            Assert.AreEqual("wassup", post.Contents);
+        }
+        [Test]
         public async Task GetByUser() {
             User user = new User("Lucca", "123456", "an@email.com");
             await DAO.User.Add(user);
@@ -41,8 +55,7 @@ namespace QWest.DataAccess.Tests {
 
         [SetUp]
         public void Setup() {
-            ConnectionWrapper.Instance.Use("DELETE FROM users; DELETE FROM posts", stmt => stmt.ExecuteNonQueryAsync()).Wait();
+            ConnectionWrapper.Instance.Use("DELETE FROM images; DELETE FROM users_friendships; DELETE FROM users_friendship_requests; DELETE FROM users; DELETE FROM posts", stmt => stmt.ExecuteNonQueryAsync()).Wait();
         }
-
     }
 }
