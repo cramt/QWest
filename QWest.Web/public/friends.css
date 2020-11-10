@@ -30,7 +30,24 @@ body {
     /*margin-top: auto;*/
 }
 
+.split {
+    height: 80%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 100px;
+}
 
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}
+  
 .cover-container {
     overflow-y: scroll;
 }
@@ -48,6 +65,7 @@ body {
     background-color: #ffffff;
     max-width: 400px;
 }
+
 .btn-secondary:active,
 .btn-secondary:focus,
 .btn-secondary:hover {

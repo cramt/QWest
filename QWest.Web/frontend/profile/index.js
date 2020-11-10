@@ -26,8 +26,9 @@ $(async () => {
     profilePictureContainer.append('<img id="image" width="500px" src="/api/Image/Get?id=' + user.profilePicture + '" />')
 
     if (!isMe) {
-        userSettings.text("add friends")
+        userSettings.text("Add friend")
         userSettings.removeAttr("href")
+        userSettings.href("#")
         userSettings.on("click", async () => {
             const request = await fetch("/api/Friendship/AddFriend?id=" + user.id, {
                 method: "POST",
@@ -39,6 +40,10 @@ $(async () => {
             if (request.status !== 200) {
                 alert("error: " + request.status);
                 console.log(await request.text())
+            } else {
+                userSettings.text("Friend added")
+                alert("Friend added!")
+                //userSettings.attr("disabled", true)
             }
         })
     }
