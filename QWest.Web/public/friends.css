@@ -22,6 +22,12 @@ body {
     size: 50%;
 }
 
+#friend-list,
+#friend-request-list {
+    list-style-type: none;
+    line-height: 200%;
+}
+
 #viewmap,
 #user-settings,
 #logout-button,
@@ -35,7 +41,6 @@ body {
     overflow-y: scroll;
 }
 
-#image,
 #friends-button, 
 #update-user-button, 
 #change-password-button,
@@ -43,6 +48,9 @@ body {
     width: 400px;
 }
 
+#image {
+    width: 150px;
+}
 .btn-secondary {
     color: #333333;
     background-color: #ffffff;
