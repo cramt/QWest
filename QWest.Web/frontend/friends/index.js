@@ -21,16 +21,14 @@ const renderFriends = async (user) => {
     const users = JSON.parse(await response.text())
     users.forEach(x => {
         const entry = $("<li></li>")
-        const span = $("<span></span>")
+        const span = $('<span id="username-span"></span>')
         span.text(x.username)
         const image = $('<img id="image" src="/api/Image/Get?id=' + x.profilePicture + '" />')
         const br = $("<br></br>")
         entry.append(span)
         entry.append(br)
         entry.append(image)
-        entry.append(br)
         friendList.append(entry)
-        friendList.append(br)
     })
 }
 
@@ -53,11 +51,11 @@ const renderFriendRequests = async (user) => {
     const users = JSON.parse(await response.text())
     users.forEach(x => {
         const entry = $("<li></li>")
-        const span = $("<span></span>")
+        const span = $('<span id="username-span"></span>')
         span.text(x.username)
         const image = $('<img id="image" src="/api/Image/Get?id=' + x.profilePicture + '" />')
-        //const acceptButton = $("<button>accept</button>")
         const acceptButton = $('<a id="accept-button" class="btn btn-lg btn-secondary">Accept</a>')
+        const br = $("<br></br>")
         acceptButton.on("click", async () => {
             let response = await fetch("api/Friendship/AcceptFriendRequest?id=" + x.id, {
                 method: "POST",
@@ -73,7 +71,9 @@ const renderFriendRequests = async (user) => {
             }
         })
         entry.append(span)
+        entry.append(br)
         entry.append(image)
+        entry.append(br)
         entry.append(acceptButton)
         friendRequestList.append(entry)
     })

@@ -65,6 +65,10 @@ body {
     width: 400px;
 }
 
+#username-span {
+    font-size: larger;
+}
+
 #image {
     width: 150px;
 }
