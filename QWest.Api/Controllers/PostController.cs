@@ -1,6 +1,7 @@
 ﻿using Model;
 using QWest.Api;
 using QWest.DataAcess;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -11,6 +12,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Windows.Forms.VisualStyles;
 using static Utilities.Utilities;
 
 namespace QWest.Apis {
@@ -29,26 +31,38 @@ namespace QWest.Apis {
             }
         }
 
+        public class UploadArgument {
+            public string contents;
+            public int? location;
+            public List<string> images;
+
+            public async Task<List<byte[]>> ParseImages() {
+                return (await Task.WhenAll(images.Select(x => Task.Factory.StartNew(() => {
+                    if (x.Contains(",")) {
+                        x = x.Split(',')[1];
+                    }
+                    Image image = Image.FromStream(new MemoryStream(Convert.FromBase64String(x)));
+                    MemoryStream stream = new MemoryStream();
+                    image.Save(stream, ImageFormat.Jpeg);
+                    return stream.ToArray();
+                })))).ToList();
+            }
+        }
+
         [HttpPost]
         [ResponseType(typeof(Post))]
-        public async Task<HttpResponseMessage> Upload([FromBody] PostUpload upload) {
+        public async Task<HttpResponseMessage> Upload([FromBody] UploadArgument upload) {
             User user = Request.GetOwinContext().Get<User>("user");
             if (user == null) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            upload.User = user;
-            if (Request.Content.IsMimeMultipartContent()) {
-                upload.Images = await Utils.GetImages(Request);
-            }
-            else {
-                upload.Images = new List<byte[]>();
-            }
-            Post post = await PostRepo.Add(upload);
+            List<byte[]> images = await upload.ParseImages();
+            Post post = await PostRepo.Add(upload.contents.Trim(), user, images, upload.location);
             return Request.CreateResponse(HttpStatusCode.OK, post);
         }
         [ResponseType(typeof(List<Post>))]
         public async Task<HttpResponseMessage> GetUsersPosts(int? id) {
-            if(id == null) {
+            if (id == null) {
                 User user = Request.GetOwinContext().Get<User>("user");
                 if (user == null) {
                     return new HttpResponseMessage(HttpStatusCode.Unauthorized);

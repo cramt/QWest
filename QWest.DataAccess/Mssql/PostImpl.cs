@@ -41,10 +41,7 @@ WHERE users.id = @id";
                 }).ToList();
             });
         }
-        public Task<Post> Add(PostUpload post) {
-            if (post.User.Id == null) {
-                throw new ArgumentException("tried to make a post on user: " + post.User.Username + ", but that user doesnt have an id");
-            }
+        public Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId) {
             string query = $@"
 DECLARE @post_id INT;
 INSERT INTO posts
@@ -53,7 +50,7 @@ VALUES
 (@content, @user_id, @post_time, @location);
 SET @post_id = CAST(scope_identity() AS INT);
 " +
-            string.Join("", post.Images.Select((_, i) => $@"
+            string.Join("", images.Select((_, i) => $@"
 INSERT INTO images
 (image_blob)
 VALUES
@@ -73,18 +70,18 @@ FROM posts
 WHERE posts.id = @post_id
 "; ;
             return _conn.Use(query, async stmt => {
-                stmt.Parameters.AddWithValue("@content", post.Contents);
-                stmt.Parameters.AddWithValue("@user_id", post.User.Id);
-                uint upostTime = post.PostTime.ToUint();
+                stmt.Parameters.AddWithValue("@content", contents);
+                stmt.Parameters.AddWithValue("@user_id", user.Id);
+                uint upostTime = DateTime.Now.ToUint();
                 int postTime = upostTime.ToSigned();
                 stmt.Parameters.AddWithValue("@post_time", postTime);
-                stmt.Parameters.AddWithValue("@location", post.Location ?? SqlInt32.Null);
-                for (int i = 0; i < post.Images.Count; i++) {
-                    stmt.Parameters.AddWithValue("@image_blob" + i, post.Images[i]);
+                stmt.Parameters.AddWithValue("@location", locationId ?? SqlInt32.Null);
+                for (int i = 0; i < images.Count; i++) {
+                    stmt.Parameters.AddWithValue("@image_blob" + i, images[i]);
                 }
 
                 return (await stmt.ExecuteReaderAsync())
-                    .ToIterator(reader => new Post(post.Contents, post.User, upostTime, reader.GetSqlString(0).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(1).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(2).Value)).FirstOrDefault();
+                    .ToIterator(reader => new Post(contents, user, upostTime, reader.GetSqlString(0).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(1).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(2).Value)).FirstOrDefault();
 
             });
         }

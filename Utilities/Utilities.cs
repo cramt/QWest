@@ -152,5 +152,12 @@ namespace Utilities {
         public static int ToSigned(this uint u) {
             return unchecked((int)u);
         }
+
+        public static int? ParseInt(string s) {
+            if (int.TryParse(s, out int i)) {
+                return i;
+            }
+            return null;
+        }
     }
 }

@@ -1,16 +1,17 @@
 ﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="profile.css">
     <meta charset="utf-8" />
-    <meta name="viewport" 
-        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Profile</title>
 </head>
+
 <body class="text-center">
     <!-- Epic top bar -->
     <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
@@ -26,26 +27,28 @@
             </div>
         </header>
         <main class="inner cover" role="main">
-            
+
             <p class="lead">
                 <label id="username-field" class="label-info">...loading</textarea>
             </p>
-            <!-- <h2 class="percent">Completion percent: 69% nice.</h2> -->
             <div id="profile-picture-container" class="lead"></div>
             <br>
-            <p class="lead">
-                <textarea id="description-field" class="btn btn-lg btn-secondary" readonly>...</textarea>
-            </p>
             <p class="lead">
                 <a id="friends-button" class="btn btn-lg btn-secondary" href="/friends.html">Friends</a>
             </p>
             <p class="lead">
-                <a id="update-user-button" class="btn btn-lg btn-secondary" href="/settings.html">Update username or E-mail</a>
-            </p>
-            <p class="lead">
-                
+
             </p>
         </main>
+        <div id="post-container">
+            <textarea id="post-contents">
+
+            </textarea>
+            <br/>
+            <input type="file" id="post-images" />
+            <br/>
+            <button id="post-button">Post</button>
+        </div>
         <footer class="mastfoot mt-auto">
             <div class="inner">
                 <p>
@@ -55,4 +58,5 @@
         </footer>
     </div>
 </body>
+
 </html>

@@ -48,7 +48,6 @@
     <Compile Include="Geographic\GeopoliticalLocation.cs" />
     <Compile Include="Geographic\Subdivision.cs" />
     <Compile Include="Group.cs" />
-    <Compile Include="PostUpload.cs" />
     <Compile Include="ProgressMap.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="User.cs" />
