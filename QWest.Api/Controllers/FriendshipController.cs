@@ -28,14 +28,13 @@ namespace QWest.Api.Controllers {
         }
 
         [HttpPost]
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(bool))]
         public async Task<HttpResponseMessage> AddFriend(int id) {
             User user = Request.GetOwinContext().Get<User>("user");
             if (user == null) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            await FriendshipRepo.AddFriendRequest(user, id);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, await FriendshipRepo.AddFriendRequest(user, id));
         }
 
         [ResponseType(typeof(IEnumerable<User>))]
@@ -48,14 +47,13 @@ namespace QWest.Api.Controllers {
         }
 
         [HttpPost]
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(bool))]
         public async Task<HttpResponseMessage> AcceptFriendRequest(int id) {
             User user = Request.GetOwinContext().Get<User>("user");
             if (user == null) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            await FriendshipRepo.AcceptFriendRequest(id, user);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, await FriendshipRepo.AcceptFriendRequest(id, user));
         }
 
 
