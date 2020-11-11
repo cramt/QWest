@@ -26,9 +26,9 @@ $(async () => {
     profilePictureContainer.append('<img id="image" width="500px" src="/api/Image/Get?id=' + user.profilePicture + '" />')
 
     if (!isMe) {
+        var us = document.getElementById("#user-settings")
         userSettings.text("Add friend")
-        userSettings.removeAttr("href")
-        userSettings.href("#")
+        us.setAttribute("href", "#")
         userSettings.on("click", async () => {
             const request = await fetch("/api/Friendship/AddFriend?id=" + user.id, {
                 method: "POST",
