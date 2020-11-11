@@ -20,7 +20,7 @@ const renderFriends = async (user) => {
     }
     const users = JSON.parse(await response.text())
     users.forEach(x => {
-        const entry = $("<li></li>")
+        const entry = $('<li id="single-user"></li>')
         const span = $('<span id="username-span"></span>')
         span.text(x.username)
         const image = $('<img id="image" src="/api/Image/Get?id=' + x.profilePicture + '" />')
@@ -50,7 +50,7 @@ const renderFriendRequests = async (user) => {
     }
     const users = JSON.parse(await response.text())
     users.forEach(x => {
-        const entry = $("<li></li>")
+        const entry = $('<li id="single-user"></li>')
         const span = $('<span id="username-span"></span>')
         span.text(x.username)
         const image = $('<img id="image" src="/api/Image/Get?id=' + x.profilePicture + '" />')

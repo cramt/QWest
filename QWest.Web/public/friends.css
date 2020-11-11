@@ -29,7 +29,7 @@ body {
 }
 
 #viewmap,
-#user-settings,
+#profile,
 #logout-button,
 #username-field {
     font-size: larger;
@@ -37,23 +37,37 @@ body {
 }
 
 .split {
+    border-color: black;
+    border-width: 5px;
     height: 80%;
-    width: 50%;
+    width: 45%;
     position: fixed;
     z-index: 1;
-    top: 0;
+    top: 100px;
     overflow-x: hidden;
-    padding-top: 100px;
+    padding-top: 0px;
+    overflow-y: scroll;
+    border: 4px black;
+    border-style: groove;
+    border-radius: 15px;
 }
 
 .left {
-    left: 0;
+    left: 1em;
+    right: 1em;
 }
 
 .right {
-    right: 0;
+    right: 1em;
+    left: 51%;
 }
   
+#single-user {
+    border: 3px black;
+    border-style: ridge;
+    border-radius: 10px;
+    padding-bottom: 4px;
+}
 .cover-container {
     overflow-y: scroll;
 }
