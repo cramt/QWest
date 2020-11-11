@@ -6,23 +6,51 @@
     <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="friends.css">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Profile</title>
+    <title>Friends</title>
 </head>
 
 <body class="text-center">
-    <div id="friend-container">
-        <h2>Friends</h2>
-        <ul id="friend-list">
-
-        </ul>
-    </div>
-    <div style="display: none;" id="friend-request-container">
-        <h2>Friends requests</h2>
-        <ul id="friend-request-list">
-
-        </ul>
+    <!-- Epic top bar -->
+    <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <img id="qwest-logo" src="QWestLogo_small.png">
+                <h2 class="masthead-brand">QWest - Friends</h2>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a id="viewmap" class="nav-link active" href="/map.html">View map</a>
+                    <a id="profile" class="nav-link" href="/profile.html">Profile</a>
+                    <a id="logout-button" class="nav-link" href="#">Log out</a>
+                </nav>
+            </div>
+        </header>
+        <main class="inner cover" role="main">
+            <div class="split left">
+                <div id="friend-container">
+                    <h2>Friends</h2>
+                    <ul id="friend-list">
+        
+                    </ul>
+                </div>
+            </div>
+            <div class="split right">
+                <div style="display: none;" id="friend-request-container">
+                    <h2>Friends requests</h2>
+                    <ul id="friend-request-list">
+        
+                    </ul>
+                </div>
+            </div>
+        </main>
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>
+                    QWest footer is down here, and you can read it too!
+                </p>
+            </div>
+        </footer>
     </div>
 </body>
 
