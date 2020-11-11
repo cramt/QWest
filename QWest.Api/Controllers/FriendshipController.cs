@@ -1,15 +1,11 @@
 ﻿using Model;
 using QWest.DataAcess;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Http.Results;
 
 namespace QWest.Api.Controllers {
     public class FriendshipController : ApiController {
@@ -55,7 +51,6 @@ namespace QWest.Api.Controllers {
             }
             return Request.CreateResponse(HttpStatusCode.OK, await FriendshipRepo.AcceptFriendRequest(id, user));
         }
-
 
         [ResponseType(typeof(IEnumerable<User>))]
         public async Task<HttpResponseMessage> GetFriends(int? id = null) {
