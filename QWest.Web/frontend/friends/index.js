@@ -69,6 +69,9 @@ const renderFriendRequests = async (user) => {
                 console.log(await response.text())
                 return;
             }
+            if (!JSON.parse(await response.text())) {
+                alert("you dont have a friend request from this person")
+            }
         })
         entry.append(span)
         entry.append(br)
