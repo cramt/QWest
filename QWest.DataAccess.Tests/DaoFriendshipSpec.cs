@@ -43,8 +43,8 @@ namespace QWest.DataAccess.Tests {
             User userFrom = new User("cramt", "123456", "b@mail.com");
             await DAO.User.Add(userTo);
             await DAO.User.Add(userFrom);
-            
-            await DAO.Friendship.AddFriendRequest(userFrom, userTo);
+
+            Assert.True(await DAO.Friendship.AddFriendRequest(userFrom, userTo));
             await DAO.Friendship.AcceptFriendRequest(userFrom, userTo);
 
             List<User> friends = await DAO.Friendship.GetUsersFriends(userTo);

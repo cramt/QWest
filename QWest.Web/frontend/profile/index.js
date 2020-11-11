@@ -40,10 +40,11 @@ $(async () => {
             if (request.status !== 200) {
                 alert("error: " + request.status);
                 console.log(await request.text())
-            } else {
-                userSettings.text("Friend added")
-                alert("Friend added!")
-                //userSettings.attr("disabled", true)
+                return
+            }
+            userSettings.text("Friend added")
+            if (!JSON.parse(await request.text())) {
+                alert("you are already friends with this person")
             }
         })
     }
