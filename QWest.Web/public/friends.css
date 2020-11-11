@@ -40,13 +40,13 @@ body {
     border-color: black;
     border-width: 5px;
     height: 80%;
-    width: 45%;
+    width: 47%;
     position: fixed;
     z-index: 1;
     top: 100px;
     overflow-x: hidden;
     padding-top: 0px;
-    overflow-y: scroll;
+    overflow-y: auto;
     border: 4px black;
     border-style: groove;
     border-radius: 15px;
@@ -58,18 +58,20 @@ body {
 }
 
 .right {
-    right: 1em;
+    right: 1000px;
     left: 51%;
 }
   
 #single-user {
+    align-self: center;
     border: 3px black;
     border-style: ridge;
     border-radius: 10px;
     padding-bottom: 4px;
+    width: 90%;
 }
 .cover-container {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #friends-button, 
