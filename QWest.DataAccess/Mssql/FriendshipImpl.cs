@@ -36,29 +36,45 @@ WHERE right_user_id = @user_id
                     new User(reader.GetSqlString(1).Value, reader.GetSqlBinary(2).Value, reader.GetSqlString(3).Value, reader.GetSqlString(5).Value, reader.GetSqlBinary(4).NullableValue(), reader.GetSqlInt32(0).Value)).ToList();
             });
         }
-        public Task AddFriendRequest(User from, User to) {
+        public Task<bool> AddFriendRequest(User from, User to) {
             return AddFriendRequest((int)from.Id, (int)to.Id);
         }
 
-        public Task AddFriendRequest(User from, int to) {
+        public Task<bool> AddFriendRequest(User from, int to) {
             return AddFriendRequest((int)from.Id, to);
         }
 
-        public Task AddFriendRequest(int from, User to) {
+        public Task<bool> AddFriendRequest(int from, User to) {
             return AddFriendRequest(from, (int)to.Id);
         }
 
-        public async Task AddFriendRequest(int from, int to) {
+        public async Task<bool> AddFriendRequest(int from, int to) {
             string query = @"
-INSERT INTO users_friendship_requests
-(from_user_id, to_user_id)
-VALUES
-(@from_user_id, @to_user_id)
+DECLARE @valid BIT;
+SET @valid = 0;
+IF (
+    SELECT 
+    COUNT(*) 
+    FROM 
+    users_friendship_requests 
+    WHERE 
+    from_user_id = @from_user_id 
+    AND
+    to_user_id = @to_user_id
+) = 0
+BEGIN
+    INSERT INTO users_friendship_requests
+    (from_user_id, to_user_id)
+    VALUES
+    (@from_user_id, @to_user_id);
+    SET @valid = 1;
+END
+SELECT @valid;
 ";
-            await _conn.Use(query, stmt => {
+            return await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@to_user_id", to);
                 stmt.Parameters.AddWithValue("@from_user_id", from);
-                return stmt.ExecuteNonQueryAsync();
+                return (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlBoolean(0).Value).First();
             });
         }
         public Task<List<User>> GetFriendRequests(User user) {
@@ -80,21 +96,23 @@ WHERE to_user_id = @user_id
                     new User(reader.GetSqlString(1).Value, reader.GetSqlBinary(2).Value, reader.GetSqlString(3).Value, reader.GetSqlString(5).Value, reader.GetSqlBinary(4).NullableValue(), reader.GetSqlInt32(0).Value)).ToList();
             });
         }
-        public Task AcceptFriendRequest(User from, User to) {
+        public Task<bool> AcceptFriendRequest(User from, User to) {
             return AcceptFriendRequest((int)from.Id, (int)to.Id);
         }
 
-        public Task AcceptFriendRequest(User from, int to) {
+        public Task<bool> AcceptFriendRequest(User from, int to) {
             return AcceptFriendRequest((int)from.Id, to);
         }
 
-        public Task AcceptFriendRequest(int from, User to) {
+        public Task<bool> AcceptFriendRequest(int from, User to) {
             return AcceptFriendRequest(from, (int)to.Id);
         }
 
-        public async Task AcceptFriendRequest(int from, int to) {
+        public async Task<bool> AcceptFriendRequest(int from, int to) {
             string query = @"
-DECLARE @t TABLE(id INT)
+DECLARE @valid BIT;
+SET @valid = 0;
+DECLARE @t TABLE(id INT);
 
 DELETE FROM users_friendship_requests 
 OUTPUT Deleted.from_user_id INTO @t
@@ -110,12 +128,14 @@ BEGIN
     VALUES
     (@to_user_id, @from_user_id),
     (@from_user_id, @to_user_id);
+    SET @valid = 1;
 END
+SELECT @valid;
 ";
-            await _conn.Use(query, stmt => {
+            return await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@to_user_id", to);
                 stmt.Parameters.AddWithValue("@from_user_id", from);
-                return stmt.ExecuteNonQueryAsync();
+                return (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlBoolean(0).Value).First();
             });
         }
     }
