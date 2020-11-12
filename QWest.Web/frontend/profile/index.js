@@ -1,4 +1,4 @@
-import $ from "jquery";
+import $, { post } from "jquery";
 import "cookie-store"
 import { fetchMeAndUser } from "../whoami"
 import { formDataFromObject } from "../formDataFromObject";
@@ -56,7 +56,6 @@ $(async () => {
         })
     }
 
-
     postButton.on("click", async () => {
         const request = await fetch("api/Post/Upload", {
             method: "POST",
@@ -70,6 +69,12 @@ $(async () => {
                 images: await Promise.all(Array.from(postImages[0].files).map(blobToBase64))
             })
         })
+        if(request.status === 200) {
+            
+            alert("Post successful!")
+            window.location.reload();
+            return;
+        }
         console.log(request.status)
         console.log(await request.text())
     })

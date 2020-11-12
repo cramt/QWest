@@ -41,6 +41,9 @@ html, body {
     color: #0056b3;
 }
 
+.mastfoot {
+    text-align: center;
+}
 .nav-masthead {
     float: right;
 }

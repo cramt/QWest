@@ -30,6 +30,14 @@ body {
     /*margin-top: auto;*/
 }
 
+#post-contents {
+    width: 400px;
+}
+
+#upload-file {
+    padding-left: 30%;
+    padding-right: 30%;
+}
 
 .cover-container {
     overflow-y: scroll;
@@ -41,6 +49,10 @@ body {
 #change-password-button,
 #description-field {
     width: 400px;
+}
+
+#post-images {
+    text-align: left;
 }
 
 .btn-secondary {
@@ -69,7 +81,9 @@ body {
     color: #0056b3;
 }
 
-.mastfoot, .inner {
+.mastfoot, .inner,
+label,
+#post-images {
     color: #0056b3;
 }
 
