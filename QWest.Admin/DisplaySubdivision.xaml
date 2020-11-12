@@ -16,8 +16,13 @@
             <DataGrid.Columns >
                 <DataGridTextColumn Binding="{Binding Path=Alpha2}" MinWidth="50" />
                 <DataGridTextColumn Binding="{Binding Path=Name}" MinWidth="50" />
-                <DataGridTextColumn Binding="{Binding Path=Names}" MinWidth="50" />
-                <DataGridTextColumn Binding="{Binding Path=Type}" MinWidth="50" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ListBox ItemsSource="{Binding Names}" MinWidth="50"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

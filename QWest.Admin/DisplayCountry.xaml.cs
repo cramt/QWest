@@ -1,4 +1,5 @@
 ﻿using Model.Geographic;
+using QWest.DataAcess;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,8 +34,8 @@ namespace QWest.Admin {
 
         private async void SubdivisionButtonClick(object sender, RoutedEventArgs e) {
             Country county = (sender as Button).DataContext as Country;
-            var results = await Fetch.GetSubdivisions(county);
-            if(results == null) {
+            var results = await DAO.Geography.GetSubdivisions(county);
+            if (results == null) {
                 MessageBox.Show("this location does not have any subdivisions");
                 return;
             }

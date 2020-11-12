@@ -19,7 +19,7 @@ namespace QWest.DataAccess.Tests {
             User user = new User("Lucca", "123456", "an@email.com");
             await DAO.User.Add(user);
             DateTime now = DateTime.Now;
-            Post post = await DAO.Post.Add(new PostUpload("wassup", user, now, new List<byte[]>()));
+            Post post = await DAO.Post.Add("wassup", user, new List<byte[]>(), null);
             Assert.NotNull(post.Id);
             Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm-ss"), post.PostTime.ToString("yyyy-MM-dd-HH-mm-ss"));
             Assert.AreEqual("wassup", post.Contents);
@@ -33,7 +33,7 @@ namespace QWest.DataAccess.Tests {
             MemoryStream stream = new MemoryStream();
             image.Save(stream, ImageFormat.Jpeg);
             byte[] imageData = stream.ToArray();
-            Post post = await DAO.Post.Add(new PostUpload("wassup", user, now, new List<byte[]> { imageData }));
+            Post post = await DAO.Post.Add("wassup", user, new List<byte[]> { imageData }, null);
             Assert.NotNull(post.Id);
             Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm-ss"), post.PostTime.ToString("yyyy-MM-dd-HH-mm-ss"));
             Assert.AreEqual("wassup", post.Contents);
@@ -43,7 +43,7 @@ namespace QWest.DataAccess.Tests {
             User user = new User("Lucca", "123456", "an@email.com");
             await DAO.User.Add(user);
             DateTime now = DateTime.Now;
-            Post post = await DAO.Post.Add(new PostUpload("wassup", user, now, new List<byte[]> { }, (await DAO.Geography.GetCountryByAlpha2("DK")).Id));
+            Post post = await DAO.Post.Add("wassup", user, new List<byte[]> { }, (await DAO.Geography.GetCountryByAlpha2("DK")).Id);
             Assert.NotNull(post.Id);
             Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm-ss"), post.PostTime.ToString("yyyy-MM-dd-HH-mm-ss"));
             Assert.AreEqual("wassup", post.Contents);
@@ -52,8 +52,7 @@ namespace QWest.DataAccess.Tests {
         public async Task GetByUser() {
             User user = new User("Lucca", "123456", "an@email.com");
             await DAO.User.Add(user);
-            DateTime now = DateTime.Now;
-            Post expected = await DAO.Post.Add(new PostUpload("wassup", user, now, new List<byte[]>()));
+            Post expected = await DAO.Post.Add("wassup", user, new List<byte[]>(), null);
             Post fetched = (await DAO.Post.Get(user)).First();
             Assert.AreEqual(expected.Id, fetched.Id);
             Assert.AreEqual(expected.Contents, fetched.Contents);
