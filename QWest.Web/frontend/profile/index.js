@@ -71,7 +71,6 @@ $(async () => {
         })
         if(request.status === 200) {
             
-            alert("Post successful!")
             window.location.reload();
             return;
         }

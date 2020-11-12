@@ -30,6 +30,10 @@ body {
     /*margin-top: auto;*/
 }
 
+#post-button {
+    font-size: larger;
+}
+
 #post-contents {
     width: 400px;
 }
