@@ -434,5 +434,32 @@ super_id = @super_id
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => (Subdivision)new GeopoliticalLocationDbRep(x).ToModel()).ToList();
             });
         }
+
+        public async Task<IEnumerable<GeopoliticalLocation>> NameSearch(string search) {
+            string query = @"
+SELECT
+id, alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code
+FROM
+geopolitical_location
+WHERE
+names LIKE @search1
+OR
+names LIKE @search2
+OR
+names LIKE @search3
+OR
+name LIKE @search1
+OR
+name LIKE @search2
+OR
+name LIKE @search3
+";
+            return (await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@search1", "%" + search + "%");
+                stmt.Parameters.AddWithValue("@search2", search + "%");
+                stmt.Parameters.AddWithValue("@search3", "%" + search);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(x => new GeopoliticalLocationDbRep(x));
+            })).Select(x => x.ToModel());
+        }
     }
 }

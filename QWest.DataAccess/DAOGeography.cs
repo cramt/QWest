@@ -17,6 +17,7 @@ namespace QWest.DataAcess {
             Task<IEnumerable<Country>> GetCountries();
             Task<IEnumerable<Subdivision>> GetSubdivisions(int superId);
             Task<IEnumerable<Subdivision>> GetSubdivisions(GeopoliticalLocation location);
+            Task<IEnumerable<GeopoliticalLocation>> NameSearch(string search);
         }
 
         public static IGeography Geography { get; set; } = new Mssql.GeographyImpl(ConnectionWrapper.Instance);

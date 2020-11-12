@@ -29,7 +29,7 @@ namespace QWest.Apis {
         public async Task<HttpResponseMessage> Get(string alpha2) {
             alpha2 = alpha2.ToUpper();
             GeopoliticalLocation local = await GeographyRepo.GetAnyByAlpha2s(alpha2);
-            if(local == null) {
+            if (local == null) {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
             else {
@@ -47,7 +47,7 @@ namespace QWest.Apis {
         [ResponseType(typeof(IEnumerable<Subdivision>))]
         public async Task<HttpResponseMessage> GetSubdivisions(int superId) {
             var results = await GeographyRepo.GetSubdivisions(superId);
-            if(results.Count() == 0) {
+            if (results.Count() == 0) {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
             return Request.CreateResponse(HttpStatusCode.OK, results);
