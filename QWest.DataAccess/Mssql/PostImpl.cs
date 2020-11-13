@@ -85,5 +85,55 @@ WHERE posts.id = @post_id
 
             });
         }
+        public async Task<IEnumerable<Post>> GetFeed(User user, int amount = 20, int offset = 0) {
+            if (amount < 1) {
+                throw new ArgumentException("cant fetch amount of posts less than 1");
+            }
+            string query = $@"
+SELECT 
+posts.id, 
+content, 
+users_id, 
+post_time, 
+(SELECT * FROM dbo.FetchGeopoliticalLocation(location) FOR JSON PATH) AS location,
+username, 
+password_hash, 
+email, 
+description, 
+session_cookie, 
+(SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = posts.id) AS images
+FROM posts 
+INNER JOIN users
+ON 
+users.id = posts.users_id
+WHERE
+users.id = @user_id
+OR 
+users.id = (
+    SELECT 
+    left_user_id
+    FROM
+    users_friendships
+    WHERE
+    right_user_id = @user_id
+)
+--TODO: fetch users own groups and users friends' groups
+
+ORDER BY id DESC
+OFFSET {offset} ROWS 
+FETCH NEXT {amount} ROWS ONLY;
+";
+            return await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@user_id", user.Id);
+                Dictionary<int, User> userMap = new Dictionary<int, User>();
+                return (await stmt.ExecuteReaderAsync()).ToIterator(reader => {
+                    int userId = reader.GetSqlInt32(2).Value;
+                    if (!userMap.ContainsKey(userId)) {
+                        userMap.Add(userId, new User(reader.GetSqlString(5).Value, reader.GetSqlBinary(6).Value, reader.GetSqlString(7).Value, reader.GetSqlString(8).NullableValue(), reader.GetSqlBinary(9).NullableValue(), userId));
+                    }
+                    return new Post(reader.GetSqlString(1).Value, userMap[userId], reader.GetSqlInt32(3).Value, reader.GetSqlString(10).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(4).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(0).Value);
+                });
+            });
+        }
     }
 }
