@@ -54,6 +54,10 @@ namespace QWest.Api.Tests {
                 throw new NotImplementedException();
             }
 
+            public Task<IEnumerable<GeopoliticalLocation>> NameSearch(string search) {
+                throw new NotImplementedException();
+            }
+
             public Task Update(GeopoliticalLocation location) {
                 throw new NotImplementedException();
             }

@@ -26,7 +26,7 @@ namespace QWest.Admin {
         private async void Button_Click(object sender, RoutedEventArgs e) {
             //HACK, i dont know why this makes it work
             var countries = await Task.Factory.StartNew(() => DAO.Geography.GetCountries());
-            new DisplayCountry(await countries).Show();
+            new DisplayCountries(await countries).Show();
         }
     }
 }

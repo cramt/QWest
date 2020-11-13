@@ -58,11 +58,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="DisplayCountry.xaml">
+    <Page Include="DisplayCountries.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DisplaySubdivision.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditCountry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -74,11 +78,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DisplayCountry.xaml.cs">
-      <DependentUpon>DisplayCountry.xaml</DependentUpon>
+    <Compile Include="DisplayCountries.xaml.cs">
+      <DependentUpon>DisplayCountries.xaml</DependentUpon>
     </Compile>
     <Compile Include="DisplaySubdivision.xaml.cs">
       <DependentUpon>DisplaySubdivision.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditCountry.xaml.cs">
+      <DependentUpon>EditCountry.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

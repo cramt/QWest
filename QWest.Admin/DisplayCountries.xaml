@@ -1,4 +1,4 @@
-﻿<Window x:Class="QWest.Admin.DisplayCountry"
+﻿<Window x:Class="QWest.Admin.DisplayCountries"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
         <DataGrid AutoGenerateColumns="False" 
           Height="346" 
           HorizontalAlignment="Left" 
-          Name="dataGrid1" 
+          Name="CountriesGrid" 
           VerticalAlignment="Top" 
           Width="694">
             <DataGrid.Columns >

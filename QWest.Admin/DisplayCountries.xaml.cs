@@ -19,22 +19,23 @@ namespace QWest.Admin {
     /// <summary>
     /// Interaction logic for DisplayCountry.xaml
     /// </summary>
-    public partial class DisplayCountry : Window {
+    public partial class DisplayCountries : Window {
         private List<Country> _countries;
-        public DisplayCountry(IEnumerable<Country> countires) {
+        public DisplayCountries(IEnumerable<Country> countries) {
             InitializeComponent();
-            _countries = countires.ToList();
+            _countries = countries.ToList();
 
-            this.dataGrid1.ItemsSource = new ObservableCollection<Country>(_countries);
+            this.CountriesGrid.ItemsSource = new ObservableCollection<Country>(_countries);
         }
 
         private void EditButtonClick(object sender, RoutedEventArgs e) {
-
+            Country country = (sender as Button).DataContext as Country;
+            new EditCountry(country).Show();
         }
 
         private async void SubdivisionButtonClick(object sender, RoutedEventArgs e) {
-            Country county = (sender as Button).DataContext as Country;
-            var results = await DAO.Geography.GetSubdivisions(county);
+            Country country = (sender as Button).DataContext as Country;
+            var results = await DAO.Geography.GetSubdivisions(country);
             if (results == null) {
                 MessageBox.Show("this location does not have any subdivisions");
                 return;
