@@ -461,5 +461,54 @@ name LIKE @search3
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => new GeopoliticalLocationDbRep(x));
             })).Select(x => x.ToModel());
         }
+
+        public async Task AddCountry(Country country) {
+            string query = @"
+INSERT INTO
+geopolitical_location
+(alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code)
+VALUES
+(@alpha_2, @alpha_3, @name, @names, NULL, @region, @sub_region, @intermediate_region, @region_code, @sub_region_code, @intermediate_region_code);
+SELECT CAST(scope_identity() AS int)
+";
+            country.Id = await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@alpha_2", country.Alpha2);
+                stmt.Parameters.AddWithValue("@alpha_3", country.Alpha3);
+                stmt.Parameters.AddWithValue("@name", country.Name);
+                stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(country.Names));
+                stmt.Parameters.AddWithValue("@region", country.Region ?? SqlString.Null);
+                stmt.Parameters.AddWithValue("@sub_region", country.SubRegion ?? SqlString.Null);
+                stmt.Parameters.AddWithValue("@intermediate_region", country.IntermediateRegion ?? SqlString.Null);
+                stmt.Parameters.AddWithValue("@region_code", country.RegionCode ?? SqlInt32.Null);
+                stmt.Parameters.AddWithValue("@sub_region_code", country.SubRegionCode ?? SqlInt32.Null);
+                stmt.Parameters.AddWithValue("@intermediate_region_code", country.IntermediateRegionCode ?? SqlInt32.Null);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlInt32(0).Value).First();
+            });
+        }
+
+        public async Task AddSubdivision(Subdivision subdivision) {
+            int superId;
+            if(subdivision.Parent == null) {
+                superId = subdivision.SuperId;
+            }
+            else {
+                superId = (int)subdivision.Parent.Id;
+            }
+            string query = @"
+INSERT INTO
+geopolitical_location
+(alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code)
+VALUES
+(@alpha_2, NULL, @name, @names, @super_id, NULL, NULL, NULL, NULL, NULL, NULL);
+SELECT CAST(scope_identity() AS int)
+";
+            subdivision.Id = await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@alpha_2", subdivision.Alpha2);
+                stmt.Parameters.AddWithValue("@name", subdivision.Name);
+                stmt.Parameters.AddWithValue("@names", JsonConvert.SerializeObject(subdivision.Names));
+                stmt.Parameters.AddWithValue("@super_id", superId);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlInt32(0).Value).First();
+            });
+        }
     }
 }
