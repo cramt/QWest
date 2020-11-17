@@ -81,8 +81,6 @@ $(async () => {
         console.log(await request.text())
     })
 
-    console.log(autocomplete)
-
     let auto = new autocomplete({
         source: async (request, response) => {
             let searchText = request.term
@@ -106,9 +104,11 @@ $(async () => {
             }
         },
         select: (ui, e) => {
-            ui.text(e.label)
-            selectedGeopoliticalLocation = e.value
+            console.log(ui, e)
+            setTimeout(() => {
+                ui.target.value = e.item.label
+            }, 0);
+            selectedGeopoliticalLocation = e.item.value
         }
     }).element.appendTo(geopoliticalLocationAutocomplete[0])
-    console.log(auto)
 })
