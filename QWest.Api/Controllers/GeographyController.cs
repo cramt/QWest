@@ -52,6 +52,7 @@ namespace QWest.Apis {
             }
             return Request.CreateResponse(HttpStatusCode.OK, results);
         }
+        [HttpGet]
         [ResponseType(typeof(IEnumerable<GeopoliticalLocation>))]
         public async Task<HttpResponseMessage> NameSearch(string searchTerm) {
             return Request.CreateResponse(HttpStatusCode.OK, await GeographyRepo.NameSearch(searchTerm));
