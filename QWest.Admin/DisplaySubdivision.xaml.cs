@@ -29,7 +29,8 @@ namespace QWest.Admin {
         }
 
         private void EditButtonClick(object sender, RoutedEventArgs e) {
-
+            Subdivision subdivision = (sender as Button).DataContext as Subdivision;
+            new EditSubdivision(subdivision).Show();
         }
 
         private async void SubdivisionButtonClick(object sender, RoutedEventArgs e) {
