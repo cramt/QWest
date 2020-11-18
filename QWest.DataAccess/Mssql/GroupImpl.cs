@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using Utilities;
 using static QWest.DataAcess.Mssql.UserImpl;
@@ -187,7 +184,7 @@ id = @id
             return Update((int)group.Id, group.Name, group.Description);
         }
 
-        public Task<bool> IsMember(int groupId, int userId) {
+        public async Task<bool> IsMember(int groupId, int userId) {
             string query = @"
 SELECT * FROM users_groups
 WHERE
@@ -195,11 +192,11 @@ users_id = @user_id
 AND
 groups_id = @group_id
 ";
-            return _conn.Use(query, async stmt => {
+            return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@user_id", userId);
                 stmt.Parameters.AddWithValue("@group_id", groupId);
-                return (await stmt.ExecuteReaderAsync()).ToIterator(_ => true).FirstOrDefault();
-            });
+                return (await stmt.ExecuteReaderAsync()).ToIterator(_ => true);
+            })).FirstOrDefault();
         }
 
         public Task<bool> IsMember(int groupId, User user) {
