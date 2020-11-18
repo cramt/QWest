@@ -7,23 +7,24 @@
         mc:Ignorable="d"
         Title="EditCountry" Height="450" Width="800">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="372,131,0,0" TextWrapping="Wrap" Text="{Binding Path=Alpha3}" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="372,180,0,0" TextWrapping="Wrap" Text="{Binding Path=Region}" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="372,236,0,0" TextWrapping="Wrap" Text="{Binding Path=SubRegion}" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="372,292,0,0" TextWrapping="Wrap" Text="{Binding Path=IntermediateRegion}" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="565,180,0,0" TextWrapping="Wrap" Text="{Binding Path=RegionCode}" VerticalAlignment="Top" Width="120" RenderTransformOrigin="2.047,-7.387"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="565,236,0,0" TextWrapping="Wrap" Text="{Binding Path=SubRegionCode}" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="565,292,0,0" TextWrapping="Wrap" Text="{Binding Path=IntermediateRegionCode}" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" Margin="479,376,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Submit" Click="Submit_Click" HorizontalAlignment="Left" Margin="610,376,0,0" VerticalAlignment="Top" Width="75"/>
-        <TextBlock HorizontalAlignment="Left" Margin="372,110,0,0" TextWrapping="Wrap" Text="Alpha 2" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="372,159,0,0" TextWrapping="Wrap" Text="Region" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="372,215,0,0" TextWrapping="Wrap" Text="Subregion" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="372,271,0,0" TextWrapping="Wrap" Text="Intermediate region" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="565,162,0,0" TextWrapping="Wrap" Text="Region code" VerticalAlignment="Top" RenderTransformOrigin="0.479,-2.945"/>
-        <TextBlock HorizontalAlignment="Left" Margin="565,218,0,0" TextWrapping="Wrap" Text="Subregion code" VerticalAlignment="Top" RenderTransformOrigin="0.479,-2.945"/>
-        <TextBlock HorizontalAlignment="Left" Margin="565,271,0,0" TextWrapping="Wrap" Text="Intermediate region code" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,110,0,0" TextWrapping="Wrap" Text="Names" VerticalAlignment="Top"/>
-        <ListBox ItemsSource="{Binding Names}" HorizontalAlignment="Left" Height="100" Margin="45,131,0,0" VerticalAlignment="Top" Width="264"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="381,184,0,0" TextWrapping="Wrap" Text="{Binding Path=Alpha2}" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Cancel" Click="CancelClick" HorizontalAlignment="Left" Margin="479,376,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Submit" Click="SubmitClick" HorizontalAlignment="Left" Margin="610,376,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBlock HorizontalAlignment="Left" Margin="381,163,0,0" TextWrapping="Wrap" Text="Alpha 2" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="49,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Alternative names"/>
+        <ListBox Name="AlternativeNamesListBox" ItemsSource="{Binding Names}" HorizontalAlignment="Left" Height="135" Margin="49,135,0,0" VerticalAlignment="Top" Width="264">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBox Text="{Binding Path=.}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="381,233,0,0" TextWrapping="Wrap" Text="{Binding Alpha3}" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="381,212,0,0" TextWrapping="Wrap" Text="Alpha 3" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="381,133,0,0" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="381,112,0,0" TextWrapping="Wrap" Text="Primary name" VerticalAlignment="Top"/>
+        <Button Content="Add name" Click="AddNewNameClick" HorizontalAlignment="Left" Margin="238,105,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Delete selected" Click="DeleteNameClick" HorizontalAlignment="Left" Margin="210,289,0,0" VerticalAlignment="Top" Width="103"/>
+        <TextBox Name="AddNameTextbox" HorizontalAlignment="Left" Height="23" Margin="49,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"/>
     </Grid>
 </Window>
