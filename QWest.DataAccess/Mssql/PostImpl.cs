@@ -64,7 +64,7 @@ name, creation_time, groups.description,
                 else {
                     throw new ArgumentException("in this post the author is neither a user or group");
                 }
-                return new Post(Content, userAuthor, groupAuthor, PostTime, Images.ToList(), GeopoliticalLocationDbRep.ToTreeStructure(Location).First(), Id);
+                return new Post(Content, userAuthor, groupAuthor, PostTime, Images.MapValue(x => x.ToList()), Location.MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(x).First()), Id);
             }
         }
         private ConnectionWrapper _conn;
@@ -93,7 +93,7 @@ WHERE users.id = @id";
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@id", userId);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
-            })).Select(x=>x.ToModel()).ToList();
+            })).Select(x => x.ToModel()).ToList();
         }
         public async Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId) {
             string query = $@"
@@ -118,15 +118,14 @@ VALUES
             $@"
 SELECT
 {PostDbRep.SELECT_ORDER}
-id
 FROM posts
-WHERE posts.id = @post_id
 LEFT JOIN users
 ON
 users.id = posts.users_id
 LEFT JOIN groups
 ON
 groups.id = posts.groups_id
+WHERE posts.id = @post_id
 ";
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@content", contents);
