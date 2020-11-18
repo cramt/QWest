@@ -204,8 +204,8 @@ SET @last_id{i} = CAST(scope_identity() as int);
             }
             conn.Close();
         }
-        public async Task<IEnumerable<Country>> CreateBackup() {
-            ;
+
+        public async Task<IEnumerable<Country>> FetchEverythingParsed() {
             IEnumerable<GeopoliticalLocationDbRep> locals = await _conn.Use("SELECT id, alpha_2, alpha_3, name, names, super_id, region, sub_region, intermediate_region, region_code, sub_region_code, intermediate_region_code FROM geopolitical_location",
                 async stmt => (await stmt.ExecuteReaderAsync())
                 .ToIterator(x => new GeopoliticalLocationDbRep(x)).ToList());

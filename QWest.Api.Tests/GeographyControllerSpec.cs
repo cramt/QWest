@@ -14,7 +14,7 @@ namespace QWest.Api.Tests {
                 throw new NotImplementedException();
             }
 
-            public Task<IEnumerable<Country>> CreateBackup() {
+            public Task<IEnumerable<Country>> FetchEverythingParsed() {
                 throw new NotImplementedException();
             }
 

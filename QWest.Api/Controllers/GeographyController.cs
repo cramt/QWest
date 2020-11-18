@@ -38,7 +38,7 @@ namespace QWest.Apis {
         }
         [ResponseType(typeof(IEnumerable<Country>))]
         public async Task<HttpResponseMessage> Get() {
-            return Request.CreateResponse(HttpStatusCode.OK, await GeographyRepo.CreateBackup());
+            return Request.CreateResponse(HttpStatusCode.OK, await GeographyRepo.FetchEverythingParsed());
         }
         [ResponseType(typeof(IEnumerable<Country>))]
         public async Task<HttpResponseMessage> GetCountries() {

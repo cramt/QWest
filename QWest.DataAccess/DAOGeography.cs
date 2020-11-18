@@ -6,7 +6,7 @@ namespace QWest.DataAcess {
     public static partial class DAO {
         public interface IGeography {
             Task InsertBackup(IEnumerable<Country> countries);
-            Task<IEnumerable<Country>> CreateBackup();
+            Task<IEnumerable<Country>> FetchEverythingParsed();
             Task<Country> GetCountryByAlpha2(string alpha2);
             Task<GeopoliticalLocation> GetAnyByAlpha2s(string alphas2);
             Task<GeopoliticalLocation> GetAnyByAlpha2s(IEnumerable<string> alpha2s);

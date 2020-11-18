@@ -14,7 +14,7 @@ namespace QWest.DataAccess.Tests {
             await ConnectionWrapper.Instance.Use("DELETE FROM geopolitical_location", stmt => stmt.ExecuteNonQueryAsync());
             List<Country> countries = GeopoliticalLocation.Parse(File.ReadAllText(Utilities.Utilities.SolutionLocation + "\\QWest.DataAccess\\res\\geopolitical_location_backup.json"));
             await DAO.Geography.InsertBackup(countries);
-            int amount = (await DAO.Geography.CreateBackup()).Count();
+            int amount = (await DAO.Geography.FetchEverythingParsed()).Count();
             Assert.AreEqual(countries.Count, amount);
         }
         [Test]

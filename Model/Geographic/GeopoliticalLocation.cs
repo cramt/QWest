@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Model.Geographic {
     [Serializable]
@@ -29,6 +30,14 @@ namespace Model.Geographic {
             };
             countries.ForEach(x => x.Subdivisions.ForEach(y => traverse(x, y)));
             return countries;
+        }
+
+        public static IEnumerable<GeopoliticalLocation> Traverse(IEnumerable<Country> countries) {
+            return countries.Select(Traverse).SelectMany(x => x);
+        }
+
+        public static IEnumerable<GeopoliticalLocation> Traverse(GeopoliticalLocation location) {
+            return location.Subdivisions.Select(Traverse).SelectMany(x => x).Concat(new GeopoliticalLocation[] { location });
         }
     }
 }
