@@ -24,8 +24,9 @@ namespace QWest.Admin {
             DataContext = country;
         }
 
-        private void Submit_Click(object sender, RoutedEventArgs e) {
-            
+        private async void Submit_Click(object sender, RoutedEventArgs e) {
+            await DAO.Geography.Update((Country)DataContext);
+            Close();
         }
     }
 }
