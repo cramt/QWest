@@ -29,7 +29,7 @@ namespace QWest.Api.Controllers {
         }
 
         [HttpPost]
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(Group))]
         public async Task<HttpResponseMessage> Add([FromBody] Group group) {
             User user = Request.GetOwinContext().Get<User>("user");
             if (user == null) {
@@ -38,13 +38,12 @@ namespace QWest.Api.Controllers {
             if (group.Members.Where(x => x.Id == user.Id).Count() == 0) {
                 group.Members.Add(user);
             }
-            await DAO.Group.Create(group);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Group.Create(group));
         }
 
         [HttpGet]
         [ResponseType(typeof(IEnumerable<Group>))]
-        public async Task<HttpResponseMessage> FetchUsers(int? userId) {
+        public async Task<HttpResponseMessage> FetchUsersGroups(int? userId) {
             int finalId;
             if (userId == null) {
                 User user = Request.GetOwinContext().Get<User>("user");
@@ -56,7 +55,7 @@ namespace QWest.Api.Controllers {
             else {
                 finalId = (int)userId;
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Group.FetchUsers(finalId));
+            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Group.FetchUsersGroups(finalId));
         }
 
         [Serializable]
@@ -74,6 +73,24 @@ namespace QWest.Api.Controllers {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
             await DAO.Group.Update(argument.id, argument.name, argument.description);
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        [Serializable]
+        public class UpdateMembersArgument {
+            public int id;
+            public List<int> additions;
+            public List<int> subtractions;
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(void))]
+        public async Task<HttpResponseMessage> UpdateMembers([FromBody] UpdateMembersArgument argument) {
+            User user = Request.GetOwinContext().Get<User>("user");
+            if (user == null || !await DAO.Group.IsMember(argument.id, user)) {
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            await DAO.Group.UpdateMembers(argument.id, argument.additions, argument.subtractions);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }

@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using Utilities;
 using static QWest.DataAcess.Mssql.UserImpl;
@@ -48,25 +45,6 @@ namespace QWest.DataAcess.Mssql {
             _conn = conn;
         }
 
-        public async Task AddMember(Group group, User member) {
-            string query = @"
-INSERT INTO 
-users_groups
-(users_id, groups_id)
-VALUES
-(@user_id, @group_id)
-";
-            await _conn.Use(query, async stmt => {
-                stmt.Parameters.AddWithValue("@user_id", member.Id);
-                stmt.Parameters.AddWithValue("@group_id", group.Id);
-                await stmt.ExecuteNonQueryAsync();
-                return true;
-            });
-            if (!group.Members.Contains(member)) {
-                group.Members.Add(member);
-            }
-        }
-
         public async Task<Group> Create(Group group) {
             if (group.Members.Count == 0) {
                 throw new ArgumentException("cant create group without members");
@@ -102,10 +80,10 @@ SELECT @group_id;
         }
 
         public Task<IEnumerable<Group>> FetchUsers(User user) {
-            return FetchUsers((int)user.Id);
+            return FetchUsersGroups((int)user.Id);
         }
 
-        public async Task<IEnumerable<Group>> FetchUsers(int userId) {
+        public async Task<IEnumerable<Group>> FetchUsersGroups(int userId) {
             string query = @"
 SELECT
 id, name, creation_time, description, 
@@ -144,23 +122,48 @@ WHERE users_groups.users_id = @user_id
             })).Select(x => x.ToModel()).ToList();
         }
 
-        public async Task RemoveMember(Group group, User member) {
-            string query = @"
+        public async Task UpdateMembers(int groupId, List<int> additions, List<int> subtractions) {
+            string deleteQuery = "";
+            if(subtractions.Count != 0) {
+                deleteQuery = $@"
 DELETE FROM 
 users_groups
 WHERE
-users_id = @user_id
+{string.Join(" OR ", subtractions.Select((_, i) => $@"
+users_id = @sub_user_id{i}
 AND
 groups_id = @group_id
+"))}
 ";
-            await _conn.Use(query, async stmt => {
-                stmt.Parameters.AddWithValue("@user_id", member.Id);
-                stmt.Parameters.AddWithValue("@group_id", group.Id);
-                await stmt.ExecuteNonQueryAsync();
-                return true;
-            });
-            if (group.Members.Contains(member)) {
-                group.Members.Remove(member);
+            }
+            string addQuery = "";
+            if(additions.Count != 0) {
+                addQuery = $@"
+INSERT INTO 
+users_groups
+(users_id, groups_id)
+VALUES
+{string.Join(",", subtractions.Select((_, i) => $@"
+(@add_user_id{i}, @group_id)
+"))}
+";
+                string seperator = "";
+                if(addQuery != "" && deleteQuery != "") {
+                    seperator = ";";
+                }
+                string query = addQuery + seperator + deleteQuery;
+                await _conn.Use(query, async stmt => {
+                    int i = 0;
+                    foreach(int add in additions) {
+                        stmt.Parameters.AddWithValue("@add_user_id" + i++, add);
+                    }
+                    i = 0;
+                    foreach (int sub in subtractions) {
+                        stmt.Parameters.AddWithValue("@sub_user_id" + i++, sub);
+                    }
+                    stmt.Parameters.AddWithValue("@group_id", groupId);
+                    return await stmt.ExecuteNonQueryAsync();
+                });
             }
         }
 
@@ -187,7 +190,7 @@ id = @id
             return Update((int)group.Id, group.Name, group.Description);
         }
 
-        public Task<bool> IsMember(int groupId, int userId) {
+        public async Task<bool> IsMember(int groupId, int userId) {
             string query = @"
 SELECT * FROM users_groups
 WHERE
@@ -195,11 +198,11 @@ users_id = @user_id
 AND
 groups_id = @group_id
 ";
-            return _conn.Use(query, async stmt => {
+            return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@user_id", userId);
                 stmt.Parameters.AddWithValue("@group_id", groupId);
-                return (await stmt.ExecuteReaderAsync()).ToIterator(_ => true).FirstOrDefault();
-            });
+                return (await stmt.ExecuteReaderAsync()).ToIterator(_ => true);
+            })).FirstOrDefault();
         }
 
         public Task<bool> IsMember(int groupId, User user) {
