@@ -338,6 +338,7 @@ id = @id
                     throw new ArgumentException("supplied a geopolitical location that was neither country or subdivision");
                 }
 
+                stmt.Parameters.AddWithValue("@id", location.Id);
                 return stmt.ExecuteNonQueryAsync();
             });
         }

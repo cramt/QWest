@@ -11,6 +11,62 @@ using static QWest.DataAcess.Mssql.GeographyImpl;
 
 namespace QWest.DataAcess.Mssql {
     class PostImpl : IPost {
+        [Serializable]
+        internal class PostDbRep : IDbRep<Post> {
+            public const string SELECT_ORDER = @"
+posts.id, content, users_id, groups_id, post_time, (SELECT * FROM dbo.FetchGeopoliticalLocation(location) FOR JSON PATH) AS location,
+username, password_hash, email, users.description, session_cookie,
+name, creation_time, groups.description,
+(SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = posts.id) AS images
+";
+            public int Id { get; }
+            public string Content { get; }
+            public int? UserId { get; }
+            public int? GroupId { get; }
+            public int PostTime { get; }
+            public IEnumerable<GeopoliticalLocationDbRep> Location { get; }
+            public string Username { get; }
+            public byte[] PasswordHash { get; }
+            public string Email { get; }
+            public string UserDescription { get; }
+            public byte[] SessionCookie { get; }
+            public string Name { get; }
+            public int? CreationTime { get; }
+            public string GroupDescription { get; }
+            public IEnumerable<int> Images { get; }
+            public PostDbRep(SqlDataReader reader) {
+                int i = 0;
+                Id = reader.GetSqlInt32(i++).Value;
+                Content = reader.GetSqlString(i++).Value;
+                UserId = reader.GetSqlInt32(i++).NullableValue();
+                GroupId = reader.GetSqlInt32(i++).NullableValue();
+                PostTime = reader.GetSqlInt32(i++).Value;
+                Location = reader.GetSqlString(i++).NullableValue().MapValue(x => GeopoliticalLocationDbRep.FromJson(x));
+                Username = reader.GetSqlString(i++).NullableValue();
+                PasswordHash = reader.GetSqlBinary(i++).NullableValue();
+                Email = reader.GetSqlString(i++).NullableValue();
+                UserDescription = reader.GetSqlString(i++).NullableValue();
+                SessionCookie = reader.GetSqlBinary(i++).NullableValue();
+                Name = reader.GetSqlString(i++).NullableValue();
+                CreationTime = reader.GetSqlInt32(i++).NullableValue();
+                Images = reader.GetSqlString(i++).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList());
+            }
+
+            public Post ToModel() {
+                User userAuthor = null;
+                Group groupAuthor = null;
+                if (UserId != null) {
+                    userAuthor = new User(Username, PasswordHash, Email, UserDescription, SessionCookie, UserId);
+                }
+                else if (GroupId != null) {
+                    groupAuthor = new Group(Name, (int)CreationTime, GroupDescription, null, null, GroupId);
+                }
+                else {
+                    throw new ArgumentException("in this post the author is neither a user or group");
+                }
+                return new Post(Content, userAuthor, groupAuthor, PostTime, Images.ToList(), GeopoliticalLocationDbRep.ToTreeStructure(Location).First(), Id);
+            }
+        }
         private ConnectionWrapper _conn;
         public PostImpl(ConnectionWrapper conn) {
             _conn = conn;
@@ -21,27 +77,25 @@ namespace QWest.DataAcess.Mssql {
             }
             return await GetByUserId((int)user.Id);
         }
-        public Task<List<Post>> GetByUserId(int userId) {
-            string query = @"
+        public async Task<List<Post>> GetByUserId(int userId) {
+            string query = $@"
 SELECT
-posts.id, content, users_id, post_time, (SELECT * FROM dbo.FetchGeopoliticalLocation(location) FOR JSON PATH) AS location,
-username, password_hash, email, description, session_cookie, 
-(SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = posts.id) AS images
+{PostDbRep.SELECT_ORDER}
 FROM
-users INNER JOIN posts ON users.id = posts.users_id
+users 
+LEFT JOIN posts 
+ON 
+users.id = posts.users_id
+LEFT JOIN groups
+ON
+groups.id = posts.groups_id
 WHERE users.id = @id";
-            return _conn.Use(query, async stmt => {
+            return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@id", userId);
-                User user = null;
-                return (await stmt.ExecuteReaderAsync()).ToIterator(reader => {
-                    if (user == null) {
-                        user = new User(reader.GetSqlString(5).Value, reader.GetSqlBinary(6).Value, reader.GetSqlString(7).Value, reader.GetSqlString(8).NullableValue(), reader.GetSqlBinary(9).NullableValue(), reader.GetSqlInt32(2).Value);
-                    }
-                    return new Post(reader.GetSqlString(1).Value, user, reader.GetSqlInt32(3).Value, reader.GetSqlString(10).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(4).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(0).Value);
-                }).ToList();
-            });
+                return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
+            })).Select(x=>x.ToModel()).ToList();
         }
-        public Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId) {
+        public async Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId) {
             string query = $@"
 DECLARE @post_id INT;
 INSERT INTO posts
@@ -63,13 +117,18 @@ VALUES
 ")) +
             $@"
 SELECT
-(SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = @post_id) AS IMAGES, 
-(select * from dbo.FetchGeopoliticalLocation(location) for json path) as location, 
+{PostDbRep.SELECT_ORDER}
 id
 FROM posts
 WHERE posts.id = @post_id
-"; ;
-            return _conn.Use(query, async stmt => {
+LEFT JOIN users
+ON
+users.id = posts.users_id
+LEFT JOIN groups
+ON
+groups.id = posts.groups_id
+";
+            return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@content", contents);
                 stmt.Parameters.AddWithValue("@user_id", user.Id);
                 uint upostTime = DateTime.Now.ToUint();
@@ -81,9 +140,9 @@ WHERE posts.id = @post_id
                 }
 
                 return (await stmt.ExecuteReaderAsync())
-                    .ToIterator(reader => new Post(contents, user, upostTime, reader.GetSqlString(0).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(1).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(2).Value)).FirstOrDefault();
+                    .ToIterator(reader => new PostDbRep(reader));
 
-            });
+            })).First().ToModel();
         }
         public async Task<IEnumerable<Post>> GetFeed(User user, int amount = 20, int offset = 0) {
             if (amount < 1) {
@@ -91,17 +150,7 @@ WHERE posts.id = @post_id
             }
             string query = $@"
 SELECT 
-posts.id, 
-content, 
-users_id, 
-post_time, 
-(SELECT * FROM dbo.FetchGeopoliticalLocation(location) FOR JSON PATH) AS location,
-username, 
-password_hash, 
-email, 
-description, 
-session_cookie, 
-(SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = posts.id) AS images
+{PostDbRep.SELECT_ORDER}
 FROM posts 
 INNER JOIN users
 ON 
@@ -123,17 +172,11 @@ ORDER BY id DESC
 OFFSET {offset} ROWS 
 FETCH NEXT {amount} ROWS ONLY;
 ";
-            return await _conn.Use(query, async stmt => {
+            return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@user_id", user.Id);
                 Dictionary<int, User> userMap = new Dictionary<int, User>();
-                return (await stmt.ExecuteReaderAsync()).ToIterator(reader => {
-                    int userId = reader.GetSqlInt32(2).Value;
-                    if (!userMap.ContainsKey(userId)) {
-                        userMap.Add(userId, new User(reader.GetSqlString(5).Value, reader.GetSqlBinary(6).Value, reader.GetSqlString(7).Value, reader.GetSqlString(8).NullableValue(), reader.GetSqlBinary(9).NullableValue(), userId));
-                    }
-                    return new Post(reader.GetSqlString(1).Value, userMap[userId], reader.GetSqlInt32(3).Value, reader.GetSqlString(10).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList()).UnwrapOr(new List<int>()), reader.GetSqlString(4).NullableValue().MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(GeopoliticalLocationDbRep.FromJson(x)).First()), reader.GetSqlInt32(0).Value);
-                });
-            });
+                return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
+            })).Select(x => x.ToModel());
         }
     }
 }
