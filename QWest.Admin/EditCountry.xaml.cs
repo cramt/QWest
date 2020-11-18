@@ -34,10 +34,9 @@ namespace QWest.Admin {
         }
 
         private void DeleteNameClick(object sender, RoutedEventArgs e) {
-           Names.RemoveAt(AlternativeNamesListBox.Items.IndexOf(AlternativeNamesListBox.SelectedItem));
-           (DataContext as Country).Names = Names.ToList();
+            Names.RemoveAt(AlternativeNamesListBox.Items.IndexOf(AlternativeNamesListBox.SelectedItem));
+            (DataContext as Country).Names = Names.ToList();
         }
-
         private async void SubmitClick(object sender, RoutedEventArgs e) {
             (DataContext as Country).Names = Names.ToList();
             await DAO.Geography.Update((Country)DataContext);
