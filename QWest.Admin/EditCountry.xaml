@@ -12,13 +12,7 @@
         <Button Content="Submit" Click="SubmitClick" HorizontalAlignment="Left" Margin="610,376,0,0" VerticalAlignment="Top" Width="75"/>
         <TextBlock HorizontalAlignment="Left" Margin="381,163,0,0" TextWrapping="Wrap" Text="Alpha 2" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="49,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Alternative names"/>
-        <ListBox Name="AlternativeNamesListBox" ItemsSource="{Binding Names}" HorizontalAlignment="Left" Height="135" Margin="49,135,0,0" VerticalAlignment="Top" Width="264">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBox Text="{Binding Path=.}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ListBox Name="AlternativeNamesListBox" ItemsSource="{Binding Names}" HorizontalAlignment="Left" Height="135" Margin="49,135,0,0" VerticalAlignment="Top" Width="264"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="381,233,0,0" TextWrapping="Wrap" Text="{Binding Alpha3}" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Margin="381,212,0,0" TextWrapping="Wrap" Text="Alpha 3" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="381,133,0,0" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" Width="120"/>

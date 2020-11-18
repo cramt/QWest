@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Model.Geographic;
+using QWest.DataAcess;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,22 +14,26 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Model.Geographic;
-using QWest.DataAcess;
 
 namespace QWest.Admin {
     /// <summary>
-    /// Interaction logic for EditCountry.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class EditCountry : Window {
+    public partial class EditSubdivision : Window {
         public ObservableCollection<string> Names { get; set; }
-        public EditCountry(Country country) {
+        public EditSubdivision(Subdivision subdivision) {
             InitializeComponent();
-            DataContext = country;
-            Names = new ObservableCollection<string>(country.Names);
+            DataContext = subdivision;
+
+            if (subdivision.Names != null) {
+                Names = new ObservableCollection<string>(subdivision.Names);
+            }
+            else {
+                Names = new ObservableCollection<string>();
+            }
             AlternativeNamesListBox.DataContext = this;
         }
-        
+
         private void AddNewNameClick(object sender, RoutedEventArgs e) {
             Names.Add(AddNameTextbox.Text);
             (DataContext as Country).Names = Names.ToList();
