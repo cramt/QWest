@@ -21,7 +21,8 @@ namespace QWest.Admin {
     /// </summary>
     public partial class EditSubdivision : Window {
         public ObservableCollection<string> Names { get; set; }
-        public ObservableCollection<GeopoliticalLocation> Locations { get; private set; } 
+        public ObservableCollection<GeopoliticalLocation> DisplayedLocations { get; private set; }
+        private List<GeopoliticalLocation> AllLocations;
         public EditSubdivision(Subdivision subdivision) {
             InitializeComponent();
             DataContext = subdivision;
@@ -40,10 +41,11 @@ namespace QWest.Admin {
 
         private async Task PopulateAllLocationsListBox() {
             ParentLocationListBox.Items.Add("Fetching locations...");
-            Locations = new ObservableCollection<GeopoliticalLocation>(GeopoliticalLocation.Traverse(await DAO.Geography.FetchEverythingParsed()));
+            AllLocations = GeopoliticalLocation.Traverse(await DAO.Geography.FetchEverythingParsed()).ToList();
+            DisplayedLocations = new ObservableCollection<GeopoliticalLocation>(AllLocations);
             ParentLocationListBox.Items.Clear();
             Binding parentLocations = new Binding();
-            parentLocations.Source = Locations;
+            parentLocations.Source = DisplayedLocations;
             ParentLocationListBox.SetBinding(ItemsControl.ItemsSourceProperty, parentLocations);
             ParentLocationListBox.DisplayMemberPath = "Name";
         }
@@ -61,6 +63,13 @@ namespace QWest.Admin {
         private void SelectParentClick(object sender, RoutedEventArgs e) {
             (DataContext as Subdivision).Parent = (GeopoliticalLocation)ParentLocationListBox.SelectedItem;
             (DataContext as Subdivision).SuperId = (int)(DataContext as Subdivision).Parent.Id;
+        }
+
+        private void LocationSearchTextChanged(object sender, TextChangedEventArgs e) {
+            DisplayedLocations.Clear();
+            foreach (GeopoliticalLocation location in AllLocations.Where(location => location.Name.Contains((sender as TextBox).Text))) {
+                DisplayedLocations.Add(location);
+            }
         }
         private async void SubmitClick(object sender, RoutedEventArgs e) {
             (DataContext as Subdivision).Names = Names.ToList();
