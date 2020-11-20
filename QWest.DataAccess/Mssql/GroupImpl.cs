@@ -53,12 +53,12 @@ namespace QWest.DataAcess.Mssql {
 DECLARE @progress_map_id INT;
 DECLARE @group_id INT;
 INSERT INTO progress_maps DEFAULT VALUES;
-SET @progress_map_id = SELECT CAST(scope_identity() AS int);
+SET @progress_map_id = CAST(scope_identity() AS int);
 INSERT INTO groups
 (name, creation_time, description, progress_maps_id)
 VALUES
 (@name, @creation_time, @description, @progress_map_id);
-SET @group_id = SELECT CAST(scope_identity() AS int);
+SET @group_id = CAST(scope_identity() AS int);
 INSERT INTO users_groups
 (users_id, groups_id)
 VALUES
@@ -79,14 +79,14 @@ SELECT @group_id;
             return group;
         }
 
-        public Task<IEnumerable<Group>> FetchUsers(User user) {
+        public Task<IEnumerable<Group>> FetchUsersGroups(User user) {
             return FetchUsersGroups((int)user.Id);
         }
 
         public async Task<IEnumerable<Group>> FetchUsersGroups(int userId) {
             string query = @"
 SELECT
-id, name, creation_time, description, 
+id, name, creation_time, description, progress_maps_id, 
 (
 	SELECT 
 	id, username, password_hash, email, session_cookie, progress_maps_id, description, profile_picture 
