@@ -26,7 +26,12 @@ namespace QWest.DataAcess.Mssql {
                 Description = reader.GetSqlString(i++).Value;
                 ProgressMapId = reader.GetSqlInt32(i++).Value;
                 Members = UserDbRep.FromJson(reader.GetSqlString(i++).Value);
-                Locations = reader.GetSqlString(i++).Value.Split(',').Select(int.Parse).ToList();
+                try {
+                    Locations = reader.GetSqlString(i++).NullableValue().UnwrapOr("").Split(',').Select(int.Parse).ToList();
+                }
+                catch (FormatException) {
+                    Locations = new List<int>();
+                }
             }
             public Group ToModel() {
                 return new Group {
@@ -98,7 +103,7 @@ id, name, creation_time, description, progress_maps_id,
 	users.id = users_groups.users_id 
 	WHERE users_groups.groups_id = groups.id FOR JSON PATH
 ) AS members,
-IsNull((
+(
 	SELECT 
 	STRING_AGG(location, ',') 
 	FROM 
@@ -108,7 +113,7 @@ IsNull((
 	ON 
 	progress_maps.id = progress_maps_locations.progress_maps_id 
 	WHERE progress_maps.id = groups.progress_maps_id
-), '') AS locations
+) AS locations
 FROM groups
 INNER JOIN
 users_groups
@@ -124,7 +129,7 @@ WHERE users_groups.users_id = @user_id
 
         public async Task UpdateMembers(int groupId, List<int> additions, List<int> subtractions) {
             string deleteQuery = "";
-            if(subtractions.Count != 0) {
+            if (subtractions.Count != 0) {
                 deleteQuery = $@"
 DELETE FROM 
 users_groups
@@ -137,7 +142,7 @@ groups_id = @group_id
 ";
             }
             string addQuery = "";
-            if(additions.Count != 0) {
+            if (additions.Count != 0) {
                 addQuery = $@"
 INSERT INTO 
 users_groups
@@ -148,13 +153,13 @@ VALUES
 "))}
 ";
                 string seperator = "";
-                if(addQuery != "" && deleteQuery != "") {
+                if (addQuery != "" && deleteQuery != "") {
                     seperator = ";";
                 }
                 string query = addQuery + seperator + deleteQuery;
                 await _conn.Use(query, async stmt => {
                     int i = 0;
-                    foreach(int add in additions) {
+                    foreach (int add in additions) {
                         stmt.Parameters.AddWithValue("@add_user_id" + i++, add);
                     }
                     i = 0;
