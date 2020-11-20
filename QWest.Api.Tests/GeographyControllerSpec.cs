@@ -61,6 +61,14 @@ namespace QWest.Api.Tests {
             public Task Update(GeopoliticalLocation location) {
                 throw new NotImplementedException();
             }
+
+            public Task AddCountry(Country country) {
+                throw new NotImplementedException();
+            }
+
+            public Task AddSubdivision(Subdivision subdivision) {
+                throw new NotImplementedException();
+            }
         }
         [Test]
         public async Task NullReturnsValidImage() {

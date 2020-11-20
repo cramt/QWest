@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Utilities;
 using static QWest.DataAcess.DAO;
@@ -45,9 +46,8 @@ namespace QWest.DataAcess.Mssql {
             }
 
             public static IEnumerable<UserDbRep> FromJson(string json) {
-                Console.WriteLine(json);
                 return JsonConvert.DeserializeObject<List<UserDbRep>>(json).Select(x => {
-                    x.PasswordHash = Convert.FromBase64String(x.PasswordHashBase64String);
+                    //x.PasswordHash = x.PasswordHashBase64String.Base64();
                     return x;
                 }).ToList();
             }

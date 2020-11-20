@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities;
 
 namespace QWest.DataAccess.Tests {
     [TestFixture]
@@ -28,7 +29,7 @@ namespace QWest.DataAccess.Tests {
             await DAO.User.Add(user);
             Group group = await DAO.Group.Create(new Group("lucca's friends", DateTime.Now, "we're lucca's friends", null, new User[] { user }));
             IEnumerable<Group> groups = await DAO.Group.FetchUsersGroups(user);
-            Assert.Contains(groups, groups.ToList());
+            Assert.AreEqual(group.Id, groups.ElementAt(0).Id);
         }
         [SetUp]
         public void Setup() {

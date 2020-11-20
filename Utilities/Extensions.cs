@@ -35,5 +35,13 @@ namespace Utilities {
             }
             return func(self);
         }
+
+        public static byte[] Base64(this string s) {
+            return Convert.FromBase64String(s);
+        }
+
+        public static string Base64(this byte[] b) {
+            return Convert.ToBase64String(b);
+        }
     }
 }
