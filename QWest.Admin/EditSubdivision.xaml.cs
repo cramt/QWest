@@ -21,6 +21,7 @@ namespace QWest.Admin {
     /// </summary>
     public partial class EditSubdivision : Window {
         public ObservableCollection<string> Names { get; set; }
+        public ObservableCollection<GeopoliticalLocation> Locations { get; } 
         public EditSubdivision(Subdivision subdivision) {
             InitializeComponent();
             DataContext = subdivision;
@@ -32,6 +33,8 @@ namespace QWest.Admin {
                 Names = new ObservableCollection<string>();
             }
             AlternativeNamesListBox.DataContext = this;
+            ParentLocationListBox.DataContext = this;
+            ParentLocationTextBlock.DataContext = subdivision;
         }
 
         private void AddNewNameClick(object sender, RoutedEventArgs e) {
@@ -42,6 +45,10 @@ namespace QWest.Admin {
         private void DeleteNameClick(object sender, RoutedEventArgs e) {
             Names.RemoveAt(AlternativeNamesListBox.Items.IndexOf(AlternativeNamesListBox.SelectedItem));
             (DataContext as Country).Names = Names.ToList();
+        }
+
+        private void SelectParentClick(object sender, RoutedEventArgs e) {
+
         }
         private async void SubmitClick(object sender, RoutedEventArgs e) {
             (DataContext as Country).Names = Names.ToList();
