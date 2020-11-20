@@ -14,22 +14,23 @@ namespace QWest.DataAcess.Mssql {
         [Serializable]
         internal class UserDbRep : IDbRep<User> {
             [JsonProperty("id")]
-            public int Id { get; }
+            public int Id { get; set; }
             [JsonProperty("username")]
-            public string Username { get; }
+            public string Username { get; set; }
             [JsonProperty("password_hash")]
-            public string PasswordHashBase64String { get; }
+            public string PasswordHashBase64String { get; set; }
+            [JsonIgnore]
             public byte[] PasswordHash { get; private set; }
             [JsonProperty("email")]
-            public string Email { get; }
+            public string Email { get; set; }
             [JsonProperty("session_cookie")]
-            public string SessionCookie { get; }
+            public string SessionCookie { get; set; }
             [JsonProperty("progress_maps_id")]
-            public int ProgressMapId { get; }
+            public int ProgressMapId { get; set; }
             [JsonProperty("description")]
-            public string Description { get; }
+            public string Description { get; set; }
             [JsonProperty("profile_picture")]
-            public int? ProfilePicture { get; }
+            public int? ProfilePicture { get; set; }
 
             public User ToModel() {
                 return new User {
@@ -44,7 +45,8 @@ namespace QWest.DataAcess.Mssql {
             }
 
             public static IEnumerable<UserDbRep> FromJson(string json) {
-                return JsonConvert.DeserializeObject<IEnumerable<UserDbRep>>(json).Select(x => {
+                Console.WriteLine(json);
+                return JsonConvert.DeserializeObject<List<UserDbRep>>(json).Select(x => {
                     x.PasswordHash = Convert.FromBase64String(x.PasswordHashBase64String);
                     return x;
                 }).ToList();

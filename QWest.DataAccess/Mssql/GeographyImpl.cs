@@ -418,6 +418,9 @@ super_id IS NULL
         public async Task<IEnumerable<Subdivision>> GetSubdivisions(GeopoliticalLocation location) {
             var results = (await GetSubdivisions((int)location.Id)).ToList();
             location.Subdivisions = results;
+            foreach(Subdivision result in results) {
+                result.Parent = location;
+            }
             return results;
         }
         public async Task<IEnumerable<Subdivision>> GetSubdivisions(int superId) {

@@ -14,7 +14,7 @@ namespace QWest.DataAcess {
             Task Update(Group group);
             Task Update(int id, string name, string description);
             Task UpdateMembers(int groupId, List<int> additions, List<int> subtractions);
-            Task<IEnumerable<Group>> FetchUsers(User user);
+            Task<IEnumerable<Group>> FetchUsersGroups(User user);
             Task<IEnumerable<Group>> FetchUsersGroups(int userId);
             Task<bool> IsMember(int groupId, int userId);
             Task<bool> IsMember(int groupId, User user);
