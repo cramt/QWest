@@ -22,7 +22,7 @@
         <Button Content="Cancel" Click="CancelClick" HorizontalAlignment="Left" Margin="519,372,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Submit" Click="SubmitClick" HorizontalAlignment="Left" Margin="650,372,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Select" Click="SelectParentClick" HorizontalAlignment="Left" Margin="650,314,0,0" VerticalAlignment="Top" Width="75"/>
-        <TextBlock Name="ParentLocationTextBlock" HorizontalAlignment="Right" Margin="0,84,67,0" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" Width="118"/>
+        <TextBlock Name="ParentLocationTextBlock" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,84,67,0" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" Width="118"/>
 
     </Grid>
 </Window>
