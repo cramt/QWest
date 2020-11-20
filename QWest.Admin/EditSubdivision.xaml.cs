@@ -21,7 +21,7 @@ namespace QWest.Admin {
     /// </summary>
     public partial class EditSubdivision : Window {
         public ObservableCollection<string> Names { get; set; }
-        public ObservableCollection<GeopoliticalLocation> Locations { get; } 
+        public ObservableCollection<GeopoliticalLocation> Locations { get; private set; } 
         public EditSubdivision(Subdivision subdivision) {
             InitializeComponent();
             DataContext = subdivision;
@@ -34,7 +34,18 @@ namespace QWest.Admin {
             }
             AlternativeNamesListBox.DataContext = this;
             ParentLocationListBox.DataContext = this;
-            ParentLocationTextBlock.DataContext = subdivision;
+            ParentLocationTextBlock.DataContext = subdivision.Parent;
+            new Action( async () => await PopulateAllLocationsListBox())();
+        }
+
+        private async Task PopulateAllLocationsListBox() {
+            ParentLocationListBox.Items.Add("Fetching locations...");
+            Locations = new ObservableCollection<GeopoliticalLocation>(GeopoliticalLocation.Traverse(await DAO.Geography.FetchEverythingParsed()));
+            ParentLocationListBox.Items.Clear();
+            Binding parentLocations = new Binding();
+            parentLocations.Source = Locations;
+            ParentLocationListBox.SetBinding(ItemsControl.ItemsSourceProperty, parentLocations);
+            ParentLocationListBox.DisplayMemberPath = "Name";
         }
 
         private void AddNewNameClick(object sender, RoutedEventArgs e) {
@@ -48,11 +59,12 @@ namespace QWest.Admin {
         }
 
         private void SelectParentClick(object sender, RoutedEventArgs e) {
-
+            (DataContext as Subdivision).Parent = (GeopoliticalLocation)ParentLocationListBox.SelectedItem;
+            (DataContext as Subdivision).SuperId = (int)(DataContext as Subdivision).Parent.Id;
         }
         private async void SubmitClick(object sender, RoutedEventArgs e) {
-            (DataContext as Country).Names = Names.ToList();
-            await DAO.Geography.Update((Country)DataContext);
+            (DataContext as Subdivision).Names = Names.ToList();
+            await DAO.Geography.Update((Subdivision)DataContext);
             Close();
         }
 

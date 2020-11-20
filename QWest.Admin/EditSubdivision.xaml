@@ -17,7 +17,7 @@
         <TextBox HorizontalAlignment="Left" Height="23" Margin="345,105,0,0" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Margin="345,84,0,0" TextWrapping="Wrap" Text="Primary name" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="520,84,0,0" TextWrapping="Wrap" Text="Parent location:" VerticalAlignment="Top"/>
-        <ListBox HorizontalAlignment="Left" Name="ParentLocationListBox" ItemsSource="{Binding Locations}" Height="173" Margin="520,136,0,0" VerticalAlignment="Top" Width="205"/>
+        <ListBox HorizontalAlignment="Left" Name="ParentLocationListBox" Height="173" Margin="520,136,0,0" VerticalAlignment="Top" Width="205"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="520,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205"/>
         <Button Content="Cancel" Click="CancelClick" HorizontalAlignment="Left" Margin="519,372,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Submit" Click="SubmitClick" HorizontalAlignment="Left" Margin="650,372,0,0" VerticalAlignment="Top" Width="75"/>
