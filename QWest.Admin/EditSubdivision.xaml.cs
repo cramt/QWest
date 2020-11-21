@@ -33,9 +33,6 @@ namespace QWest.Admin {
             else {
                 Names = new ObservableCollection<string>();
             }
-            AlternativeNamesListBox.DataContext = this;
-            ParentLocationListBox.DataContext = this;
-            ParentLocationTextBlock.DataContext = subdivision.Parent;
             new Action( async () => await PopulateAllLocationsListBox())();
         }
 
@@ -62,6 +59,7 @@ namespace QWest.Admin {
 
         private void SelectParentClick(object sender, RoutedEventArgs e) {
             (DataContext as Subdivision).Parent = (GeopoliticalLocation)ParentLocationListBox.SelectedItem;
+            
             (DataContext as Subdivision).SuperId = (int)(DataContext as Subdivision).Parent.Id;
         }
 
