@@ -49,12 +49,12 @@ namespace QWest.Admin {
 
         private void AddNewNameClick(object sender, RoutedEventArgs e) {
             Names.Add(AddNameTextbox.Text);
-            (DataContext as Country).Names = Names.ToList();
+            (DataContext as Subdivision).Names = Names.ToList();
         }
 
         private void DeleteNameClick(object sender, RoutedEventArgs e) {
             Names.RemoveAt(AlternativeNamesListBox.Items.IndexOf(AlternativeNamesListBox.SelectedItem));
-            (DataContext as Country).Names = Names.ToList();
+            (DataContext as Subdivision).Names = Names.ToList();
         }
 
         private void SelectParentClick(object sender, RoutedEventArgs e) {
