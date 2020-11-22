@@ -63,6 +63,7 @@ namespace QWest.DataAccess.Tests {
         }
 
         [SetUp]
+        [OneTimeTearDown]
         public void Setup() {
             ConnectionWrapper.Instance.Use("DELETE FROM images; DELETE FROM users_friendships; DELETE FROM users_friendship_requests; DELETE FROM users; DELETE FROM posts", stmt => stmt.ExecuteNonQueryAsync()).Wait();
         }

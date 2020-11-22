@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QWest.DataAccess.Tests {
     [TestFixture]
-    class DaoGeographySpec {
+    class DaoGeographySpec : DaoGeographySetupAndTearDown {
         [Test]
         public async Task BackUpsCorrectly() {
             await ConnectionWrapper.Instance.Use("DELETE FROM geopolitical_location", stmt => stmt.ExecuteNonQueryAsync());
@@ -17,35 +17,144 @@ namespace QWest.DataAccess.Tests {
             int amount = (await DAO.Geography.FetchEverythingParsed()).Count();
             Assert.AreEqual(countries.Count, amount);
         }
-        [Test]
-        public async Task FetchesAlbaniaCorrectly() {
-            Country albania = await DAO.Geography.GetCountryByAlpha2("AL");
-            Assert.AreEqual("Albania", albania.Name);
-            Assert.AreEqual(12, albania.Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[0].Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[1].Subdivisions.Count);
-            Assert.AreEqual(2, albania.Subdivisions[2].Subdivisions.Count);
-            Assert.AreEqual(4, albania.Subdivisions[3].Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[4].Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[5].Subdivisions.Count);
-            Assert.AreEqual(4, albania.Subdivisions[6].Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[7].Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[8].Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[9].Subdivisions.Count);
-            Assert.AreEqual(2, albania.Subdivisions[10].Subdivisions.Count);
-            Assert.AreEqual(3, albania.Subdivisions[11].Subdivisions.Count);
-        }
-        [Test]
-        public async Task FetchesNordjyllandFromAlpha2s() {
-            GeopoliticalLocation nordjylland = await DAO.Geography.GetAnyByAlpha2s("DK-81");
-            Assert.AreEqual("Nordjylland", nordjylland.Name);
-        }
-        [Test]
-        public async Task FetchesBeratFromAlpha2s() {
-            GeopoliticalLocation berat = await DAO.Geography.GetAnyByAlpha2s("AL-01");
-            Assert.AreEqual("Berat", berat.Name);
-            Assert.AreEqual(3, berat.Subdivisions.Count);
+        
+        [TestFixture]
+        public class AddsToTheDatabase : DaoGeographySetupAndTearDown {
+            [Test]
+            public async Task CountryWithNoSubdivisions() {
+                Country country = new Country {
+                    Alpha2 = "NO",
+                    Name = "Norway",
+                    Alpha3 = "NOR"
+                };
+                await DAO.Geography.AddCountry(country);
+                Assert.IsNotNull(country.Id);
+            }
+
+
+            [Test]
+            public async Task SubdivisionToExistingCountry() {
+                Country country = new Country {
+                    Alpha2 = "NO",
+                    Name = "Norway",
+                    Alpha3 = "NOR"
+                };
+                await DAO.Geography.AddCountry(country);
+
+                Subdivision subdivision = new Subdivision {
+                    SuperId = (int)country.Id,
+                    Alpha2 = "01",
+                    Name = "Vestfold",
+                };
+                await DAO.Geography.AddSubdivision(subdivision);
+                Assert.IsNotNull(subdivision.Id);                
+            }
         }
 
+        [TestFixture]
+        public class FetchesFromTheDatabase : DaoGeographySetupAndTearDown {
+            [Test]
+            public async Task AllCountries() {
+                Country country1 = new Country {
+                    Alpha2 = "NO",
+                    Name = "Norway",
+                    Alpha3 = "NOR"
+                };
+                Country country2 = new Country {
+                    Alpha2 = "DK",
+                    Name = "Denmark",
+                    Alpha3 = "DEN"
+                };
+
+                await DAO.Geography.AddCountry(country1);
+                await DAO.Geography.AddCountry(country2);
+                List<Country> countries = (List<Country>)await DAO.Geography.GetCountries();
+                Assert.AreEqual(2, countries.Count);
+            }
+            
+            [Test]
+            public async Task CountryByAlpha2() {
+                Country country = new Country {
+                    Alpha2 = "NO",
+                    Name = "Norway",
+                    Alpha3 = "NOR"
+                };
+                await DAO.Geography.AddCountry(country);
+                Country fetchedCountry = await DAO.Geography.GetCountryByAlpha2(country.Alpha2);
+                Assert.AreEqual(country.Id, fetchedCountry.Id);
+            }
+
+            public async Task SubdivisionByParentLocation() {
+                Country country = new Country {
+                    Alpha2 = "NO",
+                    Name = "Norway",
+                    Alpha3 = "NOR"
+                };
+                await DAO.Geography.AddCountry(country);
+
+                Subdivision subdivision = new Subdivision {
+                    SuperId = (int)country.Id,
+                    Alpha2 = "01",
+                    Name = "Vestfold",
+                };
+                await DAO.Geography.AddSubdivision(subdivision);
+
+                Subdivision fetchedSubdivision = (await DAO.Geography.GetSubdivisions((int)country.Id) as List<Subdivision>)[0];
+                Assert.AreEqual(subdivision.Id, fetchedSubdivision.Id);
+            }
+        }
+
+        [Test]
+        public async Task UpdatesLocationInDatabase() {
+            Country country = new Country {
+                Alpha2 = "NO",
+                Name = "Norway",
+                Alpha3 = "NOR"
+            };
+            await DAO.Geography.AddCountry(country);
+
+            country.Name = "Norway Denmark";
+            await DAO.Geography.Update(country);
+
+            Country fetchedCountry = await DAO.Geography.GetCountryByAlpha2("NO");
+            Assert.AreEqual(country.Name, fetchedCountry.Name);
+        }
+
+        [TestFixture]
+        public class DeletesFromTheDatabase : DaoGeographySetupAndTearDown {
+            [Test]
+            public async Task CountryWithNoSubdivisions() {
+                Assert.Ignore();
+            }
+            
+            [Test]
+            public async Task SubdivisionWithNoSubdivision() {
+                Assert.Ignore();
+            }
+
+            [Test]
+            public async Task CountryWithSubdivisions() {
+                Assert.Ignore();
+            }
+
+            [Test]
+            public async Task SubdivisionWithSubdivisions() {
+                Assert.Ignore();
+            }
+        }
+    }
+
+    class DaoGeographySetupAndTearDown {
+        [SetUp]
+        public void SetUp() {
+            ConnectionWrapper.Instance.Use("DELETE FROM geopolitical_location", stmt => stmt.ExecuteNonQueryAsync()).Wait();
+        }
+
+        [OneTimeTearDown]
+        public void TearDown() {
+            ConnectionWrapper.Instance.Use("DELETE FROM geopolitical_location", stmt => stmt.ExecuteNonQueryAsync()).Wait();
+            List<Country> countries = GeopoliticalLocation.Parse(File.ReadAllText(Utilities.Utilities.SolutionLocation + "\\QWest.DataAccess\\res\\geopolitical_location_backup.json"));
+            DAO.Geography.InsertBackup(countries).Wait();
+        }
     }
 }

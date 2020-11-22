@@ -59,7 +59,6 @@ namespace QWest.Admin {
 
         private void SelectParentClick(object sender, RoutedEventArgs e) {
             (DataContext as Subdivision).Parent = (GeopoliticalLocation)ParentLocationListBox.SelectedItem;
-            
             (DataContext as Subdivision).SuperId = (int)(DataContext as Subdivision).Parent.Id;
         }
 
