@@ -34,8 +34,11 @@ async function fetchData() {
 
 const getVisitationPercentage = (subdividable) => {
     let subdivisions = Object.entries(subdividable.subdivisions).filter(x => typeof x[0] === "string").map(x => x[1]);
+    if (subdividable.visited) {
+        return 1;
+    }
     if (subdivisions.length == 0) {
-        return subdividable.visited ? 1 : 0
+        return 0;
     }
     return subdivisions.map(getVisitationPercentage).reduce((a, b) => a + b, 0) / subdivisions.length
 }
@@ -81,25 +84,53 @@ $(async () => {
         customMenu.empty()
         const edit = $("<li>Edit " + staticDataMap[alpha2].name + "</li>")
         customMenu.append(edit)
+        const chechEntry = $("<li></li>")
+        const chech = $("<input type=\"checkbox\"/>")
+        const country = staticDataMap[alpha2]
+        const originalPossition = country.visited
+        if (originalPossition) {
+            chech.prop("checked", true)
+        }
+        chech.on("click", async () => {
+            let additions = []
+            let subtractions = []
+            let value = !originalPossition
+            if (value) {
+                additions.push(country.id)
+            }
+            else {
+                subtractions.push(country.id)
+            }
+            let request = await fetch("/api/ProgressMap/Change", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: userData.progressMap.id,
+                    additions,
+                    subtractions
+                })
+            });
+            if (request.status === 200) {
+                window.location.reload()
+                return
+            }
+            console.log(await request.text())
+            alert("error " + request.status)
+        })
+        chechEntry.append(chech)
+        customMenu.append(chechEntry)
         edit.on("click", () => {
             window.location.href = "/edit_map.html?alpha_2=" + alpha2
         })
-        /*
-        customMenu.finish().toggle(100).css({
-            top: e.pageY + "px",
-            left: e.pageX + "px"
-        }) 
-        */
         customMenu.finish().fadeIn(500).css({
             top: e.pageY + "px",
             left: e.pageX + "px"
         })
-        
+
     })
-    
-    document.addEventListener('contextmenu', function() {
-        console.log('bruh');
-    });
 
     logoutButton.on("click", async () => {
         await cookieStore.delete("sessionCookie")

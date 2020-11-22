@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using Utilities;
 
 namespace Model {
+    [Serializable]
     public class Post {
         public int? Id { get; set; }
         public string Contents { get; set; }
