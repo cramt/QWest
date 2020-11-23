@@ -36,6 +36,7 @@ body {
 
 #post-contents {
     width: 400px;
+    height: 30%;
 }
 
 #upload-file {
@@ -52,12 +53,8 @@ body {
     border-radius: 5px;
 }
 
-#friends-button,
-#groups-button {
-    width: 196px;
-}
-
 #image, 
+#groups-button
 #update-user-button, 
 #change-password-button,
 #description-field {

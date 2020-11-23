@@ -22,57 +22,78 @@ body {
     size: 50%;
 }
 
+#friend-list,
+#friend-request-list {
+    list-style-type: none;
+    line-height: 200%;
+}
+
 #viewmap,
-#user-settings,
+#profile,
 #logout-button,
 #username-field {
     font-size: larger;
     /*margin-top: auto;*/
 }
 
-#post-button {
-    font-size: larger;
+.split {
+    border-color: black;
+    border-width: 5px;
+    height: 80%;
+    width: 47%;
+    position: fixed;
+    z-index: 1;
+    top: 100px;
+    overflow-x: hidden;
+    padding-top: 0px;
+    overflow-y: auto;
+    border: 4px black;
+    border-style: groove;
+    border-radius: 15px;
 }
 
-#post-contents {
-    width: 400px;
+.left {
+    left: 1em;
+    right: 1em;
 }
 
-#upload-file {
-    padding-left: 30%;
-    padding-right: 30%;
+.right {
+    right: 1000px;
+    left: 51%;
 }
-
+  
+#single-user {
+    align-self: center;
+    border: 3px black;
+    border-style: ridge;
+    border-radius: 10px;
+    padding-bottom: 4px;
+    width: 90%;
+}
 .cover-container {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
-.ui-autocomplete-input {
-    width: 400px;
-    border-radius: 5px;
-}
-
-#friends-button,
-#groups-button {
-    width: 196px;
-}
-
-#image, 
+#friends-button, 
 #update-user-button, 
 #change-password-button,
 #description-field {
     width: 400px;
 }
 
-#post-images {
-    text-align: left;
+#username-span {
+    font-size: larger;
 }
 
+#image {
+    width: 150px;
+}
 .btn-secondary {
     color: #333333;
     background-color: #ffffff;
     max-width: 400px;
 }
+
 .btn-secondary:active,
 .btn-secondary:focus,
 .btn-secondary:hover {
@@ -94,9 +115,7 @@ body {
     color: #0056b3;
 }
 
-.mastfoot, .inner,
-label,
-#post-images {
+.mastfoot, .inner {
     color: #0056b3;
 }
 
