@@ -28,6 +28,37 @@ body {
     line-height: 200%;
 }
 
+#group-menu-modal {
+    float: left;
+    color: #0056b3 !important;
+}
+
+#create-button {
+    float: right;
+    margin-right: 5px;
+    margin-top: 2px;
+}
+
+#groups-label {
+    display: inline-block;
+    margin-left: 20%;
+}
+
+#dropdown-friends {
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    text-align: center;
+}
+
+.modal {
+    color: #0056b3 !important;
+}
+
+.mul-select {
+    width: 100%;
+}
+
 #viewmap,
 #profile,
 #logout-button,
@@ -115,7 +146,8 @@ body {
     color: #0056b3;
 }
 
-.mastfoot, .inner {
+.mastfoot, 
+.inner {
     color: #0056b3;
 }
 

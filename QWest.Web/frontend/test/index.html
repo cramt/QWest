@@ -1,54 +1,54 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <title>Cover Template for Bootstrap</title>
-    <!-- <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/"> -->
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Multiple Select</title>
+        <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">-->
+        <link rel="stylesheet" href="select2-develop/dist/css/select2.min.css">
+        <script src="jquery/jquery-3.5.1.js"></script>
+        <script src="select2-develop/dist/js/select2.min.js"></script>
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <script src="bootstrap/js/bootstrap.min.js"></script>
     
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="test.css">
-  </head>
-
-  <body class="text-center">
-
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <h3 class="masthead-brand">Cover</h3>
-          <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="#">Home</a>
-            <a class="nav-link" href="#">Features</a>
-            <a class="nav-link" href="#">Contact</a>
-          </nav>
-        </div>
-      </header>
-
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading">Cover your page.</h1>
-        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-        <p class="lead">
-          <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
-        </p>
-      </main>
-
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-        </div>
-      </footer>
-    </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    </head>
+    <body>
     
-  </body>
-</html>
+        <style>
+            .mul-select{
+                width: 100%;
+            }
+        </style>
+        <div class="container-fluid h-100 bg-light text-dark">
+            <div class="row justify-content-center align-items-center">
+                <h1>Choose friend</h1>    
+            </div>
+            <br>
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <select class="mul-select" multiple="true">
+                            <option value="Cambodia">m0rxx</option>
+                            <option value="Khmer">Alex</option>
+                            <option value="Thiland">Lucca</option>
+                            <option value="Koren">Benyad</option>
+                        </select>
+                    </div> 
+               </div>
+            </div>
+        </div>
+         
+        <script>
+            $(document).ready(function(){
+                $(".mul-select").select2({
+                        placeholder: "Select friends", //placeholder
+                        tags: true,
+                        tokenSeparators: ['/',',',';'," "] 
+                    });
+                })
+        </script>
+    </body>
+    </html>
+    

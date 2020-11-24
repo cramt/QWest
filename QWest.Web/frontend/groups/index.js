@@ -33,6 +33,14 @@ const renderGroups = async (user) => {
     })
 }
 
+// Material Select Initialization
+$(async () => {
+    $('.mdb-select').select2({
+        tags: true,
+        tokenSeperators: ['/',',',','," "]
+    });
+});
+
 /* TODO: Implement Group requests */
 /*
 const renderFriendRequests = async (user) => {
