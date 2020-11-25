@@ -1,20 +1,20 @@
-html,
-body {
-  height: 100%;
-  background-color: #333;
+html, body {
+    height: 100%;
+    background-color: #333;
 }
 
 body {
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: flex;
-  -ms-flex-pack: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  color: #fff;
-  text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
-  box-shadow: inset 0 0 1rem .1rem rgba(0, 0, 0, .5);;
-  background-color: #E5FFEE;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-pack: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color: #fff;
+    text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+    box-shadow: inset 0 0 1rem .1rem rgba(0, 0, 0, .5);
+    ;
+    background-color: #E5FFEE;
 }
 
 #qwest-logo {
@@ -22,8 +22,7 @@ body {
     size: 50%;
 }
 
-#friend-list,
-#friend-request-list {
+#friend-list, #friend-request-list {
     list-style-type: none;
     line-height: 200%;
 }
@@ -41,6 +40,10 @@ body {
     margin-bottom: 0;
 }
 
+.mul-select {
+    width: 100%;
+}
+
 .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
     position: relative;
     width: 100%;
@@ -49,7 +52,6 @@ body {
 .select2-selection {
     width: 466px;
     height: 40px;
-
 }
 
 .select2-container--default {
@@ -58,7 +60,6 @@ body {
 }
 
 #group-menu-modal {
-    
     color: #0056b3 !important;
 }
 
@@ -86,10 +87,7 @@ body {
     width: 100%;
 }
 
-#viewmap,
-#profile,
-#logout-button,
-#username-field {
+#viewmap, #profile, #logout-button, #username-field {
     font-size: larger;
     /*margin-top: auto;*/
 }
@@ -119,7 +117,7 @@ body {
     right: 1000px;
     left: 51%;
 }
-  
+
 #single-user {
     align-self: center;
     border: 3px black;
@@ -128,14 +126,12 @@ body {
     padding-bottom: 4px;
     width: 90%;
 }
+
 .cover-container {
     overflow-y: auto;
 }
 
-#friends-button, 
-#update-user-button, 
-#change-password-button,
-#description-field {
+#friends-button, #update-user-button, #change-password-button, #description-field {
     width: 400px;
 }
 
@@ -146,15 +142,14 @@ body {
 #image {
     width: 150px;
 }
+
 .btn-secondary {
     color: #333333;
     background-color: #ffffff;
     max-width: 400px;
 }
 
-.btn-secondary:active,
-.btn-secondary:focus,
-.btn-secondary:hover {
+.btn-secondary:active, .btn-secondary:focus, .btn-secondary:hover {
     color: black;
     background-color: azure;
 }
@@ -173,8 +168,7 @@ body {
     color: #0056b3;
 }
 
-.mastfoot, 
-.inner {
+.mastfoot, .inner {
     color: #0056b3;
 }
 
@@ -220,15 +214,14 @@ header {
 
 .text-center {
     text-align: center;
-
 }
 
 @media (min-width: 48em) {
     .masthead-brand {
-      float: left;
+        float: left;
     }
     .nav-masthead {
-      float: right;
+        float: right;
     }
     .d-flex {
         flex: 100%;
@@ -247,6 +240,7 @@ header {
 .cover {
     padding: 0 1.5rem;
 }
+
 .cover .btn-lg {
     padding: .75rem 1.25rem;
     font-weight: 700;

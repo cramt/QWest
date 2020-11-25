@@ -1,8 +1,8 @@
 import $ from "jquery";
 import "cookie-store"
-import { fetchMeAndUser } from "../whoami"
+import { fetchUser } from "../whoami"
 
-const userPromise = fetchMeAndUser();
+const userPromise = fetchUser();
 
 const renderGroups = async (user) => {
     let response = await fetch("api/Group/FetchUsersGroups?id=" + user.id, {
@@ -32,6 +32,30 @@ const renderGroups = async (user) => {
         friendList.append(entry)
     })
 }
+
+$(async () => {
+    const user = await userPromise
+    const response = await fetch("/api/Friendship/GetFriends", {
+        method: "GET",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    if (response.status !== 200) {
+        console.log(await response.text())
+        alert("error " + response.status)
+    }
+    const friends = JSON.parse(await response.text())
+
+    const friendsSelect = $("#friends-select")
+    console.log(friends)
+    friends.forEach(friend => {
+        const option = $(`<option value="${friend.id}"></option>`)
+        option.text(friend.username)
+        friendsSelect.append(option)
+    })
+})
 
 /* TODO: Implement Group requests */
 /*

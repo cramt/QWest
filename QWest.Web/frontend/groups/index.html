@@ -16,13 +16,6 @@
     
     </head>
     <body class="text-center">
-    
-        <style>
-            .mul-select{
-                width: 100%;
-            }
-        </style>
-        <!-- Epic top bar -->
         <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
             <header class="masthead mb-auto">
                 <div class="inner">
@@ -74,7 +67,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Group name:</label>
                                 <input type="text" class="form-control" id="recipient-name">
@@ -89,20 +81,13 @@
                                     <div id="dropdown-friends" class="row h-100">
                                         <div id="friend-form" class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
                                             <div class="form-group">
-                                                <select class="mul-select" multiple="true">
-                                                    <!-- Options are currently hardcoded. 
-                                                    Should be generated based on your friends -->
-                                                    <option value="1">Søren</option>
-                                                    <option value="2">Benyad</option>
-                                                    <option value="3">Lucca</option>
-                                                    <option value="4">Alex</option>
+                                                <select class="mul-select" id="friends-select" multiple="true">
                                                 </select>
                                             </div> 
                                     </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -111,15 +96,5 @@
                 </div>
             </div>
         </div>
-        <!-- I know this is illegal, but it doesn't work if I place it in the index.js file...-->
-        <script>
-            $(document).ready(function(){
-                $(".mul-select").select2({
-                        placeholder: "select friends", //placeholder
-                        tags: true,
-                        tokenSeparators: ['/',',',';'," "] 
-                });
-            })
-        </script>
     </body>
 </html>
