@@ -1,123 +1,125 @@
 <!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-    <link rel="stylesheet" href="fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="groups.css">
-    <link rel="stylesheet" href="select2-develop/dist/css/select2.min.css">
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Groups</title>
+        <link rel="stylesheet" href="select2/css/select2.min.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
+        <!--<link rel="stylesheet" href="test.css">-->
+        <link rel="stylesheet" href="groups.css">
+        <script src="jquery/jquery-3.5.1.js"></script>
+        <script src="select2/js/select2.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="bootstrap/js/bootstrap.bundle.js"></script>
     
-    <script src="jquery/jquery-3.5.1.js"></script>
-    <script src="select2-develop/dist/js/select2.min.js"></script>
-    <script src="bootstrap/js/bootstrap.bundle.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Groups</title>
-</head>
-
-<body class="text-center">
-    <!-- Epic top bar -->
-    <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
-        <header class="masthead mb-auto">
-            <div class="inner">
-                <img id="qwest-logo" src="QWestLogo_small.png">
-                <h2 class="masthead-brand">QWest - Groups</h2>
-                <nav class="nav nav-masthead justify-content-center">
-                    <a id="viewmap" class="nav-link active" href="/map.html">View map</a>
-                    <a id="profile" class="nav-link" href="/profile.html">Profile</a>
-                    <a id="logout-button" class="nav-link" href="#">Log out</a>
-                </nav>
-            </div>
-        </header>
-        <main class="inner cover" role="main">
-            <div class="split left">
-                <div id="group-container">
-                    <h2 id="groups-label">Groups</h2>
-                    <!-- Button trigger modal -->
-                    <a id="create-button" class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#group-menu-modal">+ New Group</a>
-                    <ul id="group-list">
-        
-                    </ul>
+    </head>
+    <body class="text-center">
+    
+        <style>
+            .mul-select{
+                width: 100%;
+            }
+        </style>
+        <!-- Epic top bar -->
+        <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
+            <header class="masthead mb-auto">
+                <div class="inner">
+                    <img id="qwest-logo" src="QWestLogo_small.png">
+                    <h2 class="masthead-brand">QWest - Groups</h2>
+                    <nav class="nav nav-masthead justify-content-center">
+                        <a id="viewmap" class="nav-link active" href="/map.html">View map</a>
+                        <a id="profile" class="nav-link" href="/profile.html">Profile</a>
+                        <a id="logout-button" class="nav-link" href="#">Log out</a>
+                    </nav>
                 </div>
-            </div>
-            <div class="split right">
-                <div id="group-request-container">
-                    <h2>Group requests</h2>
-                    <ul id="group-request-list">
-        
-                    </ul>
+            </header>
+            <main class="inner cover" role="main">
+                <div class="split left">
+                    <div id="group-container">
+                        <h2 id="groups-label">Groups</h2>
+                        <!-- Button trigger modal -->
+                        <a id="create-button" class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#group-menu-modal">+ New Group</a>
+                        <ul id="group-list">
+            
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </main>
-        <footer class="mastfoot mt-auto">
-            <div class="inner">
-                <p>
-                    QWest footer is down here, and you can read it too!
-                </p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="group-menu-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Create new group</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="split right">
+                    <div id="group-request-container">
+                        <h2>Group requests</h2>
+                        <ul id="group-request-list">
+            
+                        </ul>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Group name:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Description:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
-                            <label for="dropdown-friends" class="col-form-label">Invite friends:</label>
-                        </div>
-                        <!-- For some reason, this doesn't work like it should here... 
-                        Check out http://localhost:8080/test.html to see what it should look like. 
-                        If someone manages to migrate this successfully, I'll buy you an energy drink -->
-                        <div class="container-fluid h-100 bg-light text-dark">
-                            <div id="dropdown-friends" class="row justify-content-center align-items-center h-100">
-                                <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                    <div class="form-group">
-                                        <select class="mul-select" multiple="true">
-                                            <option value="1">Søren</option>
-                                            <option value="2">Benyad</option>
-                                            <option value="3">Lucca</option>
-                                            <option value="4">Alex</option>
-                                        </select>
-                                    </div> 
-                               </div>
+            </main>
+            <footer class="mastfoot mt-auto">
+                <div class="inner">
+                    <p>
+                        QWest footer is down here, and you can read it too!
+                    </p>
+                </div>
+            </footer>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="group-menu-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Create new group</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Group name:</label>
+                                <input type="text" class="form-control" id="recipient-name">
                             </div>
-                        </div>
-                    
-                        <!--<div class="dropdown" id="dropdown-friends">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Invite friends</button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div> 
-                        </div>-->
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="message-text"></textarea>
+                                <label for="dropdown-friends" class="col-form-label">Invite friends:</label>
+                            </div>
+                            <div class="form-group" id="friend-selector">
+                                <div class="container-fluid h-100 bg-light text-dark">
+                                    <div id="dropdown-friends" class="row h-100">
+                                        <div id="friend-form" class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <select class="mul-select" multiple="true">
+                                                    <!-- Options are currently hardcoded. 
+                                                    Should be generated based on your friends -->
+                                                    <option value="1">Søren</option>
+                                                    <option value="2">Benyad</option>
+                                                    <option value="3">Lucca</option>
+                                                    <option value="4">Alex</option>
+                                                </select>
+                                            </div> 
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-</body>
-
+        <!-- I know this is illegal, but it doesn't work if I place it in the index.js file...-->
+        <script>
+            $(document).ready(function(){
+                $(".mul-select").select2({
+                        placeholder: "select friends", //placeholder
+                        tags: true,
+                        tokenSeparators: ['/',',',';'," "] 
+                });
+            })
+        </script>
+    </body>
 </html>
