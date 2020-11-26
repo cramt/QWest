@@ -70,7 +70,7 @@ $(async () => {
 
 /* TODO: Implement Group requests */
 /*
-const renderFriendRequests = async (user) => {
+const renderGroupRequests = async (user) => {
     let response = await fetch("api/Friendship/GetRequests", {
         method: "GET",
         headers: {
