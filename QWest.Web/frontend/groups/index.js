@@ -47,12 +47,23 @@ $(async () => {
         alert("error " + response.status)
     }
     const friends = JSON.parse(await response.text())
-
     const friendsSelect = $("#friends-select")
-    console.log(friends)
+    const friendsSelected = []
     friends.forEach(friend => {
         const option = $(`<option value="${friend.id}"></option>`)
-        option.text(friend.username)
+        option.text(friend.username + " (" + friend.email + ")")
+        option.on("dblclick", () => {
+            const index = friendsSelected.indexOf(friend);
+            if (index === -1) {
+                friendsSelected.push(friend)
+                option.text(option.text() + " ✓")
+            }
+            else {
+                friendsSelected.splice(index, 1)
+                const t = option.text()
+                option.text(t.substring(0, t.length - 2))
+            }
+        })
         friendsSelect.append(option)
     })
 })
