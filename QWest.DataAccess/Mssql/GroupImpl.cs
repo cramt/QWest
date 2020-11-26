@@ -50,9 +50,13 @@ namespace QWest.DataAcess.Mssql {
             _conn = conn;
         }
 
-        public async Task<Group> Create(Group group) {
-            if (group.Members.Count == 0) {
-                throw new ArgumentException("cant create group without members");
+        public async Task<int> Create(string name, string description, List<int> members, DateTime? _creation = null) {
+            DateTime creation;
+            if (_creation == null) {
+                creation = DateTime.Now;
+            }
+            else {
+                creation = (DateTime)_creation;
             }
             string query = $@"
 DECLARE @progress_map_id INT;
@@ -67,20 +71,26 @@ SET @group_id = CAST(scope_identity() AS int);
 INSERT INTO users_groups
 (users_id, groups_id)
 VALUES
-{string.Join(",", group.Members.Select((_, i) => $"(@user_id{i}, @group_id)"))};
+{string.Join(",", members.Select((_, i) => $"(@user_id{i}, @group_id)"))};
 SELECT @group_id;
 ";
-            int id = await _conn.Use(query, async stmt => {
-                stmt.Parameters.AddWithValue("@name", group.Name);
-                stmt.Parameters.AddWithValue("@creation_time", group.CreationTime.ToUint().ToSigned());
-                stmt.Parameters.AddWithValue("@description", group.Description);
+            return await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@name", name);
+                stmt.Parameters.AddWithValue("@creation_time", creation.ToUint().ToSigned());
+                stmt.Parameters.AddWithValue("@description", description);
                 int j = 0;
-                foreach (User member in group.Members) {
-                    stmt.Parameters.AddWithValue("@user_id" + j++, member.Id);
+                foreach (int member in members) {
+                    stmt.Parameters.AddWithValue("@user_id" + j++, member);
                 }
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlInt32(0).Value).First();
             });
-            group.Id = id;
+        }
+
+        public async Task<Group> Create(Group group) {
+            if (group.Members.Count == 0) {
+                throw new ArgumentException("cant create group without members");
+            }
+            group.Id = await Create(group.Name, group.Description, group.Members.Select(x => (int)x.Id).ToList(), group.CreationTime);
             return group;
         }
 
