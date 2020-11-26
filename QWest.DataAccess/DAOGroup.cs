@@ -10,6 +10,7 @@ using Utilities;
 namespace QWest.DataAcess {
     public static partial class DAO {
         public interface IGroup {
+            Task<int> Create(string name, string description, List<int> members, DateTime? creation = null);
             Task<Group> Create(Group group);
             Task Update(Group group);
             Task Update(int id, string name, string description);

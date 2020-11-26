@@ -48,23 +48,45 @@ $(async () => {
     }
     const friends = JSON.parse(await response.text())
     const friendsSelect = $("#friends-select")
-    const friendsSelected = []
+    const saveChangesButton = $("#save-changes-button")
+    const groupName = $("#group-name")
+    const descriptionText = $("#description-text")
+    const membersSelected = []
     friends.forEach(friend => {
         const option = $(`<option value="${friend.id}"></option>`)
         option.text(friend.username + " (" + friend.email + ")")
         option.on("dblclick", () => {
-            const index = friendsSelected.indexOf(friend);
+            const index = membersSelected.indexOf(friend);
             if (index === -1) {
-                friendsSelected.push(friend)
+                membersSelected.push(friend)
                 option.text(option.text() + " ✓")
             }
             else {
-                friendsSelected.splice(index, 1)
+                membersSelected.splice(index, 1)
                 const t = option.text()
                 option.text(t.substring(0, t.length - 2))
             }
         })
         friendsSelect.append(option)
+    })
+    saveChangesButton.on("click", async () => {
+        const response = await fetch("/api/Group/Add", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: groupName.val(),
+                description: descriptionText.val(),
+                members: membersSelected
+            })
+        })
+        if (response.status !== 200) {
+            console.log(await response.text())
+            alert("error " + response.status)
+        }
+        window.location = "group.html?id=" + (await response.text())
     })
 })
 
