@@ -151,9 +151,12 @@ WHERE posts.id = @post_id
 SELECT 
 {PostDbRep.SELECT_ORDER}
 FROM posts 
-INNER JOIN users
+LEFT JOIN users
 ON 
 users.id = posts.users_id
+LEFT JOIN groups
+ON
+groups.id = posts.groups_id
 WHERE
 users.id = @user_id
 OR 
@@ -165,7 +168,36 @@ users.id = (
     WHERE
     right_user_id = @user_id
 )
---TODO: fetch users own groups and users friends' groups
+OR
+groups.id = (
+    SELECT
+    id
+    FROM
+    groups
+    INNER JOIN
+    users_groups
+    ON
+    groups.id = users_groups.groups_id
+    WHERE
+    users_groups.users_id = @user_id
+)
+OR
+groups.id = (
+    SELECT
+    id
+    FROM
+    groups
+    INNER JOIN
+    users_groups
+    ON
+    groups.id = users_groups.groups_id
+    INNER JOIN
+    users_friendships
+    ON
+    left_user_id = users_groups.user_id
+    WHERE
+    right_user_id = @user_id
+)
 
 ORDER BY id DESC
 OFFSET {offset} ROWS 
