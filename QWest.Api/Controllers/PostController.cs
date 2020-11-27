@@ -71,5 +71,19 @@ namespace QWest.Apis {
             }
             return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetByUserId(id ?? 0));
         }
+
+        [HttpPost]
+        [ResponseType(typeof(void))]
+        public async Task<HttpResponseMessage> Update([FromBody] Post post) {
+            User user = Request.GetOwinContext().Get<User>("user");
+            if(user == null) {
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            if (!(await PostRepo.IsAuthor(user, post))) {
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            await PostRepo.Update(post);
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
     }
 }

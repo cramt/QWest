@@ -193,5 +193,56 @@ WHERE id = @post_id";
                 return true;
             });
         }
+
+        public Task<bool> IsAuthor(User user, Post post) {
+            if (user.Id == null) {
+                throw new ArgumentException("User must have ID");
+            }
+            return IsAuthor((int)user.Id, post);
+        }
+
+        public Task<bool> IsAuthor(int userId, Post post) {
+            if (post.Id == null) {
+                throw new ArgumentException("Post must have ID");
+            }
+
+            return IsAuthor(userId, (int)post.Id);
+        }
+
+        public Task<bool> IsAuthor(User user, int postId) {
+            if (user.Id == null) {
+                throw new ArgumentException("User must have ID");
+            }
+
+            return IsAuthor((int)user.Id, postId);
+        }
+
+        public async Task<bool> IsAuthor(int userId, int postId) {
+            string query = @"
+SELECT
+COUNT(*)
+FROM posts
+LEFT JOIN users
+ON
+users.id = posts.users_id
+LEFT JOIN groups
+ON
+groups.id = posts.groups_id
+WHERE
+(users.id = @user_id
+OR
+groups.id = (
+    SELECT groups_id
+    FROM users_groups
+    WHERE users_id = @user_id)
+)
+AND
+posts.id = @post_id";
+            return (await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@user_id", userId);
+                stmt.Parameters.AddWithValue("@post_id", postId);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value);
+            })).First() == 1;
+        }
     }
 }
