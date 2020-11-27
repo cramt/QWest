@@ -209,5 +209,21 @@ FETCH NEXT {amount} ROWS ONLY;
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
             })).Select(x => x.ToModel());
         }
+
+        public async Task Update(Post post) {
+            if (post.Id == null) {
+                throw new ArgumentException("Editing a post needs a post ID");
+            }
+            string query = @"
+UPDATE posts
+SET content = @content
+WHERE id = @post_id";
+            await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@content", post.Contents);
+                stmt.Parameters.AddWithValue("@post_id", post.Id);
+                await stmt.ExecuteNonQueryAsync();
+                return true;
+            });
+        }
     }
 }
