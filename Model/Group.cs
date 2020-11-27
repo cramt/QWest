@@ -1,17 +1,79 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Utilities;
 
 namespace Model {
-    public class Group {
-        public int? Id { get; set; }
-        public string Name { get; set; }
-        public DateTime CreationTime { get; set; }
-        public string Description { get; set; }
-        public ProgressMap ProgressMap { get; set; }
-        public List<User> Members { get; set; }
+    [Serializable]
+    public class Group : INotifyPropertyChanged {
+        [JsonIgnore]
+        private int? _id;
+        [JsonProperty("id")]
+        public int? Id {
+            get => _id;
+            set {
+                _id = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        private string _name;
+        [JsonProperty("name")]
+        public string Name {
+            get => _name;
+            set {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        private DateTime _creationTime;
+        [JsonProperty("creationTime")]
+        public DateTime CreationTime {
+            get => _creationTime;
+            set {
+                _creationTime = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        private string _description;
+        [JsonProperty("description")]
+        public string Description {
+            get => _description;
+            set {
+                _description = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        private ProgressMap _progressMap;
+        [JsonProperty("progressMap")]
+        public ProgressMap ProgressMap {
+            get => _progressMap;
+            set {
+                _progressMap = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        private List<User> _members;
+        [JsonProperty("members")]
+        public List<User> Members {
+            get => _members;
+            set {
+                _members = value;
+                OnPropertyChanged();
+            }
+        }
         public Group(string name, int creationTime, string description, ProgressMap progressMap, IEnumerable<User> members)
             : this(name, creationTime.ToUnsigned(), description, progressMap, members) {
 
@@ -44,5 +106,11 @@ namespace Model {
 
         [JsonConstructor]
         public Group() { }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
     }
 }

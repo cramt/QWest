@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Groups</title>
+        <link rel="stylesheet" href="select2/css/select2.min.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="groups.css">
+        <script src="jquery/jquery-3.5.1.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="bootstrap/js/bootstrap.bundle.js"></script>
+    
+    </head>
+    <body class="text-center">
+        <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
+            <header class="masthead mb-auto">
+                <div class="inner">
+                    <img id="qwest-logo" src="QWestLogo_small.png">
+                    <h2 class="masthead-brand">QWest - Groups</h2>
+                    <nav class="nav nav-masthead justify-content-center">
+                        <a id="viewmap" class="nav-link active" href="/map.html">View map</a>
+                        <a id="profile" class="nav-link" href="/profile.html">Profile</a>
+                        <a id="logout-button" class="nav-link" href="#">Log out</a>
+                    </nav>
+                </div>
+            </header>
+            <main class="inner cover" role="main">
+                <div class="split left">
+                    <div id="group-container">
+                        <h2 id="groups-label">Groups</h2>
+                        <!-- Button trigger modal -->
+                        <a id="create-button" class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#group-menu-modal">+ New Group</a>
+                        <ul id="group-list">
+            
+                        </ul>
+                    </div>
+                </div>
+                <div class="split right">
+                    <div id="group-request-container">
+                        <h2>Group requests</h2>
+                        <ul id="group-request-list">
+            
+                        </ul>
+                    </div>
+                </div>
+            </main>
+            <footer class="mastfoot mt-auto">
+                <div class="inner">
+                    <p>
+                        QWest footer is down here, and you can read it too!
+                    </p>
+                </div>
+            </footer>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="group-menu-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Create new group</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label for="group-name" class="col-form-label">Group name:</label>
+                                <input type="text" class="form-control" id="group-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="description-text" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="description-text"></textarea>
+                                <label for="dropdown-friends" class="col-form-label">Invite friends:</label>
+                            </div>
+                            <div class="form-group" id="friend-selector">
+                                <div class="container-fluid h-100 bg-light text-dark">
+                                    <div id="dropdown-friends" class="row h-100">
+                                        <div id="friend-form" class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <select class="mul-select" id="friends-select" multiple="true">
+                                                </select>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="save-changes-button">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- I know this is illegal, but it doesn't work if I place it in the index.js file...-->
+        <script>
+            $(".mul-select").select2({
+                placeholder: "select friends", 
+                tags: true,
+                tokenSeparators: ['/',',',';'," "] 
+            });
+        </script>
+    </body>
+</html>

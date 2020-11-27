@@ -1,54 +1,126 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Cover Template for Bootstrap</title>
-    <!-- <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/"> -->
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Select friends demo</title>
+        <link rel="stylesheet" href="select2/css/select2.min.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
+        <!--<link rel="stylesheet" href="test.css">-->
+        <link rel="stylesheet" href="groups.css">
+        <script src="jquery/jquery-3.5.1.js"></script>
+        <script src="select2/js/select2.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="bootstrap/js/bootstrap.bundle.js"></script>
     
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="test.css">
-  </head>
-
-  <body class="text-center">
-
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <h3 class="masthead-brand">Cover</h3>
-          <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="#">Home</a>
-            <a class="nav-link" href="#">Features</a>
-            <a class="nav-link" href="#">Contact</a>
-          </nav>
-        </div>
-      </header>
-
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading">Cover your page.</h1>
-        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-        <p class="lead">
-          <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
-        </p>
-      </main>
-
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-        </div>
-      </footer>
-    </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    </head>
+    <body class="text-center">
     
-  </body>
+        <style>
+            .mul-select{
+                width: 100%;
+            }
+        </style>
+        <!-- Epic top bar -->
+        <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
+            <header class="masthead mb-auto">
+                <div class="inner">
+                    <img id="qwest-logo" src="QWestLogo_small.png">
+                    <h2 class="masthead-brand">QWest - Groups</h2>
+                    <nav class="nav nav-masthead justify-content-center">
+                        <a id="viewmap" class="nav-link active" href="/map.html">View map</a>
+                        <a id="profile" class="nav-link" href="/profile.html">Profile</a>
+                        <a id="logout-button" class="nav-link" href="#">Log out</a>
+                    </nav>
+                </div>
+            </header>
+            <main class="inner cover" role="main">
+                <div class="split left">
+                    <div id="group-container">
+                        <h2 id="groups-label">Groups</h2>
+                        <!-- Button trigger modal -->
+                        <a id="create-button" class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#group-menu-modal">+ New Group</a>
+                        <ul id="group-list">
+            
+                        </ul>
+                    </div>
+                </div>
+                <div class="split right">
+                    <div id="group-request-container">
+                        <h2>Group requests</h2>
+                        <ul id="group-request-list">
+            
+                        </ul>
+                    </div>
+                </div>
+            </main>
+            <footer class="mastfoot mt-auto">
+                <div class="inner">
+                    <p>
+                        QWest footer is down here, and you can read it too!
+                    </p>
+                </div>
+            </footer>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="group-menu-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Create new group</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Group name:</label>
+                                <input type="text" class="form-control" id="recipient-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="message-text"></textarea>
+                                <label for="dropdown-friends" class="col-form-label">Invite friends:</label>
+                            </div>
+                            <!-- For some reason, this doesn't work like it should here... 
+                            Check out http://localhost:8080/test.html to see what it should look like. 
+                            If someone manages to migrate this successfully, I'll buy you an energy drink -->
+                            <div class="form-group">
+                                <div class="container-fluid h-100 bg-light text-dark">
+                                    <div id="dropdown-friends" class="row justify-content-center align-items-center h-100">
+                                        <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <select class="mul-select" multiple="true">
+                                                    <option value="28">Søren</option>
+                                                    <option value="29">Benyad</option>
+                                                    <option value="30">Lucca</option>
+                                                    <option value="31">Alex</option>
+                                                </select>
+                                            </div> 
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+         
+        <script>
+            $(document).ready(function(){
+                $(".mul-select").select2({
+                        placeholder: "select friends", //placeholder
+                        tags: true,
+                        tokenSeparators: ['/',',',';'," "] 
+                    });
+                })
+        </script>
+    </body>
 </html>

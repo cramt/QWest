@@ -1,6 +1,13 @@
 import $ from "jquery";
 import "cookie-store"
 
+$(async () => {
+    $('.mdb-select').select2({
+        placeholder: "Select friends", 
+        tags: true,
+        tokenSeperators: ['/',',',','," "]
+    });
+});
 
 $(async () => {
     let logoutButton = $("#logout-button")

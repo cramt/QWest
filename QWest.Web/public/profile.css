@@ -47,8 +47,17 @@ body {
     overflow-y: scroll;
 }
 
-#image,
-#friends-button, 
+.ui-autocomplete-input {
+    width: 400px;
+    border-radius: 5px;
+}
+
+#friends-button,
+#groups-button {
+    width: 196px;
+}
+
+#image, 
 #update-user-button, 
 #change-password-button,
 #description-field {

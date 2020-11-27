@@ -39,7 +39,7 @@ const subtractions = []
 
 $(async () => {
     const [progressMap, staticData] = await Promise.all([progressMapPromise, staticDataPromise])
-    progressMap.locations = progressMap.locations.filter(x => x.startsWith(alpha2)).map(x => x.substring(alpha2.length + 1).split("-"))
+    console.log(progressMap)
     const staticDataMap = mapOutStaticData(staticData.subdivisions)
     mapOutVisitation(progressMap.locations, staticDataMap)
     const title = $("#title")
@@ -52,28 +52,26 @@ $(async () => {
         const label = $("<label></label>")
         label.text(subdivision.name)
         entry.append(label)
-        if (subdivision.subdivisions.length === 0) {
-            const check = $("<input type=\"checkbox\"/>")
-            const originalPossition = subdivision.visited
-            if (originalPossition) {
-                check.prop("checked", true)
-            }
-            const array = originalPossition ? subtractions : additions
-            check.on("click", e => {
-                const checked = e.currentTarget.checked
-                if (checked === originalPossition) {
-                    let index = array.indexOf(subdivision.id)
-                    if (index !== -1) {
-                        array.splice(index, 1)
-                    }
-                }
-                else {
-                    array.push(subdivision.id)
-                }
-            })
-            entry.append(check)
+        const check = $("<input type=\"checkbox\"/>")
+        const originalPossition = subdivision.visited
+        if (originalPossition) {
+            check.prop("checked", true)
         }
-        else {
+        const array = originalPossition ? subtractions : additions
+        check.on("click", e => {
+            const checked = e.currentTarget.checked
+            if (checked === originalPossition) {
+                let index = array.indexOf(subdivision.id)
+                if (index !== -1) {
+                    array.splice(index, 1)
+                }
+            }
+            else {
+                array.push(subdivision.id)
+            }
+        })
+        entry.append(check)
+        if (subdivision.subdivisions.length !== 0) {
             const next = $("<a href='" + window.location.href + "-" + subdivision.alpha_2 + "'>-&gt;</a>")
             entry.append(next)
         }

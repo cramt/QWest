@@ -27,18 +27,24 @@ namespace QWest.Api.Controllers {
                 _groupRepo = value;
             }
         }
+        [Serializable]
+        public class AddArgument {
+            public string name;
+            public string description;
+            public List<int> members;
+        }
 
         [HttpPost]
-        [ResponseType(typeof(Group))]
-        public async Task<HttpResponseMessage> Add([FromBody] Group group) {
+        [ResponseType(typeof(int))]
+        public async Task<HttpResponseMessage> Add([FromBody] AddArgument argument) {
             User user = Request.GetOwinContext().Get<User>("user");
             if (user == null) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            if (group.Members.Where(x => x.Id == user.Id).Count() == 0) {
-                group.Members.Add(user);
+            if (argument.members.Where(x => x == user.Id).Count() == 0) {
+                argument.members.Add((int)user.Id);
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Group.Create(group));
+            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Group.Create(argument.name, argument.description, argument.members));
         }
 
         [HttpGet]
@@ -92,6 +98,16 @@ namespace QWest.Api.Controllers {
             }
             await DAO.Group.UpdateMembers(argument.id, argument.additions, argument.subtractions);
             return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(Group))]
+        public async Task<HttpResponseMessage> Get(int id) {
+            Group group = await DAO.Group.Get(id);
+            if (group == null) {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, group);
         }
     }
 }
