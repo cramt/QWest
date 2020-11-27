@@ -21,6 +21,7 @@ namespace QWest.DataAcess {
             Task<bool> IsMember(int groupId, User user);
             Task<bool> IsMember(Group group, int userId);
             Task<bool> IsMember(Group group, User user);
+            Task<Group> Get(int id);
         }
         public static IGroup Group { get; set; } = new Mssql.GroupImpl(ConnectionWrapper.Instance);
     }
