@@ -1,8 +1,8 @@
 import $ from "jquery";
-import "cookie-store"
 import { fetchMeAndUser } from "../whoami"
 import { blobToBase64 } from "../blobToBase64";
 import autocomplete from "jquery-ui/ui/widgets/autocomplete"
+import Cookies from 'js-cookie'
 
 
 const userPromise = fetchMeAndUser();
@@ -22,8 +22,8 @@ $(async () => {
     const postButton = $("#post-button")
     const geopoliticalLocationAutocomplete = $("#geopolitical-location-autocomplete")
 
-    logoutButton.on("click", async () => {
-        await cookieStore.delete("sessionCookie")
+    logoutButton.on("click", () => {
+        Cookies.remove("sessionCookie")
         window.location.href = "/login.html"
     })
 

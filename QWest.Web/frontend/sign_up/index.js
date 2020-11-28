@@ -1,5 +1,5 @@
 import $ from "jquery";
-import "cookie-store"
+import Cookies from 'js-cookie'
 
 $(() => {
     //from http://emailregex.com/
@@ -55,9 +55,8 @@ $(() => {
                 else {
                     message.text("success")
                     x.text().then(JSON.parse).then(sessionCookie => {
-                        cookieStore.set("sessionCookie", sessionCookie).then(() => {
-                            window.location.href = "/profile.html"
-                        })
+                        Cookies.set("sessionCookie", sessionCookie)
+                        window.location.href = "/profile.html"
                     })
                 }
             })

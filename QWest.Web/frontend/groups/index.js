@@ -1,5 +1,4 @@
 import $ from "jquery";
-import "cookie-store"
 import { fetchUser } from "../whoami"
 import "select2"
 

@@ -1,5 +1,4 @@
 import $ from "jquery";
-import "cookie-store"
 import { fetchMeAndUser } from "../whoami"
 
 const userPromise = fetchMeAndUser();
