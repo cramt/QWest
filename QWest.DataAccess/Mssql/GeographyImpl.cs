@@ -182,7 +182,8 @@ SET @last_id{i} = CAST(scope_identity() as int);
             });
             IEnumerable<(List<(string name, object parameter)> preparedQueryParams, string declarations, string query)> queries = rawQueries.Aggregate(new List<(List<(string name, object parameter)> preparedQueryParams, string declarations, string query)> { (new List<(string name, object parameter)>(), "", "") }, (acc, x) => {
                 int totalAmount = acc[acc.Count - 1].preparedQueryParams.Count + x.preparedQueryParams.Count;
-                if (totalAmount > 2000) {
+                const int MSSQL_MAX_PREPARED_STATEMENTS_PER_QUERY = 2000;
+                if (totalAmount > MSSQL_MAX_PREPARED_STATEMENTS_PER_QUERY) {
                     acc.Add(x);
                 }
                 else {
