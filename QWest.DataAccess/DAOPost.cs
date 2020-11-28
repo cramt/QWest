@@ -9,6 +9,7 @@ namespace QWest.DataAcess {
             Task<List<Post>> GetByUserId(int userId);
             Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId);
             Task<IEnumerable<Post>> GetFeed(User user, int amount = 20, int offset = 0);
+            Task<IEnumerable<Post>> GetFeedByUserId(int id, int amount = 20, int offset = 0);
             Task Update(Post post);
             Task<bool> IsAuthor(User user, Post post);
             Task<bool> IsAuthor(User user, int postId);

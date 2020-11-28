@@ -85,5 +85,18 @@ namespace QWest.Apis {
             await PostRepo.Update(post);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
+
+        [HttpGet]
+        [ResponseType(typeof(List<Post>))]
+        public async Task<HttpResponseMessage> GetFeed(int id, int amount, int offset) {
+            if (id == null) {
+                User user = Request.GetOwinContext().Get<User>("user");
+                if (user == null) {
+                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                }
+                id = (int)user.Id;
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetFeedByUserId(id, amount, offset));
+        }
     }
 }

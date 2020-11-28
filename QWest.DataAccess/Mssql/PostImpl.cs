@@ -144,6 +144,9 @@ WHERE posts.id = @post_id
             })).First().ToModel();
         }
         public async Task<IEnumerable<Post>> GetFeed(User user, int amount = 20, int offset = 0) {
+            return await GetFeedByUserId((int)user.Id, amount, offset);
+        }
+        public async Task<IEnumerable<Post>> GetFeedByUserId(int id, int amount = 20, int offset = 0) {
             if (amount < 1) {
                 throw new ArgumentException("cant fetch amount of posts less than 1");
             }
@@ -204,7 +207,7 @@ OFFSET {offset} ROWS
 FETCH NEXT {amount} ROWS ONLY;
 ";
             return (await _conn.Use(query, async stmt => {
-                stmt.Parameters.AddWithValue("@user_id", user.Id);
+                stmt.Parameters.AddWithValue("@user_id", id);
                 Dictionary<int, User> userMap = new Dictionary<int, User>();
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
             })).Select(x => x.ToModel());
