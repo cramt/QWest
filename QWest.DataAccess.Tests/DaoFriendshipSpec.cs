@@ -68,7 +68,7 @@ namespace QWest.DataAccess.Tests {
         [Test]
         public async Task DeclinesFriendRequest() {
             //TODO: the option to decline friend requests
-            //Assert.Fail();
+            Assert.Ignore();
         }
 
         [SetUp]
