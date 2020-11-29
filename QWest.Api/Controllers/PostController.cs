@@ -89,14 +89,18 @@ namespace QWest.Apis {
         [HttpGet]
         [ResponseType(typeof(List<Post>))]
         public async Task<HttpResponseMessage> GetFeed(int? id, int amount, int offset) {
+            int finalId;
             if (id == null) {
                 User user = Request.GetOwinContext().Get<User>("user");
                 if (user == null) {
                     return new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 }
-                id = (int)user.Id;
+                finalId = (int)user.Id;
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetFeedByUserId(id, amount, offset));
+            else {
+                finalId = (int)id;
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetFeedByUserId(finalId, amount, offset));
         }
     }
 }
