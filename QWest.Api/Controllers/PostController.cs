@@ -88,7 +88,7 @@ namespace QWest.Apis {
 
         [HttpGet]
         [ResponseType(typeof(List<Post>))]
-        public async Task<HttpResponseMessage> GetFeed(int id, int amount, int offset) {
+        public async Task<HttpResponseMessage> GetFeed(int? id, int amount, int offset) {
             if (id == null) {
                 User user = Request.GetOwinContext().Get<User>("user");
                 if (user == null) {
