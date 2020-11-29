@@ -94,6 +94,7 @@ namespace QWest.DataAccess.Tests {
         }
 
         [SetUp]
+        [OneTimeTearDown]
         public void Setup() {
             ConnectionWrapper.Instance.Use("DELETE FROM users", stmt => stmt.ExecuteNonQueryAsync()).Wait();
         }

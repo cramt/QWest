@@ -197,7 +197,7 @@ groups.id = (
     INNER JOIN
     users_friendships
     ON
-    left_user_id = users_groups.user_id
+    left_user_id = users_groups.users_id
     WHERE
     right_user_id = @user_id
 )
