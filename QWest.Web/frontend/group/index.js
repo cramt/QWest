@@ -145,7 +145,7 @@ $(async () => {
             },
             body: JSON.stringify({
                 contents: postContents.val(),
-                location: selectedGeopoliticalLocation.id,
+                location: selectedGeopoliticalLocation ? selectedGeopoliticalLocation.id : null,
                 images: await Promise.all(Array.from(postImages[0].files).map(blobToBase64)),
                 groupAuthor: group.id
             })
