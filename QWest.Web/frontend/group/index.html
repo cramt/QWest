@@ -6,13 +6,39 @@
     <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="jquery-ui/themes/base/core.css">
+    <link rel="stylesheet" href="jquery-ui/themes/base/menu.css">
+    <link rel="stylesheet" href="jquery-ui/themes/base/autocomplete.css">
+    <link rel="stylesheet" href="jquery-ui/themes/base/theme.css">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Profile</title>
 </head>
 
 <body class="text-center">
-   
+    <h1 id=group-name></h1>
+    <h2><a id="progress-map">map</a></h2>
+    <h3>members: </h3>
+    <ul id="members-list">
+
+    </ul>
+    <div id="post-container">
+        <label>Make a post:</label>
+        <br/>
+        <textarea id="post-contents" placeholder="Write your post here..." class="btn btn-lg btn-secondary"></textarea>            
+        <br/>
+        <div class="w3-container" id="upload-file">
+            <label for="file" id="image-label">Upload image</label>
+            <input type="file" id="post-images" />
+        </div>
+        <label>Choose a location:</label>
+        <div id="geopolitical-location-autocomplete">
+            
+        </div>
+        <br>
+        <button class="btn btn-primary" id="post-button" onclick="document.getElementById('post-contents').value = ''">Post</button>
+        
+    </div>
 </body>
 
 </html>

@@ -49,7 +49,13 @@ name, creation_time, groups.description,
                 SessionCookie = reader.GetSqlBinary(i++).NullableValue();
                 Name = reader.GetSqlString(i++).NullableValue();
                 CreationTime = reader.GetSqlInt32(i++).NullableValue();
-                Images = reader.GetSqlString(i++).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList());
+                string imageString = reader.GetSqlString(i++).NullableValue();
+                if(imageString == null || imageString == "") {
+                    Images = new List<int>();
+                }
+                else {
+                    Images = imageString.Split(',').Select(x => int.Parse(x)).ToList();
+                }
             }
 
             public Post ToModel() {
@@ -95,16 +101,21 @@ WHERE users.id = @id";
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
             })).Select(x => x.ToModel()).ToList();
         }
-        public async Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId) {
+
+        public Task<Post> Add(string contents, Group group, List<byte[]> images, int? locationId) {
+            return AddGroupAuthor(contents, (int)group.Id, images, locationId);
+        }
+
+        public async Task<Post> AddGroupAuthor(string contents, int groupId, List<byte[]> images, int? locationId) {
             string query = $@"
 DECLARE @post_id INT;
 INSERT INTO posts
-(content, users_id, post_time, location)
+(content, groups_id, post_time, location)
 VALUES
-(@content, @user_id, @post_time, @location);
+(@content, @group_id, @post_time, @location);
 SET @post_id = CAST(scope_identity() AS INT);
 " +
-            string.Join("", images.Select((_, i) => $@"
+string.Join("", images.Select((_, i) => $@"
 INSERT INTO images
 (image_blob)
 VALUES
@@ -115,7 +126,7 @@ INSERT INTO posts_images
 VALUES
 (@post_id, (SELECT CAST(scope_identity() as int)));
 ")) +
-            $@"
+$@"
 SELECT
 {PostDbRep.SELECT_ORDER}
 FROM posts
@@ -129,7 +140,7 @@ WHERE posts.id = @post_id
 ";
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@content", contents);
-                stmt.Parameters.AddWithValue("@user_id", user.Id);
+                stmt.Parameters.AddWithValue("@group_id", groupId);
                 uint upostTime = DateTime.Now.ToUint();
                 int postTime = upostTime.ToSigned();
                 stmt.Parameters.AddWithValue("@post_time", postTime);
@@ -143,6 +154,60 @@ WHERE posts.id = @post_id
 
             })).First().ToModel();
         }
+
+        public Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId) {
+            return AddUserAuthor(contents, (int)user.Id, images, locationId);
+        }
+
+        public async Task<Post> AddUserAuthor(string contents, int userId, List<byte[]> images, int? locationId) {
+            string query = $@"
+DECLARE @post_id INT;
+INSERT INTO posts
+(content, users_id, post_time, location)
+VALUES
+(@content, @user_id, @post_time, @location);
+SET @post_id = CAST(scope_identity() AS INT);
+" +
+           string.Join("", images.Select((_, i) => $@"
+INSERT INTO images
+(image_blob)
+VALUES
+(@image_blob{i});
+
+INSERT INTO posts_images
+(posts_id, images_id)
+VALUES
+(@post_id, (SELECT CAST(scope_identity() as int)));
+")) +
+           $@"
+SELECT
+{PostDbRep.SELECT_ORDER}
+FROM posts
+LEFT JOIN users
+ON
+users.id = posts.users_id
+LEFT JOIN groups
+ON
+groups.id = posts.groups_id
+WHERE posts.id = @post_id
+";
+            return (await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@content", contents);
+                stmt.Parameters.AddWithValue("@user_id", userId);
+                uint upostTime = DateTime.Now.ToUint();
+                int postTime = upostTime.ToSigned();
+                stmt.Parameters.AddWithValue("@post_time", postTime);
+                stmt.Parameters.AddWithValue("@location", locationId ?? SqlInt32.Null);
+                for (int i = 0; i < images.Count; i++) {
+                    stmt.Parameters.AddWithValue("@image_blob" + i, images[i]);
+                }
+
+                return (await stmt.ExecuteReaderAsync())
+                    .ToIterator(reader => new PostDbRep(reader));
+
+            })).First().ToModel();
+        }
+
         public async Task<IEnumerable<Post>> GetFeed(User user, int amount = 20, int offset = 0) {
             return await GetFeedByUserId((int)user.Id, amount, offset);
         }

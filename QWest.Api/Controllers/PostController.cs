@@ -31,10 +31,24 @@ namespace QWest.Apis {
             }
         }
 
+        private DAO.IGroup _groupRepo = null;
+        public DAO.IGroup GroupRepo {
+            get {
+                if (_groupRepo == null) {
+                    _groupRepo = DAO.Group;
+                }
+                return _groupRepo;
+            }
+            set {
+                _groupRepo = value;
+            }
+        }
+
         public class UploadArgument {
             public string contents;
             public int? location;
             public List<string> images;
+            public int? groupAuthor;
 
             public async Task<List<byte[]>> ParseImages() {
                 return (await Task.WhenAll(images.Select(x => Task.Factory.StartNew(() => {
@@ -57,7 +71,20 @@ namespace QWest.Apis {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
             List<byte[]> images = await upload.ParseImages();
-            Post post = await PostRepo.Add(upload.contents.Trim(), user, images, upload.location);
+            string contents = upload.contents.Trim();
+            Post post;
+            if (upload.groupAuthor == null) {
+                post = await PostRepo.Add(contents, user, images, upload.location);
+            }
+            else {
+                int groupAuthor = (int)upload.groupAuthor;
+                if (await GroupRepo.IsMember(groupAuthor, user)) {
+                    post = await PostRepo.AddGroupAuthor(contents, groupAuthor, images, upload.location);
+                }
+                else {
+                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                }
+            }
             return Request.CreateResponse(HttpStatusCode.OK, post);
         }
         [ResponseType(typeof(List<Post>))]
@@ -76,7 +103,7 @@ namespace QWest.Apis {
         [ResponseType(typeof(void))]
         public async Task<HttpResponseMessage> Update([FromBody] Post post) {
             User user = Request.GetOwinContext().Get<User>("user");
-            if(user == null) {
+            if (user == null) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
             if (!(await PostRepo.IsAuthor(user, post))) {
