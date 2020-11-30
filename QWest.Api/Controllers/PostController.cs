@@ -51,6 +51,9 @@ namespace QWest.Apis {
             public int? groupAuthor;
 
             public async Task<List<byte[]>> ParseImages() {
+                if(images == null) {
+                    return new List<byte[]>();
+                }
                 return (await Task.WhenAll(images.Select(x => Task.Factory.StartNew(() => {
                     if (x.Contains(",")) {
                         x = x.Split(',')[1];
