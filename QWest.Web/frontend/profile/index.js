@@ -22,6 +22,10 @@ $(async () => {
     const postButton = $("#post-button")
     const geopoliticalLocationAutocomplete = $("#geopolitical-location-autocomplete")
 
+    if (!new URL(window.location.href).searchParams.get("id")) {
+        history.pushState(undefined, undefined, "/profile.html?id=" + user.id)
+    }
+
     logoutButton.on("click", () => {
         Cookies.remove("sessionCookie")
         window.location.href = "/login.html"
