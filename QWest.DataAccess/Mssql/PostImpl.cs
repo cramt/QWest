@@ -99,7 +99,7 @@ WHERE users.id = @id";
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@id", userId);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
-            })).Select(x => x.ToModel()).ToList();
+            })).SelectPar(x => x.ToModel()).ToList();
         }
 
         public Task<Post> Add(string contents, Group group, List<byte[]> images, int? locationId) {
@@ -275,7 +275,7 @@ FETCH NEXT {amount} ROWS ONLY;
                 stmt.Parameters.AddWithValue("@user_id", id);
                 Dictionary<int, User> userMap = new Dictionary<int, User>();
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
-            })).Select(x => x.ToModel());
+            })).SelectPar(x => x.ToModel());
         }
 
         public async Task Update(Post post) {
