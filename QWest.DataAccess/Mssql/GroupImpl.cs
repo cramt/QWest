@@ -134,7 +134,7 @@ WHERE users_groups.users_id = @user_id
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@user_id", userId);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => new GroupDbRep(x));
-            })).Select(x => x.ToModel()).ToList();
+            })).SelectPar(x => x.ToModel()).ToList();
         }
 
         public async Task UpdateMembers(int groupId, List<int> additions, List<int> subtractions) {
