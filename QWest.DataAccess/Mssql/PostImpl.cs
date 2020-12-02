@@ -88,8 +88,8 @@ name, creation_time, groups.description,
 SELECT
 {PostDbRep.SELECT_ORDER}
 FROM
-users 
-LEFT JOIN posts 
+posts 
+LEFT JOIN users 
 ON 
 users.id = posts.users_id
 LEFT JOIN groups
