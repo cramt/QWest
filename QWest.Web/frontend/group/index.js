@@ -56,6 +56,7 @@ $(async () => {
     const user = await userPromise
     const friends = await friendsPromise
     const isOwned = group.members.findIndex(x => x.id === user.id) !== -1
+    const logoutButton = $("#logout-button")
     const groupName = $("#group-name")
     const membersList = $("#members-list")
     const progressMap = $("#progress-map")
@@ -63,18 +64,25 @@ $(async () => {
     const postContents = $("#post-contents")
     const postImages = $("#post-images")
     const postButton = $("#post-button")
-    const geopoliticalLocationAutocomplete = $("#geopolitical-location-autocomplete")
+    const geopoliticalLocationAutocomplete = $
+    
+    ("#geopolitical-location-autocomplete")
+    logoutButton.on("click", () => {
+        Cookies.remove("sessionCookie")
+        window.location.href = "/login.html"
+    })
+    
     groupName.text(group.name)
     group.members.forEach(x => membersList.append(
         $("<li></li>")
             .append(
-                $("<a></a>")
+                $('<a id="member"></a>')
                     .text(x.username + " (" + x.email + ")")
                     .attr("href", "/profile.html?id=" + x.id)
             )
             .append(
                 isOwned ?
-                    $("<button></button>")
+                    $('<button type="button" class="btn btn-danger"></button>')
                         .text("remove")
                         .on("click", async () => {
                             const response = await fetch("api/Group/UpdateMembers", {

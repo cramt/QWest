@@ -23,11 +23,43 @@ body {
 }
 
 #viewmap,
+#profile,
 #user-settings,
 #logout-button,
 #username-field {
     font-size: larger;
     /*margin-top: auto;*/
+}
+
+#group-name {
+    text-decoration: underline;
+}
+
+#group-menu-modal {
+    color: #0056b3 !important;
+}
+
+#members-list {
+    list-style: none;
+    border-style: solid;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    max-width: 400px;
+}
+
+#member {
+    border-style: solid 2px;
+    border-radius: 5px;
+    border-color: #7AA8FF;
+    padding-left: 0pt;
+
+}
+
+#progress-map, 
+#edit-button {
+    width: 196px;
 }
 
 #post-button {
@@ -89,6 +121,11 @@ body {
 .masthead-brand {
     margin-bottom: 0;
     color: #0056b3;
+    float: left;
+}
+
+#title {
+    float: left !important;
 }
 
 .mastfoot, .inner,
