@@ -56,7 +56,11 @@ $(async () => {
     const user = await userPromise
     const friends = await friendsPromise
     const isOwned = group.members.findIndex(x => x.id === user.id) !== -1
+    const logoutButton = $("#logout-button")
     const groupName = $("#group-name")
+    const editButton = $("#edit-button")
+    const groupNameModal = $("#group-name-modal")
+    const groupDescription = $("#group-description")
     const membersList = $("#members-list")
     const progressMap = $("#progress-map")
     const postContainer = $("#post-container")
@@ -64,17 +68,29 @@ $(async () => {
     const postImages = $("#post-images")
     const postButton = $("#post-button")
     const geopoliticalLocationAutocomplete = $("#geopolitical-location-autocomplete")
+
+    logoutButton.on("click", () => {
+        Cookies.remove("sessionCookie")
+        window.location.href = "/login.html"
+    })
+
+    //This shit doesn't work for whatever reason.
+    editButton.on("click", () => {
+        groupNameModal.text(group.name)
+        groupDescription.text(group.description)
+    })
+
     groupName.text(group.name)
     group.members.forEach(x => membersList.append(
         $("<li></li>")
             .append(
-                $("<a></a>")
+                $('<a id="member"></a>')
                     .text(x.username + " (" + x.email + ")")
                     .attr("href", "/profile.html?id=" + x.id)
             )
             .append(
                 isOwned ?
-                    $("<button></button>")
+                    $('<button type="button" class="btn btn-danger"></button>')
                         .text("remove")
                         .on("click", async () => {
                             const response = await fetch("api/Group/UpdateMembers", {
