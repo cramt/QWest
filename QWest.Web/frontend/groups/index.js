@@ -22,6 +22,12 @@ const fetchGroups = async () => {
 
 const groupsPromise = fetchGroups()
 
+$(".mul-select").select2({
+    placeholder: "select friends",
+    tags: true,
+    tokenSeparators: ['/', ',', ';', " "]
+});
+
 $(async () => {
     const user = await userPromise
     const response = await fetch("/api/Friendship/GetFriends", {
@@ -68,7 +74,7 @@ $(async () => {
             body: JSON.stringify({
                 name: groupName.val(),
                 description: descriptionText.val(),
-                members: membersSelected.map(x => x.id)
+                members: membersSelected
             })
         })
         if (response.status !== 200) {
@@ -85,12 +91,12 @@ $(async () => {
     groups.forEach(x => {
         groupList.append(
             $("<li></li>")
-                .append(
-                    $("<a></a>")
-                        .text(x.name)
-                        .attr("href", "/group.html?id=" + x.id)
-                )
-
+            .append(
+                $("<a></a>")
+                .text(x.name)
+                .attr("href", "/group.html?id=" + x.id)
+            )
+            
         )
     })
 })

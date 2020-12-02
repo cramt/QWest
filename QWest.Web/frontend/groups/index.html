@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Groups</title>
+        <link rel="stylesheet" href="select2/css/select2.min.css">
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
         <link rel="stylesheet" href="groups.css">
@@ -73,8 +74,18 @@
                                 <textarea class="form-control" id="description-text"></textarea>
                                 <label for="dropdown-friends" class="col-form-label">Invite friends:</label>
                             </div>
-                            <select class="mul-select" id="friends-select" multiple="true">
-                            </select>
+                            <div class="form-group" id="friend-selector">
+                                <div class="container-fluid h-100 bg-light text-dark">
+                                    <div id="dropdown-friends" class="row h-100">
+                                        <div id="friend-form" class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <select class="mul-select" id="friends-select" multiple="true">
+                                                </select>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -83,5 +94,13 @@
                 </div>
             </div>
         </div>
+        <!-- I know this is illegal, but it doesn't work if I place it in the index.js file...-->
+        <script>
+            $(".mul-select").select2({
+                placeholder: "select friends", 
+                tags: true,
+                tokenSeparators: ['/',',',';'," "] 
+            });
+        </script>
     </body>
 </html>
