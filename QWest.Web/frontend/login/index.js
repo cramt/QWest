@@ -1,5 +1,6 @@
 import $ from "jquery";
 import Cookies from "js-cookie"
+import { sendRequest } from "../api";
 
 $(() => {
     //from http://emailregex.com/
@@ -21,38 +22,27 @@ $(() => {
         return true
     }
 
-    const processClick = () => {
+    const processClick = async () => {
         let password = passwordInput.val()
         let email = emailInput.val()
         if (validateRegister(email, password)) {
-            fetch("api/Login/Login", {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    password,
-                    email,
-                })
-            }).then(x => {
-                let status = x.status
-                if (status === 401) {
-                    message.text("email and password does not match")
-                }
-                else if (status < 200 || status > 299) {
-                    x.text().then(text => {
-                        message.text("error " + status + " happened, " + text)
-                    })
-                }
-                else {
-                    message.text("success")
-                    x.text().then(JSON.parse).then(sessionCookie => {
-                        Cookies.set("sessionCookie", sessionCookie)
-                        window.location.href = "/profile.html"
-                    })
-                }
+            const { status, data } = await sendRequest("api/Login/Login", "POST", {
+                password,
+                email,
             })
+
+            if (status === 401) {
+                message.text("email and password does not match")
+            }
+            else if (status < 200 || status > 299) {
+                message.text("error " + status + " happened, " + data)
+            }
+            else {
+                message.text("success")
+                Cookies.set("sessionCookie", data)
+                window.location.href = "/profile.html"
+            }
+
         }
     }
 
