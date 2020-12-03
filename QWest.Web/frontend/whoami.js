@@ -63,6 +63,9 @@ const fetchMeAndUser = async () => {
             return null;
             break;
     }
+    if(result.them && result.me.id === result.them.id){
+        result.them = undefined
+    }
     return result;
 }
 
