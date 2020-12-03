@@ -118,7 +118,6 @@ namespace QWest.DataAccess.Tests {
     public class DaoPostSpecSetupAndTearDown {
         [SetUp]
         [OneTimeTearDown]
-        [TearDown]
         public void Setup() {
             ConnectionWrapper.Instance.Use("DELETE FROM images; DELETE FROM users_friendships; DELETE FROM users_friendship_requests; DELETE FROM users_groups; DELETE FROM posts; DELETE FROM groups; DELETE FROM users", stmt => stmt.ExecuteNonQueryAsync()).Wait();
         }
