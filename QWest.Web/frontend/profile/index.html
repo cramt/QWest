@@ -24,6 +24,7 @@
                 <img id="qwest-logo" src="QWestLogo_small.png">
                 <h2 class="masthead-brand">QWest - Profile</h2>
                 <nav class="nav nav-masthead justify-content-center">
+                    <a id="feed-button" class="nav-link" href="/feed.html">Feed</a>
                     <a id="viewmap" class="nav-link active" href="/map.html">View map</a>
                     <a id="user-settings" class="nav-link" href="/settings.html">Profile settings</a>
                     <a id="logout-button" class="nav-link" href="#">Log out</a>
@@ -44,24 +45,21 @@
             <p class="lead">
 
             </p>
+            <div id="post-container">
+                <label>Make a post:</label>
+                <br/>
+                <textarea id="post-contents" text="" placeholder="Write your post here..." class="btn btn-lg btn-secondary"></textarea>            
+                <br/>
+                <div class="w3-container" id="upload-file">
+                    <label for="file" id="image-label">Upload image</label>
+                    <input type="file" id="post-images" />
+                </div>
+                <label>Choose a location:</label>
+                <div id="geopolitical-location-autocomplete"></div>
+                <br>
+                <button class="btn btn-primary" id="post-button">Post</button>
+            </div>
         </main>
-        <div id="post-container">
-            <label>Make a post:</label>
-            <br/>
-            <textarea id="post-contents" placeholder="Write your post here..." class="btn btn-lg btn-secondary"></textarea>            
-            <br/>
-            <div class="w3-container" id="upload-file">
-                <label for="file" id="image-label">Upload image</label>
-                <input type="file" id="post-images" />
-            </div>
-            <label>Choose a location:</label>
-            <div id="geopolitical-location-autocomplete">
-                
-            </div>
-            <br>
-            <button class="btn btn-primary" id="post-button">Post</button>
-            
-        </div>
         <footer class="mastfoot mt-auto">
             <div class="inner">
                 <p>
