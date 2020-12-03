@@ -47,7 +47,7 @@ namespace QWest.DataAcess.Mssql {
 
             public static IEnumerable<UserDbRep> FromJson(string json) {
                 return JsonConvert.DeserializeObject<List<UserDbRep>>(json).Select(x => {
-                    //x.PasswordHash = x.PasswordHashBase64String.Base64();
+                    x.PasswordHash = x.PasswordHashBase64String.Base64();
                     return x;
                 }).ToList();
             }

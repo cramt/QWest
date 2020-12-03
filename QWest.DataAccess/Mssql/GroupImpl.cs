@@ -134,7 +134,7 @@ WHERE users_groups.users_id = @user_id
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@user_id", userId);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => new GroupDbRep(x));
-            })).Select(x => x.ToModel()).ToList();
+            })).SelectPar(x => x.ToModel()).ToList();
         }
 
         public async Task UpdateMembers(int groupId, List<int> additions, List<int> subtractions) {
@@ -230,6 +230,46 @@ groups_id = @group_id
 
         public Task<bool> IsMember(Group group, User user) {
             return IsMember((int)group.Id, user);
+        }
+
+        public async Task<Group> Get(int id) {
+            string query = @"
+SELECT
+id, name, creation_time, description, progress_maps_id, 
+(
+	SELECT 
+	id, username, password_hash, email, session_cookie, progress_maps_id, description, profile_picture 
+	FROM 
+	users 
+	INNER JOIN 
+	users_groups 
+	ON 
+	users.id = users_groups.users_id 
+	WHERE users_groups.groups_id = groups.id FOR JSON PATH
+) AS members,
+(
+	SELECT 
+	STRING_AGG(location, ',') 
+	FROM 
+	progress_maps 
+	inner join 
+	progress_maps_locations 
+	ON 
+	progress_maps.id = progress_maps_locations.progress_maps_id 
+	WHERE progress_maps.id = groups.progress_maps_id
+)
+FROM
+groups
+INNER JOIN
+users_groups
+ON
+groups.id = users_groups.groups_id
+WHERE groups.id = @id
+";
+            return (await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@id", id);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(x => new GroupDbRep(x)).FirstOrDefault();
+            })).MapValue(x => x.ToModel());
         }
     }
 }

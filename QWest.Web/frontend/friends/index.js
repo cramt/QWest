@@ -1,5 +1,4 @@
 import $ from "jquery";
-import "cookie-store"
 import { fetchMeAndUser } from "../whoami"
 
 const userPromise = fetchMeAndUser();
@@ -72,6 +71,7 @@ const renderFriendRequests = async (user) => {
             if (!JSON.parse(await response.text())) {
                 alert("you dont have a friend request from this person")
             }
+            window.location.reload()
         })
         entry.append(span)
         entry.append(br)

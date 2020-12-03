@@ -99,5 +99,15 @@ namespace QWest.Api.Controllers {
             await DAO.Group.UpdateMembers(argument.id, argument.additions, argument.subtractions);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
+
+        [HttpGet]
+        [ResponseType(typeof(Group))]
+        public async Task<HttpResponseMessage> Get(int id) {
+            Group group = await DAO.Group.Get(id);
+            if (group == null) {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, group);
+        }
     }
 }

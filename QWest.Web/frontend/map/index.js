@@ -1,7 +1,8 @@
-import $, { nodeName } from "jquery";
+import $ from "jquery";
 import { fetchUser } from "../whoami";
 import { mapOutStaticData } from "../mapOutStaticData"
 import { mapOutVisitation } from "../mapOutVisitation";
+import Cookies from 'js-cookie'
 
 async function fetchData() {
     let userDataPromise = (async () => {
@@ -132,8 +133,8 @@ $(async () => {
 
     })
 
-    logoutButton.on("click", async () => {
-        await cookieStore.delete("sessionCookie")
+    logoutButton.on("click", () => {
+        Cookies.remove("sessionCookie")
         window.location.href = "/login.html"
     })
 })

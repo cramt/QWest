@@ -1,5 +1,5 @@
 import $ from "jquery";
-import "cookie-store"
+import Cookies from 'js-cookie'
 
 $(async () => {
     $('.mdb-select').select2({
@@ -15,7 +15,7 @@ $(async () => {
     let requestPasswordResetButton = $("#request-password-reset-button")
 
     logoutButton.on("click", async () => {
-        await cookieStore.delete("sessionCookie")
+        Cookies.remove("sessionCookie")
         window.location.href = "/login.html"
     })
 

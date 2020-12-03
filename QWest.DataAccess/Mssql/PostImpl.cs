@@ -49,7 +49,13 @@ name, creation_time, groups.description,
                 SessionCookie = reader.GetSqlBinary(i++).NullableValue();
                 Name = reader.GetSqlString(i++).NullableValue();
                 CreationTime = reader.GetSqlInt32(i++).NullableValue();
-                Images = reader.GetSqlString(i++).NullableValue().MapValue(y => y.Split(',').Select(x => int.Parse(x)).ToList());
+                string imageString = reader.GetSqlString(i++).NullableValue();
+                if(imageString == null || imageString == "") {
+                    Images = new List<int>();
+                }
+                else {
+                    Images = imageString.Split(',').Select(x => int.Parse(x)).ToList();
+                }
             }
 
             public Post ToModel() {
@@ -82,8 +88,8 @@ name, creation_time, groups.description,
 SELECT
 {PostDbRep.SELECT_ORDER}
 FROM
-users 
-LEFT JOIN posts 
+posts 
+LEFT JOIN users 
 ON 
 users.id = posts.users_id
 LEFT JOIN groups
@@ -93,18 +99,23 @@ WHERE users.id = @id";
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@id", userId);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
-            })).Select(x => x.ToModel()).ToList();
+            })).SelectPar(x => x.ToModel()).ToList();
         }
-        public async Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId) {
+
+        public Task<Post> Add(string contents, Group group, List<byte[]> images, int? locationId) {
+            return AddGroupAuthor(contents, (int)group.Id, images, locationId);
+        }
+
+        public async Task<Post> AddGroupAuthor(string contents, int groupId, List<byte[]> images, int? locationId) {
             string query = $@"
 DECLARE @post_id INT;
 INSERT INTO posts
-(content, users_id, post_time, location)
+(content, groups_id, post_time, location)
 VALUES
-(@content, @user_id, @post_time, @location);
+(@content, @group_id, @post_time, @location);
 SET @post_id = CAST(scope_identity() AS INT);
 " +
-            string.Join("", images.Select((_, i) => $@"
+string.Join("", images.Select((_, i) => $@"
 INSERT INTO images
 (image_blob)
 VALUES
@@ -115,7 +126,7 @@ INSERT INTO posts_images
 VALUES
 (@post_id, (SELECT CAST(scope_identity() as int)));
 ")) +
-            $@"
+$@"
 SELECT
 {PostDbRep.SELECT_ORDER}
 FROM posts
@@ -129,7 +140,7 @@ WHERE posts.id = @post_id
 ";
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@content", contents);
-                stmt.Parameters.AddWithValue("@user_id", user.Id);
+                stmt.Parameters.AddWithValue("@group_id", groupId);
                 uint upostTime = DateTime.Now.ToUint();
                 int postTime = upostTime.ToSigned();
                 stmt.Parameters.AddWithValue("@post_time", postTime);
@@ -143,7 +154,64 @@ WHERE posts.id = @post_id
 
             })).First().ToModel();
         }
+
+        public Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId) {
+            return AddUserAuthor(contents, (int)user.Id, images, locationId);
+        }
+
+        public async Task<Post> AddUserAuthor(string contents, int userId, List<byte[]> images, int? locationId) {
+            string query = $@"
+DECLARE @post_id INT;
+INSERT INTO posts
+(content, users_id, post_time, location)
+VALUES
+(@content, @user_id, @post_time, @location);
+SET @post_id = CAST(scope_identity() AS INT);
+" +
+           string.Join("", images.Select((_, i) => $@"
+INSERT INTO images
+(image_blob)
+VALUES
+(@image_blob{i});
+
+INSERT INTO posts_images
+(posts_id, images_id)
+VALUES
+(@post_id, (SELECT CAST(scope_identity() as int)));
+")) +
+           $@"
+SELECT
+{PostDbRep.SELECT_ORDER}
+FROM posts
+LEFT JOIN users
+ON
+users.id = posts.users_id
+LEFT JOIN groups
+ON
+groups.id = posts.groups_id
+WHERE posts.id = @post_id
+";
+            return (await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@content", contents);
+                stmt.Parameters.AddWithValue("@user_id", userId);
+                uint upostTime = DateTime.Now.ToUint();
+                int postTime = upostTime.ToSigned();
+                stmt.Parameters.AddWithValue("@post_time", postTime);
+                stmt.Parameters.AddWithValue("@location", locationId ?? SqlInt32.Null);
+                for (int i = 0; i < images.Count; i++) {
+                    stmt.Parameters.AddWithValue("@image_blob" + i, images[i]);
+                }
+
+                return (await stmt.ExecuteReaderAsync())
+                    .ToIterator(reader => new PostDbRep(reader));
+
+            })).First().ToModel();
+        }
+
         public async Task<IEnumerable<Post>> GetFeed(User user, int amount = 20, int offset = 0) {
+            return await GetFeedByUserId((int)user.Id, amount, offset);
+        }
+        public async Task<IEnumerable<Post>> GetFeedByUserId(int id, int amount = 20, int offset = 0) {
             if (amount < 1) {
                 throw new ArgumentException("cant fetch amount of posts less than 1");
             }
@@ -151,9 +219,12 @@ WHERE posts.id = @post_id
 SELECT 
 {PostDbRep.SELECT_ORDER}
 FROM posts 
-INNER JOIN users
+LEFT JOIN users
 ON 
 users.id = posts.users_id
+LEFT JOIN groups
+ON
+groups.id = posts.groups_id
 WHERE
 users.id = @user_id
 OR 
@@ -165,17 +236,113 @@ users.id = (
     WHERE
     right_user_id = @user_id
 )
---TODO: fetch users own groups and users friends' groups
+OR
+groups.id = (
+    SELECT
+    id
+    FROM
+    groups
+    INNER JOIN
+    users_groups
+    ON
+    groups.id = users_groups.groups_id
+    WHERE
+    users_groups.users_id = @user_id
+)
+OR
+groups.id = (
+    SELECT
+    id
+    FROM
+    groups
+    INNER JOIN
+    users_groups
+    ON
+    groups.id = users_groups.groups_id
+    INNER JOIN
+    users_friendships
+    ON
+    left_user_id = users_groups.users_id
+    WHERE
+    right_user_id = @user_id
+)
 
 ORDER BY id DESC
 OFFSET {offset} ROWS 
 FETCH NEXT {amount} ROWS ONLY;
 ";
             return (await _conn.Use(query, async stmt => {
-                stmt.Parameters.AddWithValue("@user_id", user.Id);
+                stmt.Parameters.AddWithValue("@user_id", id);
                 Dictionary<int, User> userMap = new Dictionary<int, User>();
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
-            })).Select(x => x.ToModel());
+            })).SelectPar(x => x.ToModel());
+        }
+
+        public async Task Update(Post post) {
+            if (post.Id == null) {
+                throw new ArgumentException("Editing a post needs a post ID");
+            }
+            string query = @"
+UPDATE posts
+SET content = @content
+WHERE id = @post_id";
+            await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@content", post.Contents);
+                stmt.Parameters.AddWithValue("@post_id", post.Id);
+                await stmt.ExecuteNonQueryAsync();
+                return true;
+            });
+        }
+
+        public Task<bool> IsAuthor(User user, Post post) {
+            if (user.Id == null) {
+                throw new ArgumentException("User must have ID");
+            }
+            return IsAuthor((int)user.Id, post);
+        }
+
+        public Task<bool> IsAuthor(int userId, Post post) {
+            if (post.Id == null) {
+                throw new ArgumentException("Post must have ID");
+            }
+
+            return IsAuthor(userId, (int)post.Id);
+        }
+
+        public Task<bool> IsAuthor(User user, int postId) {
+            if (user.Id == null) {
+                throw new ArgumentException("User must have ID");
+            }
+
+            return IsAuthor((int)user.Id, postId);
+        }
+
+        public async Task<bool> IsAuthor(int userId, int postId) {
+            string query = @"
+SELECT
+COUNT(*)
+FROM posts
+LEFT JOIN users
+ON
+users.id = posts.users_id
+LEFT JOIN groups
+ON
+groups.id = posts.groups_id
+WHERE
+(users.id = @user_id
+OR
+groups.id = (
+    SELECT groups_id
+    FROM users_groups
+    WHERE users_id = @user_id)
+)
+AND
+posts.id = @post_id";
+            return (await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@user_id", userId);
+                stmt.Parameters.AddWithValue("@post_id", postId);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value);
+            })).First() == 1;
         }
     }
 }

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace QWest.DataAccess.Tests {
     [TestFixture]
-    class DaoPostSpec {
+    class DaoPostSpec : DaoPostSpecSetupAndTearDown {
         [Test]
         public async Task AddsToDb() {
             User user = new User("Lucca", "123456", "an@email.com");
@@ -21,7 +21,7 @@ namespace QWest.DataAccess.Tests {
             DateTime now = DateTime.Now;
             Post post = await DAO.Post.Add("wassup", user, new List<byte[]>(), null);
             Assert.NotNull(post.Id);
-            Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm-ss"), post.PostTime.ToString("yyyy-MM-dd-HH-mm-ss"));
+            Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm"), post.PostTime.ToString("yyyy-MM-dd-HH-mm"));
             Assert.AreEqual("wassup", post.Contents);
         }
         [Test]
@@ -35,7 +35,7 @@ namespace QWest.DataAccess.Tests {
             byte[] imageData = stream.ToArray();
             Post post = await DAO.Post.Add("wassup", user, new List<byte[]> { imageData }, null);
             Assert.NotNull(post.Id);
-            Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm-ss"), post.PostTime.ToString("yyyy-MM-dd-HH-mm-ss"));
+            Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm"), post.PostTime.ToString("yyyy-MM-dd-HH-mm"));
             Assert.AreEqual("wassup", post.Contents);
         }
         [Test]
@@ -45,7 +45,7 @@ namespace QWest.DataAccess.Tests {
             DateTime now = DateTime.Now;
             Post post = await DAO.Post.Add("wassup", user, new List<byte[]> { }, (await DAO.Geography.GetCountryByAlpha2("DK")).Id);
             Assert.NotNull(post.Id);
-            Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm-ss"), post.PostTime.ToString("yyyy-MM-dd-HH-mm-ss"));
+            Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm"), post.PostTime.ToString("yyyy-MM-dd-HH-mm"));
             Assert.AreEqual("wassup", post.Contents);
         }
         [Test]
@@ -62,6 +62,36 @@ namespace QWest.DataAccess.Tests {
             Assert.AreEqual(expected.UserAuthor.Id, fetched.UserAuthor.Id);
         }
 
+        [TestFixture]
+        public class GetsUserFeed : DaoPostSpecSetupAndTearDown {
+            [Test]
+            public async Task WhenAmountFetchedIsLessThanUserPostAmount() {
+                User user = new User("Lucca", "123456", "an@email.com");
+                await DAO.User.Add(user);
+                
+                for (int i = 0; i < 5; i++) {
+                    await DAO.Post.Add("wassup" + i, user, new List<byte[]>(), null);
+                }
+                List<Post> posts = (await DAO.Post.GetFeed(user, 4, 0)).ToList();
+                Assert.AreEqual(4, posts.Count);
+            }
+            [Test]
+            public async Task WhenAmountFetchedExceedsUserPostAmount() {
+                User user = new User("Lucca", "123456", "an@email.com");
+                await DAO.User.Add(user);
+
+                for (int i = 0; i < 5; i++) {
+                    await DAO.Post.Add("wassup" + i, user, new List<byte[]>(), null);
+                }
+                List<Post> postsWithNoOffset = (await DAO.Post.GetFeed(user, 7, 0)).ToList();
+                List<Post> postsWithOffset = (await DAO.Post.GetFeed(user, 7, 3)).ToList();
+
+                Assert.AreEqual(5, postsWithNoOffset.Count);
+                Assert.AreEqual(2, postsWithOffset.Count);
+            }
+        }
+    }
+    public class DaoPostSpecSetupAndTearDown {
         [SetUp]
         [OneTimeTearDown]
         public void Setup() {

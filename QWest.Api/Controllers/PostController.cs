@@ -31,12 +31,29 @@ namespace QWest.Apis {
             }
         }
 
+        private DAO.IGroup _groupRepo = null;
+        public DAO.IGroup GroupRepo {
+            get {
+                if (_groupRepo == null) {
+                    _groupRepo = DAO.Group;
+                }
+                return _groupRepo;
+            }
+            set {
+                _groupRepo = value;
+            }
+        }
+
         public class UploadArgument {
             public string contents;
             public int? location;
             public List<string> images;
+            public int? groupAuthor;
 
             public async Task<List<byte[]>> ParseImages() {
+                if(images == null) {
+                    return new List<byte[]>();
+                }
                 return (await Task.WhenAll(images.Select(x => Task.Factory.StartNew(() => {
                     if (x.Contains(",")) {
                         x = x.Split(',')[1];
@@ -57,7 +74,20 @@ namespace QWest.Apis {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
             List<byte[]> images = await upload.ParseImages();
-            Post post = await PostRepo.Add(upload.contents.Trim(), user, images, upload.location);
+            string contents = upload.contents.Trim();
+            Post post;
+            if (upload.groupAuthor == null) {
+                post = await PostRepo.Add(contents, user, images, upload.location);
+            }
+            else {
+                int groupAuthor = (int)upload.groupAuthor;
+                if (await GroupRepo.IsMember(groupAuthor, user)) {
+                    post = await PostRepo.AddGroupAuthor(contents, groupAuthor, images, upload.location);
+                }
+                else {
+                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                }
+            }
             return Request.CreateResponse(HttpStatusCode.OK, post);
         }
         [ResponseType(typeof(List<Post>))]
@@ -70,6 +100,37 @@ namespace QWest.Apis {
                 id = user.Id;
             }
             return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetByUserId(id ?? 0));
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(void))]
+        public async Task<HttpResponseMessage> Update([FromBody] Post post) {
+            User user = Request.GetOwinContext().Get<User>("user");
+            if (user == null) {
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            if (!(await PostRepo.IsAuthor(user, post))) {
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            await PostRepo.Update(post);
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(List<Post>))]
+        public async Task<HttpResponseMessage> GetFeed(int? id = null, int amount = 20, int offset = 0) {
+            int finalId;
+            if (id == null) {
+                User user = Request.GetOwinContext().Get<User>("user");
+                if (user == null) {
+                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                }
+                finalId = (int)user.Id;
+            }
+            else {
+                finalId = (int)id;
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetFeedByUserId(finalId, amount, offset));
         }
     }
 }

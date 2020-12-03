@@ -1,38 +1,154 @@
 import $ from "jquery";
-import "cookie-store"
-import { fetchMeAndUser } from "../whoami"
-import { blobToBase64 } from "../blobToBase64";
+import { fetchLogedInUser } from "../whoami"
 import autocomplete from "jquery-ui/ui/widgets/autocomplete"
+import { blobToBase64 } from "../blobToBase64";
 
+const fetchThisGroup = async () => {
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get("id")
+    if (!id) {
+        location.href = "/login.html"
+    }
+    const response = await fetch("api/Group/Get?id=" + id, {
+        method: "GET",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    if (response.status === 404) {
+        alert("group doesnt exists")
+        return
+    }
+    else if (response.status !== 200) {
+        console.log(await response.text())
+        alert("error " + response.status)
+        return
+    }
+    return JSON.parse(await response.text())
+}
 
-const userPromise = fetchMeAndUser();
+const fetchFriends = async () => {
+    const response = await fetch("/api/Friendship/GetFriends", {
+        method: "GET",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    if (response.status !== 200) {
+        console.log(await response.text())
+        alert("error " + response.status)
+    }
+    const friends = JSON.parse(await response.text())
+    return friends
+}
+
+const groupPromise = fetchThisGroup()
+
+const userPromise = fetchLogedInUser()
+
+const friendsPromise = fetchFriends();
 
 $(async () => {
-    const users = await userPromise;
-    const isMe = !users.them
-    const user = isMe ? users.me : users.them;
-    const group;
-    const groupnameField = $("#groupname-field")
-    const descriptionField = $("#description-field");
-    //const profilePictureContainer = $("#profile-picture-container")
+    const group = await groupPromise
+    console.log(group)
+    const user = await userPromise
+    const friends = await friendsPromise
+    const isOwned = group.members.findIndex(x => x.id === user.id) !== -1
     const logoutButton = $("#logout-button")
-    const userSettings = $("#user-settings");
+    const groupName = $("#group-name")
+    const editButton = $("#edit-button")
+    const groupNameModal = $("#group-name-modal")
+    const groupDescription = $("#group-description")
+    const membersList = $("#members-list")
+    const progressMap = $("#progress-map")
     const postContainer = $("#post-container")
     const postContents = $("#post-contents")
     const postImages = $("#post-images")
     const postButton = $("#post-button")
     const geopoliticalLocationAutocomplete = $("#geopolitical-location-autocomplete")
 
-    logoutButton.on("click", async () => {
-        await cookieStore.delete("sessionCookie")
+    logoutButton.on("click", () => {
+        Cookies.remove("sessionCookie")
         window.location.href = "/login.html"
     })
 
-    groupnameField.text(group.name)
+    //This shit doesn't work for whatever reason.
+    editButton.on("click", () => {
+        groupNameModal.text(group.name)
+        groupDescription.text(group.description)
+    })
 
-    descriptionField.text(group.description)
-
-    //profilePictureContainer.append('<img id="image" width="500px" src="/api/Image/Get?id=' + user.profilePicture + '" />')
+    groupName.text(group.name)
+    group.members.forEach(x => membersList.append(
+        $("<li></li>")
+            .append(
+                $('<a id="member"></a>')
+                    .text(x.username + " (" + x.email + ")")
+                    .attr("href", "/profile.html?id=" + x.id)
+            )
+            .append(
+                isOwned ?
+                    $('<button type="button" class="btn btn-danger"></button>')
+                        .text("remove")
+                        .on("click", async () => {
+                            const response = await fetch("api/Group/UpdateMembers", {
+                                method: "POST",
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    id: group.id,
+                                    additions: [],
+                                    subtractions: [x.id]
+                                })
+                            })
+                            if (response.status !== 200) {
+                                alert("error " + response.status)
+                                console.log(await response.text())
+                            }
+                            else {
+                                window.location.reload()
+                            }
+                        })
+                    : undefined)
+    ))
+    const membersSelected = []
+    if (isOwned) {
+        membersList.append(
+            $("<li></li>")
+                .append(
+                    (() => {
+                        const select = $("<select multiple='true'></select>")
+                        friends.forEach(friend => {
+                            const option = $(`<option value="${friend.id}"></option>`)
+                            option.text(friend.username + " (" + friend.email + ")")
+                            option.on("dblclick", () => {
+                                const index = membersSelected.indexOf(friend);
+                                if (index === -1) {
+                                    membersSelected.push(friend)
+                                    option.text(option.text() + " ✓")
+                                }
+                                else {
+                                    membersSelected.splice(index, 1)
+                                    const t = option.text()
+                                    option.text(t.substring(0, t.length - 2))
+                                }
+                            })
+                            select.append(option)
+                        })
+                        return select
+                    })()
+                )
+        )
+    }
+    else{
+        postContainer.css("display", "none")
+    }
+    //TODO: this doesnt work, map.html always renders current user's map
+    progressMap.attr("href", "map.html?id=" + group.progressMap.id)
 
     let selectedGeopoliticalLocation = null;
 
@@ -45,8 +161,9 @@ $(async () => {
             },
             body: JSON.stringify({
                 contents: postContents.val(),
-                location: selectedGeopoliticalLocation.id,
-                images: await Promise.all(Array.from(postImages[0].files).map(blobToBase64))
+                location: selectedGeopoliticalLocation ? selectedGeopoliticalLocation.id : null,
+                images: await Promise.all(Array.from(postImages[0].files).map(blobToBase64)),
+                groupAuthor: group.id
             })
         })
         if (request.status === 200) {

@@ -1,6 +1,6 @@
 import $ from "jquery";
-import "cookie-store"
 import { fetchLogedInUser } from "../whoami"
+import Cookies from 'js-cookie'
 
 const userPromise = fetchLogedInUser();
 
@@ -14,8 +14,8 @@ $(async () => {
     const profilePictureField = $("#profile-picture-field")
     const saveButton = $("#save-button")
 
-    logoutButton.on("click", async () => {
-        await cookieStore.delete("sessionCookie")
+    logoutButton.on("click", () => {
+        Cookies.remove("sessionCookie")
         window.location.href = "/login.html"
     })
 

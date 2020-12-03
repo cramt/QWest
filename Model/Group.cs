@@ -100,7 +100,7 @@ namespace Model {
             CreationTime = creationTime;
             Description = description;
             ProgressMap = progressMap;
-            Members = members.ToList();
+            Members = members.MapValue(x => x.ToList());
             Id = id;
         }
 

@@ -1,14 +1,31 @@
 import $ from "jquery";
-import "cookie-store"
 import { fetchUser } from "../whoami"
 import "select2"
 
 const userPromise = fetchUser();
 
+const fetchGroups = async () => {
+    const response = await fetch("api/Group/FetchUsersGroups?userId=null", {
+        method: "GET",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    if (response.status !== 200) {
+        console.log(await response.text())
+        alert("error " + response.status)
+        return
+    }
+    return JSON.parse(await response.text())
+}
+
+const groupsPromise = fetchGroups()
+
 $(".mul-select").select2({
-    placeholder: "select friends", 
+    placeholder: "select friends",
     tags: true,
-    tokenSeparators: ['/',',',';'," "] 
+    tokenSeparators: ['/', ',', ';', " "]
 });
 
 $(async () => {
@@ -65,5 +82,21 @@ $(async () => {
             alert("error " + response.status)
         }
         window.location = "group.html?id=" + (await response.text())
+    })
+
+
+
+    const groupList = $("#group-list")
+    const groups = await groupsPromise
+    groups.forEach(x => {
+        groupList.append(
+            $("<li></li>")
+            .append(
+                $("<a></a>")
+                .text(x.name)
+                .attr("href", "/group.html?id=" + x.id)
+            )
+            
+        )
     })
 })

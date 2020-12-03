@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Utilities {
     public static class Extensions {
+        public static IEnumerable<TResult> SelectPar<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector) {
+            return Task.WhenAll(source.Select(x => Task.Factory.StartNew(() => selector(x)))).GetAwaiter().GetResult();
+        }
         public static IEnumerable<T> ToIter<T>(this SqlDataReader reader, Func<SqlDataReader, T> transformer) {
             while (reader.Read()) {
                 yield return transformer(reader);
