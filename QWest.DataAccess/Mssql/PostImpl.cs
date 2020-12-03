@@ -71,7 +71,7 @@ name, creation_time, groups.description,
                 else {
                     throw new ArgumentException("in this post the author is neither a user or group");
                 }
-                return new Post(Content, userAuthor, groupAuthor, PostTime, Images.MapValue(x => x.ToList()), Location.MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(x).First()), Id);
+                return new Post(Content, userAuthor, groupAuthor, PostTime, Images.MapValue(x => x.ToList()), Location.MapValue(x => GeopoliticalLocationDbRep.ToTreeStructureFirst(x)), Id);
             }
         }
         private ConnectionWrapper _conn;

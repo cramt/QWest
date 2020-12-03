@@ -43,14 +43,6 @@ BEGIN
 		sub_region_code INT,
 		intermediate_region_code INT
 	);
-	SET @curr_super_id = (SELECT super_id FROM geopolitical_location WHERE id = @location_id);
-
-	WHILE (SELECT COUNT(*) FROM geopolitical_location where id = @curr_super_id) > 0
-	BEGIN
-		INSERT INTO @values SELECT * FROM geopolitical_location where id = @curr_super_id;
-		SET @curr_super_id = (SELECT super_id FROM geopolitical_location where id = @curr_super_id);
-	END
-
 
 	INSERT INTO @curr SELECT * FROM geopolitical_location WHERE id = @location_id;
 	WHILE (SELECT COUNT(*) FROM @curr) != 0
@@ -60,6 +52,14 @@ BEGIN
 		INSERT INTO @values SELECT * FROM @curr;
 		DELETE FROM @curr;
 		INSERT INTO @curr SELECT * FROM @temp;
+	END
+
+	SET @curr_super_id = (SELECT super_id FROM geopolitical_location WHERE id = @location_id);
+
+	WHILE (SELECT COUNT(*) FROM geopolitical_location where id = @curr_super_id) > 0
+	BEGIN
+		INSERT INTO @values SELECT * FROM geopolitical_location where id = @curr_super_id;
+		SET @curr_super_id = (SELECT super_id FROM geopolitical_location where id = @curr_super_id);
 	END
 RETURN;
 END
