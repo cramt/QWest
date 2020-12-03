@@ -1,20 +1,27 @@
 import $ from "jquery";
-import { fetchUser } from "../whoami";
+import { fetchLogedInUser } from "../whoami";
 import { mapOutStaticData } from "../mapOutStaticData"
 import { mapOutVisitation } from "../mapOutVisitation";
 import Cookies from 'js-cookie'
+import { GET } from "../api";
 
 async function fetchData() {
     let userDataPromise = (async () => {
-        let user = await fetchUser()
-        let progressMapRequest = await fetch("/api/ProgressMap/UserId?id=" + user.id, {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        });
-        let progressMap = JSON.parse(await progressMapRequest.text())
+        let user = await fetchLogedInUser()
+        const urlId = new URL(window.location.href).searchParams.get("id");
+        let progressMapResponse;
+        if (urlId) {
+            progressMapResponse = await GET.ProgressMap.Get({
+                id: urlId
+            })
+        }
+        else {
+            progressMapResponse = await GET.ProgressMap.UserId({
+                id: user.id
+            })
+            history.pushState(undefined, undefined, "/map.html?id=" + progressMapResponse.data.id)
+        }
+        let progressMap = progressMapResponse.data
         return { user, progressMap }
     })()
     let staticDataPromise = (async () => {
