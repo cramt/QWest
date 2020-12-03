@@ -1,5 +1,6 @@
 import $ from "jquery";
 import { fetchLogedInUser } from "../whoami"
+import Cookies from 'js-cookie'
 import autocomplete from "jquery-ui/ui/widgets/autocomplete"
 import { blobToBase64 } from "../blobToBase64";
 
@@ -59,6 +60,7 @@ $(async () => {
     const logoutButton = $("#logout-button")
     const groupName = $("#group-name")
     const editButton = $("#edit-button")
+    const saveChangesButton = $("#save-changes-button")
     const groupNameModal = $("#group-name-modal")
     const groupDescription = $("#group-description")
     const membersList = $("#members-list")
@@ -147,6 +149,45 @@ $(async () => {
     else{
         postContainer.css("display", "none")
     }
+
+    const contentUpdate = async () => {
+        let groupname = groupNameModal.val()
+        let description = groupDescription.val()
+        if (groupname === group.name) {
+            groupname = null
+        }
+        if (description === group.description) {
+            description = null
+        }
+        if (description === null && groupname === null) {
+            return;
+        }
+        const request = await fetch("/api/Group/Update", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id:group.id,
+                name:groupname,
+                description
+            })
+        })
+        if (request.status === 200) {
+            window.location.reload();
+            return;
+        }
+        window.r2 = request
+        alert("error: " + request.status)
+        console.log(await request.text())
+    }
+
+    saveChangesButton.on("click", async () => {
+        await Promise.all([contentUpdate()])
+
+    })
+
     //TODO: this doesnt work, map.html always renders current user's map
     progressMap.attr("href", "map.html?id=" + group.progressMap.id)
 

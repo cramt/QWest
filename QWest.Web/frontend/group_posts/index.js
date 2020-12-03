@@ -4,34 +4,19 @@ import { GET, sendRequest } from "../api";
 
 let currOffset = 0
 const fetchAmount = 5;
-let fetchingLock = false
+let fetchingLock = false;
+const url = new URL(window.location.href);
+const groupId = url.searchParams.get("id")
 
 $(async () => {
     const user = await fetchLogedInUser()
 
     const appendPost = (post) => {
-        console.log(post)
         const profileHtml = $("<p></p>")
-        if (post.groupAuthor) {
-            console.log("doing group")
-            profileHtml
-                .text(post.groupAuthor.name)
-        }
-        else if (post.userAuthor) {
-            console.log("doing user")
-            profileHtml
-                .text(post.userAuthor.username)
-                .append(
-                    $("<img/>")
-                        .attr("src", "/api/Image/Get?id=" + post.userAuthor.profilePicture)
-                )
-        }
-        else {
-            throw new Error("aaaaaaaaa this shouldnt happenF")
-        }
-
+        profileHtml
+            .text(post.groupAuthor.name)
+        
         const images = $("<div></div>")
-
         post.images.forEach(image => {
             images.append(
                 $("<img/>")
@@ -44,10 +29,9 @@ $(async () => {
         if (post.location) {
             locationHtml.append(
                 $("<p></p>")
-                    .text(post.location.alpha_3 ? `The country: ${post.location.name}` : `The subdivision: ${post.location.name}`,)
+                    .text(post.location.alpha_3 ? `The country: ${post.location.name}` : `The subdivision ${post.location.name}`)
             )
         }
-
 
         $("body").append(
             $("<div></div>")
@@ -63,11 +47,11 @@ $(async () => {
 
     const appendMorePosts = async () => {
         if (fetchingLock) {
-            return;
+            return
         }
         fetchingLock = true
-        const { status, data } = await GET.Post.GetFeed({
-            id: user.id,
+        const { status, data } = await GET.Post.GetGroupPosts({
+            id: groupId,
             amount: fetchAmount,
             offset: currOffset
         })

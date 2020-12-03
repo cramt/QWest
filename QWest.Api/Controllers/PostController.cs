@@ -132,5 +132,16 @@ namespace QWest.Apis {
             }
             return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetFeedByUserId(finalId, amount, offset));
         }
+
+        [HttpGet]
+        [ResponseType(typeof(List<Post>))]
+        public async Task<HttpResponseMessage> GetGroupPosts(int id, int amount = 20, int offset = 0)
+        {
+            if ((await GroupRepo.Get(id)) == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetGroupFeedById(id, amount, offset));
+        }
     }
 }
