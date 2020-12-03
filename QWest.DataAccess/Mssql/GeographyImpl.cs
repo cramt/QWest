@@ -124,6 +124,20 @@ namespace QWest.DataAcess.Mssql {
                     return true;
                 });
             }
+
+            public static GeopoliticalLocation ToTreeStructureFirst(IEnumerable<GeopoliticalLocationDbRep> locations) {
+                IEnumerable<GeopoliticalLocation> entities = locations.Select(x => x.ToModel()).ToList();
+                int first = (int)entities.First().Id;
+                Dictionary<int, GeopoliticalLocation> map = entities.ToDictionary(x => (int)x.Id, y => y);
+                foreach (GeopoliticalLocation local in map.Values) {
+                    if (local is Subdivision sub && map.ContainsKey(sub.SuperId)) {
+                        GeopoliticalLocation parent = map[sub.SuperId];
+                        sub.Parent = parent;
+                        parent.Subdivisions.Add(sub);
+                    }
+                }
+                return map[first];
+            }
         }
         private ConnectionWrapper _conn;
         public GeographyImpl(ConnectionWrapper conn) {
