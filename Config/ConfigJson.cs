@@ -6,19 +6,19 @@ using System.Collections.Generic;
 namespace Config {
     [Serializable]
     public class ConfigJson {
-        [JsonProperty("database_connection_string")]
+        [JsonProperty("database_connection_string", Required = Required.Always)]
         private string _databaseConnectionString;
 
-        [JsonProperty("api_port")]
+        [JsonProperty("api_port", Required = Required.Always)]
         private uint _apiPort;
 
-        [JsonProperty("serve_port")]
+        [JsonProperty("serve_port", Required = Required.Always)]
         private uint _servePort;
 
-        [JsonProperty("start_year")]
+        [JsonProperty("start_year", Required = Required.Always)]
         private uint _startYear;
 
-        [JsonProperty("email_port")]
+        [JsonProperty("email_port", Required = Required.Always)]
         private uint _emailPort;
 
         public string DatabaseConnectionString {
