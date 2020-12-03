@@ -29,7 +29,6 @@ $(async () => {
         
         //Add author, contents and location
         if (post.groupAuthor) {
-            console.log("doing group")
             postName
                 .text(post.groupAuthor.name)
             if (post.location) {
@@ -46,7 +45,7 @@ $(async () => {
         }
         //Add author, contents and location
         else if (post.userAuthor) {
-            console.log("doing user")
+            console.log(post.userAuthor)
             postName
                 .text(post.userAuthor.username)
             profilePic

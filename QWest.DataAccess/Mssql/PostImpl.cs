@@ -15,7 +15,7 @@ namespace QWest.DataAcess.Mssql {
         internal class PostDbRep : IDbRep<Post> {
             public const string SELECT_ORDER = @"
 posts.id, content, users_id, groups_id, post_time, (SELECT * FROM dbo.FetchGeopoliticalLocation(location) FOR JSON PATH) AS location,
-username, password_hash, email, users.description, session_cookie,
+username, password_hash, email, users.description, session_cookie, profile_picture,
 name, creation_time, groups.description,
 (SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = posts.id) AS images
 ";
@@ -30,6 +30,7 @@ name, creation_time, groups.description,
             public string Email { get; }
             public string UserDescription { get; }
             public byte[] SessionCookie { get; }
+            public int? ProfilePicture { get; }
             public string Name { get; }
             public int? CreationTime { get; }
             public string GroupDescription { get; }
@@ -47,11 +48,12 @@ name, creation_time, groups.description,
                 Email = reader.GetSqlString(i++).NullableValue();
                 UserDescription = reader.GetSqlString(i++).NullableValue();
                 SessionCookie = reader.GetSqlBinary(i++).NullableValue();
+                ProfilePicture = reader.GetSqlInt32(i++).NullableValue();
                 Name = reader.GetSqlString(i++).NullableValue();
                 CreationTime = reader.GetSqlInt32(i++).NullableValue();
                 GroupDescription = reader.GetSqlString(i++).NullableValue();
                 string imageString = reader.GetSqlString(i++).NullableValue();
-                if(imageString == null || imageString == "") {
+                if (imageString == null || imageString == "") {
                     Images = new List<int>();
                 }
                 else {
@@ -63,7 +65,9 @@ name, creation_time, groups.description,
                 User userAuthor = null;
                 Group groupAuthor = null;
                 if (UserId != null) {
-                    userAuthor = new User(Username, PasswordHash, Email, UserDescription, SessionCookie, UserId);
+                    userAuthor = new User(Username, PasswordHash, Email, UserDescription, SessionCookie, UserId) {
+                        ProfilePicture = ProfilePicture
+                    };
                 }
                 else if (GroupId != null) {
                     groupAuthor = new Group(Name, (int)CreationTime, GroupDescription, null, null, GroupId);
@@ -345,13 +349,11 @@ posts.id = @post_id";
             })).First() == 1;
         }
 
-        public async Task<IEnumerable<Post>> GetGroupFeed(Group group, int amount = 20, int offset = 0)
-        {
-             return await GetGroupFeedById((int)group.Id, amount, offset);
+        public async Task<IEnumerable<Post>> GetGroupFeed(Group group, int amount = 20, int offset = 0) {
+            return await GetGroupFeedById((int)group.Id, amount, offset);
         }
 
-        public async Task<IEnumerable<Post>> GetGroupFeedById(int id, int amount = 20, int offset = 0)
-        {
+        public async Task<IEnumerable<Post>> GetGroupFeedById(int id, int amount = 20, int offset = 0) {
             string query = $@"
 SELECT
 {PostDbRep.SELECT_ORDER}
@@ -370,8 +372,7 @@ ORDER BY id DESC
 OFFSET {offset} ROWS 
 FETCH NEXT {amount} ROWS ONLY;
 ";
-            return (await _conn.Use(query, async stmt =>
-            {
+            return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@group_id", id);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
             })).Select(x => x.ToModel()).ToList();
