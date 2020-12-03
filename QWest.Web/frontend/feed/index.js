@@ -54,7 +54,7 @@ $(async () => {
                 .append(profileHtml)
                 .append(
                     $("<p></p>")
-                        .text(post.content)
+                        .text(post.contents)
                 )
                 .append(images)
                 .append(locationHtml)

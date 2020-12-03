@@ -365,6 +365,10 @@ ON
 users.id = users_id
 WHERE
 groups_id = @group_id
+
+ORDER BY id DESC
+OFFSET {offset} ROWS 
+FETCH NEXT {amount} ROWS ONLY;
 ";
             return (await _conn.Use(query, async stmt =>
             {
