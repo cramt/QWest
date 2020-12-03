@@ -7,58 +7,84 @@ const fetchAmount = 5;
 let fetchingLock = false
 
 $(async () => {
-    const user = await fetchLogedInUser()
+    let logoutButton = $("#logout-button")
+    logoutButton.on("click", async () => {
+        Cookies.remove("sessionCookie")
+        window.location.href = "/login.html"
+    })
 
+    const user = await fetchLogedInUser()
+    const postsContainer = $("#posts-container")
     const appendPost = (post) => {
         console.log(post)
-        const profileHtml = $("<p></p>")
+        const singlePost = $('<div id="single-post" class="row mb-3 w3-container w3-pale-blue w3-leftbar w3-border-blue"></div>')
+        const postElementAuthor = $('<div id="post-element-author" class="col-lg-4"></div>')
+        const postElementContents = $('<div id="post-element-contents" class="col-lg-4">')
+        const postElementImages = $('<div id="post-element-images" class="col-lg-4"></div>')
+        const postName = $('<h4 id="post-name"></h4>')
+        const profilePic = $('<img id="profile-pic">')
+        const postLocation = $('<p id="post-location"></p>')
+        const postContents = $('<p id="post-contents"></p>')
+        const postImages = $('<img id="post-images" height="300px">')
+        
+        //Add author, contents and location
         if (post.groupAuthor) {
             console.log("doing group")
-            profileHtml
+            postName
                 .text(post.groupAuthor.name)
+            if (post.location) {
+                postLocation
+                    .text(post.location.alpha_3 ? `The country: ${post.location.name}` : `The subdivision: ${post.location.name}`,)
+            }
+            postContents
+                .text(post.contents)
+            postElementAuthor
+                .append(postName)
+                .append(postLocation)
+            postElementContents
+                .append(postContents)
         }
+        //Add author, contents and location
         else if (post.userAuthor) {
             console.log("doing user")
-            profileHtml
+            postName
                 .text(post.userAuthor.username)
-                .append(
-                    $("<img/>")
-                        .attr("src", "/api/Image/Get?id=" + post.userAuthor.profilePicture)
-                )
+            profilePic
+                .attr("src", "/api/Image/Get?id=" + post.userAuthor.profilePicture)
+            if (post.location) {
+                postLocation
+                    .text(post.location.alpha_3 ? `The country: ${post.location.name}` : `The subdivision: ${post.location.name}`,)
+            }
+            postContents
+                .text(post.contents)
+            postElementAuthor
+                .append(postName)
+                .append(profilePic)
+                .append(postLocation)
+            postElementContents
+                .append(postContents)
         }
+        
         else {
             throw new Error("aaaaaaaaa this shouldnt happenF")
         }
 
-        const images = $("<div></div>")
-
+        //Add post image(s)
         post.images.forEach(image => {
-            images.append(
-                $("<img/>")
+            postElementImages.append(
+                postImages
                     .attr("src", "/api/Image/Get?id=" + image)
             )
         })
 
-        const locationHtml = $("<div></div>")
-
-        if (post.location) {
-            locationHtml.append(
-                $("<p></p>")
-                    .text(post.location.alpha_3 ? `The country: ${post.location.name}` : `The subdivision: ${post.location.name}`,)
+        // Merge it all into a single post
+        postsContainer
+            .append(singlePost
+                .append(postElementAuthor)
+                .append(postElementContents)
+                .append(postElementImages)
+                .append("<br>")
             )
-        }
-
-
-        $("body").append(
-            $("<div></div>")
-                .append(profileHtml)
-                .append(
-                    $("<p></p>")
-                        .text(post.contents)
-                )
-                .append(images)
-                .append(locationHtml)
-        )
     }
 
     const appendMorePosts = async () => {

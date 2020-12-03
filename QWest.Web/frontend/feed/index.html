@@ -4,12 +4,41 @@
 
 <head>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="feed.css">
+    <link rel="stylesheet" href="w3.css">
+    <script src="jquery/jquery-3.5.1.js"></script>
     <meta charset="utf-8" />
-    <title>Edit map</title>
+    <title>Feed</title>
 </head>
 
-<body>
-    
+<body class="text-center">
+    <!-- Epic top bar -->
+    <div class="cover-container d-flex w-600 h-80 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <img id="qwest-logo" src="QWestLogo_small.png">
+                <h2 class="masthead-brand">QWest - Feed</h2>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a id="view-profile" class="nav-link" href="/profile.html">Profile</a>
+                    <a id="viewmap" class="nav-link active" href="/map.html">View map</a>
+                    <a id="user-settings" class="nav-link" href="/settings.html">Profile settings</a>
+                    <a id="logout-button" class="nav-link" href="#">Log out</a>
+                </nav>
+            </div>
+        </header>
+        <main class="inner cover" role="main">
+            <!-- Feed with posts here -->
+            <div id="posts-container">
+            </div>
+        </main>
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>
+                    QWest footer is down here, and you can read it too!
+                </p>
+            </div>
+        </footer>
+    </div>
 </body>
 
 </html>
