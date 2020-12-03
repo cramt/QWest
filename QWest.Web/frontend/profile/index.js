@@ -41,6 +41,7 @@ $(async () => {
     if (!isMe) {
         postContainer.css("display", "none")
         userSettings.text("Add friend")
+        userSettings.removeAttr("href")
         userSettings.attr("href", "#")
         userSettings.on("click", async () => {
             const request = await sendRequest("/api/Friendship/AddFriend?id=" + user.id, "POST")
