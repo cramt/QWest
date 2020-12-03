@@ -1,6 +1,6 @@
 import $ from "jquery";
 import Cookies from 'js-cookie'
-import { sendRequest } from "../api";
+import { POST, sendRequest } from "../api";
 
 $(() => {
     //from http://emailregex.com/
@@ -35,7 +35,7 @@ $(() => {
         let username = usernameInput.val()
         let passwordConfirm = passwordInputConfirm.val()
         if (validateRegister(username, email, password, passwordConfirm)) {
-            const { status, data } = await sendRequest("api/SignUp/Register", "POST", {
+            const { status, data } = await POST.SignUp.Register({
                 password,
                 email,
                 username

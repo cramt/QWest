@@ -1,12 +1,14 @@
+import { GET } from "./api";
+
 const url = new URL(window.location.href);
 const fetchUser = async () => {
     const id = url.searchParams.get("id")
     let response = undefined
     if (id) {
-        response = await sendRequest("api/User/Get/" + id)
+        response = await GET.User.Get({ id })
     }
     else {
-        response = await sendRequest("api/User/Get/" + id)
+        response = await GET.Login.GetMe()
     }
     switch (response.status) {
         case 200:
@@ -25,27 +27,15 @@ const fetchUser = async () => {
 }
 
 const fetchMeAndUser = async () => {
-    const getMeRequest = fetch("api/Login/GetMe", {
-        method: "GET",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-    })
+    const getMeRequest = GET.Login.GetMe()
     const result = {}
     const id = url.searchParams.get("id")
     let response = undefined;
     if (id) {
-        response = await fetch("api/User/Get/" + id, {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
+        response = await GET.User.Get({ id })
         switch (response.status) {
             case 200:
-                result.them = JSON.parse(await response.text())
+                result.them = response.data
                 break;
             case 404:
                 window.location.href = "/login.html"
@@ -53,7 +43,7 @@ const fetchMeAndUser = async () => {
                 break;
             default:
                 alert("unexpected " + response.status)
-                console.log(await response.text())
+                console.log(response.data)
                 return null;
                 break;
         }
@@ -61,7 +51,7 @@ const fetchMeAndUser = async () => {
     response = await getMeRequest;
     switch (response.status) {
         case 200:
-            result.me = JSON.parse(await response.text())
+            result.me = response.data
             break;
         case 404:
             window.location.href = "/login.html"
@@ -69,7 +59,7 @@ const fetchMeAndUser = async () => {
             break;
         default:
             alert("unexpected " + response.status)
-            console.log(await response.text())
+            console.log(response.data)
             return null;
             break;
     }
@@ -77,13 +67,7 @@ const fetchMeAndUser = async () => {
 }
 
 const fetchLogedInUser = async () => {
-    let response = await fetch("api/Login/GetMe", {
-        method: "GET",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-    })
+    let response = await GET.Login.GetMe()
     switch (response.status) {
         case 200:
             break;
@@ -93,11 +77,11 @@ const fetchLogedInUser = async () => {
             break;
         default:
             alert("unexpected " + response.status)
-            console.log(await response.text())
+            console.log(response.data)
             return null;
             break;
     }
-    return JSON.parse(await response.text())
+    return response.data
 }
 
 export { fetchUser, fetchLogedInUser, fetchMeAndUser }

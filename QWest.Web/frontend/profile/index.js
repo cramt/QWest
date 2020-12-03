@@ -3,6 +3,7 @@ import { fetchMeAndUser } from "../whoami"
 import { blobToBase64 } from "../blobToBase64";
 import autocomplete from "jquery-ui/ui/widgets/autocomplete"
 import Cookies from 'js-cookie'
+import { POST, sendRequest } from "../api"
 
 
 const userPromise = fetchMeAndUser();
@@ -42,20 +43,14 @@ $(async () => {
         userSettings.text("Add friend")
         userSettings.attr("href", "#")
         userSettings.on("click", async () => {
-            const request = await fetch("/api/Friendship/AddFriend?id=" + user.id, {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-            })
+            const request = await sendRequest("/api/Friendship/AddFriend?id=" + user.id, "POST")
             if (request.status !== 200) {
                 alert("error: " + request.status);
-                console.log(await request.text())
+                console.log(request.data)
                 return
             }
             userSettings.text("Friend added")
-            if (!JSON.parse(await request.text())) {
+            if (!request.data) {
                 alert("you are already friends with this person")
             }
         })
@@ -64,24 +59,18 @@ $(async () => {
     let selectedGeopoliticalLocation = null;
 
     postButton.on("click", async () => {
-        const request = await fetch("api/Post/Upload", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: postContents.val(),
-                location: selectedGeopoliticalLocation.id,
-                images: await Promise.all(Array.from(postImages[0].files).map(blobToBase64))
-            })
+
+        const request = await POST.Post.Upload({
+            contents: postContents.val(),
+            location: selectedGeopoliticalLocation.id,
+            images: await Promise.all(Array.from(postImages[0].files).map(blobToBase64))
         })
         if (request.status === 200) {
             window.location.reload();
             return;
         }
         console.log(request.status)
-        console.log(await request.text())
+        console.log(response.data)
     })
 
     let auto = new autocomplete({
