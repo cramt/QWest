@@ -48,6 +48,17 @@ namespace QWest.DataAccess.Tests {
             Assert.AreEqual(now.ToString("yyyy-MM-dd-HH-mm"), post.PostTime.ToString("yyyy-MM-dd-HH-mm"));
             Assert.AreEqual("wassup", post.Contents);
         }
+
+        [Test]
+        public async Task AddsToDbWithGroupAuthor()
+        {
+            User user = new User("Lucca", "123456", "an@email.com");
+            await DAO.User.Add(user);
+            Group group = await DAO.Group.Create(new Group("lucca's friends", DateTime.Now, "we're lucca's friends", null, new User[] { user }));
+            Post post = await DAO.Post.Add("wassup", group, new List<byte[]>(), null);
+            Assert.NotNull(post.Id);
+        }
+
         [Test]
         public async Task GetByUser() {
             User user = new User("Lucca", "123456", "an@email.com");
@@ -90,12 +101,25 @@ namespace QWest.DataAccess.Tests {
                 Assert.AreEqual(2, postsWithOffset.Count);
             }
         }
+        [Test]
+        public async Task GetsGroupFeed()
+        {
+            User user = new User("Lucca", "123456", "an@email.com");
+            await DAO.User.Add(user);
+            Group group = await DAO.Group.Create(new Group("lucca's friends", DateTime.Now, "we're lucca's friends", null, new User[] { user }));
+            for (int i = 0; i < 5; i++)
+            {
+                await DAO.Post.Add("wassup" + i, group, new List<byte[]>(), null);
+            }
+            List<Post> posts = (await DAO.Post.GetGroupFeed(group)).ToList();
+            Assert.AreEqual(5, posts.Count);
+        }
     }
     public class DaoPostSpecSetupAndTearDown {
         [SetUp]
         [OneTimeTearDown]
         public void Setup() {
-            ConnectionWrapper.Instance.Use("DELETE FROM images; DELETE FROM users_friendships; DELETE FROM users_friendship_requests; DELETE FROM users; DELETE FROM posts", stmt => stmt.ExecuteNonQueryAsync()).Wait();
+            ConnectionWrapper.Instance.Use("DELETE FROM images; DELETE FROM users_friendships; DELETE FROM users_friendship_requests; DELETE FROM users_groups; DELETE FROM posts; DELETE FROM groups; DELETE FROM users", stmt => stmt.ExecuteNonQueryAsync()).Wait();
         }
     }
 }

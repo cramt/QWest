@@ -45,6 +45,11 @@ namespace QWest.Api.Controllers {
                 return Request.CreateResponse(HttpStatusCode.OK, await ProgressMapRepo.GetByUserId((int)id));
             }
         }
+        [HttpGet]
+        [ResponseType(typeof(ProgressMap))]
+        public async Task<HttpResponseMessage> Get(int id) {
+            return Request.CreateResponse(HttpStatusCode.OK, await ProgressMapRepo.Get(id));
+        }
         public class UpdateArgument {
             public int id;
             public List<int> additions;
@@ -55,7 +60,7 @@ namespace QWest.Api.Controllers {
         public async Task<HttpResponseMessage> Change([FromBody] UpdateArgument argument) {
             User user = Request.GetOwinContext().Get<User>("user");
             ProgressMap map = await ProgressMapRepo.Get(user);
-            if(argument.id != map.Id) {
+            if (argument.id != map.Id) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
             await ProgressMapRepo.Update(argument.id, argument.additions, argument.subtractions);

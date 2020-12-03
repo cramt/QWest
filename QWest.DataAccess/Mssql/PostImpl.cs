@@ -49,6 +49,7 @@ name, creation_time, groups.description,
                 SessionCookie = reader.GetSqlBinary(i++).NullableValue();
                 Name = reader.GetSqlString(i++).NullableValue();
                 CreationTime = reader.GetSqlInt32(i++).NullableValue();
+                GroupDescription = reader.GetSqlString(i++).NullableValue();
                 string imageString = reader.GetSqlString(i++).NullableValue();
                 if(imageString == null || imageString == "") {
                     Images = new List<int>();
@@ -70,7 +71,7 @@ name, creation_time, groups.description,
                 else {
                     throw new ArgumentException("in this post the author is neither a user or group");
                 }
-                return new Post(Content, userAuthor, groupAuthor, PostTime, Images.MapValue(x => x.ToList()), Location.MapValue(x => GeopoliticalLocationDbRep.ToTreeStructure(x).First()), Id);
+                return new Post(Content, userAuthor, groupAuthor, PostTime, Images.MapValue(x => x.ToList()), Location.MapValue(x => GeopoliticalLocationDbRep.ToTreeStructureFirst(x)), Id);
             }
         }
         private ConnectionWrapper _conn;
@@ -151,7 +152,6 @@ WHERE posts.id = @post_id
 
                 return (await stmt.ExecuteReaderAsync())
                     .ToIterator(reader => new PostDbRep(reader));
-
             })).First().ToModel();
         }
 
@@ -343,6 +343,34 @@ posts.id = @post_id";
                 stmt.Parameters.AddWithValue("@post_id", postId);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value);
             })).First() == 1;
+        }
+
+        public async Task<IEnumerable<Post>> GetGroupFeed(Group group, int amount = 20, int offset = 0)
+        {
+             return await GetGroupFeedById((int)group.Id, amount, offset);
+        }
+
+        public async Task<IEnumerable<Post>> GetGroupFeedById(int id, int amount = 20, int offset = 0)
+        {
+            string query = $@"
+SELECT
+{PostDbRep.SELECT_ORDER}
+FROM
+posts 
+LEFT JOIN groups
+ON
+groups.id = groups_id
+LEFT JOIN users
+ON
+users.id = users_id
+WHERE
+groups_id = @group_id
+";
+            return (await _conn.Use(query, async stmt =>
+            {
+                stmt.Parameters.AddWithValue("@group_id", id);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
+            })).Select(x => x.ToModel()).ToList();
         }
     }
 }
