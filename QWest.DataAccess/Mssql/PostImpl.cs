@@ -49,6 +49,7 @@ name, creation_time, groups.description,
                 SessionCookie = reader.GetSqlBinary(i++).NullableValue();
                 Name = reader.GetSqlString(i++).NullableValue();
                 CreationTime = reader.GetSqlInt32(i++).NullableValue();
+                GroupDescription = reader.GetSqlString(i++).NullableValue();
                 string imageString = reader.GetSqlString(i++).NullableValue();
                 if(imageString == null || imageString == "") {
                     Images = new List<int>();
