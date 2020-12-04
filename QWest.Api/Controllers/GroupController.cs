@@ -66,19 +66,19 @@ namespace QWest.Api.Controllers {
 
         [Serializable]
         public class UpdateArgument {
-            public int Id;
-            public string Description;
-            public string Name;
+            public int id;
+            public string description;
+            public string name;
 
             public Group UpdateGroup(Group group)
             {
-                if (Description != null)
+                if (description != null)
                 {
-                    group.Description = Description;
+                    group.Description = description;
                 }
-                if (Name != null)
+                if (name != null)
                 {
-                    group.Name = Name;
+                    group.Name = name;
                 }
 
                 return group;
@@ -89,10 +89,10 @@ namespace QWest.Api.Controllers {
         [ResponseType(typeof(void))]
         public async Task<HttpResponseMessage> Update([FromBody] UpdateArgument argument) {
             User user = Request.GetOwinContext().Get<User>("user");
-            if (user == null || !await DAO.Group.IsMember(argument.Id, user)) {
+            if (user == null || !await DAO.Group.IsMember(argument.id, user)) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            Group group = await GroupRepo.Get(argument.Id);
+            Group group = await GroupRepo.Get(argument.id);
             await GroupRepo.Update(argument.UpdateGroup(group));
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
