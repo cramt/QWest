@@ -22,6 +22,7 @@ body {
     size: 50%;
 }
 
+#view-group,
 #single-post,
 #view-profile,
 #viewmap,
@@ -35,6 +36,12 @@ body {
 #location {
   color: darkblue;
   font-size: large;
+}
+
+#post-name {
+    font-family: "Copperplate", fantasy;
+    font-size: 30pt;
+    
 }
 
 #location,

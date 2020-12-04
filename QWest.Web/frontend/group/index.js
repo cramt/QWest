@@ -51,6 +51,8 @@ const userPromise = fetchLogedInUser()
 
 const friendsPromise = fetchFriends();
 
+
+
 $(async () => {
     const group = await groupPromise
     console.log(group)
@@ -76,7 +78,6 @@ $(async () => {
         window.location.href = "/login.html"
     })
 
-    //This shit doesn't work for whatever reason.
     editButton.on("click", () => {
         groupNameModal.text(group.name)
         groupDescription.text(group.description)
@@ -117,6 +118,9 @@ $(async () => {
                         })
                     : undefined)
     ))
+    /* What is the purpose of this multi-select thing?
+    If you can explain, I'll add it back in. */
+    /*
     const membersSelected = []
     if (isOwned) {
         membersList.append(
@@ -149,6 +153,7 @@ $(async () => {
     else{
         postContainer.css("display", "none")
     }
+    */
 
     const contentUpdate = async () => {
         let groupname = groupNameModal.val()

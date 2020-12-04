@@ -20,6 +20,7 @@
                     <img id="qwest-logo" src="QWestLogo_small.png">
                     <h2 class="masthead-brand">QWest - Groups</h2>
                     <nav class="nav nav-masthead justify-content-center">
+                        <a id="feed-button" class="nav-link" href="/feed.html">Feed</a>
                         <a id="viewmap" class="nav-link active" href="/map.html">View map</a>
                         <a id="profile" class="nav-link" href="/profile.html">Profile</a>
                         <a id="logout-button" class="nav-link" href="#">Log out</a>
@@ -94,13 +95,5 @@
                 </div>
             </div>
         </div>
-        <!-- I know this is illegal, but it doesn't work if I place it in the index.js file...-->
-        <script>
-            $(".mul-select").select2({
-                placeholder: "select friends", 
-                tags: true,
-                tokenSeparators: ['/',',',';'," "] 
-            });
-        </script>
     </body>
 </html>

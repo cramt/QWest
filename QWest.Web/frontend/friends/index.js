@@ -55,6 +55,7 @@ const renderFriendRequests = async (user) => {
         const image = $('<img id="image" src="/api/Image/Get?id=' + x.profilePicture + '" />')
         const acceptButton = $('<a id="accept-button" class="btn btn-lg btn-secondary">Accept</a>')
         const br = $("<br></br>")
+        const br2 = $("<br>")
         acceptButton.on("click", async () => {
             let response = await fetch("api/Friendship/AcceptFriendRequest?id=" + x.id, {
                 method: "POST",
@@ -74,7 +75,7 @@ const renderFriendRequests = async (user) => {
             window.location.reload()
         })
         entry.append(span)
-        entry.append(br)
+        entry.append(br2)
         entry.append(image)
         entry.append(br)
         entry.append(acceptButton)

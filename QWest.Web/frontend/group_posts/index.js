@@ -12,6 +12,55 @@ $(async () => {
     const user = await fetchLogedInUser()
 
     const appendPost = (post) => {
+        const singlePost = $('<div id="single-post" class="row mb-3 w3-container w3-pale-blue w3-leftbar w3-border-blue"></div>')
+        const postElementAuthor = $('<div id="post-element-author" class="col-lg-4"></div>')
+        const postElementContents = $('<div id="post-element-contents" class="col-lg-4">')
+        const postElementImages = $('<div id="post-element-images" class="col-lg-4"></div>')
+        const postName = $('<h4 id="post-name"></h4>')
+        const postLocation = $('<p id="post-location"></p>')
+        const postContents = $('<p id="post-contents"></p>')
+        const postImages = $('<img id="post-images" height="300px">')
+        
+        //Add author, contents and location
+        if (post.groupAuthor) {
+            postName
+                .text(post.groupAuthor.name)
+            if (post.location) {
+                postLocation
+                    .text(post.location.alpha_3 ? `The country: ${post.location.name}` : `The subdivision: ${post.location.name}`,)
+            }
+            postContents
+                .text(post.contents)
+            postElementAuthor
+                .append(postName)
+                .append(postLocation)
+            postElementContents
+                .append(postContents)
+        }
+        
+        else {
+            throw new Error("aaaaaaaaa this shouldnt happenF")
+        }
+
+        //Add post image(s)
+        post.images.forEach(image => {
+            postElementImages.append(
+                postImages
+                    .attr("src", "/api/Image/Get?id=" + image)
+            )
+        })
+
+        // Merge it all into a single post
+        postsContainer
+            .append(singlePost
+                .append(postElementAuthor)
+                .append(postElementContents)
+                .append(postElementImages)
+                .append("<br>")
+            )
+
+        //________________________________________________
+        /*
         const profileHtml = $("<p></p>")
         profileHtml
             .text(post.groupAuthor.name)
@@ -43,6 +92,7 @@ $(async () => {
                 .append(images)
                 .append(locationHtml)
         )
+        */
     }
 
     const appendMorePosts = async () => {

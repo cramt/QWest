@@ -45,6 +45,7 @@ body {
     position: fixed;
     z-index: 1;
     top: 100px;
+    bottom: 50px;
     overflow-x: hidden;
     padding-top: 0px;
     overflow-y: auto;
@@ -70,6 +71,8 @@ body {
     border-radius: 10px;
     padding-bottom: 4px;
     width: 90%;
+    margin-left: 3%;
+    margin-right: 5%;
 }
 .cover-container {
     overflow-y: auto;
