@@ -46,6 +46,14 @@ body {
     justify-content: center;
     margin: auto;
     max-width: 400px;
+    text-align: left;
+}
+
+#member-container {
+    height: 45px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-bottom: solid 1px #333;
 }
 
 #member {
@@ -53,7 +61,12 @@ body {
     border-radius: 5px;
     border-color: #7AA8FF;
     padding-left: 0pt;
+    text-align: left;
+}
 
+#remove-button {
+    margin-right: 5%;
+    float: right;
 }
 
 #progress-map, 

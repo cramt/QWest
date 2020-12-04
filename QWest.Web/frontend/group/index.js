@@ -51,8 +51,6 @@ const userPromise = fetchLogedInUser()
 
 const friendsPromise = fetchFriends();
 
-
-
 $(async () => {
     const group = await groupPromise
     console.log(group)
@@ -81,11 +79,12 @@ $(async () => {
     editButton.on("click", () => {
         groupNameModal.text(group.name)
         groupDescription.text(group.description)
+        //TODO: Fix the friend-select menu for inviting friends. it's broken currently because select has a hard time inside modal windows
     })
 
     groupName.text(group.name)
     group.members.forEach(x => membersList.append(
-        $("<li></li>")
+        $('<li id="member-container"></li>')
             .append(
                 $('<a id="member"></a>')
                     .text(x.username + " (" + x.email + ")")
@@ -93,7 +92,7 @@ $(async () => {
             )
             .append(
                 isOwned ?
-                    $('<button type="button" class="btn btn-danger"></button>')
+                    $('<button type="button" id="remove-button" class="btn btn-danger"></button>')
                         .text("remove")
                         .on("click", async () => {
                             const response = await fetch("api/Group/UpdateMembers", {

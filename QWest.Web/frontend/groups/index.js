@@ -84,7 +84,7 @@ $(async () => {
     const groups = await groupsPromise
     groups.forEach(x => {
         groupList.append(
-            $("<li></li>")
+            $('<li id="single-group"></li>')
                 .append(
                     $("<a></a>")
                         .text(x.name)

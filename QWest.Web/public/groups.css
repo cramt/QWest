@@ -26,6 +26,8 @@ body {
     margin-top: 20px;
     list-style-type: none;
     line-height: 200%;
+    text-align: left;
+    font-size: x-large;
 }
 
 #group-selector {
@@ -125,9 +127,7 @@ body {
 
 #single-group {
     align-self: center;
-    border: 3px black;
-    border-style: ridge;
-    border-radius: 10px;
+    border-bottom: 2px solid #000;
     padding-bottom: 4px;
     width: 90%;
     margin-left: 3%;
