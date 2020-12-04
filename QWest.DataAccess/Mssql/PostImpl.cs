@@ -232,7 +232,7 @@ groups.id = posts.groups_id
 WHERE
 users.id = @user_id
 OR 
-users.id = (
+users.id IN (
     SELECT 
     left_user_id
     FROM
@@ -241,7 +241,7 @@ users.id = (
     right_user_id = @user_id
 )
 OR
-groups.id = (
+groups.id IN (
     SELECT
     id
     FROM
@@ -254,7 +254,7 @@ groups.id = (
     users_groups.users_id = @user_id
 )
 OR
-groups.id = (
+groups.id IN (
     SELECT
     id
     FROM
