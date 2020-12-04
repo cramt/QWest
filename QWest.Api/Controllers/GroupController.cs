@@ -69,6 +69,20 @@ namespace QWest.Api.Controllers {
             public int id;
             public string description;
             public string name;
+
+            public Group UpdateGroup(Group group)
+            {
+                if (description != null)
+                {
+                    group.Description = description;
+                }
+                if (name != null)
+                {
+                    group.Name = name;
+                }
+
+                return group;
+            }
         }
 
         [HttpPost]
@@ -78,7 +92,8 @@ namespace QWest.Api.Controllers {
             if (user == null || !await DAO.Group.IsMember(argument.id, user)) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            await DAO.Group.Update(argument.id, argument.name, argument.description);
+            Group group = await GroupRepo.Get(argument.id);
+            await GroupRepo.Update(argument.UpdateGroup(group));
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
