@@ -14,6 +14,15 @@ namespace QWest.DataAcess.Mssql {
     class UserImpl : IUser {
         [Serializable]
         internal class UserDbRep : IDbRep<User> {
+            public const string SELECT_ORDER = @"
+id, 
+username,
+password_hash, 
+email, 
+session_cookie, 
+description, 
+profile_picture
+";
             [JsonProperty("id")]
             public int Id { get; set; }
             [JsonProperty("username")]
@@ -27,11 +36,22 @@ namespace QWest.DataAcess.Mssql {
             [JsonProperty("session_cookie")]
             public string SessionCookie { get; set; }
             [JsonProperty("progress_maps_id")]
-            public int ProgressMapId { get; set; }
+            public int? ProgressMapId { get; set; }
             [JsonProperty("description")]
             public string Description { get; set; }
             [JsonProperty("profile_picture")]
             public int? ProfilePicture { get; set; }
+
+            public UserDbRep(SqlDataReader reader) {
+                int i = 0;
+                Id = reader.GetSqlInt32(i++).Value;
+                Username = reader.GetSqlString(i++).Value;
+                PasswordHash = reader.GetSqlBinary(i++).Value;
+                Email = reader.GetSqlString(i++).Value;
+                SessionCookie = reader.GetSqlBinary(i++).NullableValue().MapValue(Convert.ToBase64String);
+                Description = reader.GetSqlString(i++).Value;
+                ProfilePicture = reader.GetSqlInt32(i++).NullableValue();
+            }
 
             public User ToModel() {
                 return new User {
@@ -190,6 +210,33 @@ SELECT @image_id
                 stmt.Parameters.AddWithValue("@id", userId);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlInt32(0).Value).First();
             });
+        }
+
+        public async Task<IEnumerable<User>> Search(string search) {
+            string query = $@"
+SELECT
+{UserDbRep.SELECT_ORDER}
+FROM
+users
+WHERE
+username LIKE @search1
+OR
+username LIKE @search2
+OR
+username  LIKE @search3
+OR
+email LIKE @search1
+OR
+email LIKE @search2
+OR
+email LIKE @search3
+";
+            return (await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@search1", "%" + search + "%");
+                stmt.Parameters.AddWithValue("@search2", search + "%");
+                stmt.Parameters.AddWithValue("@search3", "%" + search);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(x => new UserDbRep(x));
+            })).Select(x => x.ToModel());
         }
     }
 }
