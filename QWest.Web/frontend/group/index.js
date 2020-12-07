@@ -56,6 +56,7 @@ $(async () => {
     console.log(group)
     const user = await userPromise
     const friends = await friendsPromise
+    console.log(friends)
     const isOwned = group.members.findIndex(x => x.id === user.id) !== -1
     const logoutButton = $("#logout-button")
     const friendsSelect = $("#friends-select")
@@ -119,11 +120,12 @@ $(async () => {
                         })
                     : undefined)
     ))
+
+    const friendsNotInGroup = friends.filter(friend => {
+            return !group.members.some(member => friend.id === member.id);
+        })
     
-    //Showing friends to invite to the group
-    /* Should only show the friends that aren't part of the group yet,
-       but that hasn't been implemented correctly yet. */
-    friends.forEach(x => !group.members.includes(x) ? 
+    friendsNotInGroup.forEach(x =>
         friendsList.append(
             $('<li id="friend-container"></li>')
                 .append(
@@ -158,7 +160,7 @@ $(async () => {
                             })
                         : undefined)
         ) 
-    : undefined)
+    )
 
     /* redundant for now
     const membersSelected = []
