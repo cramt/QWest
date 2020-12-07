@@ -42,7 +42,7 @@ namespace QWest.DataAccess.Tests {
         [SetUp]
         [OneTimeTearDown]
         public void Setup() {
-            ConnectionWrapper.Instance.Use("DELETE FROM progress_maps_locations; DELETE FROM users; DELETE FROM progress_maps ", stmt => stmt.ExecuteNonQueryAsync()).Wait();
+            Utils.CleanUp();
         }
 
     }

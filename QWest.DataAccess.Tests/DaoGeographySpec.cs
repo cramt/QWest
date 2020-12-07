@@ -147,12 +147,12 @@ namespace QWest.DataAccess.Tests {
     class DaoGeographySetupAndTearDown {
         [SetUp]
         public void SetUp() {
-            ConnectionWrapper.Instance.Use("DELETE FROM geopolitical_location", stmt => stmt.ExecuteNonQueryAsync()).Wait();
+            Utils.CleanUp(true);
         }
 
         [OneTimeTearDown]
         public void TearDown() {
-            ConnectionWrapper.Instance.Use("DELETE FROM geopolitical_location", stmt => stmt.ExecuteNonQueryAsync()).Wait();
+            Utils.CleanUp(true);
             List<Country> countries = GeopoliticalLocation.Parse(File.ReadAllText(Utilities.Utilities.SolutionLocation + "\\QWest.DataAccess\\res\\geopolitical_location_backup.json"));
             DAO.Geography.InsertBackup(countries).Wait();
         }

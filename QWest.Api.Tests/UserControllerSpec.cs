@@ -43,6 +43,11 @@ namespace QWest.Api.Tests {
                 return Users.Where(x => x.Username == username).ToList();
             }
 
+            public Task<IEnumerable<User>> Search(string searchTerm)
+            {
+                throw new NotImplementedException();
+            }
+
             public async Task<User> SetNewSessionCookie(User user) {
                 string sessionCookie;
                 do {
