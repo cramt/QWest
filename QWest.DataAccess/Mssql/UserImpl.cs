@@ -41,7 +41,7 @@ profile_picture
             public string Description { get; set; }
             [JsonProperty("profile_picture")]
             public int? ProfilePicture { get; set; }
-
+            /*
             public UserDbRep(SqlDataReader reader) {
                 int i = 0;
                 Id = reader.GetSqlInt32(i++).Value;
@@ -52,7 +52,7 @@ profile_picture
                 Description = reader.GetSqlString(i++).Value;
                 ProfilePicture = reader.GetSqlInt32(i++).NullableValue();
             }
-
+            */
             public User ToModel() {
                 return new User {
                     Id = Id,
@@ -211,7 +211,7 @@ SELECT @image_id
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => x.GetSqlInt32(0).Value).First();
             });
         }
-
+        /*
         public async Task<IEnumerable<User>> Search(string search) {
             string query = $@"
 SELECT
@@ -238,5 +238,6 @@ email LIKE @search3
                 return (await stmt.ExecuteReaderAsync()).ToIterator(x => new UserDbRep(x));
             })).Select(x => x.ToModel());
         }
+        */
     }
 }

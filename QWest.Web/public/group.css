@@ -49,6 +49,7 @@ body {
     text-align: left;
 }
 
+#friend-container,
 #member-container {
     height: 45px;
     padding-top: 4px;
@@ -64,6 +65,18 @@ body {
     text-align: left;
 }
 
+#friends-list,
+#friends-select {
+    width: 100%;
+    list-style: none;
+    border-style: solid;
+    border-radius: 10px;
+    justify-content: center;
+    margin: auto;
+    text-align: left;
+}
+
+#add-button,
 #remove-button {
     margin-right: 5%;
     float: right;

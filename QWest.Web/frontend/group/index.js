@@ -58,12 +58,14 @@ $(async () => {
     const friends = await friendsPromise
     const isOwned = group.members.findIndex(x => x.id === user.id) !== -1
     const logoutButton = $("#logout-button")
+    const friendsSelect = $("#friends-select")
     const groupName = $("#group-name")
     const editButton = $("#edit-button")
     const saveChangesButton = $("#save-changes-button")
     const groupNameModal = $("#group-name-modal")
     const groupDescription = $("#group-description")
     const membersList = $("#members-list")
+    const friendsList =$("#friends-list")
     const progressMap = $("#progress-map")
     const postContainer = $("#post-container")
     const postContents = $("#post-contents")
@@ -93,7 +95,7 @@ $(async () => {
             .append(
                 isOwned ?
                     $('<button type="button" id="remove-button" class="btn btn-danger"></button>')
-                        .text("remove")
+                        .text("Remove")
                         .on("click", async () => {
                             const response = await fetch("api/Group/UpdateMembers", {
                                 method: "POST",
@@ -117,36 +119,71 @@ $(async () => {
                         })
                     : undefined)
     ))
-    /* What is the purpose of this multi-select thing?
-    If you can explain, I'll add it back in. */
-    /*
-    const membersSelected = []
-    if (isOwned) {
-        membersList.append(
-            $("<li></li>")
+    
+    //Showing friends to invite to the group
+    /* Should only show the friends that aren't part of the group yet,
+       but that hasn't been implemented correctly yet. */
+    friends.forEach(x => !group.members.includes(x) ? 
+        friendsList.append(
+            $('<li id="friend-container"></li>')
                 .append(
-                    (() => {
-                        const select = $("<select multiple='true'></select>")
-                        friends.forEach(friend => {
-                            const option = $(`<option value="${friend.id}"></option>`)
-                            option.text(friend.username + " (" + friend.email + ")")
-                            option.on("dblclick", () => {
-                                const index = membersSelected.indexOf(friend);
-                                if (index === -1) {
-                                    membersSelected.push(friend)
-                                    option.text(option.text() + " ✓")
+                    $('<a id="friend"></a>')
+                        .text(x.username + " (" + x.email + ")")
+                        .attr("href", "/profile.html?id=" + x.id)
+                )
+                .append(
+                    isOwned ?
+                        $('<button type="button" id="add-button" class="btn btn-success"></button>')
+                            .text("Add")
+                            .on("click", async () => {
+                                const response = await fetch("api/Group/UpdateMembers", {
+                                    method: "POST",
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        id: group.id,
+                                        additions: [x.id],
+                                        subtractions: []
+                                    })
+                                })
+                                if (response.status !== 200) {
+                                    alert("error " + response.status)
+                                    console.log(await response.text())
                                 }
                                 else {
-                                    membersSelected.splice(index, 1)
-                                    const t = option.text()
-                                    option.text(t.substring(0, t.length - 2))
+                                    window.location.reload()
                                 }
                             })
-                            select.append(option)
-                        })
-                        return select
-                    })()
-                )
+                        : undefined)
+        ) 
+    : undefined)
+
+    /* redundant for now
+    const membersSelected = []
+    if (isOwned) {
+        friendsSelect.append(
+            (() => {
+                friends.forEach(friend => {
+                    const option = $(`<option value="${friend.id}"></option>`)
+                    option.text(friend.username + " (" + friend.email + ")")
+                    option.on("dblclick", () => {
+                        const index = membersSelected.indexOf(friend);
+                        if (index === -1) {
+                            membersSelected.push(friend)
+                            option.text(option.text() + " ✓")
+                        }
+                        else {
+                            membersSelected.splice(index, 1)
+                            const t = option.text()
+                            option.text(t.substring(0, t.length - 2))
+                        }
+                    })
+                    friendsSelect.append(option)
+                })
+                return 1
+            })()
         )
     }
     else{
@@ -154,6 +191,7 @@ $(async () => {
     }
     */
 
+    //Handles updating group name and description
     const contentUpdate = async () => {
         let groupname = groupNameModal.val()
         let description = groupDescription.val()
