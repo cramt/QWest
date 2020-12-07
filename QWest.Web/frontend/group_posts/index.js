@@ -10,6 +10,7 @@ const groupId = url.searchParams.get("id")
 
 $(async () => {
     const user = await fetchLogedInUser()
+    const postsContainer = $('#posts-container')
 
     const appendPost = (post) => {
         const singlePost = $('<div id="single-post" class="row mb-3 w3-container w3-pale-blue w3-leftbar w3-border-blue"></div>')
@@ -20,6 +21,9 @@ $(async () => {
         const postLocation = $('<p id="post-location"></p>')
         const postContents = $('<p id="post-contents"></p>')
         const postImages = $('<img id="post-images" height="300px">')
+        const viewGroup = $('#view-group')
+
+        viewGroup.attr("href", "group.html?id="+ groupId)
         
         //Add author, contents and location
         if (post.groupAuthor) {

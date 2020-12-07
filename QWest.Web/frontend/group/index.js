@@ -73,6 +73,9 @@ $(async () => {
     const postImages = $("#post-images")
     const postButton = $("#post-button")
     const geopoliticalLocationAutocomplete = $("#geopolitical-location-autocomplete")
+    const groupPosts = $("#group-posts")
+
+    groupPosts.attr("href", "group_posts.html?id=" + group.id)
 
     logoutButton.on("click", () => {
         Cookies.remove("sessionCookie")
