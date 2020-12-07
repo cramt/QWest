@@ -158,28 +158,28 @@ INSERT INTO
 users_groups
 (users_id, groups_id)
 VALUES
-{string.Join(",", subtractions.Select((_, i) => $@"
+{string.Join(",", additions.Select((_, i) => $@"
 (@add_user_id{i}, @group_id)
 "))}
 ";
-                string seperator = "";
-                if (addQuery != "" && deleteQuery != "") {
-                    seperator = ";";
-                }
-                string query = addQuery + seperator + deleteQuery;
-                await _conn.Use(query, async stmt => {
-                    int i = 0;
-                    foreach (int add in additions) {
-                        stmt.Parameters.AddWithValue("@add_user_id" + i++, add);
-                    }
-                    i = 0;
-                    foreach (int sub in subtractions) {
-                        stmt.Parameters.AddWithValue("@sub_user_id" + i++, sub);
-                    }
-                    stmt.Parameters.AddWithValue("@group_id", groupId);
-                    return await stmt.ExecuteNonQueryAsync();
-                });
             }
+            string seperator = "";
+            if (addQuery != "" && deleteQuery != "") {
+                seperator = ";";
+            }
+            string query = addQuery + seperator + deleteQuery;
+            await _conn.Use(query, async stmt => {
+                int i = 0;
+                foreach (int add in additions) {
+                    stmt.Parameters.AddWithValue("@add_user_id" + i++, add);
+                }
+                i = 0;
+                foreach (int sub in subtractions) {
+                    stmt.Parameters.AddWithValue("@sub_user_id" + i++, sub);
+                }
+                stmt.Parameters.AddWithValue("@group_id", groupId);
+                return await stmt.ExecuteNonQueryAsync();
+            });
         }
 
         public async Task Update(int id, string name, string description) {
@@ -207,7 +207,7 @@ id = @id
 
         public async Task<bool> IsMember(int groupId, int userId) {
             string query = @"
-SELECT * FROM users_groups
+SELECT COUNT(*) FROM users_groups
 WHERE
 users_id = @user_id
 AND
@@ -216,8 +216,8 @@ groups_id = @group_id
             return (await _conn.Use(query, async stmt => {
                 stmt.Parameters.AddWithValue("@user_id", userId);
                 stmt.Parameters.AddWithValue("@group_id", groupId);
-                return (await stmt.ExecuteReaderAsync()).ToIterator(_ => true);
-            })).FirstOrDefault();
+                return (await stmt.ExecuteReaderAsync()).ToIterator(reader => reader.GetSqlInt32(0).Value);
+            })).First() == 1;
         }
 
         public Task<bool> IsMember(int groupId, User user) {
