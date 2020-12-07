@@ -82,7 +82,7 @@ namespace QWest.DataAccess.Tests {
         [OneTimeTearDown]
         public void Setup()
         {
-            ConnectionWrapper.Instance.Use("DELETE FROM users_groups; DELETE FROM users; DELETE FROM groups", stmt => stmt.ExecuteNonQueryAsync()).Wait();
+            Utils.CleanUp();
         }
     }
 }
