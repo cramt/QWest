@@ -93,10 +93,22 @@ namespace QWest.DataAccess.Tests {
             Assert.AreEqual(imageData, await DAO.Image.Get((int)user.ProfilePicture));
         }
 
+        [Test]
+        public async Task SearchForUser() {
+            User user = new User("Lucca", "123456", "an@email.com");
+            await DAO.User.Add(user);
+            Assert.Contains(user.Id, (await DAO.User.Search("Luc")).Select(x => (int)x.Id).ToList());
+        }
+
+        [Test]
+        public async Task SearchDoesntCrash() {
+            await DAO.User.Search("");
+        }
+
         [SetUp]
         [OneTimeTearDown]
         public void Setup() {
-            ConnectionWrapper.Instance.Use("DELETE FROM users", stmt => stmt.ExecuteNonQueryAsync()).Wait();
+            Utils.CleanUp();
         }
 
     }

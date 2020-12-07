@@ -15,7 +15,7 @@ namespace QWest.DataAcess {
             Task<User> SetNewSessionCookie(User user);
             Task UpdateProfilePicture(byte[] profilePicture, User user);
             Task<int> UpdateProfilePicture(byte[] profilePicture, int userId);
-            //Task<IEnumerable<User>> Search(string searchTerm);
+            Task<IEnumerable<User>> Search(string searchTerm);
         }
         public static IUser User { get; set; } = new Mssql.UserImpl(ConnectionWrapper.Instance);
     }
