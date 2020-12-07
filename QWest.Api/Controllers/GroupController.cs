@@ -108,17 +108,17 @@ namespace QWest.Api.Controllers {
         [ResponseType(typeof(void))]
         public async Task<HttpResponseMessage> UpdateMembers([FromBody] UpdateMembersArgument argument) {
             User user = Request.GetOwinContext().Get<User>("user");
-            if (user == null || !await DAO.Group.IsMember(argument.id, user)) {
+            if (user == null || !await GroupRepo.IsMember(argument.id, user)) {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            await DAO.Group.UpdateMembers(argument.id, argument.additions, argument.subtractions);
+            await GroupRepo.UpdateMembers(argument.id, argument.additions, argument.subtractions);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         [HttpGet]
         [ResponseType(typeof(Group))]
         public async Task<HttpResponseMessage> Get(int id) {
-            Group group = await DAO.Group.Get(id);
+            Group group = await GroupRepo.Get(id);
             if (group == null) {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
