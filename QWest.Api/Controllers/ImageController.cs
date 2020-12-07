@@ -43,9 +43,11 @@ namespace QWest.Apis {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             result.Content = new StreamContent(stream);
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-            result.Headers.CacheControl = new CacheControlHeaderValue {
-                MaxAge = new TimeSpan(8765, 0, 0)
-            };
+            if (!Utilities.Utilities.DebugMode) {
+                result.Headers.CacheControl = new CacheControlHeaderValue {
+                    MaxAge = new TimeSpan(8765, 0, 0)
+                };
+            }
             return result;
         }
     }
