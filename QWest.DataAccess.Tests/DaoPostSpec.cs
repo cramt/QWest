@@ -101,6 +101,18 @@ namespace QWest.DataAccess.Tests {
                 Assert.AreEqual(2, postsWithOffset.Count);
             }
         }
+
+        [Test]
+        public async Task EditsPostContents()
+        {
+            User user = new User("Lucca", "123456", "an@email.com");
+            await DAO.User.Add(user);
+            Post post = await DAO.Post.Add("stuff", user, new List<byte[]>(), null);
+            post.Contents = "new stuff";
+            await DAO.Post.Update(post);
+            Assert.AreEqual(post.Contents, (await DAO.Post.Get(user))[0].Contents);
+        }
+
         [Test]
         public async Task GetsGroupFeed()
         {
