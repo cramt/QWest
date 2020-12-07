@@ -59,40 +59,6 @@ $(async () => {
                 .append("<br>")
             )
 
-        //________________________________________________
-        /*
-        const profileHtml = $("<p></p>")
-        profileHtml
-            .text(post.groupAuthor.name)
-        
-        const images = $("<div></div>")
-        post.images.forEach(image => {
-            images.append(
-                $("<img/>")
-                    .attr("src", "/api/Image/Get?id=" + image)
-            )
-        })
-
-        const locationHtml = $("<div></div>")
-
-        if (post.location) {
-            locationHtml.append(
-                $("<p></p>")
-                    .text(post.location.alpha_3 ? `The country: ${post.location.name}` : `The subdivision ${post.location.name}`)
-            )
-        }
-
-        $("body").append(
-            $("<div></div>")
-                .append(profileHtml)
-                .append(
-                    $("<p></p>")
-                        .text(post.contents)
-                )
-                .append(images)
-                .append(locationHtml)
-        )
-        */
     }
 
     const appendMorePosts = async () => {
@@ -118,7 +84,7 @@ $(async () => {
 
     await appendMorePosts()
 
-    $(window).on("scroll", async () => {
+    $("#scroller").on("scroll", async () => {
         let scrollHeight = $(document).height();
         let scrollPos = $(window).height() + $(window).scrollTop();
         if (((scrollHeight - 300) >= scrollPos) / scrollHeight == 0) {

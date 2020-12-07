@@ -87,6 +87,7 @@ $(async () => {
     }
 
     const appendMorePosts = async () => {
+        console.log("hello?")
         if (fetchingLock) {
             return;
         }
@@ -109,7 +110,7 @@ $(async () => {
 
     await appendMorePosts()
 
-    $(window).on("scroll", async () => {
+    $("#scroller").on("scroll", async () => {
         let scrollHeight = $(document).height();
         let scrollPos = $(window).height() + $(window).scrollTop();
         if (((scrollHeight - 300) >= scrollPos) / scrollHeight == 0) {
