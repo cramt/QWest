@@ -55,12 +55,13 @@ $(async () => {
         })
 
         // Adding the line of code below breaks all posts :^)
-        //const canEdit = post.groupAuthor.map(x => x.id == groupId)
+        
+        //const canEdit = post.groupAuthor.map(x => x.id === groupId)
         const editButton = $('<button id="edit-button" type="button" class="btn btn-info">Edit post</button>')
         const editButtonWrapper = $('<a id="edit-button-wrapper"></a>')
         
         //Add edit button if needed
-        if(canEdit) {
+        if(true) {
             editButtonWrapper.attr("href", "/edit_post?id=" + groupId)
             editButtonWrapper.append(editButton)
         }
