@@ -64,7 +64,7 @@ namespace QWest.DataAccess.Tests {
             User user = new User("Lucca", "123456", "an@email.com");
             await DAO.User.Add(user);
             Post expected = await DAO.Post.Add("wassup", user, new List<byte[]>(), null);
-            Post fetched = (await DAO.Post.Get(user)).First();
+            Post fetched = (await DAO.Post.GetByUser(user)).First();
             Assert.AreEqual(expected.Id, fetched.Id);
             Assert.AreEqual(expected.Contents, fetched.Contents);
             Assert.AreEqual(expected.PostTime, fetched.PostTime);
@@ -110,7 +110,7 @@ namespace QWest.DataAccess.Tests {
             Post post = await DAO.Post.Add("stuff", user, new List<byte[]>(), null);
             post.Contents = "new stuff";
             await DAO.Post.Update(post);
-            Assert.AreEqual(post.Contents, (await DAO.Post.Get(user))[0].Contents);
+            Assert.AreEqual(post.Contents, (await DAO.Post.GetByUser(user))[0].Contents);
         }
 
         [Test]
