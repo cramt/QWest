@@ -23,8 +23,8 @@ $(async () => {
         const postImages = $('<img id="post-images" height="300px">')
         const viewGroup = $('#view-group')
 
-        viewGroup.attr("href", "group.html?id="+ groupId)
-        
+        viewGroup.attr("href", "group.html?id=" + groupId)
+
         //Add author, contents and location
         if (post.groupAuthor) {
             postName
@@ -41,7 +41,7 @@ $(async () => {
             postElementContents
                 .append(postContents)
         }
-        
+
         else {
             throw new Error("aaaaaaaaa this shouldnt happenF")
         }
@@ -83,14 +83,16 @@ $(async () => {
             return
         }
         data.forEach(appendPost)
-        fetchingLock = false
+        window.requestAnimationFrame(() => {
+            fetchingLock = false
+        })
     }
 
     await appendMorePosts()
 
     $("#scroller").on("scroll", async () => {
-        let scrollHeight = $(document).height();
-        let scrollPos = $(window).height() + $(window).scrollTop();
+        let scrollHeight = $("#posts-container").height()
+        let scrollPos = $("#scroller").height() + $("#scroller").scrollTop();
         if (((scrollHeight - 300) >= scrollPos) / scrollHeight == 0) {
             await appendMorePosts()
         }

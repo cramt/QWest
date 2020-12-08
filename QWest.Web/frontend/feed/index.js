@@ -45,7 +45,6 @@ $(async () => {
         }
         //Add author, contents and location
         else if (post.userAuthor) {
-            console.log(post.userAuthor)
             postName
                 .text(post.userAuthor.username)
             profilePic
@@ -87,7 +86,6 @@ $(async () => {
     }
 
     const appendMorePosts = async () => {
-        console.log("hello?")
         if (fetchingLock) {
             return;
         }
@@ -105,14 +103,16 @@ $(async () => {
             return
         }
         data.forEach(appendPost)
-        fetchingLock = false
+        window.requestAnimationFrame(()=>{
+            fetchingLock = false
+        })
     }
 
     await appendMorePosts()
 
     $("#scroller").on("scroll", async () => {
-        let scrollHeight = $(document).height();
-        let scrollPos = $(window).height() + $(window).scrollTop();
+        let scrollHeight = $("#posts-container").height()
+        let scrollPos = $("#scroller").height() + $("#scroller").scrollTop();
         if (((scrollHeight - 300) >= scrollPos) / scrollHeight == 0) {
             await appendMorePosts()
         }
