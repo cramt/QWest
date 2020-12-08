@@ -80,7 +80,7 @@ $(async () => {
         const editButtonWrapper = $('<a id="edit-button-wrapper"></a>')
         //Add edit button if needed
         if(canEdit) {
-            editButtonWrapper.attr("href", "/edit_post?id=" + post.id)
+            editButtonWrapper.attr("href", "/edit_post.html?id=" + post.id)
             editButtonWrapper.append(editButton)
         }
 
