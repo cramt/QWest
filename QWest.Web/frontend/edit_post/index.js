@@ -3,7 +3,7 @@ const { fetchLogedInUser } = require("../whoami");
 
 const userPromise = fetchLogedInUser()
 
-const fetchPost = () => {
+const fetchPost = async () => {
     const id = new URL(window.location.href).searchParams.get("id");
     if (!id) {
         window.location.href = "/login.html"
@@ -34,5 +34,5 @@ $(async () => {
         window.location.href = "/login.html"
         return
     }
-    
+
 })
