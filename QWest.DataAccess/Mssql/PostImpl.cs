@@ -87,7 +87,7 @@ FROM users INNER JOIN users_groups ON users.id = users_id WHERE groups_id = grou
         public PostImpl(ConnectionWrapper conn) {
             _conn = conn;
         }
-        public async Task<List<Post>> Get(User user) {
+        public async Task<List<Post>> GetByUser(User user) {
             if (user.Id == null) {
                 throw new ArgumentException("tried to fetch posts of user " + user.Username + " but this user does not have an id");
             }
@@ -381,6 +381,27 @@ FETCH NEXT {amount} ROWS ONLY;
                 stmt.Parameters.AddWithValue("@group_id", id);
                 return (await stmt.ExecuteReaderAsync()).ToIterator(reader => new PostDbRep(reader));
             })).Select(x => x.ToModel()).ToList();
+        }
+
+        public async Task<Post> Get(int id) {
+            string query = $@"
+SELECT
+{PostDbRep.SELECT_ORDER}
+FROM
+posts 
+LEFT JOIN groups
+ON
+groups.id = groups_id
+LEFT JOIN users
+ON
+users.id = users_id
+WHERE
+posts.id = @id
+";
+            return (await _conn.Use(query, async stmt => {
+                stmt.Parameters.AddWithValue("@id", id);
+                return (await stmt.ExecuteReaderAsync()).ToIterator(x => new PostDbRep(x));
+            })).FirstOrDefault().MapValue(x => x.ToModel());
         }
     }
 }

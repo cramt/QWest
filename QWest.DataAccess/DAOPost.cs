@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 namespace QWest.DataAcess {
     public static partial class DAO {
         public interface IPost {
-            Task<List<Post>> Get(User user);
+            Task<Post> Get(int id);
+            Task<List<Post>> GetByUser(User user);
             Task<List<Post>> GetByUserId(int userId);
             Task<Post> Add(string contents, User user, List<byte[]> images, int? locationId);
             Task<Post> AddGroupAuthor(string contents, int groupId, List<byte[]> images, int? locationId);
