@@ -26,7 +26,9 @@ $(async () => {
         const postLocation = $('<p id="post-location"></p>')
         const postContents = $('<p id="post-contents"></p>')
         const postImages = $('<img id="post-images" height="300px">')
-        
+
+        const canEdit = post.userAuthor.id === user.id || post.groupAuthor.map(x => x.id).includes(user.id)
+
         //Add author, contents and location
         if (post.groupAuthor) {
             postName
@@ -62,7 +64,7 @@ $(async () => {
             postElementContents
                 .append(postContents)
         }
-        
+
         else {
             throw new Error("aaaaaaaaa this shouldnt happenF")
         }
@@ -103,7 +105,7 @@ $(async () => {
             return
         }
         data.forEach(appendPost)
-        window.requestAnimationFrame(()=>{
+        window.requestAnimationFrame(() => {
             fetchingLock = false
         })
     }
