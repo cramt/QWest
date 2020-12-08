@@ -7,7 +7,7 @@ const fetchAmount = 5;
 let fetchingLock = false
 
 $(async () => {
-    let logoutButton = $("#logout-button")
+    const logoutButton = $("#logout-button")
     logoutButton.on("click", async () => {
         Cookies.remove("sessionCookie")
         window.location.href = "/login.html"
@@ -26,8 +26,6 @@ $(async () => {
         const postLocation = $('<p id="post-location"></p>')
         const postContents = $('<p id="post-contents"></p>')
         const postImages = $('<img id="post-images" height="300px">')
-
-        const canEdit = post.userAuthor.id === user.id || post.groupAuthor.map(x => x.id).includes(user.id)
 
         //Add author, contents and location
         if (post.groupAuthor) {
@@ -77,9 +75,19 @@ $(async () => {
             )
         })
 
+        const canEdit = post.userAuthor.id === user.id || post.groupAuthor.map(x => x.id).includes(user.id)
+        const editButton = $('<button id="edit-button" type="button" class="btn btn-info">Edit post</button>')
+        const editButtonWrapper = $('<a id="edit-button-wrapper"></a>')
+        //Add edit button if needed
+        if(canEdit) {
+            editButtonWrapper.attr("href", "/edit_post?id=" + post.id)
+            editButtonWrapper.append(editButton)
+        }
+
         // Merge it all into a single post
         postsContainer
             .append(singlePost
+                .append(editButtonWrapper)
                 .append(postElementAuthor)
                 .append(postElementContents)
                 .append(postElementImages)

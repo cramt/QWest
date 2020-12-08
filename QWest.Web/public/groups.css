@@ -94,7 +94,7 @@ body {
     width: 100%;
 }
 
-#viewmap, #profile, #logout-button, #username-field {
+#feed-button, #viewmap, #profile, #logout-button, #username-field {
     font-size: larger;
     /*margin-top: auto;*/
 }

@@ -33,15 +33,27 @@ body {
     /*margin-top: auto;*/
 }
 
+#edit-button {
+    margin: 0;
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
 #location {
-  color: darkblue;
-  font-size: large;
+    color: darkblue;
+    font-size: large;
 }
 
 #post-name {
     font-family: "Copperplate", fantasy;
     font-size: 30pt;
     
+}
+
+#post-element-author {
+    max-width: 25% !important;
 }
 
 #location,
