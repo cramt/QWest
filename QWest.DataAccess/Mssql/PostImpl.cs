@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Utilities;
 using static QWest.DataAcess.DAO;
 using static QWest.DataAcess.Mssql.GeographyImpl;
+using static QWest.DataAcess.Mssql.UserImpl;
 
 namespace QWest.DataAcess.Mssql {
     class PostImpl : IPost {
@@ -17,7 +18,9 @@ namespace QWest.DataAcess.Mssql {
 posts.id, content, users_id, groups_id, post_time, (SELECT * FROM dbo.FetchGeopoliticalLocation(location) FOR JSON PATH) AS location,
 username, password_hash, email, users.description, session_cookie, profile_picture,
 name, creation_time, groups.description,
-(SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = posts.id) AS images
+(SELECT STRING_AGG(images_id, ',') AS images FROM posts_images WHERE posts_images.posts_id = posts.id) AS images,
+(SELECT id, username, password_hash, email, session_cookie, description, profile_picture 
+FROM users INNER JOIN users_groups ON users.id = users_id WHERE groups_id = groups.id FOR JSON PATH) AS member
 ";
             public int Id { get; }
             public string Content { get; }
@@ -35,6 +38,7 @@ name, creation_time, groups.description,
             public int? CreationTime { get; }
             public string GroupDescription { get; }
             public IEnumerable<int> Images { get; }
+            public IEnumerable<UserDbRep> Members { get; }
             public PostDbRep(SqlDataReader reader) {
                 int i = 0;
                 Id = reader.GetSqlInt32(i++).Value;
@@ -59,6 +63,7 @@ name, creation_time, groups.description,
                 else {
                     Images = imageString.Split(',').Select(x => int.Parse(x)).ToList();
                 }
+                Members = reader.GetSqlString(i++).NullableValue().MapValue(UserDbRep.FromJson);
             }
 
             public Post ToModel() {
@@ -70,7 +75,7 @@ name, creation_time, groups.description,
                     };
                 }
                 else if (GroupId != null) {
-                    groupAuthor = new Group(Name, (int)CreationTime, GroupDescription, null, null, GroupId);
+                    groupAuthor = new Group(Name, (int)CreationTime, GroupDescription, null, Members.Select(x => x.ToModel()), GroupId);
                 }
                 else {
                     throw new ArgumentException("in this post the author is neither a user or group");
