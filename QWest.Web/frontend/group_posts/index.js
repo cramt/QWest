@@ -62,7 +62,7 @@ $(async () => {
         
         //Add edit button if needed
         if(true) {
-            editButtonWrapper.attr("href", "/edit_post?id=" + groupId)
+            editButtonWrapper.attr("href", "/edit_post?id=" + post.id)
             editButtonWrapper.append(editButton)
         }
         
