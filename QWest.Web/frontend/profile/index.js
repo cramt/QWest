@@ -5,7 +5,6 @@ import autocomplete from "jquery-ui/ui/widgets/autocomplete"
 import Cookies from 'js-cookie'
 import { POST, sendRequest } from "../api"
 
-
 const userPromise = fetchMeAndUser();
 
 $(async () => {

@@ -29,7 +29,20 @@
             </div>
         </header>
         <main class="inner cover" role="main">
-
+            <div id="post-container">
+                <label>Update post:</label>
+                <br/>
+                <textarea id="post-contents" text="" placeholder="Write your post here..." class="btn btn-lg btn-secondary"></textarea>            
+                <br/>
+                <div class="w3-container" id="upload-file">
+                    <label for="file" id="image-label">Upload image</label>
+                    <input type="file" id="post-images" />
+                </div>
+                <label>Choose a location:</label>
+                <div id="geopolitical-location-autocomplete"></div>
+                <br>
+                <button class="btn btn-primary" id="update-button">Update post</button>
+            </div>
         </main>
         <footer class="mastfoot mt-auto">
             <div class="inner">
