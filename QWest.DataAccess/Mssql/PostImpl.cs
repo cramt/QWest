@@ -27,7 +27,7 @@ FROM users INNER JOIN users_groups ON users.id = users_id WHERE groups_id = grou
             public int? UserId { get; }
             public int? GroupId { get; }
             public int PostTime { get; }
-            public IEnumerable<GeopoliticalLocationDbRep> Location { get; }
+            public string Location { get; }
             public string Username { get; }
             public byte[] PasswordHash { get; }
             public string Email { get; }
@@ -37,8 +37,8 @@ FROM users INNER JOIN users_groups ON users.id = users_id WHERE groups_id = grou
             public string Name { get; }
             public int? CreationTime { get; }
             public string GroupDescription { get; }
-            public IEnumerable<int> Images { get; }
-            public IEnumerable<UserDbRep> Members { get; }
+            public string Images { get; }
+            public string Members { get; }
             public PostDbRep(SqlDataReader reader) {
                 int i = 0;
                 Id = reader.GetSqlInt32(i++).Value;
@@ -46,7 +46,7 @@ FROM users INNER JOIN users_groups ON users.id = users_id WHERE groups_id = grou
                 UserId = reader.GetSqlInt32(i++).NullableValue();
                 GroupId = reader.GetSqlInt32(i++).NullableValue();
                 PostTime = reader.GetSqlInt32(i++).Value;
-                Location = reader.GetSqlString(i++).NullableValue().MapValue(x => GeopoliticalLocationDbRep.FromJson(x));
+                Location = reader.GetSqlString(i++).NullableValue();
                 Username = reader.GetSqlString(i++).NullableValue();
                 PasswordHash = reader.GetSqlBinary(i++).NullableValue();
                 Email = reader.GetSqlString(i++).NullableValue();
@@ -56,14 +56,8 @@ FROM users INNER JOIN users_groups ON users.id = users_id WHERE groups_id = grou
                 Name = reader.GetSqlString(i++).NullableValue();
                 CreationTime = reader.GetSqlInt32(i++).NullableValue();
                 GroupDescription = reader.GetSqlString(i++).NullableValue();
-                string imageString = reader.GetSqlString(i++).NullableValue();
-                if (imageString == null || imageString == "") {
-                    Images = new List<int>();
-                }
-                else {
-                    Images = imageString.Split(',').Select(x => int.Parse(x)).ToList();
-                }
-                Members = reader.GetSqlString(i++).NullableValue().MapValue(UserDbRep.FromJson);
+                Images = reader.GetSqlString(i++).NullableValue();
+                Members = reader.GetSqlString(i++).NullableValue();
             }
 
             public Post ToModel() {
@@ -75,12 +69,12 @@ FROM users INNER JOIN users_groups ON users.id = users_id WHERE groups_id = grou
                     };
                 }
                 else if (GroupId != null) {
-                    groupAuthor = new Group(Name, (int)CreationTime, GroupDescription, null, Members.Select(x => x.ToModel()), GroupId);
+                    groupAuthor = new Group(Name, (int)CreationTime, GroupDescription, null, Members.MapValue(UserDbRep.FromJson).Select(x => x.ToModel()), GroupId);
                 }
                 else {
                     throw new ArgumentException("in this post the author is neither a user or group");
                 }
-                return new Post(Content, userAuthor, groupAuthor, PostTime, Images.MapValue(x => x.ToList()), Location.MapValue(x => GeopoliticalLocationDbRep.ToTreeStructureFirst(x)), Id);
+                return new Post(Content, userAuthor, groupAuthor, PostTime, Images.MapValue(x => x.Split(',').Select(y => int.Parse(y)).ToList()), Location.MapValue(x => GeopoliticalLocationDbRep.ToTreeStructureFirst(GeopoliticalLocationDbRep.FromJson(x))), Id);
             }
         }
         private ConnectionWrapper _conn;

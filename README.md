@@ -26,12 +26,19 @@ nuget packages can be installed with
 dotnet restore
 ```
 however this for some reason doesnt work sometimes
+### config
+create a config file in the Config folder named config.json
+```json
+{
+  "database_connection_string": "<MSSQL connection string>",
+  "api_port": 9000,
+  "serve_port": 8080,
+  "start_year": 2020,
+  "email_port": 1465
+}```
+
 ## Execution
 For executing you need to run the QWest.Api project, this automatically starts the QWest&#46;Web project that serves the webpackes and proxies anything on the /api/ to QWest.Api
-
-QWest.Api runs on port 9000
-
-QWest&#46;Web runs on port 8080
 
 ### Development
 ## Git pull hook
