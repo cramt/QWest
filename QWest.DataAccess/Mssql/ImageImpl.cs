@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Utilities;
-using static QWest.DataAcess.DAO;
+using static QWest.DataAccess.DAO;
 
-namespace QWest.DataAcess.Mssql {
+namespace QWest.DataAccess.Mssql {
     class ImageImpl : IImage {
         private ConnectionWrapper _conn;
         public ImageImpl(ConnectionWrapper conn) {

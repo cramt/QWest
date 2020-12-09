@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Utilities;
-using static QWest.DataAcess.Mssql.UserImpl;
+using static QWest.DataAccess.Mssql.UserImpl;
 
-namespace QWest.DataAcess.Mssql {
+namespace QWest.DataAccess.Mssql {
     public class GroupImpl : DAO.IGroup {
         [Serializable]
         internal class GroupDbRep : IDbRep<Group> {

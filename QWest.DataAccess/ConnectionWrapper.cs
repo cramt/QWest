@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Utilities;
 using Model.Geographic;
 
-namespace QWest.DataAcess {
+namespace QWest.DataAccess {
     public class ConnectionWrapper {
         private static ConnectionWrapper _instance;
         public SqlConnection Connection { get { return new SqlConnection(Config.Config.Instance.DatabaseConnectionString); } }

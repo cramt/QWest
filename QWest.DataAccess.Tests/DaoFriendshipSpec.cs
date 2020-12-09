@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 using NUnit.Framework;
-using QWest.DataAcess;
+using QWest.DataAccess;
 
 namespace QWest.DataAccess.Tests {
     [TestFixture]

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace QWest.DataAcess {
+namespace QWest.DataAccess {
     public static partial class DAO {
         public interface IImage {
             Task<byte[]> Get(int id);

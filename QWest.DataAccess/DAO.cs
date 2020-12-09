@@ -1,4 +1,4 @@
-﻿namespace QWest.DataAcess {
+﻿namespace QWest.DataAccess {
     public static partial class DAO {
         
     }

@@ -1,5 +1,5 @@
 ﻿using Model;
-using QWest.DataAcess;
+using QWest.DataAccess;
 using System.Threading.Tasks;
 using System.Web.Http;
 

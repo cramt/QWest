@@ -6,11 +6,11 @@ using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
 using Utilities;
-using static QWest.DataAcess.DAO;
-using static QWest.DataAcess.Mssql.GeographyImpl;
-using static QWest.DataAcess.Mssql.UserImpl;
+using static QWest.DataAccess.DAO;
+using static QWest.DataAccess.Mssql.GeographyImpl;
+using static QWest.DataAccess.Mssql.UserImpl;
 
-namespace QWest.DataAcess.Mssql {
+namespace QWest.DataAccess.Mssql {
     class PostImpl : IPost {
         [Serializable]
         internal class PostDbRep : IDbRep<Post> {

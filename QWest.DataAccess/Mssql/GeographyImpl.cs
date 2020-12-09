@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utilities;
-using static QWest.DataAcess.DAO;
+using static QWest.DataAccess.DAO;
 
-namespace QWest.DataAcess.Mssql {
+namespace QWest.DataAccess.Mssql {
     class GeographyImpl : IGeography {
         [Serializable]
         internal class GeopoliticalLocationDbRep : IDbRep<GeopoliticalLocation> {

@@ -1,7 +1,7 @@
 ﻿using Model;
 using System.Threading.Tasks;
 
-namespace QWest.DataAcess {
+namespace QWest.DataAccess {
     public static partial class DAO {
         public interface IPasswordResetToken {
             Task<string> NewToken(User user);

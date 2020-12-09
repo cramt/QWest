@@ -1,7 +1,7 @@
 ﻿using Model;
 using Newtonsoft.Json;
 using QWest.Api;
-using QWest.DataAcess;
+using QWest.DataAccess;
 using System;
 using System.Linq;
 using System.Net;
