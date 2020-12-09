@@ -17,6 +17,7 @@ namespace QWest.DataAcess {
             Task<IEnumerable<Post>> GetGroupFeed(Group group, int amount = 20, int offset = 0);
             Task<IEnumerable<Post>> GetGroupFeedById(int id, int amount = 20, int offset = 0);
             Task Update(Post post);
+            //Task Update(UploadArgument upload);
             Task<bool> IsAuthor(User user, Post post);
             Task<bool> IsAuthor(User user, int postId);
             Task<bool> IsAuthor(int userId, Post post);
