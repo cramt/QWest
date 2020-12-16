@@ -35,13 +35,22 @@ const postPromise = fetchPost();
 $(async () => {
     const user = await userPromise;
     const post = await postPromise;
-    //TODO: This thing stops the code below it from running?
-    /*
-    if (!(post.userAuthor.id === user.id || post.groupAuthor.map(x => x.id).includes(user.id))) {
-        window.location.href = "/login.html"
-        return
+    if (!post.images) {
+        post.images = []
     }
-    */
+    console.log(post)
+    if (post.userAuthor) {
+        if (post.userAuthor.id !== user.id) {
+            window.location.href = "/login.html"
+            return
+        }
+    }
+    else if (post.groupAuthor) {
+        if (!post.groupAuthor.map(x => x.id).includes(user.id)) {
+            window.location.href = "/login.html"
+            return
+        }
+    }
     const logoutButton = $("#logout-button")
     const postContents = $("#post-contents")
     const updateButton = $('#update-button')
@@ -51,15 +60,13 @@ $(async () => {
         Cookies.remove("sessionCookie")
         window.location.href = "/login.html"
     })
-    
+
     const geopoliticalLocationAutocomplete = $("#geopolitical-location-autocomplete")
-    let selectedGeopoliticalLocation = null;
 
     updateButton.on("click", async () => {
         post.contents = postContents.val();
-        const request = await POST.Post.Update(
-            post
-        )
+        console.log(post)
+        const request = await POST.Post.Update(post)
         if (request.status === 200) {
             window.location.reload();
             return;
@@ -80,10 +87,10 @@ $(async () => {
             })
             if (apiResponse.status === 200) {
                 response(JSON.parse(await apiResponse.text()).map(x =>
-                    ({
-                        label: x.alpha_3 ? `The country: ${x.name}` : `The subdivision: ${x.name}`,
-                        value: x
-                    })
+                ({
+                    label: x.alpha_3 ? `The country: ${x.name}` : `The subdivision: ${x.name}`,
+                    value: x
+                })
                 ))
             }
             else {

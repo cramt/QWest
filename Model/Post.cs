@@ -8,12 +8,19 @@ using Utilities;
 namespace Model {
     [Serializable]
     public class Post {
+        [JsonProperty("id")]
         public int? Id { get; set; }
+        [JsonProperty("contents")]
         public string Contents { get; set; }
+        [JsonProperty("userAuthor")]
         public User UserAuthor { get; set; }
+        [JsonProperty("groupAuthor")]
         public Group GroupAuthor { get; set; }
+        [JsonProperty("postTime")]
         public DateTime PostTime { get; set; }
+        [JsonProperty("images")]
         public List<int> Images { get; set; }
+        [JsonProperty("location")]
         public GeopoliticalLocation Location { get; set; }
         public Post(string contents, User userAuthor, Group groupAuthor, int postTime, List<int> images, int? id)
             : this(contents, userAuthor, groupAuthor, postTime.ToUnsigned(), images, null, id) {
@@ -51,6 +58,10 @@ namespace Model {
             Images = images;
             Id = id;
             Location = locationId;
+        }
+        [JsonConstructor]
+        public Post() {
+
         }
     }
 }
