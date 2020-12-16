@@ -116,46 +116,6 @@ namespace QWest.Apis {
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        [HttpPost]
-        [ResponseType(typeof(void))]
-        public async Task<HttpResponseMessage> Update([FromBody] UploadArgument upload)
-        {
-            User user = Request.GetOwinContext().Get<User>("user");
-            Group group = Request.GetOwinContext().Get<Group>("group");
-            if (user == null)
-            {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            }
-            string contents = upload.contents.Trim();
-            //List<byte[]> images = await upload.ParseImages();
-            uint upostTime = DateTime.Now.ToUint();
-            int postTime = upostTime.ToSigned();
-            Post post;
-            if (upload.groupAuthor == null)
-            {
-                post = new Post(contents, user, null, postTime, null, upload.location);
-            }
-            else
-            {
-                int groupAuthor = (int)upload.groupAuthor;
-                if (await GroupRepo.IsMember(groupAuthor, user))
-                {
-                    post = new Post(contents, null, group, postTime, null, upload.location);
-                }
-                else
-                {
-                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
-                }
-            }
-            if (!(await PostRepo.IsAuthor(user, post)))
-            {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            }
-            await PostRepo.Update(post);
-            return new HttpResponseMessage(HttpStatusCode.OK);
-        }
-
-
         [HttpGet]
         [ResponseType(typeof(List<Post>))]
         public async Task<HttpResponseMessage> GetFeed(int? id = null, int amount = 20, int offset = 0) {
