@@ -47,24 +47,26 @@ $(async () => {
         }
 
         //Add post image(s)
-        post.images.forEach(image => {
-            postElementImages.append(
-                postImages
-                    .attr("src", "/api/Image/Get?id=" + image)
-            )
-        })
+        if (post.images) {
+            post.images.forEach(image => {
+                postElementImages.append(
+                    postImages
+                        .attr("src", "/api/Image/Get?id=" + image)
+                )
+            })
+        }
 
         // Adding the line of code below breaks all posts :^)
         //const canEdit = post.groupAuthor.map(x => x.id === groupId)
         const editButton = $('<button id="edit-button" type="button" class="btn btn-info">Edit post</button>')
         const editButtonWrapper = $('<a id="edit-button-wrapper"></a>')
-        
+
         //Add edit button if needed
-        if(true) {
+        if (true) {
             editButtonWrapper.attr("href", "/edit_post.html?id=" + post.id)
             editButtonWrapper.append(editButton)
         }
-        
+
 
         // Merge it all into a single post
         postsContainer
