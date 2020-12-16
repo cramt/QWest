@@ -12,8 +12,8 @@ namespace QWest.Services.Run {
     public abstract class Service {
         public static IEnumerable<Service> GenerateServices(Action<Service, string> log) {
             yield return new ApiService(log);
-            yield return new WebSerivce(log);
-            yield return new EmailSerivce(log);
+            yield return new WebService(log);
+            yield return new EmailService(log);
             yield return new AdminService(log);
         }
 
@@ -60,8 +60,8 @@ namespace QWest.Services.Run {
         }
     }
 
-    public class WebSerivce : NodeService {
-        public WebSerivce(Action<Service, string> log) : base(log) {
+    public class WebService : NodeService {
+        public WebService(Action<Service, string> log) : base(log) {
 
         }
         public override string Name {
@@ -71,8 +71,8 @@ namespace QWest.Services.Run {
         }
     }
 
-    public class EmailSerivce : NodeService {
-        public EmailSerivce(Action<Service, string> log) : base(log) {
+    public class EmailService : NodeService {
+        public EmailService(Action<Service, string> log) : base(log) {
 
         }
         public override string Name {
