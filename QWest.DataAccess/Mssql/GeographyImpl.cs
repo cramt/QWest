@@ -12,7 +12,7 @@ using Utilities;
 using static QWest.DataAccess.DAO;
 
 namespace QWest.DataAccess.Mssql {
-    class GeographyImpl : IGeography {
+    internal class GeographyImpl : IGeography {
         [Serializable]
         internal class GeopoliticalLocationDbRep : IDbRep<GeopoliticalLocation> {
             [JsonProperty("id")]

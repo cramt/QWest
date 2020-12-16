@@ -11,7 +11,7 @@ using static QWest.DataAccess.Mssql.GeographyImpl;
 using static QWest.DataAccess.Mssql.UserImpl;
 
 namespace QWest.DataAccess.Mssql {
-    class PostImpl : IPost {
+    internal class PostImpl : IPost {
         [Serializable]
         internal class PostDbRep : IDbRep<Post> {
             public const string SELECT_ORDER = @"

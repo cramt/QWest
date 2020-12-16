@@ -10,7 +10,7 @@ using Utilities;
 using static QWest.DataAccess.DAO;
 
 namespace QWest.DataAccess.Mssql {
-    class UserImpl : IUser {
+    internal class UserImpl : IUser {
         [Serializable]
         internal class UserDbRep : IDbRep<User> {
             public const string SELECT_ORDER = @"

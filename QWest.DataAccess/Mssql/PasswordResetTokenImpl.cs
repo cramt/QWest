@@ -7,7 +7,7 @@ using Utilities;
 using static QWest.DataAccess.DAO;
 
 namespace QWest.DataAccess.Mssql {
-    class PasswordResetTokenImpl : IPasswordResetToken {
+    internal class PasswordResetTokenImpl : IPasswordResetToken {
         private ConnectionWrapper _conn;
         public PasswordResetTokenImpl(ConnectionWrapper conn) {
             _conn = conn;

@@ -8,7 +8,7 @@ using Utilities;
 using static QWest.DataAccess.Mssql.UserImpl;
 
 namespace QWest.DataAccess.Mssql {
-    public class GroupImpl : DAO.IGroup {
+    internal class GroupImpl : DAO.IGroup {
         [Serializable]
         internal class GroupDbRep : IDbRep<Group> {
             public int Id { get; }
