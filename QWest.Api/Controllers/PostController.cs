@@ -116,7 +116,6 @@ namespace QWest.Apis {
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        // Probably bad / wrong way of doing this, but I don't how to parse a Post object to Update(Post post) from the front-end.
         [HttpPost]
         [ResponseType(typeof(void))]
         public async Task<HttpResponseMessage> Update([FromBody] UploadArgument upload)

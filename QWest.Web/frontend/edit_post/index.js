@@ -56,11 +56,10 @@ $(async () => {
     let selectedGeopoliticalLocation = null;
 
     updateButton.on("click", async () => {
-        const request = await POST.Post.Update({
-            contents: postContents.val(),
-            location: selectedGeopoliticalLocation ? selectedGeopoliticalLocation.id : null,
-            images: await Promise.all(Array.from(postImages[0].files).map(blobToBase64))
-        })
+        post.contents = postContents.val();
+        const request = await POST.Post.Update(
+            post
+        )
         if (request.status === 200) {
             window.location.reload();
             return;
