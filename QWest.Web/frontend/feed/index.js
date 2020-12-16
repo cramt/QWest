@@ -68,18 +68,20 @@ $(async () => {
         }
 
         //Add post image(s)
-        post.images.forEach(image => {
-            postElementImages.append(
-                postImages
-                    .attr("src", "/api/Image/Get?id=" + image)
-            )
-        })
+        if (post.images) {
+            post.images.forEach(image => {
+                postElementImages.append(
+                    postImages
+                        .attr("src", "/api/Image/Get?id=" + image)
+                )
+            })
+        }
 
         const canEdit = post.userAuthor.id === user.id || post.groupAuthor.map(x => x.id).includes(user.id)
         const editButton = $('<button id="edit-button" type="button" class="btn btn-info">Edit post</button>')
         const editButtonWrapper = $('<a id="edit-button-wrapper"></a>')
         //Add edit button if needed
-        if(canEdit) {
+        if (canEdit) {
             editButtonWrapper.attr("href", "/edit_post.html?id=" + post.id)
             editButtonWrapper.append(editButton)
         }

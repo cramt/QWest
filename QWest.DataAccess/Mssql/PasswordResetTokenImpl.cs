@@ -4,9 +4,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Utilities;
-using static QWest.DataAcess.DAO;
+using static QWest.DataAccess.DAO;
 
-namespace QWest.DataAcess.Mssql {
+namespace QWest.DataAccess.Mssql {
     class PasswordResetTokenImpl : IPasswordResetToken {
         private ConnectionWrapper _conn;
         public PasswordResetTokenImpl(ConnectionWrapper conn) {

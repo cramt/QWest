@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Utilities;
 
-namespace QWest.DataAcess {
+namespace QWest.DataAccess {
     public static partial class DAO {
         public interface IGroup {
             Task<int> Create(string name, string description, List<int> members, DateTime? creation = null);

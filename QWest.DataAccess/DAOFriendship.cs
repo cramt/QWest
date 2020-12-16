@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace QWest.DataAcess {
+namespace QWest.DataAccess {
     public static partial class DAO {
         // friendship is magic
         public interface IFriendship {

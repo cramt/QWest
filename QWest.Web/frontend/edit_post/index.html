@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="edit_post.css">
     <link rel="stylesheet" href="w3.css">
+    <link rel="stylesheet" href="jquery-ui/themes/base/core.css">
+    <link rel="stylesheet" href="jquery-ui/themes/base/menu.css">
+    <link rel="stylesheet" href="jquery-ui/themes/base/autocomplete.css">
+    <link rel="stylesheet" href="jquery-ui/themes/base/theme.css">
     <script src="jquery/jquery-3.5.1.js"></script>
     <meta charset="utf-8" />
     <title>Edit post</title>
@@ -23,7 +27,7 @@
                 <nav class="nav nav-masthead justify-content-center">
                     <a id="feed-button" class="nav-link" href="/feed.html">Feed</a>
                     <a id="viewmap" class="nav-link active" href="/map.html">View map</a>
-                    <a id="user-settings" class="nav-link" href="/settings.html">Profile settings</a>
+                    <a id="user-settings" class="nav-link" href="/profile.html">Profile</a>
                     <a id="logout-button" class="nav-link" href="#">Log out</a>
                 </nav>
             </div>
@@ -32,15 +36,8 @@
             <div id="post-container">
                 <label>Update post:</label>
                 <br/>
-                <textarea id="post-contents" text="" placeholder="Write your post here..." class="btn btn-lg btn-secondary"></textarea>            
+                <textarea id="post-contents" text="" class="btn btn-lg btn-secondary"></textarea>
                 <br/>
-                <div class="w3-container" id="upload-file">
-                    <label for="file" id="image-label">Upload image</label>
-                    <input type="file" id="post-images" />
-                </div>
-                <label>Choose a location:</label>
-                <div id="geopolitical-location-autocomplete"></div>
-                <br>
                 <button class="btn btn-primary" id="update-button">Update post</button>
             </div>
         </main>

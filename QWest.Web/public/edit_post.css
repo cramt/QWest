@@ -31,7 +31,7 @@ body {
     /*margin-top: auto;*/
 }
 
-#post-button {
+#update-button {
     font-size: larger;
 }
 
@@ -95,10 +95,14 @@ body {
     color: #0056b3;
 }
 
-.mastfoot, .inner,
+.mastfoot,
 label,
 #post-images {
     color: #0056b3;
+}
+
+.inner {
+    color: #007BFF;
 }
 
 .nav-masthead {

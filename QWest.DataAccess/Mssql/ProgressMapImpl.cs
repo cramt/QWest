@@ -4,10 +4,10 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Utilities;
-using static QWest.DataAcess.DAO;
+using static QWest.DataAccess.DAO;
 using Model;
 
-namespace QWest.DataAcess.Mssql {
+namespace QWest.DataAccess.Mssql {
     class ProgressMapImpl : IProgressMap {
         private ConnectionWrapper _conn;
         public ProgressMapImpl(ConnectionWrapper conn) {

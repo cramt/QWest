@@ -1,5 +1,8 @@
 import $ from "jquery";
 import autocomplete from "jquery-ui/ui/widgets/autocomplete";
+import Cookies from 'js-cookie'
+import { POST, sendRequest } from "../api"
+import { blobToBase64 } from "../blobToBase64";
 const { GET } = require("../api");
 const { fetchLogedInUser } = require("../whoami");
 
@@ -14,12 +17,11 @@ const fetchPost = async () => {
     let { status, data } = await GET.Post.Get({
         id
     })
-    /*
     if (status === 404) {
         alert("post doesnt exists")
         window.location.href = "/login.html"
         return
-    }*/
+    }
     if (status !== 200) {
         console.log(data)
         alert("error " + status)
@@ -30,31 +32,41 @@ const fetchPost = async () => {
 
 const postPromise = fetchPost();
 
-const renderEditor = async () => {
-
-}
-
 $(async () => {
     const user = await userPromise;
     const post = await postPromise;
-    if (!(post.userAuthor.id === user.id || post.groupAuthor.map(x => x.id).includes(user.id))) {
-        window.location.href = "/login.html"
-        return
+    if (!post.images) {
+        post.images = []
     }
-
-    //TODO: add post contents to textarea so you can edit it.
+    console.log(post)
+    if (post.userAuthor) {
+        if (post.userAuthor.id !== user.id) {
+            window.location.href = "/login.html"
+            return
+        }
+    }
+    else if (post.groupAuthor) {
+        if (!post.groupAuthor.map(x => x.id).includes(user.id)) {
+            window.location.href = "/login.html"
+            return
+        }
+    }
+    const logoutButton = $("#logout-button")
     const postContents = $("#post-contents")
     const updateButton = $('#update-button')
+    postContents.text(post.contents)
 
+    logoutButton.on("click", () => {
+        Cookies.remove("sessionCookie")
+        window.location.href = "/login.html"
+    })
 
-    let selectedGeopoliticalLocation = null;
+    const geopoliticalLocationAutocomplete = $("#geopolitical-location-autocomplete")
 
     updateButton.on("click", async () => {
-        const request = await POST.Post.Upload({
-            contents: postContents.val(),
-            location: selectedGeopoliticalLocation ? selectedGeopoliticalLocation.id : null,
-            images: await Promise.all(Array.from(postImages[0].files).map(blobToBase64))
-        })
+        post.contents = postContents.val();
+        console.log(post)
+        const request = await POST.Post.Update(post)
         if (request.status === 200) {
             window.location.reload();
             return;
@@ -75,10 +87,10 @@ $(async () => {
             })
             if (apiResponse.status === 200) {
                 response(JSON.parse(await apiResponse.text()).map(x =>
-                    ({
-                        label: x.alpha_3 ? `The country: ${x.name}` : `The subdivision: ${x.name}`,
-                        value: x
-                    })
+                ({
+                    label: x.alpha_3 ? `The country: ${x.name}` : `The subdivision: ${x.name}`,
+                    value: x
+                })
                 ))
             }
             else {

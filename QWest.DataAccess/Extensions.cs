@@ -1,7 +1,7 @@
 ﻿using System.Data.SqlClient;
 using System.Data.SqlTypes;
 
-namespace QWest.DataAcess {
+namespace QWest.DataAccess {
     public static class Extensions {
         public static SqlCommand CreateCommand(this SqlConnection conn, string query) {
             return new SqlCommand(null, conn) {
