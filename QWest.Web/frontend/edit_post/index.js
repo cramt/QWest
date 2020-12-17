@@ -51,6 +51,8 @@ $(async () => {
             return
         }
     }
+    
+    //THIS CODE BELOW IS NOT EXECUTED WHEN IT'S A GROUP POST???
     const logoutButton = $("#logout-button")
     const postContents = $("#post-contents")
     const updateButton = $('#update-button')
