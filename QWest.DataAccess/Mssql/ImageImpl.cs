@@ -4,7 +4,7 @@ using Utilities;
 using static QWest.DataAccess.DAO;
 
 namespace QWest.DataAccess.Mssql {
-    class ImageImpl : IImage {
+    internal class ImageImpl : IImage {
         private ConnectionWrapper _conn;
         public ImageImpl(ConnectionWrapper conn) {
             _conn = conn;

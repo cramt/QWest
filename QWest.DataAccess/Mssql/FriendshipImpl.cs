@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Utilities;
 
 namespace QWest.DataAccess.Mssql {
-    public class FriendshipImpl : DAO.IFriendship {
+    internal class FriendshipImpl : DAO.IFriendship {
         private ConnectionWrapper _conn;
         public FriendshipImpl(ConnectionWrapper conn) {
             _conn = conn;

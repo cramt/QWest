@@ -8,7 +8,7 @@ using static QWest.DataAccess.DAO;
 using Model;
 
 namespace QWest.DataAccess.Mssql {
-    class ProgressMapImpl : IProgressMap {
+    internal class ProgressMapImpl : IProgressMap {
         private ConnectionWrapper _conn;
         public ProgressMapImpl(ConnectionWrapper conn) {
             _conn = conn;
