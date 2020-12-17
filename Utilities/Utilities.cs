@@ -70,28 +70,56 @@ namespace Utilities {
             });
         }
 
-        public static async Task KillOnPort(uint port) {
-            List<string> shellOutput = (await Shell("netstat -ano | find \"LISTENING\" | find \"" + port + "\"")).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            await Task.WhenAll(
-            shellOutput.Select(x => {
-                List<char> listChars = x.ToCharArray().ToList();
-                Stack<char> chars = new Stack<char>(collection: listChars);
-                List<char> pid = new List<char>();
-                try {
-                    while (chars.Peek() == ' ') {
-                        chars.Pop();
-                    }
-                    while (chars.Peek() != ' ') {
-                        pid.Add(chars.Pop());
-                    }
-                }
-                catch (InvalidOperationException) {
-                    return null;
-                }
-                pid.Reverse();
-                return new string(pid.ToArray());
+        public static async Task<List<int>> GetPorcessIdByPort(uint port) {
+            switch (Environment.OSVersion.Platform) {
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                    List<string> shellOutput = (await Shell("netstat -ano | find \"LISTENING\" | find \"" + port + "\"")).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    return shellOutput.Select(x => {
+                        List<char> listChars = x.ToCharArray().ToList();
+                        Stack<char> chars = new Stack<char>(collection: listChars);
+                        List<char> pid = new List<char>();
+                        try {
+                            while (chars.Peek() == ' ') {
+                                chars.Pop();
+                            }
+                            while (chars.Peek() != ' ') {
+                                pid.Add(chars.Pop());
+                            }
+                        }
+                        catch (InvalidOperationException) {
+                            return null;
+                        }
+                        pid.Reverse();
+                        return ParseInt(new string(pid.ToArray()));
 
-            }).Where(x => x != null).Distinct().Select(x => Shell("taskkill /F /pid " + x)));
+                    }).Where(x => x != null).Select(x=>(int)x).Distinct().ToList();
+                case PlatformID.Unix:
+                case PlatformID.MacOSX:
+                    throw new NotImplementedException("*nix version for GetPorcessIdByPort hasnt been implemented yet");
+                    break;
+            }
+            throw new NotImplementedException("unsupported platform");
+        }
+
+        public static async Task KillProcessById(int pid) {
+            switch (Environment.OSVersion.Platform) {
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                    await Shell("taskkill /F /pid " + pid);
+                    return;
+                case PlatformID.Unix:
+                case PlatformID.MacOSX:
+                    throw new NotImplementedException("*nix version for KillProcessById hasnt been implemented yet");
+                    break;
+            }
+            throw new NotImplementedException("unsupported platform");
+        }
+
+        public static async Task KillOnPort(uint port) {
+            await Task.WhenAll((await GetPorcessIdByPort(port)).Select(KillProcessById));
         }
 
         [Serializable]
