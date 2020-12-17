@@ -46,7 +46,7 @@ $(async () => {
         }
     }
     else if (post.groupAuthor) {
-        if (!post.groupAuthor.map(x => x.id).includes(user.id)) {
+        if (!post.groupAuthor.members.map(x => x.id).includes(user.id)) {
             window.location.href = "/login.html"
             return
         }
