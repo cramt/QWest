@@ -94,11 +94,11 @@ namespace Utilities {
                         pid.Reverse();
                         return ParseInt(new string(pid.ToArray()));
 
-                    }).Where(x => x != null).Select(x=>(int)x).Distinct().ToList();
+                    }).Where(x => x != null).Select(x => (int)x).Distinct().ToList();
                 case PlatformID.Unix:
                 case PlatformID.MacOSX:
-                    throw new NotImplementedException("*nix version for GetPorcessIdByPort hasnt been implemented yet");
-                    break;
+                    List<string> result = (await Shell("ss -lptn | grep :" + port)).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList().ToList();
+                    return new List<int> { int.Parse(result[2]) };
             }
             throw new NotImplementedException("unsupported platform");
         }
@@ -112,8 +112,8 @@ namespace Utilities {
                     return;
                 case PlatformID.Unix:
                 case PlatformID.MacOSX:
-                    throw new NotImplementedException("*nix version for KillProcessById hasnt been implemented yet");
-                    break;
+                    await Shell("kill -i " + pid);
+                    return;
             }
             throw new NotImplementedException("unsupported platform");
         }

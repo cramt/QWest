@@ -102,27 +102,5 @@ namespace QWest.DataAccess {
             conn.Close();
             return result;
         }
-
-        public async Task<T> Use<T>(Func<SqlCommand, Task<T>> func) {
-            var conn = Connection;
-            conn.Open();
-            T result = await func(conn.CreateCommand());
-            conn.Close();
-            return result;
-        }
-
-        public async Task Use<T>(string query, Func<SqlCommand, Task> func) {
-            var conn = Connection;
-            conn.Open();
-            await func(conn.CreateCommand(query));
-            conn.Close();
-        }
-
-        public async Task Use<T>(Func<SqlCommand, Task> func) {
-            var conn = Connection;
-            conn.Open();
-            await func(conn.CreateCommand());
-            conn.Close();
-        }
     }
 }
