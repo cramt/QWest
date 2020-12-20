@@ -33,7 +33,7 @@ namespace QWest.Api.Controllers {
         public async Task<ActionResult> Get(int? id) {
             byte[] data;
             if (id == null) {
-                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("QWest.Api.res.silhouette-profile-picture.jpg");
+                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Core.QWest.Api.res.silhouette-profile-picture.jpg");
                 using (var memoryStream = new MemoryStream()) {
                     stream.CopyTo(memoryStream);
                     data = memoryStream.ToArray();
