@@ -29,21 +29,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Admin", "QWest.Admin\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Api.Tests", "QWest.Api.Tests\QWest.Api.Tests.csproj", "{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Utilities", "Core.Utilities\Core.Utilities.csproj", "{E59B2545-3A71-41F5-B46F-D1AB98FD34BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Utilities", "Core.Utilities\Core.Utilities.csproj", "{E59B2545-3A71-41F5-B46F-D1AB98FD34BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Config", "Core.Config\Core.Config.csproj", "{B944E91F-87D9-4119-9FAB-7A3CC67F0700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Config", "Core.Config\Core.Config.csproj", "{B944E91F-87D9-4119-9FAB-7A3CC67F0700}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Model", "Core.Model\Core.Model.csproj", "{19C02289-6A78-4F37-BB38-E09A8C57E886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Model", "Core.Model\Core.Model.csproj", "{19C02289-6A78-4F37-BB38-E09A8C57E886}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.QWest.DataAccess", "Core.QWest.DataAccess\Core.QWest.DataAccess.csproj", "{3ED7FA14-0EBA-4780-8AAC-BC41F3A5C1AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.DataAccess", "Core.QWest.DataAccess\Core.QWest.DataAccess.csproj", "{3ED7FA14-0EBA-4780-8AAC-BC41F3A5C1AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.QWest.Api", "Core.QWest.Api\Core.QWest.Api.csproj", "{F3A9CBCA-5A30-4537-A956-4490AA9181AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.Api", "Core.QWest.Api\Core.QWest.Api.csproj", "{F3A9CBCA-5A30-4537-A956-4490AA9181AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Config.Test", "Core.Config.Test\Core.Config.Test.csproj", "{F1561C58-EF25-4E97-BD01-6DEF35EC9AF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Config.Test", "Core.Config.Test\Core.Config.Test.csproj", "{F1561C58-EF25-4E97-BD01-6DEF35EC9AF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.QWest.Services.Run", "Core.QWest.Services.Run\Core.QWest.Services.Run.csproj", "{CD4D574E-34E0-4908-9F6F-B3E4BD9ED43B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.Services.Run", "Core.QWest.Services.Run\Core.QWest.Services.Run.csproj", "{CD4D574E-34E0-4908-9F6F-B3E4BD9ED43B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.QWest.DataAccess.Tests", "Core.QWest.DataAccess.Tests\Core.QWest.DataAccess.Tests.csproj", "{49E2724C-22C6-40F1-985A-27A3A2EE067E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.DataAccess.Tests", "Core.QWest.DataAccess.Tests\Core.QWest.DataAccess.Tests.csproj", "{49E2724C-22C6-40F1-985A-27A3A2EE067E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.QWest.Admin", "Core.QWest.Admin\Core.QWest.Admin.csproj", "{C183F57A-EE97-4DED-A2E1-ECD9ACDE02B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +137,10 @@ Global
 		{49E2724C-22C6-40F1-985A-27A3A2EE067E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49E2724C-22C6-40F1-985A-27A3A2EE067E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49E2724C-22C6-40F1-985A-27A3A2EE067E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C183F57A-EE97-4DED-A2E1-ECD9ACDE02B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C183F57A-EE97-4DED-A2E1-ECD9ACDE02B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C183F57A-EE97-4DED-A2E1-ECD9ACDE02B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C183F57A-EE97-4DED-A2E1-ECD9ACDE02B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
