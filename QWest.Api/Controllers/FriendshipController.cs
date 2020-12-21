@@ -1,14 +1,15 @@
-﻿using Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using Model;
 using QWest.DataAccess;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
 
 namespace QWest.Api.Controllers {
-    public class FriendshipController : ApiController {
+    [ApiController]
+    [Route("api/[controller]")]
+    public class FriendshipController : ControllerBase {
 
         private DAO.IFriendship _friendshipRepo = null;
         public DAO.IFriendship FriendshipRepo {
@@ -23,42 +24,40 @@ namespace QWest.Api.Controllers {
             }
         }
 
-        [HttpPost]
-        [ResponseType(typeof(bool))]
-        public async Task<HttpResponseMessage> AddFriend(int id) {
-            User user = Request.GetOwinContext().Get<User>("user");
+        [HttpPost("add/{id}")]
+        public async Task<ActionResult<bool>> AddFriend(int id) {
+            User user = Request.GetUser();
             if (user == null) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await FriendshipRepo.AddFriendRequest(user, id));
+            return Ok(await FriendshipRepo.AddFriendRequest(user, id));
         }
 
-        [ResponseType(typeof(IEnumerable<User>))]
-        public async Task<HttpResponseMessage> GetRequests() {
-            User user = Request.GetOwinContext().Get<User>("user");
+        [HttpGet("requests")]
+        public async Task<ActionResult<IEnumerable<User>>> GetRequests() {
+            User user = Request.GetUser();
             if (user == null) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await FriendshipRepo.GetFriendRequests(user));
+            return Ok(await FriendshipRepo.GetFriendRequests(user));
         }
 
-        [HttpPost]
-        [ResponseType(typeof(bool))]
-        public async Task<HttpResponseMessage> AcceptFriendRequest(int id) {
-            User user = Request.GetOwinContext().Get<User>("user");
+        [HttpPost("accept/{id}")]
+        public async Task<ActionResult<bool>> AcceptFriendRequest(int id) {
+            User user = Request.GetUser();
             if (user == null) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await FriendshipRepo.AcceptFriendRequest(id, user));
+            return Ok(await FriendshipRepo.AcceptFriendRequest(id, user));
         }
 
-        [ResponseType(typeof(IEnumerable<User>))]
-        public async Task<HttpResponseMessage> GetFriends(int? id = null) {
+        [HttpGet("friends")]
+        public async Task<ActionResult<IEnumerable<User>>> GetFriends(int? id = null) {
             int finalId;
             if(id == null) {
-                User user = Request.GetOwinContext().Get<User>("user");
+                User user = Request.GetUser();
                 if (user == null) {
-                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    return Unauthorized();
                 }
                 finalId = (int)user.Id;
             }
@@ -66,7 +65,7 @@ namespace QWest.Api.Controllers {
                 finalId = (int)id;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, await FriendshipRepo.GetUsersFriends(finalId));
+            return Ok(await FriendshipRepo.GetUsersFriends(finalId));
         }
     }
 }

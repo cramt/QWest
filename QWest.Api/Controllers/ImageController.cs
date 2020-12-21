@@ -1,4 +1,6 @@
-﻿using Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
+using Model;
 using QWest.DataAccess;
 using System;
 using System.IO;
@@ -8,11 +10,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
 
-namespace QWest.Apis {
-    public class ImageController : ApiController {
+namespace QWest.Api.Controllers {
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ImageController : ControllerBase {
 
         private DAO.IImage _imageRepo = null;
         public DAO.IImage ImageRepo {
@@ -27,26 +29,27 @@ namespace QWest.Apis {
             }
         }
 
-        [ResponseType(typeof(string))]
-        public async Task<HttpResponseMessage> Get(int? id) {
-            Stream stream = null;
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(int? id) {
+            byte[] data;
             if (id == null) {
-                stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("QWest.Api.res.silhouette-profile-picture.jpg");
+                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Core.QWest.Api.res.silhouette-profile-picture.jpg");
+                using (var memoryStream = new MemoryStream()) {
+                    stream.CopyTo(memoryStream);
+                    data = memoryStream.ToArray();
+                }
             }
             else {
                 byte[] image = await ImageRepo.Get((int)id);
                 if (image == null) {
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                    return NotFound();
                 }
-                stream = new MemoryStream(image);
+                data = image;
             }
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new StreamContent(stream);
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+            FileContentResult result = new FileContentResult(data, "image/jpeg");
+            
             if (!Utilities.Utilities.DebugMode) {
-                result.Headers.CacheControl = new CacheControlHeaderValue {
-                    MaxAge = new TimeSpan(8765, 0, 0)
-                };
+                Response.Headers.Add("Cache-Control", new StringValues("max-age=31554000"));
             }
             return result;
         }

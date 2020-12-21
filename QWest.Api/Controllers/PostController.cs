@@ -1,5 +1,5 @@
-﻿using Model;
-using QWest.Api;
+﻿using Microsoft.AspNetCore.Mvc;
+using Model;
 using QWest.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -7,16 +7,12 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
-using System.Windows.Forms.VisualStyles;
-using static Utilities.Utilities;
 
-namespace QWest.Apis {
-    public class PostController : ApiController {
+namespace QWest.Api.Controllers {
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PostController : ControllerBase {
 
         private DAO.IPost _postRepo = null;
         public DAO.IPost PostRepo {
@@ -51,7 +47,7 @@ namespace QWest.Apis {
             public int? groupAuthor;
 
             public async Task<List<byte[]>> ParseImages() {
-                if(images == null) {
+                if (images == null) {
                     return new List<byte[]>();
                 }
                 return (await Task.WhenAll(images.Select(x => Task.Factory.StartNew(() => {
@@ -66,12 +62,11 @@ namespace QWest.Apis {
             }
         }
 
-        [HttpPost]
-        [ResponseType(typeof(Post))]
-        public async Task<HttpResponseMessage> Upload([FromBody] UploadArgument upload) {
-            User user = Request.GetOwinContext().Get<User>("user");
+        [HttpPost("upload")]
+        public async Task<ActionResult<Post>> Upload([FromBody] UploadArgument upload) {
+            User user = Request.GetUser();
             if (user == null) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
             List<byte[]> images = await upload.ParseImages();
             string contents = upload.contents.Trim();
@@ -85,73 +80,67 @@ namespace QWest.Apis {
                     post = await PostRepo.AddGroupAuthor(contents, groupAuthor, images, upload.location);
                 }
                 else {
-                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    return Unauthorized();
                 }
             }
-            return Request.CreateResponse(HttpStatusCode.OK, post);
+            return Ok(post);
         }
-        [ResponseType(typeof(List<Post>))]
-        public async Task<HttpResponseMessage> GetUsersPosts(int? id) {
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<List<Post>>> GetUsersPosts(int? id) {
             if (id == null) {
-                User user = Request.GetOwinContext().Get<User>("user");
+                User user = Request.GetUser();
                 if (user == null) {
-                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    return Unauthorized();
                 }
                 id = user.Id;
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetByUserId(id ?? 0));
+            return Ok(await PostRepo.GetByUserId(id ?? 0));
         }
 
-        [HttpPost]
-        [ResponseType(typeof(void))]
-        public async Task<HttpResponseMessage> Update([FromBody] Post post) {
-            User user = Request.GetOwinContext().Get<User>("user");
+        [HttpPost("update")]
+        public async Task<ActionResult> Update([FromBody] Post post) {
+            User user = Request.GetUser();
             if (user == null) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
             if (!(await PostRepo.IsAuthor(user, post))) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
             await PostRepo.Update(post);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return Ok();
         }
 
-        [HttpGet]
-        [ResponseType(typeof(List<Post>))]
-        public async Task<HttpResponseMessage> GetFeed(int? id = null, int amount = 20, int offset = 0) {
+        [HttpGet("feed/{id}/{amount}/{offset}")]
+        public async Task<ActionResult<List<Post>>> GetFeed(int? id = null, int amount = 20, int offset = 0) {
             int finalId;
             if (id == null) {
-                User user = Request.GetOwinContext().Get<User>("user");
+                User user = Request.GetUser();
                 if (user == null) {
-                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    return Unauthorized();
                 }
                 finalId = (int)user.Id;
             }
             else {
                 finalId = (int)id;
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetFeedByUserId(finalId, amount, offset));
+            return Ok(await PostRepo.GetFeedByUserId(finalId, amount, offset));
         }
 
-        [HttpGet]
-        [ResponseType(typeof(List<Post>))]
-        public async Task<HttpResponseMessage> GetGroupPosts(int id, int amount = 20, int offset = 0)
-        {
-            if ((await GroupRepo.Get(id)) == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+        [HttpGet("group/{id}/{amount}/{offset}")]
+        public async Task<ActionResult<List<Post>>> GetGroupPosts(int id, int amount = 20, int offset = 0) {
+            if ((await GroupRepo.Get(id)) == null) {
+                return NotFound();
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await PostRepo.GetGroupFeedById(id, amount, offset));
+            return Ok(await PostRepo.GetGroupFeedById(id, amount, offset));
         }
 
-        [HttpGet]
-        [ResponseType(typeof(Post))]
-        public async Task<HttpResponseMessage> Get(int id) {
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Post>> Get(int id) {
             Post post = await PostRepo.Get(id);
-            if(post == null) {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            if (post == null) {
+                return NotFound();
             }
-            return Request.CreateResponse(HttpStatusCode.OK, post);
+            return Ok(post);
         }
     }
 }

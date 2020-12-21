@@ -1,16 +1,15 @@
-﻿using Model.Geographic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Model.Geographic;
 using QWest.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
 
-namespace QWest.Apis {
-    public class GeographyController : ApiController {
+namespace QWest.Api.Controllers {
+    [ApiController]
+    [Route("api/[controller]")]
+    public class GeographyController : ControllerBase {
 
         private DAO.IGeography _geographyRepo = null;
         public DAO.IGeography GeographyRepo {
@@ -25,37 +24,41 @@ namespace QWest.Apis {
             }
         }
 
-        [ResponseType(typeof(GeopoliticalLocation))]
-        public async Task<HttpResponseMessage> Get(string alpha2) {
+        [HttpGet("get/{alpha2}")]
+        public async Task<ActionResult<GeopoliticalLocation>> Get(string alpha2) {
             alpha2 = alpha2.ToUpper();
+            Console.WriteLine(alpha2);
             GeopoliticalLocation local = await GeographyRepo.GetAnyByAlpha2s(alpha2);
             if (local == null) {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return NotFound();
             }
             else {
-                return Request.CreateResponse(HttpStatusCode.OK, local);
+                return Ok(local);
             }
         }
-        [ResponseType(typeof(IEnumerable<Country>))]
-        public async Task<HttpResponseMessage> Get() {
-            return Request.CreateResponse(HttpStatusCode.OK, await GeographyRepo.FetchEverythingParsed());
+
+        [HttpGet("get")]
+        public async Task<ActionResult<IEnumerable<Country>>> Get() {
+            return Ok(await GeographyRepo.FetchEverythingParsed());
         }
-        [ResponseType(typeof(IEnumerable<Country>))]
-        public async Task<HttpResponseMessage> GetCountries() {
-            return Request.CreateResponse(HttpStatusCode.OK, await GeographyRepo.GetCountries());
+        
+        [HttpGet("get/countries")]
+        public async Task<ActionResult<IEnumerable<Country>>> GetCountries() {
+            return Ok(await GeographyRepo.GetCountries());
         }
-        [ResponseType(typeof(IEnumerable<Subdivision>))]
-        public async Task<HttpResponseMessage> GetSubdivisions(int superId) {
+
+        [HttpGet("get/subdivisions")]
+        public async Task<ActionResult<IEnumerable<Subdivision>>> GetSubdivisions(int superId) {
             var results = await GeographyRepo.GetSubdivisions(superId);
             if (results.Count() == 0) {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return NotFound();
             }
-            return Request.CreateResponse(HttpStatusCode.OK, results);
+            return Ok(results);
         }
-        [HttpGet]
-        [ResponseType(typeof(IEnumerable<GeopoliticalLocation>))]
-        public async Task<HttpResponseMessage> NameSearch(string searchTerm) {
-            return Request.CreateResponse(HttpStatusCode.OK, await GeographyRepo.NameSearch(searchTerm));
+
+        [HttpGet("search/{searchTerm}")]
+        public async Task<ActionResult<IEnumerable<GeopoliticalLocation>>> NameSearch(string searchTerm) {
+            return Ok(await GeographyRepo.NameSearch(searchTerm));
         }
     }
 }

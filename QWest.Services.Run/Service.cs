@@ -1,5 +1,4 @@
-﻿using QWest.Admin;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace QWest.Services.Run {
             yield return new ApiService(log);
             yield return new WebService(log);
             yield return new EmailService(log);
-            yield return new AdminService(log);
+            //yield return new AdminService(log);
         }
 
         private Action<Service, string> _log;
@@ -29,14 +28,14 @@ namespace QWest.Services.Run {
 
         public abstract string Name { get; }
 
-        public abstract Task Run();
+        public abstract Task Run(string[] args);
     }
 
     public abstract class NodeService : Service {
         public NodeService(Action<Service, string> log) : base(log) {
 
         }
-        public override Task Run() {
+        public override Task Run(string[] args) {
             string location = SolutionLocation + "\\" + Name;
             return Task.Factory.StartNew(() => {
                 DynamicShell("npm i", Log, location).WaitForExit();
@@ -55,8 +54,8 @@ namespace QWest.Services.Run {
             }
         }
 
-        public override Task Run() {
-            return Api.Program.Run();
+        public override Task Run(string[] args) {
+            return QWest.Api.Program.Run(args);
         }
     }
 
@@ -82,6 +81,7 @@ namespace QWest.Services.Run {
         }
     }
 
+    
     public class AdminService : Service {
         public AdminService(Action<Service, string> log) : base(log) {
 
@@ -92,10 +92,13 @@ namespace QWest.Services.Run {
             }
         }
 
-        public override Task Run() {
+        public override Task Run(string[] args) {
+            /*
             return Task.FromResult(true).ContinueWith(x => {
                 new Application().Run(new MainWindow());
             }, new StaTaskScheduler(1));
+            */
+            return Task.FromResult(true);
         }
 
         //class is stoken from here https://github.com/dotnet/samples/blob/9ae31f531a5f82928134f2ba6f67144e92603e01/csharp/parallel/ParallelExtensionsExtras/TaskSchedulers/StaTaskScheduler.cs

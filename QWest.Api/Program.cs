@@ -1,21 +1,26 @@
-﻿using Microsoft.Owin.Hosting;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using static Utilities.Utilities;
 
 namespace QWest.Api {
     public class Program {
-        public static Task Run() {
-            return Task.Factory.StartNew(() => {
-                string baseAddress = $"http://localhost:{Config.Config.Instance.ApiPort}/";
-                WebApp.Start<Startup>(url: baseAddress);
-                Console.WriteLine("api service is running on port " + Config.Config.Instance.ApiPort);
-                Thread.Sleep(-1);
-            });
+        public static void Main(string[] args) {
+            Run(args).Wait();
         }
+
+        public static Task Run(string[] args) {
+            return CreateHostBuilder(args).Build().RunAsync();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => {
+                    webBuilder.UseStartup<Startup>().UseUrls($"http://localhost:{Config.Config.Instance.ApiPort}/");
+                });
     }
 }

@@ -1,14 +1,16 @@
-﻿using Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using Model;
+using QWest.Api;
 using QWest.DataAccess;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
 
-namespace QWest.Apis {
-    public class LoginController : ApiController {
+namespace QWest.Api.Controllers {
+    [ApiController]
+    [Route("api/[controller]")]
+    public class LoginController : ControllerBase {
 
         private DAO.IUser _userRepo = null;
         public DAO.IUser UserRepo {
@@ -28,24 +30,23 @@ namespace QWest.Apis {
             public string password;
         }
 
-        [HttpPost]
-        [ResponseType(typeof(string))]
-        public async Task<HttpResponseMessage> Login([FromBody] LoginArgument argument) {
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody] LoginArgument argument) {
             User user = await UserRepo.GetByEmail(argument.email);
             if (user == null || !user.VerifyPassword(argument.password)) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
             await UserRepo.SetNewSessionCookie(user);
-            return Request.CreateResponse(HttpStatusCode.OK, user.SessionCookie);
+            return Ok(user.SessionCookie);
         }
-        [ResponseType(typeof(User))]
-        public HttpResponseMessage GetMe() {
-            User user = Request.GetOwinContext().Get<User>("user");
+        [HttpGet("me")]
+        public ActionResult<User> GetMe() {
+            User user = Request.GetUser();
             if(user == null) {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return NotFound();
             }
             else {
-                return Request.CreateResponse(HttpStatusCode.OK, user);
+                return Ok(user);
             }
         }
     }

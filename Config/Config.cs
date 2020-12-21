@@ -9,19 +9,9 @@ namespace Config {
         public static ConfigJson Instance {
             get {
                 if(_instance == null) {
-                    string path1 = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.Parent.FullName + "\\Config\\config.json";
-                    string path2 = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\config.json";
-                    string text;
-                    if (File.Exists(path1)) {
-                        text = File.ReadAllText(path1);
-                    }
-                    else if (File.Exists(path2)) {
-                        text = File.ReadAllText(path2);
-                    }
-                    else {
-                        text = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Config.config.json")).ReadToEnd();
-                    }
-                    _instance = JsonConvert.DeserializeObject<ConfigJson>(text);
+                    string path = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.Parent.Parent.FullName + "\\Config\\config.json";
+
+                    _instance = JsonConvert.DeserializeObject<ConfigJson>(File.ReadAllText(path));
                 }
                 return _instance;
             }

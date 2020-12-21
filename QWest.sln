@@ -3,53 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.DataAccess", "QWest.DataAccess\QWest.DataAccess.csproj", "{554656EB-A883-44F0-8BA4-50DDD5690474}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config", "Config\Config.csproj", "{592D5E5C-CF2A-4E38-9082-4295DAD193BD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Test", "Config.Test\Config.Test.csproj", "{A02F8F30-3763-4F36-AD9D-2D8AC6FB155A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.DataAccess.Tests", "QWest.DataAccess.Tests\QWest.DataAccess.Tests.csproj", "{45F9F68D-A3F6-4517-AD78-A9277FA59AE8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{7ABF2E55-BC9D-4C59-A6BC-6784B3BACE82}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model.Tests", "Model.Tests\Model.Tests.csproj", "{20D0000E-ADA9-46F9-8697-A49C3C465829}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{02B753F8-BEF9-43F8-BC08-03C4735B044B}"
-EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "QWest.Web", "QWest.Web\QWest.Web.njsproj", "{68FD0A4F-E34D-4684-A2C9-A960AFA88648}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Api", "QWest.Api\QWest.Api.csproj", "{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Services.Run", "QWest.Services.Run\QWest.Services.Run.csproj", "{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}"
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "QWest.Email", "QWest.Email\QWest.Email.njsproj", "{25323D75-2268-4377-BF6E-4D7806962225}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Admin", "QWest.Admin\QWest.Admin.csproj", "{0ED66150-AE18-40B3-9E01-C52605825C0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{E59B2545-3A71-41F5-B46F-D1AB98FD34BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QWest.Api.Tests", "QWest.Api.Tests\QWest.Api.Tests.csproj", "{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config", "Config\Config.csproj", "{B944E91F-87D9-4119-9FAB-7A3CC67F0700}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Utilities", "Core.Utilities\Core.Utilities.csproj", "{E59B2545-3A71-41F5-B46F-D1AB98FD34BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{19C02289-6A78-4F37-BB38-E09A8C57E886}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Config", "Core.Config\Core.Config.csproj", "{B944E91F-87D9-4119-9FAB-7A3CC67F0700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QWest.DataAccess", "QWest.DataAccess\QWest.DataAccess.csproj", "{3ED7FA14-0EBA-4780-8AAC-BC41F3A5C1AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Model", "Core.Model\Core.Model.csproj", "{19C02289-6A78-4F37-BB38-E09A8C57E886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QWest.Api", "QWest.Api\QWest.Api.csproj", "{F3A9CBCA-5A30-4537-A956-4490AA9181AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.DataAccess", "Core.QWest.DataAccess\Core.QWest.DataAccess.csproj", "{3ED7FA14-0EBA-4780-8AAC-BC41F3A5C1AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Tests", "Config.Tests\Config.Tests.csproj", "{F1561C58-EF25-4E97-BD01-6DEF35EC9AF0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.Api", "Core.QWest.Api\Core.QWest.Api.csproj", "{F3A9CBCA-5A30-4537-A956-4490AA9181AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QWest.Services.Run", "QWest.Services.Run\QWest.Services.Run.csproj", "{CD4D574E-34E0-4908-9F6F-B3E4BD9ED43B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Config.Test", "Core.Config.Test\Core.Config.Test.csproj", "{F1561C58-EF25-4E97-BD01-6DEF35EC9AF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QWest.DataAccess.Tests", "QWest.DataAccess.Tests\QWest.DataAccess.Tests.csproj", "{49E2724C-22C6-40F1-985A-27A3A2EE067E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.Services.Run", "Core.QWest.Services.Run\Core.QWest.Services.Run.csproj", "{CD4D574E-34E0-4908-9F6F-B3E4BD9ED43B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QWest.Admin", "QWest.Admin\QWest.Admin.csproj", "{C183F57A-EE97-4DED-A2E1-ECD9ACDE02B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.DataAccess.Tests", "Core.QWest.DataAccess.Tests\Core.QWest.DataAccess.Tests.csproj", "{49E2724C-22C6-40F1-985A-27A3A2EE067E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QWest.Api.Tests", "QWest.Api.Tests\QWest.Api.Tests.csproj", "{7A741496-9C05-4255-BA4A-6C8420284FA1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.Admin", "Core.QWest.Admin\Core.QWest.Admin.csproj", "{C183F57A-EE97-4DED-A2E1-ECD9ACDE02B6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.QWest.Api.Test", "Core.QWest.Api.Test\Core.QWest.Api.Test.csproj", "{7A741496-9C05-4255-BA4A-6C8420284FA1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Model.Tests", "Core.Model.Tests\Core.Model.Tests.csproj", "{30A1BFD8-773E-4CCC-9C62-33C0D4EFD38E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model.Tests", "Model.Tests\Model.Tests.csproj", "{30A1BFD8-773E-4CCC-9C62-33C0D4EFD38E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,58 +35,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{554656EB-A883-44F0-8BA4-50DDD5690474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{554656EB-A883-44F0-8BA4-50DDD5690474}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{554656EB-A883-44F0-8BA4-50DDD5690474}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{554656EB-A883-44F0-8BA4-50DDD5690474}.Release|Any CPU.Build.0 = Release|Any CPU
-		{592D5E5C-CF2A-4E38-9082-4295DAD193BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{592D5E5C-CF2A-4E38-9082-4295DAD193BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{592D5E5C-CF2A-4E38-9082-4295DAD193BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{592D5E5C-CF2A-4E38-9082-4295DAD193BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A02F8F30-3763-4F36-AD9D-2D8AC6FB155A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A02F8F30-3763-4F36-AD9D-2D8AC6FB155A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A02F8F30-3763-4F36-AD9D-2D8AC6FB155A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A02F8F30-3763-4F36-AD9D-2D8AC6FB155A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45F9F68D-A3F6-4517-AD78-A9277FA59AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45F9F68D-A3F6-4517-AD78-A9277FA59AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45F9F68D-A3F6-4517-AD78-A9277FA59AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45F9F68D-A3F6-4517-AD78-A9277FA59AE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7ABF2E55-BC9D-4C59-A6BC-6784B3BACE82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7ABF2E55-BC9D-4C59-A6BC-6784B3BACE82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7ABF2E55-BC9D-4C59-A6BC-6784B3BACE82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7ABF2E55-BC9D-4C59-A6BC-6784B3BACE82}.Release|Any CPU.Build.0 = Release|Any CPU
-		{20D0000E-ADA9-46F9-8697-A49C3C465829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20D0000E-ADA9-46F9-8697-A49C3C465829}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20D0000E-ADA9-46F9-8697-A49C3C465829}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20D0000E-ADA9-46F9-8697-A49C3C465829}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02B753F8-BEF9-43F8-BC08-03C4735B044B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02B753F8-BEF9-43F8-BC08-03C4735B044B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02B753F8-BEF9-43F8-BC08-03C4735B044B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02B753F8-BEF9-43F8-BC08-03C4735B044B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68FD0A4F-E34D-4684-A2C9-A960AFA88648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{68FD0A4F-E34D-4684-A2C9-A960AFA88648}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68FD0A4F-E34D-4684-A2C9-A960AFA88648}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68FD0A4F-E34D-4684-A2C9-A960AFA88648}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E843440-8C70-4FBD-AFA4-C4DB59ACCAC2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3181A64-6DBE-4EBC-99A7-3FA969AE7C34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{25323D75-2268-4377-BF6E-4D7806962225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{25323D75-2268-4377-BF6E-4D7806962225}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25323D75-2268-4377-BF6E-4D7806962225}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25323D75-2268-4377-BF6E-4D7806962225}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0ED66150-AE18-40B3-9E01-C52605825C0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0ED66150-AE18-40B3-9E01-C52605825C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0ED66150-AE18-40B3-9E01-C52605825C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0ED66150-AE18-40B3-9E01-C52605825C0C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90F1520D-B728-45E1-B6A4-5E4AD32B36EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E59B2545-3A71-41F5-B46F-D1AB98FD34BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E59B2545-3A71-41F5-B46F-D1AB98FD34BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E59B2545-3A71-41F5-B46F-D1AB98FD34BD}.Release|Any CPU.ActiveCfg = Release|Any CPU

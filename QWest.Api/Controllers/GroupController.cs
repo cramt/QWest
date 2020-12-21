@@ -1,20 +1,15 @@
-﻿using Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using Model;
 using QWest.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
-using Utilities;
 
 namespace QWest.Api.Controllers {
-    public class GroupController : ApiController {
+    [ApiController]
+    [Route("api/[controller]")]
+    public class GroupController : ControllerBase {
         private DAO.IGroup _groupRepo = null;
         public DAO.IGroup GroupRepo {
             get {
@@ -34,34 +29,32 @@ namespace QWest.Api.Controllers {
             public List<int> members;
         }
 
-        [HttpPost]
-        [ResponseType(typeof(int))]
-        public async Task<HttpResponseMessage> Add([FromBody] AddArgument argument) {
-            User user = Request.GetOwinContext().Get<User>("user");
+        [HttpPost("add")]
+        public async Task<ActionResult<int>> Add([FromBody] AddArgument argument) {
+            User user = Request.GetUser();
             if (user == null) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
             if (argument.members.Where(x => x == user.Id).Count() == 0) {
                 argument.members.Add((int)user.Id);
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Group.Create(argument.name, argument.description, argument.members));
+            return Ok(await DAO.Group.Create(argument.name, argument.description, argument.members));
         }
 
-        [HttpGet]
-        [ResponseType(typeof(IEnumerable<Group>))]
-        public async Task<HttpResponseMessage> FetchUsersGroups(int? userId) {
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<Group>>> FetchUsersGroups(int? userId) {
             int finalId;
             if (userId == null) {
-                User user = Request.GetOwinContext().Get<User>("user");
+                User user = Request.GetUser();
                 if (user == null) {
-                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    return Unauthorized();
                 }
                 finalId = (int)user.Id;
             }
             else {
                 finalId = (int)userId;
             }
-            return Request.CreateResponse(HttpStatusCode.OK, await DAO.Group.FetchUsersGroups(finalId));
+            return Ok(await DAO.Group.FetchUsersGroups(finalId));
         }
 
         [Serializable]
@@ -85,16 +78,15 @@ namespace QWest.Api.Controllers {
             }
         }
 
-        [HttpPost]
-        [ResponseType(typeof(void))]
-        public async Task<HttpResponseMessage> Update([FromBody] UpdateArgument argument) {
-            User user = Request.GetOwinContext().Get<User>("user");
+        [HttpPost("update")]
+        public async Task<ActionResult> Update([FromBody] UpdateArgument argument) {
+            User user = Request.GetUser();
             if (user == null || !await DAO.Group.IsMember(argument.id, user)) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
             Group group = await GroupRepo.Get(argument.id);
             await GroupRepo.Update(argument.UpdateGroup(group));
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return Ok();
         }
 
         [Serializable]
@@ -104,25 +96,23 @@ namespace QWest.Api.Controllers {
             public List<int> subtractions;
         }
 
-        [HttpPost]
-        [ResponseType(typeof(void))]
-        public async Task<HttpResponseMessage> UpdateMembers([FromBody] UpdateMembersArgument argument) {
-            User user = Request.GetOwinContext().Get<User>("user");
+        [HttpPost("update/members")]
+        public async Task<ActionResult> UpdateMembers([FromBody] UpdateMembersArgument argument) {
+            User user = Request.GetUser();
             if (user == null || !await GroupRepo.IsMember(argument.id, user)) {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                return Unauthorized();
             }
             await GroupRepo.UpdateMembers(argument.id, argument.additions, argument.subtractions);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return Ok();
         }
 
-        [HttpGet]
-        [ResponseType(typeof(Group))]
-        public async Task<HttpResponseMessage> Get(int id) {
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Group>> Get(int id) {
             Group group = await GroupRepo.Get(id);
             if (group == null) {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return NotFound();
             }
-            return Request.CreateResponse(HttpStatusCode.OK, group);
+            return Ok(group);
         }
     }
 }

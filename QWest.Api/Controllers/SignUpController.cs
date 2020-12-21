@@ -1,10 +1,12 @@
-﻿using Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using Model;
 using QWest.DataAccess;
 using System.Threading.Tasks;
-using System.Web.Http;
 
-namespace QWest.Apis {
-    public class SignUpController : ApiController {
+namespace QWest.Api.Controllers {
+    [ApiController]
+    [Route("api/[controller]")]
+    public class SignUpController : ControllerBase {
 
         private DAO.IUser _userRepo = null;
         public DAO.IUser UserRepo {
@@ -29,7 +31,7 @@ namespace QWest.Apis {
             }
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<string> Register([FromBody] RegisterArgument argument) {
             User user = argument.ToUser();
             await UserRepo.Add(user);

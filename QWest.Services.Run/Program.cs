@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Utilities;
 using static Utilities.Utilities;
@@ -21,7 +22,7 @@ namespace QWest.Services.Run {
             Console.SetOut(new ConsoleCatcher(names, originalConsole));
             Task.WaitAll(services.Select(async x => {
                 Console.WriteLine("initializing " + x.Name);
-                await x.Run();
+                await x.Run(args);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(x.Name + " has stopped running");
                 Console.ResetColor();

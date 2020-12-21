@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
+using QWest.Api.Controllers;
 using QWest.Apis;
 using QWest.DataAccess;
 using System;
@@ -18,7 +20,7 @@ namespace QWest.Api.Tests {
         public async Task NullReturnsValidImage() {
             ImageController imageController = new ImageController();
             imageController.ImageRepo = new ImageRepoMock();
-            byte[] bytes = await (await imageController.Get(null)).Content.ReadAsByteArrayAsync();
+            byte[] bytes = ((FileContentResult)await imageController.Get(null)).FileContents;
             Assert.IsNotEmpty(bytes);
         }
         [Test]
@@ -30,7 +32,7 @@ namespace QWest.Api.Tests {
                     {5, expected }
                 }
             };
-            byte[] bytes = await (await imageController.Get(5)).Content.ReadAsByteArrayAsync();
+            byte[] bytes = ((FileContentResult)await imageController.Get(5)).FileContents;
             Assert.AreEqual(expected, bytes);
         }
     }

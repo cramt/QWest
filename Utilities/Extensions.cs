@@ -10,12 +10,28 @@ namespace Utilities {
             return Task.WhenAll(source.Select(x => Task.Factory.StartNew(() => selector(x)))).GetAwaiter().GetResult();
         }
         public static IEnumerable<T> ToIter<T>(this SqlDataReader reader, Func<SqlDataReader, T> transformer) {
+            if (reader is null) {
+                throw new ArgumentNullException(nameof(reader));
+            }
+
+            if (transformer is null) {
+                throw new ArgumentNullException(nameof(transformer));
+            }
+
             while (reader.Read()) {
                 yield return transformer(reader);
             }
         }
 
         public static IEnumerable<T> ToIterator<T>(this SqlDataReader reader, Func<SqlDataReader, T> transformer) {
+            if (reader is null) {
+                throw new ArgumentNullException(nameof(reader));
+            }
+
+            if (transformer is null) {
+                throw new ArgumentNullException(nameof(transformer));
+            }
+
             return ToIter(reader, transformer).ToList();
         }
 

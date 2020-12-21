@@ -1,5 +1,6 @@
-﻿using Model.Geographic;
+using Model.Geographic;
 using NUnit.Framework;
+using QWest.Api.Controllers;
 using QWest.Apis;
 using QWest.DataAccess;
 using System;
@@ -71,7 +72,7 @@ namespace QWest.Api.Tests {
             }
         }
         [Test]
-        public async Task NullReturnsValidImage() {
+        public async Task ReturnsDenmarkOnDk() {
             
         }
     }

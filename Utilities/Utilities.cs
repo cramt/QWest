@@ -21,7 +21,7 @@ namespace Utilities {
         public const bool DebugMode = false;
 #endif
 
-        public static string SolutionLocation { get; } = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.Parent.FullName;
+        public static string SolutionLocation { get; } = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.Parent.Parent.FullName;
 
         public static Process DynamicShell(string command, Action<string> onStdOut, string cwd = null) {
             if (cwd == null) {

@@ -1,16 +1,14 @@
-﻿using Model;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Model;
 using NUnit.Framework;
 using QWest.Apis;
 using QWest.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 namespace QWest.Api.Tests {
     [TestFixture]
@@ -78,15 +76,12 @@ namespace QWest.Api.Tests {
             UserController controller = new UserController {
                 UserRepo = repo
             };
-            controller.Request = new HttpRequestMessage();
-            controller.Request.SetConfiguration(Startup.GlobalConfig);
             User lucca = new User("lucca", "lucca_is_lucca", "lucca@gmail.com");
             int id = 3;
             lucca.Id = id;
             repo.Users.Add(lucca);
             User expected = lucca;
-            string json = await (await controller.Get(id)).Content.ReadAsStringAsync();
-            User actual = JsonConvert.DeserializeObject<User>(json);
+            User actual = (await controller.Get(id)).Value;
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.Username, actual.Username);
             Assert.AreEqual(expected.Email, actual.Email);
@@ -97,19 +92,17 @@ namespace QWest.Api.Tests {
             UserController controller = new UserController {
                 UserRepo = repo
             };
-            Assert.AreEqual(HttpStatusCode.NotFound, (await controller.Get(4)).StatusCode);
+            Assert.AreEqual(404, ((await controller.Get(4)).Result as StatusCodeResult).StatusCode);
         }
         [Test]
         public async Task CanUpdateUser() {
             UserRepoMock repo = new UserRepoMock();
             UserController controller = new UserController {
-                UserRepo = repo
+                UserRepo = repo,
             };
-            controller.Request = new HttpRequestMessage();
-            controller.Request.SetConfiguration(Startup.GlobalConfig);
+            
             User lucca = new User("lucca", "lucca_is_lucca", "lucca@gmail.com");
-            controller.Request.SetOwinContext(new CustomOwinContext());
-            controller.Request.GetOwinContext().Set("user", lucca);
+            controller.Request.HttpContext.Items.Add("user", lucca);
             await controller.Update(new UserController.NewUser() {
                 Description = "i am lucca"
             });
@@ -122,11 +115,8 @@ namespace QWest.Api.Tests {
             UserController controller = new UserController {
                 UserRepo = repo
             };
-            controller.Request = new HttpRequestMessage();
-            controller.Request.SetConfiguration(Startup.GlobalConfig);
-            controller.Request.SetOwinContext(new CustomOwinContext());
-            HttpResponseMessage message = await controller.Update(new UserController.NewUser());
-            Assert.AreEqual(HttpStatusCode.Unauthorized, message.StatusCode);
+            ActionResult result = await controller.Update(new UserController.NewUser());
+            Assert.AreEqual(401, (result as StatusCodeResult).StatusCode);
         }
     }
 }
