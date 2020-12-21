@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QWest.Admin", "Core.QW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.QWest.Api.Test", "Core.QWest.Api.Test\Core.QWest.Api.Test.csproj", "{7A741496-9C05-4255-BA4A-6C8420284FA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Model.Tests", "Core.Model.Tests\Core.Model.Tests.csproj", "{30A1BFD8-773E-4CCC-9C62-33C0D4EFD38E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,10 @@ Global
 		{7A741496-9C05-4255-BA4A-6C8420284FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A741496-9C05-4255-BA4A-6C8420284FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A741496-9C05-4255-BA4A-6C8420284FA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30A1BFD8-773E-4CCC-9C62-33C0D4EFD38E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30A1BFD8-773E-4CCC-9C62-33C0D4EFD38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30A1BFD8-773E-4CCC-9C62-33C0D4EFD38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30A1BFD8-773E-4CCC-9C62-33C0D4EFD38E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
